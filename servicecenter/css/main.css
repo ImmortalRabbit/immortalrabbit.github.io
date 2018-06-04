@@ -1,0 +1,762 @@
+*::-webkit-input-placeholder {
+	color: #666;
+	opacity: 1;
+}
+*:-moz-placeholder {
+	color: #666;
+	opacity: 1;
+}
+*::-moz-placeholder {
+	color: #666;
+	opacity: 1;
+}
+*:-ms-input-placeholder {
+	color: #666;
+	opacity: 1;
+}
+
+body input:focus:required:invalid,
+body textarea:focus:required:invalid {
+
+}
+body input:required:valid,
+body textarea:required:valid {
+
+}
+body {
+	font-family: "RobotoRegular", sans-serif;
+	font-size: 16px;
+	position: relative;
+
+}
+
+.carousel img {
+	width: 100%;
+	height: auto;
+}
+.parallax {
+	background-attachment: fixed;
+	background-position: 50% 0;
+	position: relative;
+}
+.all{
+	width: 1024px;
+	margin: auto;
+}
+.move{
+
+}
+.grey{
+		width: 1024px;
+}
+
+header{
+		height: 94px;
+		width: 1024px;
+}
+.logon{
+	background: url("../img/header_logo.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	position: relative;
+	width: 318px;
+	height: 70px;
+	float: left;
+	margin-right: 10px;
+}
+.nav{
+height: 24px;
+position: relative;
+float: left;
+margin-right: 5px;
+	width: 430px;
+	list-style-type: none;
+	top: 50px;
+  left: -386px;
+
+}
+.nav li{
+	float: left;
+	width: 24px;
+	height: 24px;
+	margin-left: 18px;
+	background:url("../img/logos.png");
+	background-position:0px 0px;
+	background-size: cover;
+	background-repeat: no-repeat;
+	z-index: 2
+}
+.nav li.one{
+	background-position: -48px 0;
+}
+.nav li.two{
+	background-position: -93px 0;
+}
+.nav li.three{
+	background-position: -143px 0;
+	width: 30px;
+}
+.nav li.four{
+	background-position: -197px 0;
+}
+.nav li.five{
+	background-position: -241px 0;
+}
+.nav li.six{
+	background-position: -292px 0;
+}
+.nav li.seven{
+	background-position: -340px 0;
+	width: 34px;
+}
+
+
+.tele{
+	float: right;
+	text-align: left;
+	font-family: "OpenSanc-Regular";
+	font-size: 28px;
+	color: #5e5e5e
+}
+.tele p{
+	margin-bottom:-50px;
+}
+.tele span{
+	font-size: 12px;
+}
+.line1{
+	margin-top: 18px;
+}
+.train{
+	width: 667px;
+	height: 529px;
+	float: left;
+	margin-bottom: -11px;
+
+}
+.train_txt{
+	width: 357px;
+	height: 529px;
+	padding: 112px 110px 0 20px;
+	text-transform: uppercase;
+	font-size: 28px;
+	background: #ff0202;
+	color: #fff;
+	display: inline-block;
+	text-align: left;
+  font-family: "OpenSanc-Regular";
+}
+.train_text{
+	width: 1024px;
+	font-family: "OpenSanc-Regular";
+	font-size: 20px;
+	color:#000000;
+	float: left;
+	padding-left: 30px;
+	height: 154px;
+	background: white;
+	position: relative;
+}
+.train_text p{
+	margin-bottom: 0px;
+}
+.coming{
+	text-align: center;
+	font-family: "OpenSanc-Bold";
+	font-size: 28px;
+	color:#fff;
+	text-transform: uppercase;
+	height: 50px;
+	width: 1024px;
+	position: relative;
+	background-color: black;
+	margin-top: 150px;
+}
+
+#container {
+    width: 1024px;
+		min-height: 474px;
+		padding-left: 10px;
+		padding-right: 10px;
+}
+			.slide{
+				margin-top: 100px;
+				margin-left: 50px;
+				width: 774px;
+				height: 350px;
+				background-position: center;
+			}
+			.next{
+				position: relative;
+				top:80px;
+				left: 50px;
+				background: url("../img/next.png");
+				background-position: center;
+				background-repeat: no-repeat;
+				border: none;
+				width: 60px;
+				height: 60px;
+			}
+			.previous{
+				position: relative;
+				top:80px;
+				background: url("../img/Previous.png");
+				background-position: center;
+				background-repeat: no-repeat;
+				border: none;
+				width: 60px;
+				height: 60px;
+			}
+			.second{
+				margin-top: 30px;
+			}
+			.logos{
+				background-image: url("../img/logo-pon.png");
+				background-position: right;
+				background-repeat: no-repeat;
+				position: relative;
+				float: right;
+				width: 100%;
+				height: 50px;
+			}
+			.undercontainter{
+				width: 1024px;
+				height: 175px;
+				margin-top: 26px;
+			}
+			.img{
+				height: 175px;
+				float: left;
+				margin-right: 26px;
+				background-position: right;
+				width: 149px;
+			}
+			.surv{
+				margin-top: 26px;
+				max-width: 1024px;
+				padding-top: 30px;
+				margin-right: 10px;
+			}
+			.surv p{
+				margin-left: 92.5px;
+				text-align: left;
+				font-family: "OpenSanc-Regular";
+				color:#000000;
+				font-size: 18px;
+				color: rgb(0, 0, 0);
+				line-height: 1.2;
+				margin-bottom: 85px;
+			}
+			.survi{
+				width:1024px;
+			}
+			.imge{
+				float:right;
+				width: 520px;
+				height: 306px;
+			}
+			.imge2{
+				float:left;
+				width: 520px;
+				height: 306px;
+			}
+			.colm1
+			{
+				float:left;
+				width: 474px;
+				height: 306px;
+				padding-left: 40px;
+				padding-right: 90px;
+				font-size: 18px;
+			}
+			h1{
+				font-size: 18px;
+				font-family: "OpenSanc-Bold";
+				text-transform: uppercase;
+			}
+			.colm2
+			{
+				float:right;
+				width: 474px;
+				height: 306px;
+				padding-left: 40px;
+				padding-right: 100px;
+				font-size: 18px;
+			}
+			hr{
+			  background-color: rgb(255, 0, 0);
+  		  width: 100%;
+  			height: 5px;
+				margin: 0;
+				padding-top: 0;
+				border: 0;
+			}
+			.social{
+				position: absolute;
+				right:500px;
+				top:30px;
+			}
+			.social img{
+				margin-left: 5px;
+			}
+			.hr{
+				background: transparent;
+				height: 0.01px;
+			}
+			.mid{
+				text-align:center;
+			}
+			.info{
+				padding-left: 0;
+				padding-bottom: 0;
+			}
+			.info p{
+				width: 30%;
+				margin-left: 40px;
+				margin-top:20px;
+				display: inline-table;
+				margin-right: 27%;
+			}
+			.info p.sochi{
+				margin-right:40px;
+			}
+			footer{
+				width: 1024px;
+				height: 100px;
+				background: black;
+				color: white;
+				font-family: "OpenSanc-Regular";
+				font-size: 14px;
+				margin: 0px;
+				padding: 10px 10px;
+			}
+			footer span{
+				font-family: "OpenSanc-Bold";
+				font-size: 32px;
+			}
+			.map{
+				width: 1024px;
+			}
+			.num{
+				float: right;
+			}
+			.tamdem{
+				float:left;
+				padding-top: 30px;
+			}
+			.tamdem a{
+				text-decoration: none;
+				color: #fff;
+				font-size: 24px;
+				font-family: "OpenSanc-Bold";
+			}
+			.obloka{
+				position: absolute;
+				background: url("../img/sky.png");
+				background-position: center;
+				background-repeat: no-repeat;
+				width: 667px;
+				height: 330px;
+		    top: 92px;
+				margin-top: 0px;
+				background-color: transparent;
+				z-index: 0;
+			}
+			.veter{
+				opacity: 0.9;
+				top:160px;
+				position: absolute;
+				background: url("../img/wind.png");
+				background-position: center;
+				background-repeat: no-repeat;
+				width: 667px;
+				height: 480px;
+				z-index: -1;
+
+				background-color: black;
+
+			}
+			.poezd{
+				background: url("../img/paravozik.png");
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: contain;
+				position: relative;
+				width: 667px;
+				height: 270px;
+				left:0px;
+				top:220px;
+			}
+			.plane{
+				background: url("../img/plane.png");
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: contain;
+				position: relative;
+				width: 400px;
+				height: 270px;
+				top:-300px;
+				left:320px;
+			}
+			.mapi{
+				width: 1024px;
+				}
+			#img1{
+				margin-right:0; float:right;
+			}
+
+			center{
+				margin-top: 30px;
+
+				}
+			.info img{
+				    margin-right: 5px;
+			}
+
+
+			/* Medium Devices, Desktops */
+			@media only screen and (max-width : 992px) {
+
+			}
+
+			/* Small Devices, Tablets */
+			@media only screen and (max-width : 960px) {
+				.mapi{
+					width: 768px;
+					}
+				.all{
+					width: 768px;
+				}
+				.train_txt{
+					display: none;
+				}
+				center{
+					margin-top: 15px;
+					}
+				.logon{
+					top: 20px;
+				}
+				.hidr{
+					display: none;
+				}
+				.nav{
+					top:70px;
+				}
+				.mewtwo-flights--s
+				{
+					position: absolute;
+					height: 500px;
+					width: 320px;
+				}
+				header{
+					width: 768px;
+				}
+				.tele{
+					top: 0px;
+					position: absolute;
+					right: 120px;
+				}
+				.social{
+					top: 100px;
+    			right: 100px;
+					z-index: 5;
+				}
+				.obloka{
+					width: 768px;
+					margin-top: 50px;
+					background-size:cover;
+				}
+				.veter{
+					width: 768px;
+					margin-top: 0px;
+					background-size:cover;
+				}
+				.poezd{
+					width: 400px;
+					top:250px;
+					left:100px;
+				}
+				.plane{
+					width: 520px;
+					top:-250px;
+					left: 200px;
+				}
+				.coming{
+					width: 768px;
+					font-size: 20px;
+					position: absolute;
+					background-color: black;
+					margin-top:100px;
+				}
+				.train_text{
+					width: 768px;
+					font-size: 16px;
+				}
+				.second{
+					width: 768px;
+				}
+				.logos{
+					position: relative;
+					float: right;
+				}
+				.slide{
+					width: 600px;
+					height: 250px;
+					margin-top: 0;
+					margin-left: 20px;
+				}
+				.previous{
+					float:left;
+				}
+				.next{
+					left: 0px;
+					float: right;
+				}
+				.undercontainter{
+					width: 768px;
+					height: 70px;
+					margin-top: 80px;
+				}
+				.img{
+					margin-right: 5px;
+					margin-left: 5px;
+					height: 120px;
+					float: right;
+					width: 118px;
+				}
+				#img1{
+					float: left;
+					margin-left: 7px;
+				}
+				.surv{
+					width: 768px;
+				}
+				.surv p{
+					margin-left: 10px;
+					font-size: 16px;
+				}
+				.coming.las{
+					margin-top: 0;
+					padding-top: 8px;
+				}
+				.survi{
+					width: 768px;
+				}
+				.imge{
+					width: 388px;
+				}
+				.imge2{
+					width: 388px;
+				}
+				.colm1{
+					width: 380px;
+					font-size: 16px;
+				}
+				.colm2{
+					width: 380px;
+					font-size: 16px;
+				}
+				.sal{
+					margin-top: 0;
+				}
+				.sochi{
+					margin-right: 0;
+				}
+				.info{
+					width: 768px;
+				}
+				.info p{
+					width: 320px;
+					padding-left:30px;
+					font-size: 12px;
+					margin-right: 0px;
+				}
+				footer{
+					width: 768px;
+					text-align: right;
+				}
+				.num{
+					float: none;
+				}
+				.hidr{
+					display: block;
+				}
+			}
+
+			/* Extra Small Devices, Phones */
+			@media only screen and (max-width : 480px) {
+				.nav{
+					top: 10px;
+					left: -63px;
+				}
+				.mapi{
+					width: 320px;
+					}
+					.all{
+					width: 320px;
+				}
+				.logon{
+					float: none;
+				}
+				header{
+					width: 320px;
+				}
+				center{
+					display: none;
+				}
+				.tele{
+					width: 320px;
+					position: absolute;
+					margin: auto;
+					left: 0;
+					top: 129px;
+    			text-align: center;
+
+				}
+				.tele p{
+					line-height: 0;
+				  margin-bottom:-20px;
+				}
+				.obloka{
+					width: 320px;
+					margin-top: 160px;
+				}
+				.veter{
+					width: 320px;
+					margin-top: 100px;
+				}
+				.poezd{
+					width: 320px;
+					left: 0;
+				}
+				.plane{
+					width: 300px;
+					top:-200px;
+					left: 0;
+				}
+				.social{
+					position: absolute;
+					top: 200px;
+				  width: 320px;
+					right: 0;
+					margin: auto;
+				}
+				.coming{
+					width: 320px;
+					font-size: 16px;
+					position: relative;
+					background-color: black;
+					margin-top:1226px;
+					padding-top: 10px;
+				}
+				.extra{
+					position: absolute;
+				  top: 700px;
+					width: 320px;
+				}
+				.nav{
+					width: 320px;
+					left:0px;
+					padding-left: 0;
+				}
+				.nav li{
+					margin-left: 14px;
+				}
+				.train_text{
+					width: 320px;
+					font-size: 12px;
+					padding-bottom: 30px;
+					margin-top: 500px;
+				}
+				.second{
+					width: 320px;
+				}
+				.logos{
+					position: relative;
+					background-position: center;
+				}
+				.slide{
+					width: 320px;
+					height: 186px;
+					margin-top: 0;
+					margin-left: 0;
+				}
+				.previous{
+					top:252px;
+									}
+				.next{
+					top:8px;
+					}
+				.undercontainter{
+					width: 320px;
+					height: 360px;
+					margin-top: 100px;
+				}
+				.img{
+					margin-right: 11px;
+					margin-left: 5px;
+					float: right;
+					width: 138px;
+				}
+
+				#img1{
+					float: left;
+					margin-left: 17px;
+				}
+				.surv{
+					width: 320px;
+				}
+				.surv p{
+					margin-left: 10px;
+					font-size: 12px;
+				}
+				.coming.las{
+					margin-top: 0;
+					padding-top: 8px;
+				}
+				.survi{
+					width: 320px;
+				}
+				.imge{
+					width: 320px;
+				}
+				.imge2{
+					width: 320px;
+				}
+				.colm1{
+					width: 320px;
+					font-size: 14px;
+				}
+				.colm2{
+					width: 320px;
+					font-size: 14px;
+				}
+				.sal{
+					margin-top: 0;
+ 		    padding-top: 10px;
+				}
+				.sochi{
+					margin-right: 0;
+				}
+				.info{
+					width: 320px;
+				}
+				.info p{
+					width: 320px;
+					padding-left:30px;
+					font-size: 12px;
+				}
+				footer{
+					width: 320px;
+					text-align: center;
+				}
+				.num{
+					float: none;
+				}
+				.hidr{
+					display: none;
+				}
+				.train_txt{
+					display: none;
+				}
+			}

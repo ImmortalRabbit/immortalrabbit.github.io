@@ -1,0 +1,230 @@
+	<!DOCTYPE html>
+	<!--[if lt IE 7]><html lang="ru" class="lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+	<!--[if IE 7]><html lang="ru" class="lt-ie9 lt-ie8"><![endif]-->
+	<!--[if IE 8]><html lang="ru" class="lt-ie9"><![endif]-->
+	<!--[if gt IE 8]><!-->
+	<html lang="ru">
+	<!--<![endif]-->
+	<head>
+		<meta charset="utf-8" />
+
+		<title>Южный континент</title>
+		<meta content="" name="description" />
+		<meta content="" property="og:image" />
+		<meta content="" property="og:description" />
+		<meta content="" property="og:site_name" />
+		<meta content="website" property="og:type" />
+
+		<meta content="telephone=no" name="format-detection" />
+		<meta http-equiv="x-rim-auto-match" content="none">
+
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+		<script src="//w.cultserv.ru/lib/angular/angular.js"></script>
+		<script src="//table.feed.cultserv.ru/js/pnbigfeed_loader.js"></script>
+
+
+
+		<link rel="stylesheet" href="libs/bootstrap/bootstrap-grid-3.3.1.min.css" />
+		<link rel="stylesheet" href="libs/font-awesome-4.2.0/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="libs/fancybox/jquery.fancybox.css" />
+		<link rel="stylesheet" href="libs/owl-carousel/owl.carousel.css" />
+		<link rel="stylesheet" href="libs/countdown/jquery.countdown.css" />
+		<link rel="stylesheet" href="css/fonts.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/media.css" />
+	</head>
+	<body>
+
+			<div class="all">
+					<div class="move">
+						<header>
+							<div class="logon"></div>
+							<ul class="nav">
+								<a data-scroll="1" href="#"><li></li></a>
+								<a data-scroll="2" href="#"><li class="one"></li></a>
+								<a data-scroll="3" href="#"><li class="two"></li></a>
+								<a data-scroll="4" href="#"><li class="three"></li></a>
+								<a data-scroll="5" href="#"><li class="four"></li></a>
+								<a data-scroll="6" href="#"><li class="five"></li></a>
+								<a data-scroll="7" href="#"><li class="six"></li></a>
+								<a data-scroll="8" href="#"><li class="seven"></li></a>
+							</ul>
+							<div class="social">
+								Мы в соц сетях: <img src="img/vkontakte-logo.png" width="30" height="30"/><img src="img/icon.png" width="30" height="30"/><img src="img/facebook-logo.png" width="30" height="30"/>
+							</div>
+							<div class="tele">
+									<p>+7 (945) 917-87-87</p><br>
+									<span><p>Работаем с 10:00 до 20:00</p></span>
+							</div>
+						</header>
+						<div class="line1">
+							<div class="train">
+								<div class="obloka"></div>
+								<div class="veter"></div>
+								<div class="poezd"></div>
+								<div class="plane"></div>
+							</div>
+							<div class="train_txt">Недорогие билеты жд и авиа по всем направлениям</div>
+						</div>
+						<section style="position:absolute; top: 700px;"data-anchor="1" ></section>
+							<div class="extra" >
+								<script charset="utf-8" src="//www.travelpayouts.com/widgets/5502ba139791317dcf9808cf3583bbdc.js?v=907" async></script>
+						</div>
+
+
+						<div class="train_text">
+							<p>Иногда необходимо срочно приобрести билеты, но времени нет, в аэропорту или на вокзал ехать далеко.
+							Тогда на помощь приходим мы, у нас всегда можно приобрести билеты на все направления.
+							Быстро и комфортно. Наши специалисты подберут вам самые удобные места и даты</p>
+						</div>
+							<section data-anchor="3" >
+
+						<div class="coming">Ближайшие Мероприятия</div>
+	<div class="hidг">
+
+<div id="pn_bigFeed" class="extend" ng-controller="PN_BigFeed" data-mode="extend" data-refcode="sochiSIteBilet">
+<img width="128" height="128" alt="" id="pn_bigFeed_preloader" src="//table.feed.cultserv.ru/images/preLoader.gif" />
+<div id="pn_bigFeed_preloader_back"></div>
+<div class="hWrap">
+<div class="header clearfix">
+<div class="fLeft logo" id="logoType"><img src="//table.feed.cultserv.ru/images/logo1.png" width="75" alt="" /></div>
+<h2 class="fLeft" id="logoTitle">Ponominalu.ru</h2>
+</div>
+</div>
+<ul id="tableFeedItems" ng-cloak>
+<li ng-repeat="s in items" class="item dIBlock br7px" ng-click="showWidget(s.event.alias, s);">
+<div class="name">
+<h3><a href="javascript:void(0)">{{s.title}}</a></h3>
+</div>
+<a href="javascript:void(0)" class="img">
+<img src="//media.cultserv.ru/media/library/scaled/{{s.image}}" alt="" class="br7px" />
+</a>
+<div class="forCuctomContainer">
+<span class="eTicket" ng-show="s.eticket_possible">
+<em>eticket</em>
+</span>
+<span class="price" ng-switch="s.min_price == s.max_price">
+<em ng-switch-when="true">{{s.min_price}} р.</em>
+<em ng-switch-when="false">от {{s.min_price}} р.</em>
+</span>
+</div>
+<p class="date-time">{{s.str_date}} в {{s.str_time}}</p>
+<p class="venue">{{s.venue.title}}</p>
+<button class="pnWidgetOpen">Купить билеты</button>
+</li>
+</ul>
+<div class="fWrap" id="appFootWrap">
+<div class="footer clearfix">
+<div class="fLeft logo" id="pn_T_footer_logo">
+<img width="142" height="24" src="//table.feed.cultserv.ru/images/logo2.png" />
+</div>
+<div class="fRight tRight">
+<p id="pn_T_footer_text">Сервис предоставлен билетным агентством <a href="//ponominalu.ru" target="_blank">ponominalu.ru</a><br />Телефон call-центра: 8 (800) 555-80-11</p>
+<p class="jurIn">ООО «Культурная служба»<br />ОГРН 1107746065426 ИНН 7707719297 КПП 770701001<br />Адрес 109147, г. Москва, ул. Таганская, д.26, стр.1</p>
+</div>
+</div>
+</div>
+</div>
+
+		<script src="//tse.pac.ru/v2/" type="text/javascript" language="javascript"></script><script type="text/javascript" language="javascript">tse.defaults={def_dpt_city:213217, def_country:213115, def_currency:'EUR', email:'wipermailwiper[dog]gmail.com'};</script>
+
+
+</section>
+
+
+
+
+
+							<div class="grey">
+								<div class="surv">
+
+									<div class="coming las">Другие услуги</div>
+
+									<div class="survi">
+													<img src="img/sur1.png" class="imge"/>
+													<div class="colm1">
+														<h1>Прокат автомобилей</h1>
+														Ищете предложения проката и аренды автомобиля в Сочи? Тогда вы по адресу, мы представляем крупнейшего арендо- теля Сочи и Адлера.
+													</div>
+												<hr>
+												<img src="img/sur2.png" class="imge2"/>
+													<div class="colm2">
+														<h1>Бронирование отелей</h1>
+														Специальные предложения отелей нашей системы цены на отели ниже, чем в других системах бронировании.
+													</div>
+
+												<hr>
+													<img src="img/sur3.png" class="imge"/>
+													<div class="colm1">
+														<h1>Экспресс доставка ржд</h1>
+													Оказываем полный спектр услуг по экс- пресс-доставке деловой корреспондент- ции грузов
+													</div>
+												<hr>
+													<img src="img/sur4.png" class="imge2"/>
+													<div class="colm2">
+														<h1>Интернет услуги</h1>
+														У нас можно посмотреть почту, поболтать в Skype родными и близкими, зарядить телефон, распечатать документы.
+													</div>
+
+														<hr class="hr">
+														<section data-anchor="4" >	<div class="coming sal">Наши филиалы</div></section>
+														<h1 class="mid">купить билеты вы можете по адресам:</h1>
+														<div class="info">
+															<p><img src="img/str.png">г.Адлер, Ул.Ленина,<br> остановка &laquo;ТЦ Дом Торговли&raquo;,<br> касса по продаже авиа и жд билетов,<br> через дорогу напротив ТЦ &laquo;Самшит&raquo; <br></br>Пн.-Пт.  с 9:00 до 19:00,<br> перерыв с 14:00 до 15:00. </br><br>+7(918) 906-20-74</p>
+																<p class="sochi"><img src="img/str.png">г.Сочи, Ул.Горького, 56 Привокзальная площадь жд вокзала.</br><br> Пн.-Пт. с 9:00 до 20:00,<br> без перерыва.</br><br> +7(918) 918-64-78</p>
+																<p><img src="img/str.png">г.Адлер, Ул.Ленина 221/1,<br> павильон авиа и жд касс,<br> рядом со зданием Сбербанка.</br><br> Пн.-Пт. с 9:00 до 19:00, без перерыва. </br><br>+7(918) 906-20-63</p>
+																<p class="sochi"><img src="img/str.png">г.Сочи, Красная поляна,<br> ул. Турчинского 49,<br> &laquo;Централизованная клубная система Орел-Изумруд&raquo;</br><br> Пн.-Пт. с 9:00 до 20:00,<br> без перерыва.</p>
+																<p style="margin-bottom:30px;"><img src="img/str.png">г.Адлер, Ул.Ленина 113,<br> жд вокзал Адлер, 1 этаж,<br> вход с привокзальной площади,<br> жд вокзала Адлер.</br><br> Пн.-Пт. с 9:00 до 20:00, без перерыва.</br><br> +7(988) 158-63-60</p>
+														</div>
+														<div class="map">
+	<iframe class="mapi" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2932.6136596654646!2d39.891524015291154!3d43.483152479127504!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40f5c0b3f901563b%3A0x9943f2897b859204!2sul.+Lenina%2C+221%2C+Adler%2C+Krasnodarskiy+kray%2C+Russia%2C+354346!5e1!3m2!1sen!2skz!4v1477480768611" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>													</div>
+										<footer>
+
+												<div class="num">
+													<span>+7 (945) 917-87-87</span><br>
+													Работаем с 10:00 до 20:00
+											</div>
+										</footer>
+									</div>
+							</div>
+						</div>
+
+
+
+		<div class="hidden"></div>
+		<!-- Mandatory for Responsive Bootstrap Toolkit to operate -->
+		<div class="device-xs visible-xs"></div>
+		<div class="device-sm visible-sm"></div>
+		<div class="device-md visible-md"></div>
+		<div class="device-lg visible-lg"></div>
+		<!-- end mandatory -->
+		<!--[if lt IE 9]>
+		<script src="libs/html5shiv/es5-shim.min.js"></script>
+		<script src="libs/html5shiv/html5shiv.min.js"></script>
+		<script src="libs/html5shiv/html5shiv-printshiv.min.js"></script>
+		<script src="libs/respond/respond.min.js"></script>
+		<![endif]-->
+		<script src="libs/jquery/jquery-1.11.1.min.js"></script>
+		<script src="libs/jquery-mousewheel/jquery.mousewheel.min.js"></script>
+		<script src="libs/fancybox/jquery.fancybox.pack.js"></script>
+		<script src="libs/waypoints/waypoints-1.6.2.min.js"></script>
+		<script src="libs/scrollto/jquery.scrollTo.min.js"></script>
+		<script src="libs/owl-carousel/owl.carousel.min.js"></script>
+		<script src="libs/countdown/jquery.plugin.js"></script>
+		<script src="libs/countdown/jquery.countdown.min.js"></script>
+		<script src="libs/countdown/jquery.countdown-ru.js"></script>
+		<script src="libs/landing-nav/navigation.js"></script>
+		<script src="libs/bootstrap-toolkit/bootstrap-toolkit.min.js"></script>
+		<script src="libs/maskedinput/jquery.maskedinput.min.js"></script>
+		<script src="libs/equalheight/jquery.equalheight.js"></script>
+		<script src="libs/stellar/jquery.stellar.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+
+		<script type="text/javascript" src="js/jquery.cycle.all.js"></script>
+		<!-- Yandex.Metrika counter --><!-- /Yandex.Metrika counter -->
+		<!-- Google Analytics counter --><!-- /Google Analytics counter -->
+	</body>
+	</html>
