@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html lang="ru" class="lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html lang="ru" class="lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html lang="ru" class="lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="ru">
+<!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <title>Уборка помещений в Челябинске</title>
+  <meta content="" name="description" />
+  <meta content="" property="og:image" />
+  <meta content="" property="og:description" />
+  <meta content="" property="og:site_name" />
+  <meta content="website" property="og:type" />
+
+  <meta content="telephone=no" name="format-detection" />
+  <meta http-equiv="x-rim-auto-match" content="none">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="img/favicon_logo.png" />
+  <link rel="stylesheet" href="main.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="js/jquery-1.8.3.min.js" />
+
+
+
+</head>
+<body>
+
+      <div id="openModal1" class="modalDialog">
+      	<div>
+      		<a href="#close" title="Закрыть" class="close">X</a>
+      		<h1>Что входить в уборку</h1>
+          <div class="modaldiv">
+            <p>
+              Оставьте заявку и мы вам перезвоним в течение 2-ух минут
+            </p>
+            <form class="toleave" id="form2" method="post">
+              <p2>Имя:</p2></br><input type="text" id="first_name2" name="first_name" placeholder="Ваше имя"><br>
+              <p2>Сотовый телефон:</p2></br><input type="text" id="contact2" name="contact" placeholder="Введите номер телефона">
+            </br><input type="button"  name="name" onclick="call2()">
+            <div id="results2">          </div>
+          </br><p1>Ваши контактные данные в безопасности*</p1>
+            </form>
+          </div>
+          <div class="modaltext">
+            <p1>Чем заказывать отдельно услуги по приведению офиса в порядок, намного проще сразу заказать комплексную уборку помещений. Это выгодно во – первых потому, что серьёзно экономится время, требуемое на выполнение работ. Ну и наконец, офис в результате комплексной уборки буквально засияет чистотой и уютом.</p1><br>
+            <div2>В комплексную уборку офисов входит целый комплекс услуг. В частности, в ходе <p>комплексной уборки будет приведены в порядок:</p></div2><br>
+            <p3>Все имеющиеся в офисе полированные и деревянные поверхности. С них будет сметена насевшая пыль.<br>
+  Зеркальные и блестящие поверхности. Зеркала, имеющиеся в офисе, будут отполированы и вычищены до блеска.<br>
+  Вся мебель в офисе. Все предметы меблировки, имеющиеся в офисном помещении, будут приведены в порядок, вычищены от грязи и пыли в соответствии с самыми современными технологиями.<br>
+  Окна в офисном помещении. Окошки в офисном помещении засияют чистотой после комплексной уборки.<br>
+  Кафель и кухонное оборудование. Если в офисе имеется своя кухня для приготовления и разогрева пищи, при комплексной уборке и эта часть помещения будет приведена в порядок и вычищена.<br>
+  Дверные блоки. Комплексная уборка офисов касается и дверей – они будут вычищены и отмыты от грязи.<br>
+  Мытьё полов. Полы в офисе будет дочиста отмыты и засияют от блеска.<br></p3><br>
+            <p4>+ Каждому клиенту<strong> БУТЫЛКА ШАМПАНСКОГО В ПОДАРОК!</strong></p4>
+          </div>
+      	</div>
+      </div>
+
+    <div id="openModal2" class="modalDialog2">
+      <div>
+        <a href="#close" title="Закрыть" class="close">X</a>
+        <h1>Что входить в ГЕНЕРАЛЬНУЮ уборку</h1>
+        <div class="modaldiv2">
+          <p>
+            Оставьте заявку и мы вам перезвоним в течение 2-ух минут
+          </p>
+
+          <form class="toleave2" id="form3" method="post">
+            <p2>Имя:</p2></br><input id="first_name3" type="text" name="first_name" placeholder="Ваше имя"><br>
+            <p2>Сотовый телефон:</p2></br><input id="contact3" type="text" name="contact" placeholder="Введите номер телефона">
+          </br><input type="button" onclick="call3()" name="name">
+          <div id="results3">          </div>
+        </br><p1>Ваши контактные данные в безопасности*</p1>
+          </form>
+        </div>
+        <div class="modaltext2">
+          <p1><strong>В комнатах и коридоре:</strong><br>
+- Пылесосим полы и плинтуса <br>
+- Пылесосим мебель <br>
+- Пылесосим стены от пыли, стык потолков <br>
+- Моем полы во всех доступных местах <br>
+- Моем плинтуса <br>
+- Отодвигаем нетяжелую мебель и убираем за ней <br>
+- Протираем от грязи и пыли все поверхности мебели <br>
+- Моем и протираем светильники (кроме люстр) <br>
+- Отмываем подоконники <br>
+- Отмываем радиаторы и трубы отопления <br>
+- Протираем дверные проемы, фурнитуру дверех <br>
+- Моем и протираем межкомнатные двери <br>
+- Моем зеркала и стеклянные поверхности <br>
+- Протираем столы, стулья, фурнитуру кресел и мебели <br>
+- Удаляем пыль с предметов интерьера (вазы, рамы картин и пр.) <br>
+- Протираем поверхности внутри шкафов и другой мебели (если они пустые, личные вещи не трогаем) <br>
+- Протираем всю аудио-видео технику от пыли <br>
+- Убираем мусор находящийся на полу <br>
+- Протираем полки, при условии что они пустые <br>
+- Аккуратно заправим кровать в спальне <br>
+- Разложим разбросанные вещи в аккуратные стопки <br>
+- В коридоре аккуратно расставим обувь <br>
+<strong>На кухне: </strong><br>
+- Моем грязную посуду в раковине <br>
+- Моем и обезжириваем кухонную плиту снаружи <br>
+- Моем холодильник и духовой шкаф снаружи <br>
+- Моем и протираем стены от пола до потолка <br>
+- Аккуратно разложим вещи в шкафчики (по согласованию с клиентом) <br>
+- Протираем кухонные столешницы <br>
+- Протираем от пыли всю кухонную технику <br>
+- Удаляем жировые отложения со стен кухонного гарнитура <br>
+- Удаляем жир с плитки вокруг жаровых панелей и плиты <br>
+- Протираем все зеркальные и стеклянные поверхности <br>
+- Убираем пыль и грязь внутри шкафов, при условии что они пустые, личные вещи не трогаем (либо по согласованию с клиентом) <br>
+- Протрем светильники <br>
+- Моем отсеки для мусорных корзин <br>
+- Проведем влажную уборку полов <br>
+- Выносим мусор и заменяем пакеты в корзинах <br>
+</p1><br>
+
+          <p3><strong>В ванной комнате:</strong><br>
+- Чистим и дезинфицируем сантехнику,<br>
+- Моем ванную или душевую кабину, унитаз, раковину<br>
+- Чистим фурнитуру и краны<br>
+- Моем и дезинфицируем пол<br>
+- Отмоем зеркала до блеска<br>
+- Протрем светильники<br>
+- Помоем плитку и стены от пола до потолка<br>
+- Отмоем внутренние поверхности шкафчиков и полочек<br>
+- Удаляем налет и водный камень с сантехники<br>
+- Аккуратно расставим тюбики, по вашем желанию<br></p3><br>
+          <p4>+ Каждому клиенту<strong> БУТЫЛКА ШАМПАНСКОГО В ПОДАРОК!</strong></p4>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="openModal3" class="modalDialog3">
+      <div>
+        <a href="#close" title="Закрыть" class="close">X</a>
+        <h1>Что входить в мойка окон</h1>
+        <div class="modaldiv3">
+          <p>
+            Оставьте заявку и мы вам перезвоним в течение 2-ух минут
+          </p>
+          <form class="toleave3" id="form4" method="post">
+            <p2>Имя:</p2></br><input id="first_name4" type="text" name="first_name" placeholder="Ваше имя"><br>
+            <p2>Сотовый телефон:</p2></br><input id="contact4" type="text" name="contact" placeholder="Введите номер телефона">
+          </br><input type="button" onclick="call4()" name="name">
+          <div id="results4">          </div>
+        </br><p1>Ваши контактные данные в безопасности*</p1>
+      </form>
+        </div>
+        <div class="modaltext3">
+          <p1><strong><ul>Уборка после ремонта</ul></strong>
+            <strong>Это специальный вид клининговой деятельности, направленный
+на удаление послестроительных загрязнений : клеевых составов, красок, пятен цемента, следов от строительно-монтажной пены
+и силиконов.</strong>
+  <br> <br> <br>
+        Обеспыливание потолка, стен, оконных рам, дверей и мебели специальным пылесосом для деликатных поверхностей <br>
+        Обеспыливание полов с помощью пылеводососа br
+        Протирка абсолютно всех поверхностей по системе «влажная-сухая» для окончательного удаления строительной пыли <br>
+        Мойка окон и оконных рам с применением специальных средств <br>
+        Отбеливание пластика <br>
+        Глубокая размывка кафельной плитки при помощи роторной машины <br>
+        Мойка сантехники <br>
+        Деликатное удаление пятен краски, клея, строительно-монтажной пены с любых поверхностей <br>
+        Деликатная мойка мрамора, гранита и других ценных материалов <br>
+        Вывоз строительного мусора <br>
+      </p1><br>
+          <p4>+ Каждому клиенту<strong> БУТЫЛКА ШАМПАНСКОГО В ПОДАРОК!</strong></p4>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+    <div id="openModal4" class="modalDialog4">
+      <a href="#close1" title="Закрыть" class="close1">X</a>
+      <div class="modaldiv4">
+          <p>
+            Оставьте заявку и мы проконсультируем вас бесплатно
+          </p>
+          <form class="toleave4" id="form5" method="post">
+            <p2></p2></br><input id="first_name5" type="text" class="ihavebeeneverywhereman" name="first_name" placeholder="Ваше имя"><br>
+            <p2></p2></br><input id="contact5" type="text" name="contact" placeholder="Введите номер телефона">
+          </br><input type="button" onclick="call5()" name="name">
+          </br>
+        </form>7
+          <div id="results5">          </div>
+        </div>
+      </div>
+
+      <div id="openModal5" class="modalDialog5">
+        <a href="#close1" title="Закрыть" class="close1">X</a>
+        <div class="modaldiv5">
+            <p>
+              Оставьте заявку и мы проконсультируем вас бесплатно
+            </p>
+            <form class="toleave4" id="form6" method="post">
+              <p2></p2></br><input id="first_name6" type="text" class="ihavebeeneverywhereman" name="first_name" placeholder="Ваше имя"><br>
+              <p2></p2></br><input type="text" id="contact6" name="contact" placeholder="Введите номер телефона">
+            </br><input type="button" onclick="call6()" name="name">
+            </br>
+          </form><div id="results6">          </div>
+          </div>
+        </div>
+
+
+        <div id="openModal6" class="modalDialog6">
+          <a href="#close1" title="Закрыть" class="close1">X</a>
+          <div class="modaldiv6">
+              <p>
+                Оставьте заявку и мы проконсультируем вас бесплатно
+              </p>
+              <form class="toleave4" id="form7" method="post">
+                <p2></p2></br><input id="first_name7" type="text" class="ihavebeeneverywhereman" name="first_name" placeholder="Ваше имя"><br>
+                <p2></p2></br><input type="text" id="contact7" name="contact" placeholder="Введите номер телефона">
+              </br><input type="button" onclick="call7()" name="name">
+              </br>
+            </form><div id="results7">          </div>
+            </div>
+          </div>
+
+          <div id="openModal10" class="modalDialog10">
+            <a href="#close3" title="Закрыть" class="close3">X</a>
+            <div class="modaldiv10">
+                <p>
+                  ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ <br><br>
+Сайт уважает и соблюдает законодательство РФ. Также мы уважаем Ваше право и соблюдаем конфиденциальность при заполнении, передаче и хранении ваших конфиденциальных сведений.<br><br>
+
+Мы запрашиваем Ваши персональные данные исключительно для информирования об оказываемых услугах сайта.<br><br>
+
+Персональные данные - это информация, относящаяся к субъекту персональных данных, то есть, к потенциальному покупателю. В частности, это фамилия, имя и отчество, дата рождения, адрес, контактные реквизиты (телефон, адрес электронной почты), семейное, имущественное положение и иные данные, относимые Федеральным законом от 27 июля 2006 года № 152-ФЗ «О персональных данных» (далее – «Закон») к категории персональных данных.<br><br>
+
+Если Вы разместили Ваши контактные данных на сайте, то Вы автоматически согласились на обработку данных и дальнейшую передачу Ваших контактных данных менеджерам нашего сайта.<br><br>
+
+В случае отзыва согласия на обработку своих персональных данных мы обязуемся удалить Ваши персональные данные в срок не позднее 3 рабочих дней<br>
+                </p>
+
+              </div>
+            </div>
+
+
+
+
+
+
+
+<div class="content">
+    <header id="log">
+      <div class="logo"><p>Чистота - залог здоровья!</p> Уборка квартир в Челябинске <br> &copy клининговая компания "Сияние"</div>
+      <div class="mobile">Звони прямо сейчас:<p> 8 (351) 776-17-73</p><p1 style="position:absolute;float:left;top:63px;left:-80px;width:300px; font-size:14px;">E-mail: siyanie174@bk.ru || <a href="https://vk.com/siyanie74" target="_blank" >Мы Вконтакте</a></p1></div>
+    </header>
+
+  <div class="menu" id="menu">
+    <ul>
+      <li><a href="#add">Услуги</a></li>
+      <li><a href="#sur">Цены</a></li>
+      <li><a href="#ski">Акции</a></li>
+      <li><a href="#con">Контакты</a></li>
+    </ul>
+  </div>
+  <div class="bg1">
+  </div>
+
+  <div class="text1">
+      <p1></p1><br>
+      <p2></p2><br>
+      <p3>Качественно сделаем уборку и химчистку вашей мебели и ковров</p3><br>
+
+      <p5>  <p4>Идёт акция:</p4>
+        <br>
+При подписании договора на регулярную уборку сезонная мойка окон и химчистка мебели в подарок!
+        <br></p5><br>
+      <p6>Просто <strong>оставь заявку на уборку</strong> - это легко!</p6>
+<div class="call">
+  <form class="form" id="form1"  method="post">
+    <input type="input" name="first_name" id="first_name" placeholder="Введите имя">
+    <input type="input" name="contact" id="contact" placeholder="Введите номер">
+    <input type="button" onclick="call()" name="name">
+    <div id="results" class="res1"></div>
+  </form>
+</div>
+<div class="call_ten">
+</div>
+  </div>
+  <div class="bg_woman"><div class="bg_woman_ten">
+
+  </div></div>
+  <div class="why">
+    <h1>Почему именно мы...</h1>
+    <div class="why_real">
+      <div class="bucket">
+      </div>
+      <div class="bucket_real">
+
+      </div>
+      <div class="bucket_real_2">
+      </div>
+      <div class="bucket_real_text">
+        <p1>Квалифицированный персонал</p1></br>
+        <p2>Специально обученный и подготовленный персонал</p2>
+      </div>
+      <div class="house">
+      </div>
+      <div class="house_real">
+
+      </div>
+      <div class="house_real_2">
+      </div>
+      <div class="house_real_text">
+        <p1>Профессиональный подход</p1></br>
+        <p2>Вам не нужно волноваться за сохранность своего имущества</p2>
+      </div>
+      <div class="quality">
+      </div>
+      <div class="quality_real">
+
+      </div>
+      <div class="quality_real_2">
+      </div>
+      <div class="quality_real_text">
+        <p1>Гарантия качества</p1></br>
+        <p2>
+           Максимально быстрые сроки и безупречное качество выполненной работы
+        </p2>
+      </div>
+      <div class="percent">
+      </div>
+      <div class="percent_real">
+
+      </div>
+      <div class="percent_real_2">
+      </div>
+      <div class="percent_real_text">
+        <p1>Система скидок</p1></br>
+        <p2>
+          Существует выгодная система скидок и ПОДАРКИ!
+        </p2>
+      </div>
+    </div>
+  </div>
+
+  <div class="survice" id="sur">
+      <h1>Цены и услуги</h1>
+      <div class="pictures">
+        <div class="office">
+        </div>
+        <div class="general">
+        </div>
+        <div class="remonte">
+        </div>
+      </div>
+
+      <div class="office_yellow">
+        <p class="title">Уборка помещений</p>
+        <p class="describe">Наведение порядка в квартирах домах и офисах</p>
+        <div class="pricelist">
+          <p>Генеральная уборка: <br><span> от 45руб. до 80 руб./кв.м.</span></p>
+          <p>После ремонта: <br> <span> от 50руб/кв.м.</span></p>
+          <p>Регулярная (от 2 раз/мес.) <span>индивидуальный расчет</span></p>
+        </div>
+        <a href="#openModal1"><button class="order yellow" type="button" name="button">Заказать</button></a>
+
+      </div>
+      <div class="general_yellow">
+        <p class="title">Химчистки мебели и ковровых покрытий</p>
+        <p class="describe"> Профессиольная химчистка мебели, матрасов и ковров.</p>
+        <div class="pricelist">
+          <p>Диван - 260руб/1 место</p>
+          <p>Ковер от 80 руб/кв.м.</p>
+          <p>Кресло - 280руб
+          </p>
+          <p>
+            Стул - 60руб.
+          </p>
+        </div>
+        <a href="#openModal2"><button class="order" type="button" name="button">Заказать</button>
+</a>
+      </div>
+      <div class="remonte_yellow">
+        <p class="title">Мойка окон</p>
+        <p class="describe">Мойко окон, фасадов, балконов.</p>
+        <div class="pricelist">
+          <p>Окно стандартное - 190руб/2 сторонки</p>
+          <p>
+            Балкон - от 1000руб.
+          </p>
+          <p>
+            Фасады, входные группы - индивидуальный расчет
+          </p>
+        </div>
+        <a href="#openModal3"><button class="order" type="button" name="button">Заказать</button></a>
+              </div>
+              <p style="float:right; padding-right:20px;">* минимальный заказ от 1500 руб</p>
+
+  </div>
+  <div class="add_survice" id="add">
+    <p class="add">Дополнительные услуги</p>
+    <div class="added left">
+      <img src="img/moika.jpg" width="206" height="199">
+      <p1>Мойка витражей и фасадов</p1>
+      <p2>Качественное выполнение работ по очистке витражей и фасадов от атмосферных и иных загрязнений.</p2>
+    </div>
+    <div class="added right">
+      <img src="img/products.jpg" width="206" height="199">
+      <p1>Торговые центры магазины</p1>
+      <p2>Обслуживание крупных ТРЦ, мытье полов и окон в магазинах.</p2>
+    </div>
+    <div class="added left">
+      <img src="img/alpenizm.jpg" width="206" height="199">
+      <p1>Промышленный альпинизм</p1>
+      <p2>Выполнение работ по мойке стеклянных поверхностей, уборке снега и наледи и герметизации швов.</p2>
+    </div>
+    <div class="added right">
+      <img src="img/chistka.jpg" width="206" height="199">
+      <p1>Услуги горничной</p1>
+      <p2>Так же предлагаем услуги: стирка/глажка белья, закуп продуктов, комплексный уход за домом и т.д.</p2>
+    </div>
+    <div class="added left">
+      <img src="img/direc.jpg" width="206" height="199">
+      <p1>Обслуживание баров, клубов, ресторанов</p1>
+      <p2 style="margin-top:80px;">Работы по наведению чистоты в местах активного отдыха.</p2>
+    </div>
+    <div class="added right">
+      <img src="img/divan.jpg" width="206" height="199">
+      <p1>Химчистка ковров мебели</p1>
+      <p2>Предоставляем услуги профессиональной химчистки ковровых покрытий и мягкой мебели.</p2>
+    </div>
+      <a href="#openModal4"><button class="send order" type="button" name="button">Указать цены на услуги</button></a>
+  </div>
+  <div class="skidka">
+  <div class="telki"></div>
+  <div class="skidka_text">
+    <p1>А ЕЩЕ...</p1><br>
+    <p2>получи подарочный сертификат</p2><br>
+    <p3>со СКИДКОЙ -10%</p3><br>
+    <p4>на уборку любого типа</p4>
+    <a href="#openModal5"><button class="additional order" type="button" name="button">Узнать подробнее</button></a>
+    <p5>Сертификатом Вы можете воспользоваться сами, либо подарить знакомым.</p5>
+  </div>
+
+    </div>
+
+</div>
+<div class="skidka_bg" id="ski">
+
+</div>
+<div class="sky_bg">
+  <div class="sky_bg1">
+
+  </div>
+  <div class="sky_text">
+  <p>
+    Если Вам понравилось качество выполняемых нами работ, обязательно закажите абонемент на регулярную уборку
+    по специальным условиям
+  </p>
+  <div class="leave">
+    <p>
+      Оставьте заявку и мы перезвоним вам чтобы рассказать
+  про абонемент и его преимущества.
+    </p>
+    <form style="white-space:nowrap;" id="form8" method="post">
+      <input type="text" id="first_name8" name="first_name" placeholder="Введите Ваше Имя">
+      <input type="text" id="contact8" name="contact" placeholder="Введите номер телефона">
+      <input type="button" onclick="call8()" class="sendu" name="name">
+    </form>
+    <div id="results8">          </div>
+  </div>
+</div>
+  <div class="sky_bg2">
+
+  </div>
+</div>
+<div class="how_works">
+  <div style="width:960px; height:942.5px; margin:auto;">
+    <p>Как мы работаем</p>
+    <div class="calling"></div>
+    <div class="calling"></div>
+    <div class="calling"></div>
+    <div class="calling"></div>
+    <div class="calling"></div>
+    <div class="uid1">
+    </div>
+    <div class="uid2">
+    </div>
+    <div class="uid3">
+    </div>
+    <div class="uid4">
+    </div>
+    <div class="uid5">
+    </div>
+    <div style="position:relative;">
+    <div class="explain">
+      <p1>ОСТАВЛЯЕТЕ ЗАЯВКУ НА УБОРКУ</p1><br>
+      <p2>Заполняете форму на сайте или звоните по телефону</p2>
+      <p3>8(351) 776-17-73</p3>
+    </div>
+    <div class="explain1">
+      <p1>ОТВЕТ НАШЕГО МЕНЕДЖЕРА</p1><br>
+      <p2>С Вами свяжется наш специалист и даст подробную консультацию</p2>
+    </div>
+    <div class="explain2">
+      <p1>ВЫПОЛНЕНИЕ РАБОТ</p1><br>
+      <p2>Наши сотрудники выезжают к Вам в ближайшее время и приступают к работе</p2>
+    </div>
+    <div class="explain3">
+      <p1>ОКОНЧАНИЕ РАБОТ</p1><br>
+      <p2>Оценка выполненных работ и рекомендации по дальнейшим действиям</p2>
+    </div>
+    <div class="explain4">
+      <p1>СДАЧА РАБОТЫ</p1><br>
+      <p2>Вы принимаете работу, подписываете документы и оплачиваете наши услуги</p2>
+    </div>
+  </div>
+
+</div>
+</div>
+<div class="questions">
+    <div style="position:relative; top:80px; width:960px; height:942.5px; margin:auto;">
+    <p1>Если у вас появились вопросы или Вам нужна консультация в <br> области клининга</p1><br>
+
+    <p2>наш менеджер с радостью <br>поможет Вам!</p2>
+    <div class="open_div">
+      <p3 onclick="open1()">
+        Нужно ли подготавливать свой инвентарь и моющие средства к приходу ваших сотрудников?
+      </p3><br><br><p33 class="p33">
+  - Нет, весь инвентарь и нужные средства для уборки мы привозим с собой. Клиент подготавливает пылесос, и если требуется убирает ковровые покрытия и мягкую мебель.
+</p33><br>
+      <p4 onclick="open2()">С какими моющими средствами вы работаете?</p4><br><br><p44 class="p44">
+      - Мы работаем только с сертифицированными средствами известных марок: Karcher, Kiehi, Pro-Brite, Chemspec, Grass
+    </p44><br>
+      <p5 onclick="open3()">Выезжаете ли Вы за пределы города?</p5><br><br><p55 class="p55">
+       - Да, наши сотрудники выезжают за пределы города. Доплату необходимо уточнить у менеджера
+
+     </p55><br>
+      <p6 onclick="open4()">Безопасно ли оставлять вашего сотрудника одного в квартире во время уборки?</p6><br><br><p66 class="p66">
+        - Абсолютно безопасно! Во время работ, мы полностью берем на себя ответственность за сохранность Вашего имущества, согласно договора.
+
+      </p66><br>
+      <p7 onclick="open5()">Делаете ли Вы скидки пенсионерам?</p7><br><br><p77 class="p77">
+        - Да, дополнительная скидка для пенсионеров составляет 5%
+
+      </p77><br>
+      <p8 onclick="open6()">За какое время нужно оставлять заявку на уборку?</p8><br><p88 class="p88">
+         - Желательно за 2-3 дня. Но если Вам нужно срочно вызвать нашего сотрудника, мы постараемся во всем Вам помочь
+      </p88><br>
+    </div>
+
+    <div class="woman">
+
+    </div>
+    <a href="#openModal6"><button class="additional order ask" type="button" name="button">Задать вопрос</button></a>
+  </div>
+
+</div>
+
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2277.90904586863!2d61.301901915750264!3d55.18486078040526!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x43c59311fd8321e5%3A0x643be8cc0eadd222!2z0YPQuy4gNDAg0LvQtdGCINCf0L7QsdC10LTRiywgQ2hlbHlhYmluc2ssIENoZWx5YWJpbnNrYXlhIG9ibGFzdCcsIFJ1c3NpYSwgNDU0MDAx!5e0!3m2!1sen!2skz!4v1479567270134" id="con" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+  <footer id="log2">
+    <div class="logo1"> Уборка квартир в Челябинске <br> &copy клининговая компания</div>
+    <a href="#openModal10"><div class="conf">
+      Политика конфиденциальности
+    </div></a>
+    <div class="mobile1">8 (351) 776-17-73</div>
+  </footer>
+  <div class="quad">
+    <p1>Контакты</p1>
+    <hr></hr>
+    <div1>         </div1>
+    <p2>8 (351) 776-17-73</p2><br><br><br>
+    <p3>
+      E-mail: siyanie174@bk.ru <br> <a style="color:white;" href="https://vk.com/siyanie74" target="_blank" >Мы Вконтакте</a><br>
+      Мы находимся по адресу:<br>
+г. Челябинск, 40 лет Победы 44,
+
+</p3>
+  </div>
+<script src="js/common.js"></script>
+
+</body>
+</html>
