@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 455 377">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-Artboard_9);
+      }
+
+      .cls-2 {
+        fill: #0d1f31;
+      }
+    </style>
+    <clipPath id="clip-Artboard_9">
+      <rect width="455" height="377"/>
+    </clipPath>
+  </defs>
+  <g id="Artboard_9" data-name="Artboard – 9" class="cls-1">
+    <g id="Group_265" data-name="Group 265">
+      <g id="circular-wall-clock" transform="translate(52.912 13.649)">
+        <g id="Group_92" data-name="Group 92">
+          <path id="Path_165" data-name="Path 165" class="cls-2" d="M175.115,350.232c96.623,0,175.115-78.492,175.115-175.115S271.739,0,175.115,0,0,78.492,0,175.115,78.492,350.232,175.115,350.232Zm0-322.69c81.476,0,147.574,66.328,147.574,147.574S256.362,322.69,175.115,322.69,27.541,256.592,27.541,175.115A147.609,147.609,0,0,1,175.115,27.541Z"/>
+          <path id="Path_166" data-name="Path 166" class="cls-2" d="M187.462,222.725l58.984,45.9a14.68,14.68,0,0,0,8.492,2.983,13.369,13.369,0,0,0,10.787-5.279,13.627,13.627,0,0,0-2.525-19.279l-53.476-41.771V110.954a13.771,13.771,0,1,0-27.541,0V211.938A13.708,13.708,0,0,0,187.462,222.725Z" transform="translate(-34.609 -18.462)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

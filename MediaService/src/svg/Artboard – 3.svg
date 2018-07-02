@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 116 225">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-Artboard_3);
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        opacity: 0.5;
+      }
+
+      .cls-4 {
+        opacity: 0.2;
+      }
+    </style>
+    <clipPath id="clip-Artboard_3">
+      <rect width="116" height="225"/>
+    </clipPath>
+  </defs>
+  <g id="Artboard_3" data-name="Artboard – 3" class="cls-1">
+    <g id="miwka" transform="translate(4.015 2.997)">
+      <path id="Path_30" data-name="Path 30" class="cls-2" d="M49.75,5.7C31.736,5.7,17.1,23.3,17.1,45.026V76.342c0,21.727,14.636,39.326,32.65,39.326S82.4,98.069,82.4,76.463V45.026C82.4,23.3,67.764,5.7,49.75,5.7ZM76.259,76.463c0,17.6-11.873,31.922-26.509,31.922S23.241,94.063,23.241,76.342V45.026c0-17.721,11.873-32.044,26.509-32.044S76.259,27.305,76.259,45.026Z" transform="translate(4.235 0)"/>
+      <path id="Path_31" data-name="Path 31" class="cls-2" d="M49.641,30.5A3.576,3.576,0,0,0,46,34.141V46.886a3.641,3.641,0,1,0,7.283,0V34.141A3.576,3.576,0,0,0,49.641,30.5Z" transform="translate(4.344 5.302)"/>
+      <path id="path" class="cls-2" d="M492.692,877.6l5.7,5.7-24.448,24.448L449.5,883.3l5.7-5.7,18.744,18.744Z" transform="translate(-419.963 -734.045)"/>
+      <path id="path-2" data-name="path" class="cls-3" d="M492.692,877.6l5.7,5.7-24.448,24.448L449.5,883.3l5.7-5.7,18.744,18.744Z" transform="translate(-419.963 -714.01)"/>
+      <path id="path-3" data-name="path" class="cls-4" d="M492.692,877.6l5.7,5.7-24.448,24.448L449.5,883.3l5.7-5.7,18.744,18.744Z" transform="translate(-419.963 -693.975)"/>
+    </g>
+  </g>
+</svg>

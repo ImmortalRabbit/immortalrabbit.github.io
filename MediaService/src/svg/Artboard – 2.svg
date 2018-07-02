@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 692 225">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-Artboard_2);
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        fill: #201d1e;
+        font-size: 50px;
+        font-family: Plumb-Bold, Plumb;
+        font-weight: 700;
+      }
+
+      .cls-4 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-5 {
+        filter: url(#Rectangle_24);
+      }
+    </style>
+    <filter id="Rectangle_24" x="21.757" y="25.759" width="649.485" height="180.482" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient" x1="-0.197" y1="-0.419" x2="0.779" y2="0.978" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#11998e"/>
+      <stop offset="1" stop-color="#38ef7d"/>
+    </linearGradient>
+    <clipPath id="clip-Artboard_2">
+      <rect width="692" height="225"/>
+    </clipPath>
+  </defs>
+  <g id="Artboard_2" data-name="Artboard – 2" class="cls-1">
+    <g class="cls-5" transform="matrix(1, 0, 0, 1, 0, 0)">
+      <rect id="Rectangle_24-2" data-name="Rectangle 24" class="cls-2" width="619.485" height="150.482" rx="27" transform="translate(36.76 37.76)"/>
+    </g>
+    <text id="_7_717_225_39_13" data-name="+7 717 225 39 13" class="cls-3" transform="translate(217.876 159)"><tspan x="0" y="0">+7 717 225 39 13</tspan></text>
+    <text id="_7_708_425_39_13" data-name="+7 708 425 39 13" class="cls-3" transform="translate(217.876 100.183)"><tspan x="0" y="0">+7 708 425 39 13</tspan></text>
+    <circle id="Ellipse_3" data-name="Ellipse 3" class="cls-4" cx="56.431" cy="56.431" r="56.431" transform="translate(66.854 55.315)"/>
+    <path id="Path_301" data-name="Path 301" class="cls-2" d="M5.452,58.55a4.276,4.276,0,0,0,.444.363l2.218,1.37c.081.04.2.121.282.161A26.837,26.837,0,0,0,19.245,62.7a22.729,22.729,0,0,0,16.294-6.326L56.471,35.461c6.493-6.488,8.107-17.61,3.912-27.039a1.629,1.629,0,0,0-.2-.363L58.77,5.923c-.081-.121-.2-.242-.282-.363L54.737,1.813A6.173,6.173,0,0,0,50.381,0a5.684,5.684,0,0,0-3.993,1.652L35.5,12.532a5.92,5.92,0,0,0,.121,8.382l4.275,4.271L25.335,39.732,20.979,35.38a5.488,5.488,0,0,0-4.154-1.773A5.9,5.9,0,0,0,12.712,35.3L1.822,46.18A6.431,6.431,0,0,0,.007,50.37a5.821,5.821,0,0,0,1.654,4.392ZM5.25,49.6,16.14,38.725a1.04,1.04,0,0,1,1.492.081l6.05,6.044a2.461,2.461,0,0,0,3.428,0L45.057,26.918a2.487,2.487,0,0,0,.726-1.692,2.319,2.319,0,0,0-.726-1.692l-5.969-6.044a1.14,1.14,0,0,1-.121-1.572L49.857,5.037a.733.733,0,0,1,.565-.242,1.39,1.39,0,0,1,.928.4L54.9,8.744l1.17,1.773c3.832,8.865,1.17,17.327-2.985,21.438L32.151,52.949a17.95,17.95,0,0,1-12.906,4.916,21.864,21.864,0,0,1-8.712-1.773L8.678,54.964l-3.59-3.586a1.061,1.061,0,0,1-.242-.766A1.9,1.9,0,0,1,5.25,49.6Z" transform="translate(154.62 79.665) rotate(90)"/>
+  </g>
+</svg>

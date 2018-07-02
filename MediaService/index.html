@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Media Service</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/master.css">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  <div class="fake_header"></div>
+  <header>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="brand">
+              <div class="logo">
+              </div>
+              <div class="logo_text">
+                Media Service
+              </div>
+            </div>
+            <div class="navigation_hamburger">
+              <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle drop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="hamburger"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li> <a href="#" data-scroll="main">Главная</a> </li>
+                    <li> <a href="#" data-scroll="aboutus">О нас</a> </li>
+                    <li> <a href="#" data-scroll="lift_media">Lift Media</a> </li>
+                    <li> <a href="#" data-scroll="projects">Проект в Астане</a> </li>
+                    <li> <a href="#" data-scroll="contacts">Контакты</a> </li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="">Наши телефоны</a></li>
+                    <li> <a href="#"><span>+7 708 425 39 13</span></a></li>
+                    <li> <a href="#"><span>+7 717 225 39 13</span></a></li>   
+                    <li> <a href="#" id="myBtn">Заказать консультацию</a> </li>                 
+                  </ul>
+                </div>
+            </div>
+            <div class="navigation">
+              <div class="navigation_div">
+                <ul class="navigation_ul">
+                  <li> <a href="#" data-scroll="main">Главная</a> </li>
+                  <li> <a href="#" data-scroll="aboutus">О нас</a> </li>
+                  <li> <a href="#" data-scroll="lift_media">Lift Media</a> </li>
+                  <li> <a href="#" data-scroll="projects">Проект в Астане</a> </li>
+                  <li> <a href="#" data-scroll="contacts">Контакты</a> </li>
+                </ul>
+              </div>
+            </div>
+            <div class="contacts">
+                <button class="contacts_box" id="myBtn">
+                  <div class="contacts_box_logo">
+                    <div class="contacts_box_logo_img">
+                    </div>
+                  </div>
+                  <div class="contacts_box_numbers">
+                    <span>+7 708 425 39 13</span><br>
+                    <span>+7 717 225 39 13</span>
+                  </div>
+                </button>
+            </div>
+
+          </div>
+        </div>
+    </header>
+    <div class="main" data-anchor="main">
+      <div class="container_fluid">
+        <div class="col-md-6 col-xs-6 main_place_for_text_with_button">
+          <p>Мало <b>клиентов?</b><br>Никто в городе <b>о Вас не знает?</b></p>
+          <div class="main_place_for_text_with_button_expert_img">
+          </div>
+
+          <div class="main_place_for_advertisement hidan">
+
+          </div>
+            <button class="main_place_for_text_with_button_consultation_button" id="myBtn2">
+            <p>Заказать консультацию</p>
+          </button>
+        </div>
+        <div class="col-md-6 col-xs-6 main_place_for_advertisement hid">
+
+        </div>
+
+      </div>
+
+    </div>
+    <div class="about" data-anchor="aboutus">
+      <div class="container_fluid">
+        <div class="col-md-8 col-xs-8 about_company_text">
+          <div class="about_company_logo hidan">
+          <div class="about_company_logo_img">
+
+          </div>
+          <div class="about_company_logo_text">
+            <span>MEDIA</span><br>SERVICE
+          </div>
+        </div>
+          <p>Наша компания специализируется на <span>размещении рекламы</span> и наработала бесценный опыт, который позволил создать <span>уникальную технологию эффективной таргетированной рекламы</span></p>
+          <p>Мы предлагаем услуги по размещению<br>Вашей видео рекламы <span>на дисплеях в жилых комплексах бизнес и элит класса города Астаны</span></p>
+          <p>В 2018 году мы запустили новый инновационный продукт <span>«LIFT MEDIA»</span></p>
+        </div>
+        <div class="col-md-4 col-xs-4 about_company_logo hid">
+          <div class="about_company_logo_img">
+
+          </div>
+          <div class="about_company_logo_text">
+            <span>MEDIA</span><br>SERVICE
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="lift_media" data-anchor="lift_media">
+      <div class="lift_media_title">Преимущество проекта <span>"Lift Media"</span></div>
+      <div class="lift_media_container">
+            <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+        <div class="flipper">
+        <div class="lift_media_col grey front">
+          <img class="lift_media_col_img" src="src/svg/multiple-users-silhouette.svg" alt="">
+          <div class="lift_media_col_img_text">Широкий охват аудитории</div>
+      </div>
+      <div class="lift_media_col_back back">
+          <div class="lift_media_col_text">Широкий охват аудитории</div>
+          <div class="lift_media_col_text_small">Наши видеоэкраны размещены в жилых комплексах местах,  что позволяет доносить  информацию до огромного числа потенциальных клиентов</div>
+      </div>
+      </div>
+      </div>
+      </div>
+      <div class="lift_media_container">
+      <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+        <div class="flipper">
+        <div class="lift_media_col grey front">
+        <img class="lift_media_col_img" src="src/svg/Artboard – 5.svg" alt="">
+        <div class="lift_media_col_img_text">Яркое и динамичное изображение</div>      </div>
+      <div class="lift_media_col_back back">
+          <div class="lift_media_col_text">Яркое и динамичное изображение</div>
+          <div class="lift_media_col_text_small">Наши видеоэкраны размещены в жилых комплексах местах,  что позволяет доносить  информацию до огромного числа потенциальных клиентов</div>
+      </div>
+      </div>
+      </div>
+      </div>
+            <div class="lift_media_container">
+            <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+        <div class="flipper">
+        <div class="lift_media_col grey front">
+        <img class="lift_media_col_img" src="src/svg/Artboard – 8.svg" alt="">
+        <div class="lift_media_col_img_text">Дистанционное управление контентом</div>
+        </div>
+      <div class="lift_media_col_back back">
+          <div class="lift_media_col_text">Дистанционное управление контентом</div>
+          <div class="lift_media_col_text_small">Наши видеоэкраны размещены в жилых комплексах местах,  что позволяет доносить  информацию до огромного числа потенциальных клиентов</div>
+      </div>
+      </div>
+      </div>
+      </div>
+<div class="lift_media_container">
+            <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+        <div class="flipper">
+        <div class="lift_media_col grey front">
+        <img class="lift_media_col_img" src="src/svg/Artboard – 4.svg" alt="">
+        <div class="lift_media_col_img_text">Звуковое сопровождение</div>
+ </div>
+      <div class="lift_media_col_back back">
+          <div class="lift_media_col_text">Звуковое сопровождение</div>
+          <div class="lift_media_col_text_small">Наши видеоэкраны размещены в жилых комплексах местах,  что позволяет доносить  информацию до огромного числа потенциальных клиентов</div>
+      </div>
+      </div>
+      </div>
+      </div>
+      <div class="lift_media_container">
+            <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+        <div class="flipper">
+        <div class="lift_media_col grey front">
+        <img class="lift_media_col_img" src="src/svg/Artboard – 6.svg" alt="">
+        <div class="lift_media_col_img_text">Трансляция видеороликов в режиме NON-stop</div>
+      </div>
+      <div class="lift_media_col_back back">
+          <div class="lift_media_col_text">Трансляция видеороликов в режиме NON-stop</div>
+          <div class="lift_media_col_text_small">Наши видеоэкраны размещены в жилых комплексах местах,  что позволяет доносить  информацию до огромного числа потенциальных клиентов</div>
+      </div>
+      </div>
+      </div>
+      </div>
+      <div class="lift_media_container">
+            <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+        <div class="flipper">
+        <div class="lift_media_col grey front">
+        <img class="lift_media_col_img" src="src/svg/Artboard – 7.svg" alt="">
+        <div class="lift_media_col_img_text">Видео высокого разрешения</div>
+      </div>
+      <div class="lift_media_col_back back">
+          <div class="lift_media_col_text">Видео высокого разрешения</div>
+          <div class="lift_media_col_text_small">Наши видеоэкраны размещены в жилых комплексах местах,  что позволяет доносить  информацию до огромного числа потенциальных клиентов</div>
+      </div>
+      </div>
+      </div>
+      </div>
+    </div>
+    <div class="information" data-anchor="projects">
+      <div class="information_title">Информация для рекламодателей</div>
+      <div class="col-md-1 col-xs-1 hid"></div>
+      <div class="col-md-4 col-xs-4 screen"></div>
+      <div class="col-md-6 col-xs-7">
+        <div class="screen_properties first">
+          <div class="screen_properties_img clock"></div>
+          <div class="screen_properties_text">
+            <ul>
+              <li>- Хронометраж размещения видеороликов 15 и 30 секунд.</li>
+              <li>- Периодичность 15 секундного ролика – 192 показа в сутки</li>
+              <li>- Периодичность 30 секундного ролика – 96 показов в сутки</li>
+            </ul>
+          </div>
+        </div>
+        <div class="screen_properties second">
+          <div class="screen_properties_img map"></div>
+          <div class="screen_properties_text">
+            <ul>
+              <li>- Мощность проекта 1000 мониторов</li>
+              <li>- Охват 5 районов</li>
+              <li>- 1 район – 200 мониторов</li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="why_they_choose">
+      <div class="why_they_choose_title">Почему люди выбирают нас?</div>
+      <div class="why_they_choose_title_small">Согласно статистическим данным:</div>
+      <div class="col-md-2 col-xs-2"></div>
+      <div class="col-md-4 col-xs-4">
+      <div class="why_they_choose_block">
+        <div class="why_they_choose_block_img building">
+        </div>
+        <p>70% населения</p>
+        <hr>
+        <p class="why_they_choose_block_under_img_small_text">70% населения города Астаны<br>проживает в многоэтажных домах</p>
+      </div>
+            <div class="why_they_choose_block">
+        <div class="why_they_choose_block_img elevator ">
+        </div>
+        <p>4910 лифтов в Астане</p>
+        <hr>
+        <p class="why_they_choose_block_under_img_small_text">В городе Астана насчитывается 4910 лифтов<br>в многоэтажных жилых домах</p>
+      </div>
+      </div>
+      <div class="col-md-4 col-xs-4">
+            <div class="why_they_choose_block">
+        <div class="why_they_choose_block_img person">
+        </div>
+        <p>3 раза в день</p>
+        <hr>
+        <p class="why_they_choose_block_under_img_small_text">В среднем человек пользуется<br>лифтом 3 раза в день</p>
+      </div>
+          <div class="why_they_choose_block">
+        <div class="why_they_choose_block_img target">
+        </div>
+        <p>300 000 потребителей</p>
+        <hr>
+        <p class="why_they_choose_block_under_img_small_text">Проект «Lift Media» охватит более 20%<br>
+[1000 мониторов] от общего числа лифтов<br>В числовом эквиваленте это до 300 000 
+потенциальных потребителей</p>
+      </div></div>
+
+      <div class="col-md-12 col-xs-12 why_they_choose_title_small">Социальная составляющая</div>
+      <div class="col-md-2 col-xs-2"></div>
+      <div class="col-md-4 col-xs-4">
+      <div class="why_they_choose_block">
+        <div class="why_they_choose_block_img research">
+        </div>
+        <hr>
+        <p>Мониторинг состояния<br>в режиме онлайн</p>
+      </div>
+            <div class="why_they_choose_block">
+        <div class="why_they_choose_block_img camera">
+        </div>
+        <hr>
+        <p>Дистанционное видеонаблюдение<br>и хранение видео записи за<br> последние 5 дней</p>
+      </div>
+      </div>
+      <div class="col-md-4 col-xs-4">
+            <div class="why_they_choose_block">
+        <div class="why_they_choose_block_img smoke_detector">
+        </div>
+        <hr>
+        <p>Мониторинг пожарной<br>безопасности</p>
+      </div>
+          <div class="why_they_choose_block">
+        <div class="why_they_choose_block_img alarm">
+        </div>
+        <hr>
+        <p>Тревожная кнопка вызова  </p>
+      </div></div>
+
+    </div>
+    <div class="screenmap" >
+      <div class="monitor" data-anchor="contacts">
+        <p>Карта проекта по районам Астаны</p>
+        <div class="screen_monitor_map_info">
+          <div class="screen_monitor_map_info_rayon">
+            <div class="screen_monitor_map_info_rayon_logo"></div>
+            <div class="screen_monitor_map_info_rayon_text" id="text_changer">Район: Есиль</div>
+          </div>
+          <div class="screen_monitor_map_info_zhk">
+            <p>ЖК "Expo Plaza"</p>
+            <hr>
+            <p class="screen_monitor_map_info_smaller">Количество этажей: 6-9</p1>
+            <p class="screen_monitor_map_info_smaller">Число мониторов: Х</p>
+            <div class="screen_monitor_map_info_img"></div>
+          </div>
+        </div>
+        <object type="image/svg+xml" data="src/svg/astanamap.svg" class="screenmap_monitor_map">
+        </object>
+      </div>
+    </div>
+    <footer>
+      &copy 2018 Media Service. Все права защищены.
+    </footer>
+
+
+    <div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+<form>
+  <div class="form-group">
+    <label class="label">Оставьте свои контактные данные, и мы с Вами свяжемся</label>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Имя</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="имя">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Телефон</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="телефон">
+  </div>
+  
+  <button type="submit" class="send btn btn-default">Отправить</button>
+</form>  </div>
+
+</div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

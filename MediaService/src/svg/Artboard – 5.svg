@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 455 377">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-Artboard_5);
+      }
+
+      .cls-2 {
+        fill: #27c984;
+      }
+    </style>
+    <clipPath id="clip-Artboard_5">
+      <rect width="455" height="377"/>
+    </clipPath>
+  </defs>
+  <g id="Artboard_5" data-name="Artboard – 5" class="cls-1">
+    <g id="Group_259" data-name="Group 259">
+      <g id="photography-frame" transform="translate(44.771 37.275)">
+        <path id="Path_64" data-name="Path 64" class="cls-2" d="M354.024,50.026a13.113,13.113,0,0,0-12.952-13.193H12.952A13.113,13.113,0,0,0,0,50.026V327.089a13.113,13.113,0,0,0,12.952,13.193h328.12a13.113,13.113,0,0,0,12.952-13.193ZM328.12,63.22V232.1l-75.985-54.313a12.541,12.541,0,0,0-16.19,1.319l-39.5,38.7-82.03-80.7A12.716,12.716,0,0,0,95.2,138.423L26.121,228.8V63.22ZM25.9,313.9V271.676l80.735-105.328,80.734,79.381a12.875,12.875,0,0,0,17.917,0l40.584-40.02L328.12,264.42V313.9Z" transform="translate(0 -36.833)"/>
+        <path id="Path_65" data-name="Path 65" class="cls-2" d="M266.157,185.314a25.512,25.512,0,1,0-25.041-25.507A25.3,25.3,0,0,0,266.157,185.314Z" transform="translate(-57.412 -58.657)"/>
+      </g>
+    </g>
+  </g>
+</svg>

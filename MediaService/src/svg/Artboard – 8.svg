@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 455 377">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-Artboard_8);
+      }
+
+      .cls-2 {
+        fill: #27c984;
+      }
+    </style>
+    <clipPath id="clip-Artboard_8">
+      <rect width="455" height="377"/>
+    </clipPath>
+  </defs>
+  <g id="Artboard_8" data-name="Artboard – 8" class="cls-1">
+    <g id="Group_263" data-name="Group 263">
+      <g id="wireless-internet-connectivity" transform="translate(24.244 33.216)">
+        <g id="Group_9" data-name="Group 9" transform="translate(0 0)">
+          <path id="Path_15" data-name="Path 15" class="cls-2" d="M202.775,379.482a27.39,27.39,0,1,0,27.39-27.391A27.345,27.345,0,0,0,202.775,379.482Zm29.347,0a1.957,1.957,0,1,1-1.957-1.957C231.388,377.77,232.122,378.5,232.122,379.482Z" transform="translate(-27.75 -95.305)"/>
+          <path id="Path_16" data-name="Path 16" class="cls-2" d="M333.429,230.949a15.434,15.434,0,0,0,10.761-4.646,14.715,14.715,0,0,0-.978-20.787,191.677,191.677,0,0,0-258.5-.978A14.715,14.715,0,0,0,104.522,226.3a162.357,162.357,0,0,1,218.881.734A14.438,14.438,0,0,0,333.429,230.949Z" transform="translate(-10.935 -68.318)"/>
+          <path id="Path_17" data-name="Path 17" class="cls-2" d="M287.294,310.539a15.433,15.433,0,0,0,10.761-4.646,14.715,14.715,0,0,0-.978-20.787,110.486,110.486,0,0,0-149.18-.734,14.715,14.715,0,1,0,19.809,21.765,81.164,81.164,0,0,1,109.562.489A14.87,14.87,0,0,0,287.294,310.539Z" transform="translate(-19.582 -82.122)"/>
+          <path id="Path_18" data-name="Path 18" class="cls-2" d="M391.214,157.551a15.433,15.433,0,0,0,10.761-4.646A14.715,14.715,0,0,0,401,132.117,293.9,293.9,0,0,0,4.812,130.65a14.715,14.715,0,1,0,19.809,21.765,264.583,264.583,0,0,1,356.567,1.223A16.171,16.171,0,0,0,391.214,157.551Z" transform="translate(0 -54.592)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
