@@ -189,7 +189,6 @@ button:focus {
   height: 700px;
 }
 .main_place_for_text_with_button p{
-  opacity: 0.75;
   padding-left: 15%;
   padding-top: 50px;
   font-family: Plumb;
@@ -200,7 +199,7 @@ button:focus {
   line-height: 1.2;
   letter-spacing: normal;
   text-align: left;
-  color: #201d1e;
+  color: #fff;
 }
 .main_place_for_text_with_button_expert_img{
   background: url("../src/png/text.png");
@@ -304,7 +303,7 @@ button:focus {
 .lift_media{
   position: relative;
   background: #fff;
-  height: 675px;
+  height: 608px;
   width: 100%;
   box-shadow: 0 -10px 10px 0 rgba(0, 0, 0, 0.16);
 }
@@ -1175,7 +1174,7 @@ footer{
 
 @media only screen and (max-width: 440px){
   .main{
-    height: 880px;
+    height: 950px;
   }
   .main_place_for_advertisement{
     height: 400px;
@@ -1200,15 +1199,19 @@ footer{
   }
   .main_place_for_text_with_button{
     top: 30px;
-  }
-  .main_place_for_text_with_button p{
-    padding-top: 0;
-    padding-left: 10%;
-  }
-  .main_place_for_text_with_button_expert_img{
     height: 200px;
   }
-  .main_place_for_text_with_button{
+  .main_place_for_text_with_button_consultation_button{
+    top: 50px;
+    width: 80%;
+    left: 10%;
+  }
+
+  .main_place_for_text_with_button_consultation_button p{
+    padding-top: 0;
+    padding-left: 0;
+  }
+  .main_place_for_text_with_button_expert_img{
     height: 200px;
   }
   
@@ -1225,6 +1228,9 @@ footer{
     padding: 0!important;
     width: 100%!important;
   }
+  .about_company_logo{
+    padding-bottom: 25px;
+  }
   .about_company_logo_img{
     left: 0;
   }
@@ -1232,6 +1238,7 @@ footer{
     font-size: 36px;
     letter-spacing:2px;
   }
+
   .about_company_logo_text span{
     letter-spacing: 10px;
   }
@@ -1277,6 +1284,10 @@ footer{
     background: linear-gradient(316deg, #11998e, #38ef7d);
 
   }
+  .screenmap{
+    height: 825px;
+  }
+
   .first{
     height: 260px;
   }
@@ -1313,7 +1324,7 @@ footer{
     left: 0;
     width: 100%;
     height: 500px;
-    top: 0;
+    top: -75px;
   }
   .screenmap{
     height: 930px;
