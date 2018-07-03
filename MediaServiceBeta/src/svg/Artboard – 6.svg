@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 455 377">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-Artboard_6);
+      }
+
+      .cls-2 {
+        fill: #27c984;
+      }
+    </style>
+    <clipPath id="clip-Artboard_6">
+      <rect width="455" height="377"/>
+    </clipPath>
+  </defs>
+  <g id="Artboard_6" data-name="Artboard – 6" class="cls-1">
+    <g id="Group_260" data-name="Group 260">
+      <g id="office-monthly-calendar" transform="translate(78.962 43.985)">
+        <g id="Group_51" data-name="Group 51" transform="translate(0)">
+          <path id="Path_91" data-name="Path 91" class="cls-2" d="M279.528,45.333h-30a10,10,0,1,0,0,20h20V288.691H22.835V65.335H49.5a10,10,0,1,0,0-20H12.834a10.03,10.03,0,0,0-10,10V298.692a10.03,10.03,0,0,0,10,10H279.528a10.03,10.03,0,0,0,10-10V55.334A10.03,10.03,0,0,0,279.528,45.333Z" transform="translate(-2.833 -18.664)"/>
+          <path id="Path_92" data-name="Path 92" class="cls-2" d="M242.337,45.333H214a10,10,0,0,0,0,20h28.336a10,10,0,0,0,0-20Z" transform="translate(-85.654 -18.664)"/>
+          <path id="Path_93" data-name="Path 93" class="cls-2" d="M121.17,351.333H97.834a10.03,10.03,0,0,0-10,10V378a10.03,10.03,0,0,0,10,10H121.17a10.031,10.031,0,0,0,10-10V361.334A10.03,10.03,0,0,0,121.17,351.333Z" transform="translate(-37.828 -144.645)"/>
+          <path id="Path_94" data-name="Path 94" class="cls-2" d="M241.837,351.333h-25a10.03,10.03,0,0,0-10,10V378a10.031,10.031,0,0,0,10,10h25a10.03,10.03,0,0,0,10-10V361.334A10.03,10.03,0,0,0,241.837,351.333Z" transform="translate(-86.821 -144.645)"/>
+          <path id="Path_95" data-name="Path 95" class="cls-2" d="M131.171,267.834a10.03,10.03,0,0,0-10-10H97.834a10.03,10.03,0,0,0-10,10V284.5a10.03,10.03,0,0,0,10,10H121.17a10.03,10.03,0,0,0,10-10Z" transform="translate(-37.828 -106.151)"/>
+          <path id="Path_96" data-name="Path 96" class="cls-2" d="M251.837,267.834a10.03,10.03,0,0,0-10-10h-25a10.03,10.03,0,0,0-10,10V284.5a10.03,10.03,0,0,0,10,10h25a10.03,10.03,0,0,0,10-10Z" transform="translate(-86.821 -106.151)"/>
+          <path id="Path_97" data-name="Path 97" class="cls-2" d="M362,257.833H338.667a10.03,10.03,0,0,0-10,10V284.5a10.03,10.03,0,0,0,10,10H362a10.03,10.03,0,0,0,10-10V267.834A10.03,10.03,0,0,0,362,257.833Z" transform="translate(-136.98 -106.151)"/>
+          <path id="Path_98" data-name="Path 98" class="cls-2" d="M87.833,171.5v16.668a10.03,10.03,0,0,0,10,10H121.17a10.03,10.03,0,0,0,10-10V171.5a10.03,10.03,0,0,0-10-10H97.834A10.03,10.03,0,0,0,87.833,171.5Z" transform="translate(-37.828 -66.49)"/>
+          <path id="Path_99" data-name="Path 99" class="cls-2" d="M251.837,171.5a10.03,10.03,0,0,0-10-10h-25a10.03,10.03,0,0,0-10,10v16.668a10.03,10.03,0,0,0,10,10h25a10.03,10.03,0,0,0,10-10Z" transform="translate(-86.821 -66.49)"/>
+          <path id="Path_100" data-name="Path 100" class="cls-2" d="M372,171.5a10.03,10.03,0,0,0-10-10H338.667a10.03,10.03,0,0,0-10,10v16.668a10.03,10.03,0,0,0,10,10H362a10.03,10.03,0,0,0,10-10Z" transform="translate(-136.98 -66.49)"/>
+          <path id="Path_101" data-name="Path 101" class="cls-2" d="M141.835,66.673a10.03,10.03,0,0,0,10-10V10a10.03,10.03,0,0,0-10-10h-10a10.03,10.03,0,0,0-10,10V56.672a10.03,10.03,0,0,0,10,10Z" transform="translate(-51.826 0)"/>
+          <path id="Path_102" data-name="Path 102" class="cls-2" d="M337.335,0h-10a10.03,10.03,0,0,0-10,10V56.672a10.03,10.03,0,0,0,10,10h10a10.03,10.03,0,0,0,10-10V10A10.03,10.03,0,0,0,337.335,0Z" transform="translate(-132.314 0)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

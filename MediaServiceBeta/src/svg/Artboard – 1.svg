@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 692 225">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-Artboard_1);
+      }
+
+      .cls-2 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-3 {
+        fill: #fff;
+        font-size: 46px;
+        font-family: Plumb-Bold, Plumb;
+        font-weight: 700;
+      }
+
+      .cls-4 {
+        filter: url(#Rectangle_23);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="1.997" y1="0.408" x2="-0.595" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#11998e"/>
+      <stop offset="1" stop-color="#38ef7d"/>
+    </linearGradient>
+    <filter id="Rectangle_23" x="17.263" y="48.002" width="658.224" height="134.996" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-Artboard_1">
+      <rect width="692" height="225"/>
+    </clipPath>
+  </defs>
+  <g id="Artboard_1" data-name="Artboard – 1" class="cls-1">
+    <g class="cls-4" transform="matrix(1, 0, 0, 1, 0, 0)">
+      <rect id="Rectangle_23-2" data-name="Rectangle 23" class="cls-2" width="628.224" height="104.996" rx="38" transform="translate(32.26 60)"/>
+    </g>
+    <text id="Заказать_консультацию" data-name="Заказать консультацию" class="cls-3" transform="translate(88.261 129.601)"><tspan x="0" y="0">Заказать консультацию</tspan></text>
+  </g>
+</svg>
