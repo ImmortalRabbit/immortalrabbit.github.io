@@ -58,7 +58,10 @@
     font-size: 36px;
     margin-left: 50px;
 }
-
+#mySidenav{
+  width: 250px;
+  right: -250px;
+}
 #main {
     transition: margin-left .5s;
 }
