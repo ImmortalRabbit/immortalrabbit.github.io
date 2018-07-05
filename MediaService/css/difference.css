@@ -1,0 +1,16 @@
+.flip-container:hover .flipper, .flip-container.hover .flipper {
+   transform: rotateY(180deg);
+}
+
+.flip-container:hover .flipper, .flip-container.hover .flipper, .flip-container.flip .flipper {
+  transform: rotateY(180deg);
+}
+
+
+/*asdsada*/
+
+
+.flip-container.hover .flipper {
+  transform: rotateY(180deg);
+}
+

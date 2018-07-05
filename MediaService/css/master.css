@@ -1,3 +1,82 @@
+ svg{
+  width: 40%;
+    height: 100%;
+    position: relative;
+    enable-background: new 0 0 1305 1600;
+    top: -120px
+  }
+  .st0{fill:#fff;stroke:#0D1F31;stroke-width:5;stroke-miterlimit:10;     pointer-events: all;
+}
+  .st1{fill:none;stroke:#0D1F31;stroke-width:5;stroke-miterlimit:10;}
+  .st2{fill:#fff;}
+  .st3{font-family:'CenturyGothic';}
+  .st4{font-size:56px;}
+  .st5{fill:#FFFFFF;}
+  .active{
+    fill:#27C984;stroke:#0D1F31;stroke-width:5;stroke-miterlimit:10;
+  }
+
+  .esil{
+    stroke: white;
+  }
+  #esil{
+    fill:#27C984;
+  }
+
+
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 4;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#main {
+    transition: margin-left .5s;
+}
+
+
+
+@font-face {
+    font-family: CenturyGothic;
+    src: url("../fonts/Century_Gothic.ttf");
+}
+
+
+
+body{
+  font-family: CenturyGothic!important;
+}
+
+
 .fake_header{
   height: 100px!important;
   background-color: #fff;
@@ -7,7 +86,7 @@
   display: none;
 }
 .hidan{
-  display:none;
+  display: none;
 }
 header{
   height: 100px!important;
@@ -48,7 +127,7 @@ header{
   float: left;
 }
 .logo_text{
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 20px;
   font-weight: bold;
   font-style: normal;
@@ -70,7 +149,7 @@ header{
 .navigation_ul li{
   position: relative;
   display: inline-block;
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 16px;
   font-weight: bold;
   font-style: normal;
@@ -94,7 +173,7 @@ button:focus {
 
 .contacts_box{
   position: relative;
-  width: 70%;
+  width: 75%;
   height: 60px;
   margin: 20px 0;
   border-radius: 27px;
@@ -108,7 +187,7 @@ button:focus {
   float: left;
   border-radius: 20px;
   position: relative;
-  left: 5%;
+  left: 2%;
   background-image: linear-gradient(235deg, #11998e, #38ef7d);
 }
 .contacts_box_numbers{
@@ -118,7 +197,7 @@ button:focus {
   left:5%;
 }
 .contacts_box_numbers span{
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 16px;
   font-weight: bold;
   font-style: normal;
@@ -157,10 +236,9 @@ button:focus {
   height: 700px;
 }
 .main_place_for_text_with_button p{
-  opacity: 0.75;
   padding-left: 15%;
   padding-top: 50px;
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 28px;
   font-weight: 500;
   font-style: normal;
@@ -168,7 +246,8 @@ button:focus {
   line-height: 1.2;
   letter-spacing: normal;
   text-align: left;
-  color: #201d1e;
+  opacity: 1!important;
+  color: #fff;
 }
 .main_place_for_text_with_button_expert_img{
   background: url("../src/png/text.png");
@@ -189,6 +268,7 @@ button:focus {
   position: relative;
   height: 50px;
   left:15%;
+  border: 0;
   border-radius: 30px;
   background-image: linear-gradient(347deg, #11998e, #38ef7d);
   box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.16);
@@ -198,7 +278,7 @@ button:focus {
   padding-left: 0;
   padding-right: 0;
   padding-bottom: 0;
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 18px;
   font-weight: bold;
   font-style: normal;
@@ -220,7 +300,7 @@ button:focus {
 .about_company_text{
 }
 .about_company_text p{
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 30px;
   font-weight: 500;
   font-style: normal;
@@ -252,7 +332,7 @@ button:focus {
 .about_company_logo_text{
   position: relative;
   width: 100%;
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 72px;
   font-weight: bold;
   font-style: normal;
@@ -271,14 +351,14 @@ button:focus {
 .lift_media{
   position: relative;
   background: #fff;
-  height: 675px;
+  height: 608px;
   width: 100%;
   box-shadow: 0 -10px 10px 0 rgba(0, 0, 0, 0.16);
 }
 .lift_media_title{
   position: relative;
   top: 70px;
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 44px;
   font-weight: bold;
   font-style: normal;
@@ -299,7 +379,7 @@ button:focus {
   width: 100%;
 }
 .lift_media_col_text{
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 24px;
   font-weight: bold;
   font-style: normal;
@@ -314,9 +394,9 @@ button:focus {
   position: relative;
 }
 .lift_media_col_text_small{
-  font-family: Plumb;
+  font-family: CenturyGothic;
   position: relative;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   font-style: normal;
   font-stretch: normal;
@@ -344,20 +424,18 @@ button:focus {
   float: left;
   height: 200px;
 }  
-}
+
 .flip-container {
   perspective: 1000px;
 }
-  /* flip the pane when hovered */
-  .flip-container:hover .flipper, .flip-container.hover .flipper {
-    transform: rotateY(180deg);
-  }
+.flip-container:hover .flipper, .flip-container.hover .flipper {
+   transform: rotateY(180deg);
+}
 
 .flip-container, .front, .back {
   height: 200px;
 }
 
-/* flip speed goes here */
 .flipper {
   transition: 0.6s;
   transform-style: preserve-3d;
@@ -377,7 +455,7 @@ button:focus {
 /* front pane, placed above back */
 .front {
   z-index: 2;
-  /* for firefox 31 */
+   for firefox 31 
   transform: rotateY(0deg);
 }
 
@@ -390,24 +468,6 @@ button:focus {
 .flip-container:hover .flipper, .flip-container.hover .flipper, .flip-container.flip .flipper {
   transform: rotateY(180deg);
 }
-
-.vertical.flip-container {
-  position: relative;
-}
-
-  .vertical .back {
-    transform: rotateX(180deg);
-  }
-
-  .vertical.flip-container .flipper {
-    transform-origin: 100% 213.5px; /* half of height */
-  }
-
-  .vertical.flip-container:hover .flipper {
-    transform: rotateX(-180deg);
-  }
-
-
 
 .white{
   background-color: #fff;
@@ -426,7 +486,7 @@ button:focus {
   padding-top: 20px;
   width: 100%;
   text-align: center;
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 18px;
   font-weight: 500;
   font-style: normal;
@@ -448,7 +508,7 @@ button:focus {
 }
 .information_title{
   position: relative;
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 48px;
   font-weight: bold;
   font-style: normal;
@@ -492,8 +552,8 @@ button:focus {
   padding-left: 0;
 }
 .screen_properties_text ul li{
-  font-family: Plumb;
-  font-size: 18px;
+  font-family: CenturyGothic;
+  font-size: 16px;
   font-weight: 500;
   font-style: normal;
   font-stretch: normal;
@@ -522,7 +582,7 @@ button:focus {
 .why_they_choose_title{
   position: relative;
   top: 70px;
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 48px;
   font-weight: bold;
   font-style: normal;
@@ -535,8 +595,7 @@ button:focus {
 .why_they_choose_title_small{
   position: relative;
   top:60px;
-  opacity: 0.75;
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 36px;
   font-weight: 500;
   font-style: normal;
@@ -549,7 +608,7 @@ button:focus {
 .why_they_choose_block{
   position: relative;
   top: 80px;
-  height: 250px;
+  height: 300px;
   width: 90%;
   left: 5%;
 }
@@ -609,7 +668,7 @@ button:focus {
     background-repeat: no-repeat; 
 }
 .why_they_choose_block p{
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 24px;
   font-weight: bold;
   font-style: normal;
@@ -656,7 +715,7 @@ button:focus {
 }
 .monitor p{
   position: relative;
-  font-family: Plumb;
+  font-family: CenturyGothic;
   font-size: 36px;
   font-weight: bold;
   font-style: normal;
@@ -708,17 +767,17 @@ button:focus {
   width: 70%;
   float: left;
   height: 40px;
-  font-family: Plumb;
+  font-family: CenturyGothic;
   border: solid 1px #b0bec5;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   font-style: normal;
   font-stretch: normal;
   line-height: 1.11;
   letter-spacing: normal;
   text-align: left;
-  padding-top: 5px;
-  padding-left: 10%;
+  padding-top: 10px;
+  padding-left: 5%;
   color: #0d1f31;
 }
 .screen_monitor_map_info_zhk{
@@ -731,7 +790,7 @@ button:focus {
   box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.16);
 }
 .screen_monitor_map_info_smaller{
-  font-size: 18px!important;
+  font-size: 16px!important;
   padding-bottom: 20px;
 }
 .screen_monitor_map_info hr{
@@ -753,8 +812,8 @@ button:focus {
 }
 .screen_monitor_map_info p{
   position: relative;
-  font-family: Plumb;
-  font-size: 24px;
+  font-family: CenturyGothic;
+  font-size: 20px;
   font-weight: bold;
   font-style: normal;
   font-stretch: normal;
@@ -770,8 +829,8 @@ footer{
   position: relative;
   height: 80px;
   background: #fff;
-  font-family: Plumb;
-  font-size: 24px;
+  font-family: CenturyGothic;
+  font-size: 20px;
   font-weight: bold;
   font-style: normal;
   font-stretch: normal;
@@ -965,7 +1024,7 @@ footer{
   }
   .screenmap_monitor_map{
     width: 55%;
-    margin-left: 2%;
+    margin-left: 0;
     top: 0px;
   }
   .screen_monitor_map_info{
@@ -1009,6 +1068,7 @@ footer{
 }
 
 @media only screen and (max-width: 825px){
+
   .navigation_hamburger{
     display: block;
     float: right;
@@ -1141,8 +1201,48 @@ footer{
 
 
 @media only screen and (max-width: 440px){
-  .main{
-    height: 880px;
+
+.flip-container:hover .flipper {
+   transform: none;
+}
+
+.flip-container:hover .flipper, .flip-container.flip .flipper {
+  transform: none;
+}
+
+.flip-container {
+  perspective: 1000px;
+}
+
+.flip-container.hover .flipper {
+  transform: rotateY(180deg);
+}
+.flip-container,
+.front,
+.back {
+  height: 480px;
+}
+.flipper {
+  transition: 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+.front,
+.back {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.front {
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+.back {
+  transform: rotateY(180deg);
+}
+ .main{
+    height: 950px;
   }
   .main_place_for_advertisement{
     height: 400px;
@@ -1164,20 +1264,30 @@ footer{
   }
   .main_place_for_text_with_button{
     top: 30px;
+    height: 200px;
   }
   .main_place_for_text_with_button p{
+    font-size: 16px;
+  }
+  .main_place_for_text_with_button_consultation_button{
+    top: 0;
+    width: 80%;
+    left: 10%;
+  }
+  .about_company_text p{
+    text-align: center;
+  }
+  .main_place_for_text_with_button_consultation_button p{
     padding-top: 0;
-    padding-left: 10%;
+    padding-left: 0;
   }
   .main_place_for_text_with_button_expert_img{
     height: 200px;
   }
-  .main_place_for_text_with_button{
-    height: 200px;
-  }
-  
   .lift_media_title{
-    font-size: 30px;
+    font-size: 24px;
+    width: 90%;
+    left: 5%;
   }
   .col-xs-8{
     width: 100%!important;
@@ -1189,6 +1299,9 @@ footer{
     padding: 0!important;
     width: 100%!important;
   }
+  .about_company_logo{
+    padding-bottom: 25px;
+  }
   .about_company_logo_img{
     left: 0;
   }
@@ -1196,11 +1309,12 @@ footer{
     font-size: 36px;
     letter-spacing:2px;
   }
+
   .about_company_logo_text span{
     letter-spacing: 10px;
   }
   .about{
-    height: 665px;
+    height: 700px;
   }
   .lift_media_container{
     width: 100%;
@@ -1210,6 +1324,10 @@ footer{
   }
   .information_title{
     font-size: 28px;
+    width: 80%;
+    text-align: center;
+    left: 10%;
+    bottom: 20px;
   }
   .screen{
     height: 440px;
@@ -1225,9 +1343,9 @@ footer{
   }
   .screen_properties{
     height: 200px;
-    top: 20px;
     left: 10%;
     width: 80%;
+    top: 30px;
     margin-bottom: 20px;
   }
   .screen_properties_text ul li{
@@ -1241,23 +1359,40 @@ footer{
     background: linear-gradient(316deg, #11998e, #38ef7d);
 
   }
+  .screenmap{
+    height: 825px;
+  }
+  footer{
+    font-size: 14px;
+    padding-top: 5px;
+    padding-left: 5%;
+  }
   .first{
     height: 260px;
   }
   .second{
-    height: 200px;
+    height: 210px;
   }
   .why_they_choose{
-    height: 2300px;
+    height: 2100px;
+  }
+  .why_they_choose_block{
+    height: 250px;
   }
   .why_they_choose_title{
-    font-size: 24px;
+    font-size: 20px;
   }
   .why_they_choose_title_small{
-    font-size: 18px;
+    font-size: 16px;
   }
   .monitor{
     background: none;
+  }
+  .why_they_choose_block p{
+    font-size: 16px;
+  }
+  .why_they_choose_block_under_img_small_text{
+    font-size: 12px!important;
   }
   .screen_monitor_map_info{
     width: 80%;
@@ -1277,12 +1412,12 @@ footer{
     left: 0;
     width: 100%;
     height: 500px;
-    top: 0;
+    top: -75px;
   }
   .screenmap{
     height: 930px;
   }
-  footer{
-
+  .logo_text{
+    left: 15%;
   }
 }
