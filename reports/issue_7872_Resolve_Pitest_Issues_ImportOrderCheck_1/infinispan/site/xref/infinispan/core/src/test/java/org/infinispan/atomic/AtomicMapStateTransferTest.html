@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>AtomicMapStateTransferTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../apidocs/org/infinispan/atomic/AtomicMapStateTransferTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> org.infinispan.atomic;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.infinispan.Cache;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.infinispan.configuration.cache.CacheMode;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.infinispan.configuration.cache.ConfigurationBuilder;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.infinispan.distribution.MagicKey;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.infinispan.manager.EmbeddedCacheManager;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.infinispan.remoting.rpc.RpcManager;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.infinispan.statetransfer.StateResponseCommand;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.infinispan.test.MultipleCacheManagersTest;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> org.infinispan.test.TestingUtil;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.infinispan.transaction.TransactionMode;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> org.infinispan.tx.dld.ControlledRpcManager;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> java.util.Arrays;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> java.util.HashSet;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> java.util.concurrent.Callable;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.concurrent.ExecutionException;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.util.concurrent.Future;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.AssertJUnit.assertEquals;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <em class="jxr_javadoccomment"> * Test modifications to an AtomicMap during state transfer are consistent.</em>
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment"> * @author Dan Berindei</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment"> * @since 7.0</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  @Test(groups = <span class="jxr_string">"functional"</span>, testName = <span class="jxr_string">"atomic.AtomicMapStateTransferTest"</span>)
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/infinispan/atomic/AtomicMapStateTransferTest.html">AtomicMapStateTransferTest</a> <strong class="jxr_keyword">extends</strong> <a href="../../../org/infinispan/test/MultipleCacheManagersTest.html">MultipleCacheManagersTest</a> {
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> createCacheManagers() <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>        <a href="../../../org/infinispan/configuration/cache/ConfigurationBuilder.html">ConfigurationBuilder</a> c = getConfigurationBuilder();
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>        createClusteredCaches(1, <span class="jxr_string">"atomic"</span>, c);
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>     }
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>     <strong class="jxr_keyword">private</strong> <a href="../../../org/infinispan/configuration/cache/ConfigurationBuilder.html">ConfigurationBuilder</a> getConfigurationBuilder() {
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>        <a href="../../../org/infinispan/configuration/cache/ConfigurationBuilder.html">ConfigurationBuilder</a> c = <strong class="jxr_keyword">new</strong> <a href="../../../org/infinispan/configuration/cache/ConfigurationBuilder.html">ConfigurationBuilder</a>();
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>        c.clustering().cacheMode(CacheMode.DIST_SYNC);
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>        c.transaction().transactionMode(TransactionMode.TRANSACTIONAL);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>        <strong class="jxr_keyword">return</strong> c;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>     }
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testAtomicMapPutDuringJoin() <strong class="jxr_keyword">throws</strong> ExecutionException, InterruptedException {
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>        <a href="../../../org/infinispan/Cache.html">Cache</a> cache = cache(0, <span class="jxr_string">"atomic"</span>);
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>        <a href="../../../org/infinispan/tx/dld/ControlledRpcManager.html">ControlledRpcManager</a> crm = <strong class="jxr_keyword">new</strong> <a href="../../../org/infinispan/tx/dld/ControlledRpcManager.html">ControlledRpcManager</a>(cache.getAdvancedCache().getRpcManager());
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>        TestingUtil.replaceComponent(cache, RpcManager.<strong class="jxr_keyword">class</strong>, crm, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>        <a href="../../../org/infinispan/distribution/MagicKey.html">MagicKey</a> atomicMapKey = <strong class="jxr_keyword">new</strong> <a href="../../../org/infinispan/distribution/MagicKey.html">MagicKey</a>(<span class="jxr_string">"atomicMapKey"</span>, cache);
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>        <a href="../../../org/infinispan/atomic/AtomicMap.html">AtomicMap</a> atomicMap = AtomicMapLookup.getAtomicMap(cache, atomicMapKey);
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>        atomicMap.put(<span class="jxr_string">"key1"</span>, <span class="jxr_string">"value1"</span>);
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>        crm.blockBefore(StateResponseCommand.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>        <a href="../../../org/infinispan/configuration/cache/ConfigurationBuilder.html">ConfigurationBuilder</a> c = getConfigurationBuilder();
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>        <strong class="jxr_keyword">final</strong> <a href="../../../org/infinispan/manager/EmbeddedCacheManager.html">EmbeddedCacheManager</a> joiner = addClusterEnabledCacheManager(c);
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>        Future&lt;Cache&gt; future = fork(<strong class="jxr_keyword">new</strong> Callable&lt;Cache&gt;() {
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>           @Override
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>           <strong class="jxr_keyword">public</strong> <a href="../../../org/infinispan/Cache.html">Cache</a> call() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>              <strong class="jxr_keyword">return</strong> joiner.getCache(<span class="jxr_string">"atomic"</span>);
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>           }
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>        });
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>        crm.waitForCommandToBlock();
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>        <em class="jxr_comment">// Now we know state transfer will try to create an AtomicMap(key1=value1) on cache2</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>        <em class="jxr_comment">// Insert another key in the atomic map, and check that cache2 has both keys after the state transfer</em>
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>        atomicMap.put(<span class="jxr_string">"key2"</span>, <span class="jxr_string">"value2"</span>);
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>        crm.stopBlocking();
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>        <a href="../../../org/infinispan/Cache.html">Cache</a> cache2 = future.get();
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>        <a href="../../../org/infinispan/atomic/AtomicMap.html">AtomicMap</a> atomicMap2 = AtomicMapLookup.getAtomicMap(cache2, atomicMapKey);
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>        assertEquals(<strong class="jxr_keyword">new</strong> HashSet&lt;String&gt;(Arrays.asList(<span class="jxr_string">"key1"</span>, <span class="jxr_string">"key2"</span>)), atomicMap2.keySet());
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>     }
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

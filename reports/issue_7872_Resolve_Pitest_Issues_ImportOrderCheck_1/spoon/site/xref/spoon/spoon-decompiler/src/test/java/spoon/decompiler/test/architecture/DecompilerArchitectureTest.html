@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>DecompilerArchitectureTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../../apidocs/spoon/test/architecture/DecompilerArchitectureTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> spoon.test.architecture;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.StringUtils;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.junit.Test;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> spoon.Launcher;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> spoon.SpoonAPI;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> spoon.processing.AbstractProcessor;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtCodeElement;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtConstructorCall;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtClass;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtConstructor;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtMethod;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtPackage;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtType;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.ModifierKind;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.reference.CtTypeReference;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.visitor.filter.AbstractFilter;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.visitor.filter.TypeFilter;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.util.ArrayList;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> java.util.HashSet;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> java.util.Set;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> java.util.TreeSet;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertEquals;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertTrue;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.fail;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../spoon/test/architecture/DecompilerArchitectureTest.html">DecompilerArchitectureTest</a> {
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  	<em class="jxr_comment">// this test contains all the architectural rules that are valid for</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  	<em class="jxr_comment">// the whole src/main/java of spoon-decompiler</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  	<em class="jxr_comment">// we put them in the same test in order to only build the full model once</em>
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  	<em class="jxr_comment">// Similar to ArchitectureTest of spoon-core</em>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  	@Test
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSrcMainJava() {
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  		Launcher spoon = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  		spoon.getEnvironment().setCommentEnabled(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  		spoon.addInputResource(<span class="jxr_string">"src/main/java/"</span>);
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  		<em class="jxr_comment">// contract: all non-trivial public methods should be documented with proper API Javadoc</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  		spoon.buildModel();
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  		List&lt;String&gt; notDocumented = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  		<strong class="jxr_keyword">for</strong> (CtMethod method : spoon.getModel().getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtMethod.<strong class="jxr_keyword">class</strong>))) {
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  			<em class="jxr_comment">// now we see whether this should be documented</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  			<strong class="jxr_keyword">if</strong> (method.hasModifier(ModifierKind.PUBLIC) <em class="jxr_comment">// public methods should be documented</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  					&amp;&amp; !method.getSimpleName().startsWith(<span class="jxr_string">"get"</span>) <em class="jxr_comment">// all kinds of setters can be undocumented</em>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  					&amp;&amp; !method.getSimpleName().startsWith(<span class="jxr_string">"set"</span>)
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  					&amp;&amp; !method.getSimpleName().startsWith(<span class="jxr_string">"is"</span>)
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  					&amp;&amp; !method.getSimpleName().startsWith(<span class="jxr_string">"add"</span>)
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  					&amp;&amp; !method.getSimpleName().startsWith(<span class="jxr_string">"remove"</span>)
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  					&amp;&amp; method.getTopDefinitions().isEmpty() <em class="jxr_comment">// only the top declarations should be documented (not the overriding methods which are lower in the hierarchy)</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  					&amp;&amp; (
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  					method.hasModifier(ModifierKind.ABSTRACT) <em class="jxr_comment">// all interface methods and abstract class methods must be documented</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  							<em class="jxr_comment">// GOOD FIRST ISSUE</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  							<em class="jxr_comment">// ideally we want that **all** public methods are documented</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  							<em class="jxr_comment">// so far, we have this arbitrary limit in the condition below (35)</em>
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  							<em class="jxr_comment">// because it's a huge task to document everything at once</em>
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  							<em class="jxr_comment">// so to contribute to Spoon, what you can do is</em>
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  							<em class="jxr_comment">// 1) you lower the threshold (eg 33)</em>
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  							<em class="jxr_comment">// 2) you run test `documentedTest`, it will output a list on undocumented methods</em>
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  							<em class="jxr_comment">// 3) you document those methods</em>
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  							<em class="jxr_comment">// 4) you run the test again to check that it passes</em>
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  							<em class="jxr_comment">// 4) you commit your changes and create the corresponding pull requests</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  							|| method.filterChildren(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtCodeElement.<strong class="jxr_keyword">class</strong>)).list().size() &gt; 35  <em class="jxr_comment">// means that only large methods must be documented</em>
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  			)) {
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  				<em class="jxr_comment">// OK it should be properly documented</em>
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  				<em class="jxr_comment">// is it really well documented?</em>
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  				<strong class="jxr_keyword">if</strong> (method.getDocComment().length() &lt;= 15) { <em class="jxr_comment">// the Javadoc must be at least at least 15 characters (still pretty short...)</em>
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  					notDocumented.add(method.getParent(CtType.<strong class="jxr_keyword">class</strong>).getQualifiedName() + <span class="jxr_string">"#"</span> + method.getSignature());
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  				}
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  			}
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  		}
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  		<strong class="jxr_keyword">if</strong> (!notDocumented.isEmpty()) {
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  			fail(notDocumented.size() + <span class="jxr_string">" public methods should be documented with proper API documentation: \n"</span> + StringUtils.join(notDocumented, <span class="jxr_string">"\n"</span>));
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  		}
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>  
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  		<em class="jxr_comment">// contract: Spoon's code never uses TreeSet constructor, because they implicitly depend on Comparable (no static check, only dynamic checks)</em>
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  		List&lt;CtConstructorCall&gt; treeSetWithoutComparators = spoon.getFactory().Package().getRootPackage().filterChildren(<strong class="jxr_keyword">new</strong> AbstractFilter&lt;CtConstructorCall&gt;() {
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  			@Override
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  			<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> matches(<a href="../../../spoon/reflect/code/CtConstructorCall.html">CtConstructorCall</a> element) {
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  				<strong class="jxr_keyword">return</strong> element.getType().getActualClass().equals(TreeSet.<strong class="jxr_keyword">class</strong>) &amp;&amp; element.getArguments().isEmpty();
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  			}
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  		}).list();
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>  
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  		assertEquals(0, treeSetWithoutComparators.size());
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  	}
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>  	@Test
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testGoodTestClassNames() {
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  		<em class="jxr_comment">// contract: to be run by Maven surefire, all test classes must be called Test* or *Test</em>
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  		<em class="jxr_comment">// reference: "By default, the Surefire Plugin will automatically include all test classes with the following wildcard patterns:"</em>
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  		<em class="jxr_comment">// "**/Test*.java" and "**/*Test.java"</em>
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  		<em class="jxr_comment">// http://maven.apache.org/surefire/maven-surefire-plugin/examples/inclusion-exclusion.html</em>
+<a class="jxr_linenumber" name="L100" href="#L100">100</a> 		SpoonAPI spoon = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L101" href="#L101">101</a> 		spoon.addInputResource(<span class="jxr_string">"src/test/java/"</span>);
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> 		spoon.buildModel();
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> 
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> 		<strong class="jxr_keyword">for</strong> (CtMethod&lt;?&gt; meth : spoon.getModel().getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;CtMethod&gt;(CtMethod.<strong class="jxr_keyword">class</strong>) {
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> 			@Override
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 			<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> matches(<a href="../../../spoon/reflect/declaration/CtMethod.html">CtMethod</a> element) {
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 				<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">super</strong>.matches(element) &amp;&amp; element.getAnnotation(Test.<strong class="jxr_keyword">class</strong>) != <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> 			}
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> 		})) {
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> 			assertTrue(<span class="jxr_string">"naming contract violated for "</span> + meth.getParent(CtClass.<strong class="jxr_keyword">class</strong>).getSimpleName(), meth.getParent(CtClass.<strong class="jxr_keyword">class</strong>).getSimpleName().startsWith(<span class="jxr_string">"Test"</span>) || meth.getParent(CtClass.<strong class="jxr_keyword">class</strong>).getSimpleName().endsWith(<span class="jxr_string">"Test"</span>));
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 		}
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> 		<em class="jxr_comment">// contract: the Spoon test suite does not depend on Junit 3 classes and methods</em>
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 		<em class="jxr_comment">// otherwise, intellij automatically selects the junit3 runner, finds nothing</em>
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 		<em class="jxr_comment">// and crashes with a dirty exception</em>
+<a class="jxr_linenumber" name="L116" href="#L116">116</a> 		assertEquals(0, spoon.getModel().getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;CtTypeReference&gt;(CtTypeReference.<strong class="jxr_keyword">class</strong>) {
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> 			@Override
+<a class="jxr_linenumber" name="L118" href="#L118">118</a> 			<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> matches(<a href="../../../spoon/reflect/reference/CtTypeReference.html">CtTypeReference</a> element) {
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> 				CtMethod parent = element.getParent(CtMethod.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> 				<strong class="jxr_keyword">return</strong> <span class="jxr_string">"junit.framework.TestCase"</span>.equals(element.getQualifiedName());
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> 			}
+<a class="jxr_linenumber" name="L122" href="#L122">122</a> 		}).size());
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> 	}
+<a class="jxr_linenumber" name="L124" href="#L124">124</a> 
+<a class="jxr_linenumber" name="L125" href="#L125">125</a> 	@Test
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testStaticClasses() {
+<a class="jxr_linenumber" name="L127" href="#L127">127</a> 		<em class="jxr_comment">// contract: helper classes only have static methods and a private constructor</em>
+<a class="jxr_linenumber" name="L128" href="#L128">128</a> 
+<a class="jxr_linenumber" name="L129" href="#L129">129</a> 		SpoonAPI spoon = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L130" href="#L130">130</a> 		spoon.addInputResource(<span class="jxr_string">"src/main/java/"</span>);
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> 		spoon.buildModel();
+<a class="jxr_linenumber" name="L132" href="#L132">132</a> 
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> 		<strong class="jxr_keyword">for</strong> (CtClass&lt;?&gt; klass : spoon.getModel().getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;CtClass&gt;(CtClass.<strong class="jxr_keyword">class</strong>) {
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> 			@Override
+<a class="jxr_linenumber" name="L135" href="#L135">135</a> 			<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> matches(<a href="../../../spoon/reflect/declaration/CtClass.html">CtClass</a> element) {
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> 				<strong class="jxr_keyword">return</strong> element.getSuperclass() == <strong class="jxr_keyword">null</strong> &amp;&amp; <strong class="jxr_keyword">super</strong>.matches(element) &amp;&amp; !element.getMethods().isEmpty()
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 						&amp;&amp; element.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtMethod.<strong class="jxr_keyword">class</strong>)).stream().allMatch(x -&gt; x.hasModifier(ModifierKind.STATIC));
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> 			}
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> 		})) {
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> 			assertTrue(<span class="jxr_string">"Utility class "</span> + klass.getQualifiedName() + <span class="jxr_string">" is missing private constructor"</span>, klass.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtConstructor.<strong class="jxr_keyword">class</strong>)).stream().allMatch(x -&gt; x.hasModifier(ModifierKind.PRIVATE)));
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> 		}
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> 	}
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> 
+<a class="jxr_linenumber" name="L144" href="#L144">144</a> 	@Test
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSpecPackage() {
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> 		<em class="jxr_comment">// contract: when a pull-request introduces a new package, it is made explicit during code review</em>
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> 		<em class="jxr_comment">// when a pull-request introduces a new package, this test fails and the author has to explicitly declare the new package here</em>
+<a class="jxr_linenumber" name="L148" href="#L148">148</a> 
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> 		Set&lt;String&gt; officialPackages = <strong class="jxr_keyword">new</strong> TreeSet&lt;&gt;();
+<a class="jxr_linenumber" name="L150" href="#L150">150</a> 		officialPackages.add(<span class="jxr_string">"spoon.decompiler"</span>);
+<a class="jxr_linenumber" name="L151" href="#L151">151</a> 		officialPackages.add(<span class="jxr_string">"spoon"</span>);
+<a class="jxr_linenumber" name="L152" href="#L152">152</a> 		officialPackages.add(<span class="jxr_string">""</span>); <em class="jxr_comment">// root package</em>
+<a class="jxr_linenumber" name="L153" href="#L153">153</a> 
+<a class="jxr_linenumber" name="L154" href="#L154">154</a> 		SpoonAPI spoon = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L155" href="#L155">155</a> 		spoon.addInputResource(<span class="jxr_string">"src/main/java/"</span>);
+<a class="jxr_linenumber" name="L156" href="#L156">156</a> 		spoon.buildModel();
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> 		<strong class="jxr_keyword">final</strong> Set&lt;String&gt; currentPackages = <strong class="jxr_keyword">new</strong> TreeSet&lt;&gt;();
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 		spoon.getModel().processWith(<strong class="jxr_keyword">new</strong> AbstractProcessor&lt;CtPackage&gt;() {
+<a class="jxr_linenumber" name="L159" href="#L159">159</a> 			@Override
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> 			<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> process(<a href="../../../spoon/reflect/declaration/CtPackage.html">CtPackage</a> element) {
+<a class="jxr_linenumber" name="L161" href="#L161">161</a> 				currentPackages.add(element.getQualifiedName());
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> 			}
+<a class="jxr_linenumber" name="L163" href="#L163">163</a> 		});
+<a class="jxr_linenumber" name="L164" href="#L164">164</a> 
+<a class="jxr_linenumber" name="L165" href="#L165">165</a> 		assertSetEquals(<span class="jxr_string">"you have created a new package or removed an existing one, please declare it explicitly in SpoonArchitectureEnforcerTest#testSpecPackage"</span>, officialPackages, currentPackages);
+<a class="jxr_linenumber" name="L166" href="#L166">166</a> 	}
+<a class="jxr_linenumber" name="L167" href="#L167">167</a> 
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> assertSetEquals(String msg, Set&lt;?&gt; set1, Set&lt;?&gt; set2) {
+<a class="jxr_linenumber" name="L169" href="#L169">169</a> 		<strong class="jxr_keyword">if</strong> (set1 == <strong class="jxr_keyword">null</strong> || set2 == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException();
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> 		}
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> 
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> 		<strong class="jxr_keyword">if</strong> (set1.size() != set2.size()) {
+<a class="jxr_linenumber" name="L174" href="#L174">174</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> AssertionError(msg + <span class="jxr_string">"\n\nDetails: "</span> + computeDifference(set1, set2));
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> 		}
+<a class="jxr_linenumber" name="L176" href="#L176">176</a> 
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> 		<strong class="jxr_keyword">if</strong> (!set1.containsAll(set2)) {
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> AssertionError(msg + <span class="jxr_string">"\n\nDetails: "</span> + computeDifference(set1, set2));
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> 		}
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> 	}
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> 
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> String computeDifference(Set&lt;?&gt; set1, Set&lt;?&gt; set2) {
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> 		Set&lt;String&gt; results = <strong class="jxr_keyword">new</strong> HashSet&lt;&gt;();
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> 
+<a class="jxr_linenumber" name="L185" href="#L185">185</a> 		<strong class="jxr_keyword">for</strong> (Object o : set1) {
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> 			<strong class="jxr_keyword">if</strong> (!set2.contains(o)) {
+<a class="jxr_linenumber" name="L187" href="#L187">187</a> 				results.add(<span class="jxr_string">"Missing package "</span> + o + <span class="jxr_string">" in computed set"</span>);
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> 			} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L189" href="#L189">189</a> 				set2.remove(o);
+<a class="jxr_linenumber" name="L190" href="#L190">190</a> 			}
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> 		}
+<a class="jxr_linenumber" name="L192" href="#L192">192</a> 
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> 		<strong class="jxr_keyword">for</strong> (Object o : set2) {
+<a class="jxr_linenumber" name="L194" href="#L194">194</a> 			results.add(<span class="jxr_string">"Package "</span> + o + <span class="jxr_string">" presents in computed but not expected set."</span>);
+<a class="jxr_linenumber" name="L195" href="#L195">195</a> 		}
+<a class="jxr_linenumber" name="L196" href="#L196">196</a> 		<strong class="jxr_keyword">return</strong> StringUtils.join(results, <span class="jxr_string">"\n"</span>);
+<a class="jxr_linenumber" name="L197" href="#L197">197</a> 	}
+<a class="jxr_linenumber" name="L198" href="#L198">198</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

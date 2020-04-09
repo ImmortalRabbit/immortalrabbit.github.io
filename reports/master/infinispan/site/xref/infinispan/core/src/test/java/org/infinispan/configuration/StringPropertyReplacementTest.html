@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>StringPropertyReplacementTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../apidocs/org/infinispan/configuration/StringPropertyReplacementTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> org.infinispan.configuration;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.infinispan.commons.executors.BlockingThreadPoolExecutorFactory;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.infinispan.manager.EmbeddedCacheManager;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.infinispan.test.SingleCacheManagerTest;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.infinispan.test.fwk.TestCacheManagerFactory;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.infinispan.util.concurrent.IsolationLevel;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> java.util.Properties;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.AssertJUnit.assertEquals;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> * /**</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> * Tests that string property replacement works properly when parsing</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> * a config file.</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment"> * @author Mircea.Markus@jboss.com</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  @Test (groups = <span class="jxr_string">"functional"</span>, testName = <span class="jxr_string">"config.StringPropertyReplacementTest"</span>)
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/infinispan/configuration/StringPropertyReplacementTest.html">StringPropertyReplacementTest</a> <strong class="jxr_keyword">extends</strong> <a href="../../../org/infinispan/test/SingleCacheManagerTest.html">SingleCacheManagerTest</a> {
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>     @Override
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>     <strong class="jxr_keyword">protected</strong> <a href="../../../org/infinispan/manager/EmbeddedCacheManager.html">EmbeddedCacheManager</a> createCacheManager() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>        System.setProperty(<span class="jxr_string">"test.property.asyncListenerMaxThreads"</span>,<span class="jxr_string">"2"</span>);
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>        System.setProperty(<span class="jxr_string">"test.property.persistenceMaxThreads"</span>,<span class="jxr_string">"4"</span>);
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>        System.setProperty(<span class="jxr_string">"test.property.IsolationLevel"</span>,<span class="jxr_string">"READ_COMMITTED"</span>);
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>        System.setProperty(<span class="jxr_string">"test.property.writeSkewCheck"</span>,<span class="jxr_string">"true"</span>);
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>        System.setProperty(<span class="jxr_string">"test.property.SyncCommitPhase"</span>,<span class="jxr_string">"true"</span>);
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>        <strong class="jxr_keyword">return</strong> TestCacheManagerFactory.fromXml(<span class="jxr_string">"configs/string-property-replaced.xml"</span>);
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>     }
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testGlobalConfig() {
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>        <a href="../../../org/infinispan/commons/executors/BlockingThreadPoolExecutorFactory.html">BlockingThreadPoolExecutorFactory</a> listenerThreadPool =
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>              cacheManager.getCacheManagerConfiguration().listenerThreadPool().threadPoolFactory();
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>        assertEquals(2, listenerThreadPool.maxThreads());
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>        <a href="../../../org/infinispan/commons/executors/BlockingThreadPoolExecutorFactory.html">BlockingThreadPoolExecutorFactory</a> persistenceThreadPool =
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>              cacheManager.getCacheManagerConfiguration().persistenceThreadPool().threadPoolFactory();
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>        assertEquals(4, persistenceThreadPool.maxThreads());
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>        Properties transportProps = cacheManager.getCacheManagerConfiguration().transport().properties();
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>        <em class="jxr_comment">// Should be "jgroups-tcp.xml", but gets overriden by test cache manager factory</em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>        assert transportProps.get(<span class="jxr_string">"configurationFile"</span>) == <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>     }
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testDefaultCache() {
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>        org.infinispan.configuration.cache.Configuration configuration = cacheManager.getCache().getCacheConfiguration();
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>        assert configuration.locking().isolationLevel().equals(IsolationLevel.READ_COMMITTED);
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>        assert !configuration.locking().writeSkewCheck();
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>        assert configuration.transaction().syncCommitPhase();
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>     }
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  }
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

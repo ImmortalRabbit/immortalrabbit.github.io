@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>BaseReIndexingTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../../apidocs/org/infinispan/query/statetransfer/BaseReIndexingTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> org.infinispan.query.statetransfer;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.apache.lucene.queryparser.classic.ParseException;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.infinispan.Cache;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.infinispan.configuration.cache.CacheMode;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.infinispan.configuration.cache.ConfigurationBuilder;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.infinispan.configuration.cache.Index;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.infinispan.manager.EmbeddedCacheManager;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.infinispan.query.CacheQuery;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.infinispan.query.test.Person;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> org.infinispan.statetransfer.JoiningNode;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.infinispan.test.CacheManagerCallable;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> org.infinispan.test.MultipleCacheManagersTest;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> org.infinispan.test.fwk.TransportFlags;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.infinispan.query.helper.TestQueryHelperFactory.createCacheQuery;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.infinispan.test.TestingUtil.withCacheManager;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.AssertJUnit.assertEquals;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment"> * Base class for state transfer and query related tests</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <em class="jxr_javadoccomment"> * @author Galder Zamarreño</em>
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment"> * @since 5.2</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/infinispan/query/statetransfer/BaseReIndexingTest.html">BaseReIndexingTest</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../org/infinispan/test/MultipleCacheManagersTest.html">MultipleCacheManagersTest</a> {
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>     <strong class="jxr_keyword">protected</strong> <a href="../../../../org/infinispan/query/test/Person.html">Person</a>[] persons;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>     <strong class="jxr_keyword">protected</strong> <a href="../../../../org/infinispan/configuration/cache/ConfigurationBuilder.html">ConfigurationBuilder</a> builder;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>     <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> configureCache(<a href="../../../../org/infinispan/configuration/cache/ConfigurationBuilder.html">ConfigurationBuilder</a> builder);
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>     @Override
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> createCacheManagers() <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>        builder = getDefaultClusteredCacheConfig(CacheMode.REPL_SYNC, false);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>        builder.indexing().index(Index.ALL)
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>              .addProperty(<span class="jxr_string">"default.directory_provider"</span>, <span class="jxr_string">"ram"</span>)
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>              .addProperty(<span class="jxr_string">"lucene_version"</span>, <span class="jxr_string">"LUCENE_CURRENT"</span>);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>        configureCache(builder);
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>        createClusteredCaches(2, builder);
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>     }
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../org/infinispan/manager/EmbeddedCacheManager.html">EmbeddedCacheManager</a> createCacheManager() {
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>        <strong class="jxr_keyword">return</strong> addClusterEnabledCacheManager(
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>              builder, <strong class="jxr_keyword">new</strong> <a href="../../../../org/infinispan/test/fwk/TransportFlags.html">TransportFlags</a>().withMerge(<strong class="jxr_keyword">true</strong>));
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>     }
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> executeSimpleQuery(Cache&lt;String, Person&gt; cache) <strong class="jxr_keyword">throws</strong> ParseException {
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>        <a href="../../../../org/infinispan/query/CacheQuery.html">CacheQuery</a> cacheQuery = createCacheQuery(cache, <span class="jxr_string">"blurb"</span>, <span class="jxr_string">"playing"</span>);
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>        List&lt;Object&gt; found = cacheQuery.list();
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>        <strong class="jxr_keyword">int</strong> elems = found.size();
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>        assertEquals(1, elems);
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>        Object val = found.get(0);
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>        <a href="../../../../org/infinispan/query/test/Person.html">Person</a> expectedPerson = persons[0];
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>        assertEquals(expectedPerson, val);
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>     }
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> loadCacheEntries(Cache&lt;String, Person&gt; cache) {
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>        <a href="../../../../org/infinispan/query/test/Person.html">Person</a> person1 = <strong class="jxr_keyword">new</strong> <a href="../../../../org/infinispan/query/test/Person.html">Person</a>();
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>        person1.setName(<span class="jxr_string">"NavinSurtani"</span>);
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>        person1.setBlurb(<span class="jxr_string">"Likes playing WoW"</span>);
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>        person1.setAge(45);
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>        <a href="../../../../org/infinispan/query/test/Person.html">Person</a> person2 = <strong class="jxr_keyword">new</strong> <a href="../../../../org/infinispan/query/test/Person.html">Person</a>();
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>        person2.setName(<span class="jxr_string">"BigGoat"</span>);
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>        person2.setBlurb(<span class="jxr_string">"Eats grass"</span>);
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>        person2.setAge(30);
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>        <a href="../../../../org/infinispan/query/test/Person.html">Person</a> person3 = <strong class="jxr_keyword">new</strong> <a href="../../../../org/infinispan/query/test/Person.html">Person</a>();
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>        person3.setName(<span class="jxr_string">"MiniGoat"</span>);
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>        person3.setBlurb(<span class="jxr_string">"Eats cheese"</span>);
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>        person3.setAge(35);
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>        <a href="../../../../org/infinispan/query/test/Person.html">Person</a> person4 = <strong class="jxr_keyword">new</strong> <a href="../../../../org/infinispan/query/test/Person.html">Person</a>();
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>        person4.setName(<span class="jxr_string">"MightyGoat"</span>);
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>        person4.setBlurb(<span class="jxr_string">"Also eats grass"</span>);
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>        person4.setAge(66);
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>        persons = <strong class="jxr_keyword">new</strong> <a href="../../../../org/infinispan/query/test/Person.html">Person</a>[]{person1, person2, person3, person4};
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>        <em class="jxr_comment">// Put the 3 created objects in the cache</em>
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>        cache.put(person1.getName(), person1);
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>        cache.put(person2.getName(), person2);
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>        cache.put(person3.getName(), person3);
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>        cache.put(person4.getName(), person4);
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>     }
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> addNodeCheckingContentsAndQuery() {
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>        withCacheManager(<strong class="jxr_keyword">new</strong> <a href="../../../../org/infinispan/test/CacheManagerCallable.html">CacheManagerCallable</a>(createCacheManager()) {
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>           @Override
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>           <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> call() {
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>              <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>                 <em class="jxr_comment">// New node joining</em>
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>                 <a href="../../../../org/infinispan/statetransfer/JoiningNode.html">JoiningNode</a> newNode = <strong class="jxr_keyword">new</strong> <a href="../../../../org/infinispan/statetransfer/JoiningNode.html">JoiningNode</a>(cm);
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>                Cache&lt;String, Person&gt; newCache = newNode.getCache();
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>                newNode.waitForJoin(120000, caches().get(0), caches().get(1), newCache);
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> 
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>                <em class="jxr_comment">// Verify state transfer</em>
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>                <strong class="jxr_keyword">int</strong> size = newCache.size();
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>                assertEquals(4, size);
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>                <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; size; i++)
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>                   assertEquals(persons[i], newCache.get(persons[i].getName()));
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> 
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>                <em class="jxr_comment">// Repeat query on new node</em>
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>                executeSimpleQuery(newCache);
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>             } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>                <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> RuntimeException(e);
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>             }
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>          }
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>       });
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>    }
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> 
+<a class="jxr_linenumber" name="L118" href="#L118">118</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

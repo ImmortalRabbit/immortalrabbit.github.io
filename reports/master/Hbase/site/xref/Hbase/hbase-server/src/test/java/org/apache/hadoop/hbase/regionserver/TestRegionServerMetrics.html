@@ -1,0 +1,453 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>TestRegionServerMetrics xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../../../apidocs/org/apache/hadoop/hbase/regionserver/TestRegionServerMetrics.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Licensed to the Apache Software Foundation (ASF) under one</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * or more contributor license agreements.  See the NOTICE file</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> * distributed with this work for additional information</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * regarding copyright ownership.  The ASF licenses this file</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_javadoccomment"> * to you under the Apache License, Version 2.0 (the</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_javadoccomment"> * "License"); you may not use this file except in compliance</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_javadoccomment"> * with the License.  You may obtain a copy of the License at</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> *     <a href="http://www.apache.org/licenses/LICENSE-2." target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.</a>0</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> * Unless required by applicable law or agreed to in writing, software</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> * See the License for the specific language governing permissions and</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> * limitations under the License.</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.hadoop.hbase.regionserver;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.conf.Configuration;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.*;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.*;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.test.MetricsAssertHelper;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.testclassification.MediumTests;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.util.Bytes;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.util.Threads;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.apache.log4j.Level;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> org.apache.log4j.Logger;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> org.junit.AfterClass;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> org.junit.BeforeClass;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> org.junit.Test;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> org.junit.experimental.categories.Category;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.*;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> java.util.ArrayList;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  @Category(MediumTests.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../org/apache/hadoop/hbase/regionserver/TestRegionServerMetrics.html">TestRegionServerMetrics</a> {
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../org/apache/hadoop/hbase/test/MetricsAssertHelper.html">MetricsAssertHelper</a> metricsHelper;
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>    <strong class="jxr_keyword">static</strong> {
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>      Logger.getLogger(<span class="jxr_string">"org.apache.hadoop.hbase"</span>).setLevel(Level.DEBUG);
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>    }
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../org/apache/hadoop/hbase/MiniHBaseCluster.html">MiniHBaseCluster</a> cluster;
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../org/apache/hadoop/hbase/regionserver/HRegionServer.html">HRegionServer</a> rs;
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Configuration conf;
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../org/apache/hadoop/hbase/HBaseTestingUtility.html">HBaseTestingUtility</a> TEST_UTIL;
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../org/apache/hadoop/hbase/regionserver/MetricsRegionServer.html">MetricsRegionServer</a> metricsRegionServer;
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../org/apache/hadoop/hbase/regionserver/MetricsRegionServerSource.html">MetricsRegionServerSource</a> serverSource;
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> NUM_SCAN_NEXT = 30;
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">int</strong> numScanNext = 0;
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>    @BeforeClass
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> startCluster() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>      metricsHelper = CompatibilityFactory.getInstance(MetricsAssertHelper.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>      TEST_UTIL = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/HBaseTestingUtility.html">HBaseTestingUtility</a>();
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>      conf = TEST_UTIL.getConfiguration();
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>      conf.getLong(<span class="jxr_string">"hbase.splitlog.max.resubmit"</span>, 0);
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>      <em class="jxr_comment">// Make the failure test faster</em>
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>      conf.setInt(<span class="jxr_string">"zookeeper.recovery.retry"</span>, 0);
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>      conf.setInt(HConstants.REGIONSERVER_INFO_PORT, -1);
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>      TEST_UTIL.startMiniCluster(1, 1);
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>      cluster = TEST_UTIL.getHBaseCluster();
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      cluster.waitForActiveAndReadyMaster();
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>      <strong class="jxr_keyword">while</strong> (cluster.getLiveRegionServerThreads().size() &lt; 1) {
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>        Threads.sleep(100);
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>      }
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>      rs = cluster.getRegionServer(0);
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>      metricsRegionServer = rs.getRegionServerMetrics();
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>      serverSource = metricsRegionServer.getMetricsSource();
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>    }
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>    @AfterClass
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> after() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>      <strong class="jxr_keyword">if</strong> (TEST_UTIL != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>        TEST_UTIL.shutdownMiniCluster();
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>      }
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>    }
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>    @Test(timeout = 300000)
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testRegionCount() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>      String regionMetricsKey = <span class="jxr_string">"regionCount"</span>;
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>      <strong class="jxr_keyword">long</strong> regions = metricsHelper.getGaugeLong(regionMetricsKey, serverSource);
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>      <em class="jxr_comment">// Creating a table should add one region</em>
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>      TEST_UTIL.createTable(TableName.valueOf(<span class="jxr_string">"table"</span>), Bytes.toBytes(<span class="jxr_string">"cf"</span>));
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>      metricsHelper.assertGaugeGt(regionMetricsKey, regions, serverSource);
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>    }
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>    @Test
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testLocalFiles() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>     metricsHelper.assertGauge(<span class="jxr_string">"percentFilesLocal"</span>, 0, serverSource);
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>     metricsHelper.assertGauge(<span class="jxr_string">"percentFilesLocalSecondaryRegions"</span>, 0, serverSource);
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>   }
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> 
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>   @Test
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testRequestCount() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>     String tableNameString = <span class="jxr_string">"testRequestCount"</span>;
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>     <a href="../../../../../org/apache/hadoop/hbase/TableName.html">TableName</a> tName = TableName.valueOf(tableNameString);
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>     byte[] cfName = Bytes.toBytes(<span class="jxr_string">"d"</span>);
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>     byte[] row = Bytes.toBytes(<span class="jxr_string">"rk"</span>);
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>     byte[] qualifier = Bytes.toBytes(<span class="jxr_string">"qual"</span>);
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>     byte[] initValue = Bytes.toBytes(<span class="jxr_string">"Value"</span>);
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>     TEST_UTIL.createTable(tName, cfName);
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Connection.html">Connection</a> connection = TEST_UTIL.getConnection();
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>     connection.getTable(tName).close(); <em class="jxr_comment">//wait for the table to come up.</em>
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> 
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>     <em class="jxr_comment">// Do a first put to be sure that the connection is established, meta is there and so on.</em>
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Table.html">Table</a> table = connection.getTable(tName);
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a> p = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a>(row);
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>     p.add(cfName, qualifier, initValue);
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>     table.put(p);
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> 
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>     metricsRegionServer.getRegionServerWrapper().forceRecompute();
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>     <strong class="jxr_keyword">long</strong> requests = metricsHelper.getCounter(<span class="jxr_string">"totalRequestCount"</span>, serverSource);
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>     <strong class="jxr_keyword">long</strong> readRequests = metricsHelper.getCounter(<span class="jxr_string">"readRequestCount"</span>, serverSource);
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>     <strong class="jxr_keyword">long</strong> writeRequests = metricsHelper.getCounter(<span class="jxr_string">"writeRequestCount"</span>, serverSource);
+<a class="jxr_linenumber" name="L128" href="#L128">128</a> 
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>     <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i=0; i&lt; 30; i++) {
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>       table.put(p);
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>     }
+<a class="jxr_linenumber" name="L132" href="#L132">132</a> 
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>     metricsRegionServer.getRegionServerWrapper().forceRecompute();
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>     metricsHelper.assertCounter(<span class="jxr_string">"totalRequestCount"</span>, requests + 30, serverSource);
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>     metricsHelper.assertCounter(<span class="jxr_string">"readRequestCount"</span>, readRequests, serverSource);
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>     metricsHelper.assertCounter(<span class="jxr_string">"writeRequestCount"</span>, writeRequests + 30, serverSource);
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Get.html">Get</a> g = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Get.html">Get</a>(row);
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>     <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i=0; i&lt; 10; i++) {
+<a class="jxr_linenumber" name="L140" href="#L140">140</a>       table.get(g);
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>     }
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> 
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>     metricsRegionServer.getRegionServerWrapper().forceRecompute();
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>     metricsHelper.assertCounter(<span class="jxr_string">"totalRequestCount"</span>, requests + 40, serverSource);
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>     metricsHelper.assertCounter(<span class="jxr_string">"readRequestCount"</span>, readRequests + 10, serverSource);
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>     metricsHelper.assertCounter(<span class="jxr_string">"writeRequestCount"</span>, writeRequests + 30, serverSource);
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> 
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>     <strong class="jxr_keyword">try</strong> (RegionLocator locator = connection.getRegionLocator(tName)) {
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>       <strong class="jxr_keyword">for</strong> ( HRegionLocation location: locator.getAllRegionLocations()) {
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>         <a href="../../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a> i = location.getRegionInfo();
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>         <a href="../../../../../org/apache/hadoop/hbase/regionserver/MetricsRegionAggregateSource.html">MetricsRegionAggregateSource</a> agg = rs.getRegion(i.getRegionName())
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>             .getMetrics()
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>             .getSource()
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>             .getAggregateSource();
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>         String prefix = <span class="jxr_string">"namespace_"</span>+NamespaceDescriptor.DEFAULT_NAMESPACE_NAME_STR+
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>             <span class="jxr_string">"_table_"</span>+tableNameString +
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>             <span class="jxr_string">"_region_"</span> + i.getEncodedName()+
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>             <span class="jxr_string">"_metric"</span>;
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>         metricsHelper.assertCounter(prefix + <span class="jxr_string">"_getNumOps"</span>, 10, agg);
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>         metricsHelper.assertCounter(prefix + <span class="jxr_string">"_mutateCount"</span>, 31, agg);
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>       }
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>     }
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>     List&lt;Get&gt; gets = <strong class="jxr_keyword">new</strong> ArrayList&lt;Get&gt;();
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>     <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i=0; i&lt; 10; i++) {
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>       gets.add(<strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Get.html">Get</a>(row));
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>     }
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>     table.get(gets);
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> 
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>     <em class="jxr_comment">// By default, master doesn't host meta now.</em>
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>     <em class="jxr_comment">// Adding some meta related requests</em>
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>     requests += 3;
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>     readRequests ++;
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> 
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>     metricsRegionServer.getRegionServerWrapper().forceRecompute();
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>     metricsHelper.assertCounter(<span class="jxr_string">"totalRequestCount"</span>, requests + 50, serverSource);
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>     metricsHelper.assertCounter(<span class="jxr_string">"readRequestCount"</span>, readRequests + 20, serverSource);
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>     metricsHelper.assertCounter(<span class="jxr_string">"writeRequestCount"</span>, writeRequests + 30, serverSource);
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> 
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>     List&lt;Put&gt; puts = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>     <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i=0; i&lt; 30; i++) {
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>       puts.add(p);
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>     }
+<a class="jxr_linenumber" name="L183" href="#L183">183</a>     table.put(puts);
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> 
+<a class="jxr_linenumber" name="L185" href="#L185">185</a>     metricsRegionServer.getRegionServerWrapper().forceRecompute();
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>     metricsHelper.assertCounter(<span class="jxr_string">"totalRequestCount"</span>, requests + 80, serverSource);
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>     metricsHelper.assertCounter(<span class="jxr_string">"readRequestCount"</span>, readRequests + 20, serverSource);
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>     metricsHelper.assertCounter(<span class="jxr_string">"writeRequestCount"</span>, writeRequests + 60, serverSource);
+<a class="jxr_linenumber" name="L189" href="#L189">189</a> 
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>     table.close();
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>   }
+<a class="jxr_linenumber" name="L192" href="#L192">192</a> 
+<a class="jxr_linenumber" name="L193" href="#L193">193</a>   @Test
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testMutationsWithoutWal() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L195" href="#L195">195</a>     <a href="../../../../../org/apache/hadoop/hbase/TableName.html">TableName</a> tableName = TableName.valueOf(<span class="jxr_string">"testMutationsWithoutWal"</span>);
+<a class="jxr_linenumber" name="L196" href="#L196">196</a>     byte[] cf = Bytes.toBytes(<span class="jxr_string">"d"</span>);
+<a class="jxr_linenumber" name="L197" href="#L197">197</a>     byte[] row = Bytes.toBytes(<span class="jxr_string">"rk"</span>);
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>     byte[] qualifier = Bytes.toBytes(<span class="jxr_string">"qual"</span>);
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>     byte[] val = Bytes.toBytes(<span class="jxr_string">"Value"</span>);
+<a class="jxr_linenumber" name="L200" href="#L200">200</a> 
+<a class="jxr_linenumber" name="L201" href="#L201">201</a>     metricsRegionServer.getRegionServerWrapper().forceRecompute();
+<a class="jxr_linenumber" name="L202" href="#L202">202</a> 
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>     TEST_UTIL.createTable(tableName, cf);
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> 
+<a class="jxr_linenumber" name="L205" href="#L205">205</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Table.html">Table</a> t = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/HTable.html">HTable</a>(conf, tableName);
+<a class="jxr_linenumber" name="L206" href="#L206">206</a> 
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a> p = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a>(row);
+<a class="jxr_linenumber" name="L208" href="#L208">208</a>     p.add(cf, qualifier, val);
+<a class="jxr_linenumber" name="L209" href="#L209">209</a>     p.setDurability(Durability.SKIP_WAL);
+<a class="jxr_linenumber" name="L210" href="#L210">210</a> 
+<a class="jxr_linenumber" name="L211" href="#L211">211</a>     t.put(p);
+<a class="jxr_linenumber" name="L212" href="#L212">212</a> 
+<a class="jxr_linenumber" name="L213" href="#L213">213</a>     metricsRegionServer.getRegionServerWrapper().forceRecompute();
+<a class="jxr_linenumber" name="L214" href="#L214">214</a>     metricsHelper.assertGauge(<span class="jxr_string">"mutationsWithoutWALCount"</span>, 1, serverSource);
+<a class="jxr_linenumber" name="L215" href="#L215">215</a>     <strong class="jxr_keyword">long</strong> minLength = row.length + cf.length + qualifier.length + val.length;
+<a class="jxr_linenumber" name="L216" href="#L216">216</a>     metricsHelper.assertGaugeGt(<span class="jxr_string">"mutationsWithoutWALSize"</span>, minLength, serverSource);
+<a class="jxr_linenumber" name="L217" href="#L217">217</a> 
+<a class="jxr_linenumber" name="L218" href="#L218">218</a>     t.close();
+<a class="jxr_linenumber" name="L219" href="#L219">219</a>   }
+<a class="jxr_linenumber" name="L220" href="#L220">220</a> 
+<a class="jxr_linenumber" name="L221" href="#L221">221</a>   @Test
+<a class="jxr_linenumber" name="L222" href="#L222">222</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testStoreCount() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L223" href="#L223">223</a>     <a href="../../../../../org/apache/hadoop/hbase/TableName.html">TableName</a> tableName = TableName.valueOf(<span class="jxr_string">"testStoreCount"</span>);
+<a class="jxr_linenumber" name="L224" href="#L224">224</a>     byte[] cf = Bytes.toBytes(<span class="jxr_string">"d"</span>);
+<a class="jxr_linenumber" name="L225" href="#L225">225</a>     byte[] row = Bytes.toBytes(<span class="jxr_string">"rk"</span>);
+<a class="jxr_linenumber" name="L226" href="#L226">226</a>     byte[] qualifier = Bytes.toBytes(<span class="jxr_string">"qual"</span>);
+<a class="jxr_linenumber" name="L227" href="#L227">227</a>     byte[] val = Bytes.toBytes(<span class="jxr_string">"Value"</span>);
+<a class="jxr_linenumber" name="L228" href="#L228">228</a> 
+<a class="jxr_linenumber" name="L229" href="#L229">229</a>     metricsRegionServer.getRegionServerWrapper().forceRecompute();
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>     <strong class="jxr_keyword">long</strong> stores = metricsHelper.getGaugeLong(<span class="jxr_string">"storeCount"</span>, serverSource);
+<a class="jxr_linenumber" name="L231" href="#L231">231</a>     <strong class="jxr_keyword">long</strong> storeFiles = metricsHelper.getGaugeLong(<span class="jxr_string">"storeFileCount"</span>, serverSource);
+<a class="jxr_linenumber" name="L232" href="#L232">232</a> 
+<a class="jxr_linenumber" name="L233" href="#L233">233</a>     TEST_UTIL.createTable(tableName, cf);
+<a class="jxr_linenumber" name="L234" href="#L234">234</a> 
+<a class="jxr_linenumber" name="L235" href="#L235">235</a>     <em class="jxr_comment">//Force a hfile.</em>
+<a class="jxr_linenumber" name="L236" href="#L236">236</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Table.html">Table</a> t = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/HTable.html">HTable</a>(conf, tableName);
+<a class="jxr_linenumber" name="L237" href="#L237">237</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a> p = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a>(row);
+<a class="jxr_linenumber" name="L238" href="#L238">238</a>     p.add(cf, qualifier, val);
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>     t.put(p);
+<a class="jxr_linenumber" name="L240" href="#L240">240</a>     TEST_UTIL.getHBaseAdmin().flush(tableName);
+<a class="jxr_linenumber" name="L241" href="#L241">241</a> 
+<a class="jxr_linenumber" name="L242" href="#L242">242</a>     metricsRegionServer.getRegionServerWrapper().forceRecompute();
+<a class="jxr_linenumber" name="L243" href="#L243">243</a>     metricsHelper.assertGauge(<span class="jxr_string">"storeCount"</span>, stores +1, serverSource);
+<a class="jxr_linenumber" name="L244" href="#L244">244</a>     metricsHelper.assertGauge(<span class="jxr_string">"storeFileCount"</span>, storeFiles + 1, serverSource);
+<a class="jxr_linenumber" name="L245" href="#L245">245</a> 
+<a class="jxr_linenumber" name="L246" href="#L246">246</a>     t.close();
+<a class="jxr_linenumber" name="L247" href="#L247">247</a>   }
+<a class="jxr_linenumber" name="L248" href="#L248">248</a> 
+<a class="jxr_linenumber" name="L249" href="#L249">249</a>   @Test
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCheckAndPutCount() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>     String tableNameString = <span class="jxr_string">"testCheckAndPutCount"</span>;
+<a class="jxr_linenumber" name="L252" href="#L252">252</a>     <a href="../../../../../org/apache/hadoop/hbase/TableName.html">TableName</a> tableName = TableName.valueOf(tableNameString);
+<a class="jxr_linenumber" name="L253" href="#L253">253</a>     byte[] cf = Bytes.toBytes(<span class="jxr_string">"d"</span>);
+<a class="jxr_linenumber" name="L254" href="#L254">254</a>     byte[] row = Bytes.toBytes(<span class="jxr_string">"rk"</span>);
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>     byte[] qualifier = Bytes.toBytes(<span class="jxr_string">"qual"</span>);
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>     byte[] valOne = Bytes.toBytes(<span class="jxr_string">"Value"</span>);
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>     byte[] valTwo = Bytes.toBytes(<span class="jxr_string">"ValueTwo"</span>);
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>     byte[] valThree = Bytes.toBytes(<span class="jxr_string">"ValueThree"</span>);
+<a class="jxr_linenumber" name="L259" href="#L259">259</a> 
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>     TEST_UTIL.createTable(tableName, cf);
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Table.html">Table</a> t = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/HTable.html">HTable</a>(conf, tableName);
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a> p = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a>(row);
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>     p.add(cf, qualifier, valOne);
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>     t.put(p);
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> 
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a> pTwo = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a>(row);
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>     pTwo.add(cf, qualifier, valTwo);
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>     t.checkAndPut(row, cf, qualifier, valOne, pTwo);
+<a class="jxr_linenumber" name="L269" href="#L269">269</a> 
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a> pThree = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a>(row);
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>     pThree.add(cf, qualifier, valThree);
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>     t.checkAndPut(row, cf, qualifier, valOne, pThree);
+<a class="jxr_linenumber" name="L273" href="#L273">273</a> 
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>     metricsRegionServer.getRegionServerWrapper().forceRecompute();
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>     metricsHelper.assertCounter(<span class="jxr_string">"checkMutateFailedCount"</span>, 1, serverSource);
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>     metricsHelper.assertCounter(<span class="jxr_string">"checkMutatePassedCount"</span>, 1, serverSource);
+<a class="jxr_linenumber" name="L277" href="#L277">277</a> 
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>     t.close();
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>   }
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> 
+<a class="jxr_linenumber" name="L281" href="#L281">281</a>   @Test
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testIncrement() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>     String tableNameString = <span class="jxr_string">"testIncrement"</span>;
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>     <a href="../../../../../org/apache/hadoop/hbase/TableName.html">TableName</a> tableName = TableName.valueOf(tableNameString);
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>     byte[] cf = Bytes.toBytes(<span class="jxr_string">"d"</span>);
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>     byte[] row = Bytes.toBytes(<span class="jxr_string">"rk"</span>);
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>     byte[] qualifier = Bytes.toBytes(<span class="jxr_string">"qual"</span>);
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>     byte[] val = Bytes.toBytes(0l);
+<a class="jxr_linenumber" name="L289" href="#L289">289</a> 
+<a class="jxr_linenumber" name="L290" href="#L290">290</a> 
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>     TEST_UTIL.createTable(tableName, cf);
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Table.html">Table</a> t = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/HTable.html">HTable</a>(conf, tableName);
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> 
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a> p = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a>(row);
+<a class="jxr_linenumber" name="L295" href="#L295">295</a>     p.add(cf, qualifier, val);
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>     t.put(p);
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> 
+<a class="jxr_linenumber" name="L298" href="#L298">298</a>     <strong class="jxr_keyword">for</strong>(<strong class="jxr_keyword">int</strong> count = 0; count&lt; 13; count++) {
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>       <a href="../../../../../org/apache/hadoop/hbase/client/Increment.html">Increment</a> inc = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Increment.html">Increment</a>(row);
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>       inc.addColumn(cf, qualifier, 100);
+<a class="jxr_linenumber" name="L301" href="#L301">301</a>       t.increment(inc);
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>     }
+<a class="jxr_linenumber" name="L303" href="#L303">303</a> 
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>     metricsRegionServer.getRegionServerWrapper().forceRecompute();
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>     metricsHelper.assertCounter(<span class="jxr_string">"incrementNumOps"</span>, 13, serverSource);
+<a class="jxr_linenumber" name="L306" href="#L306">306</a> 
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>     t.close();
+<a class="jxr_linenumber" name="L308" href="#L308">308</a>   }
+<a class="jxr_linenumber" name="L309" href="#L309">309</a> 
+<a class="jxr_linenumber" name="L310" href="#L310">310</a>   @Test
+<a class="jxr_linenumber" name="L311" href="#L311">311</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testAppend() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L312" href="#L312">312</a>     String tableNameString = <span class="jxr_string">"testAppend"</span>;
+<a class="jxr_linenumber" name="L313" href="#L313">313</a>     <a href="../../../../../org/apache/hadoop/hbase/TableName.html">TableName</a> tableName = TableName.valueOf(tableNameString);
+<a class="jxr_linenumber" name="L314" href="#L314">314</a>     byte[] cf = Bytes.toBytes(<span class="jxr_string">"d"</span>);
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>     byte[] row = Bytes.toBytes(<span class="jxr_string">"rk"</span>);
+<a class="jxr_linenumber" name="L316" href="#L316">316</a>     byte[] qualifier = Bytes.toBytes(<span class="jxr_string">"qual"</span>);
+<a class="jxr_linenumber" name="L317" href="#L317">317</a>     byte[] val = Bytes.toBytes(<span class="jxr_string">"One"</span>);
+<a class="jxr_linenumber" name="L318" href="#L318">318</a> 
+<a class="jxr_linenumber" name="L319" href="#L319">319</a> 
+<a class="jxr_linenumber" name="L320" href="#L320">320</a>     TEST_UTIL.createTable(tableName, cf);
+<a class="jxr_linenumber" name="L321" href="#L321">321</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Table.html">Table</a> t = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/HTable.html">HTable</a>(conf, tableName);
+<a class="jxr_linenumber" name="L322" href="#L322">322</a> 
+<a class="jxr_linenumber" name="L323" href="#L323">323</a>     <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a> p = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a>(row);
+<a class="jxr_linenumber" name="L324" href="#L324">324</a>     p.add(cf, qualifier, val);
+<a class="jxr_linenumber" name="L325" href="#L325">325</a>     t.put(p);
+<a class="jxr_linenumber" name="L326" href="#L326">326</a> 
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>     <strong class="jxr_keyword">for</strong>(<strong class="jxr_keyword">int</strong> count = 0; count&lt; 73; count++) {
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>       <a href="../../../../../org/apache/hadoop/hbase/client/Append.html">Append</a> append = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Append.html">Append</a>(row);
+<a class="jxr_linenumber" name="L329" href="#L329">329</a>       append.add(cf, qualifier, Bytes.toBytes(<span class="jxr_string">",Test"</span>));
+<a class="jxr_linenumber" name="L330" href="#L330">330</a>       t.append(append);
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>     }
+<a class="jxr_linenumber" name="L332" href="#L332">332</a> 
+<a class="jxr_linenumber" name="L333" href="#L333">333</a>     metricsRegionServer.getRegionServerWrapper().forceRecompute();
+<a class="jxr_linenumber" name="L334" href="#L334">334</a>     metricsHelper.assertCounter(<span class="jxr_string">"appendNumOps"</span>, 73, serverSource);
+<a class="jxr_linenumber" name="L335" href="#L335">335</a> 
+<a class="jxr_linenumber" name="L336" href="#L336">336</a>     t.close();
+<a class="jxr_linenumber" name="L337" href="#L337">337</a>   }
+<a class="jxr_linenumber" name="L338" href="#L338">338</a> 
+<a class="jxr_linenumber" name="L339" href="#L339">339</a>   @Test
+<a class="jxr_linenumber" name="L340" href="#L340">340</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testScanNext() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L341" href="#L341">341</a>     String tableNameString = <span class="jxr_string">"testScanNext"</span>;
+<a class="jxr_linenumber" name="L342" href="#L342">342</a>     <a href="../../../../../org/apache/hadoop/hbase/TableName.html">TableName</a> tableName = TableName.valueOf(tableNameString);
+<a class="jxr_linenumber" name="L343" href="#L343">343</a>     byte[] cf = Bytes.toBytes(<span class="jxr_string">"d"</span>);
+<a class="jxr_linenumber" name="L344" href="#L344">344</a>     byte[] qualifier = Bytes.toBytes(<span class="jxr_string">"qual"</span>);
+<a class="jxr_linenumber" name="L345" href="#L345">345</a>     byte[] val = Bytes.toBytes(<span class="jxr_string">"One"</span>);
+<a class="jxr_linenumber" name="L346" href="#L346">346</a> 
+<a class="jxr_linenumber" name="L347" href="#L347">347</a>     List&lt;Put&gt; puts = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L348" href="#L348">348</a>     <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> insertCount =0; insertCount &lt; 100; insertCount++) {
+<a class="jxr_linenumber" name="L349" href="#L349">349</a>       <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a> p = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a>(Bytes.toBytes(<span class="jxr_string">""</span> + insertCount + <span class="jxr_string">"row"</span>));
+<a class="jxr_linenumber" name="L350" href="#L350">350</a>       p.add(cf, qualifier, val);
+<a class="jxr_linenumber" name="L351" href="#L351">351</a>       puts.add(p);
+<a class="jxr_linenumber" name="L352" href="#L352">352</a>     }
+<a class="jxr_linenumber" name="L353" href="#L353">353</a>     <strong class="jxr_keyword">try</strong> (HTable t = TEST_UTIL.createTable(tableName, cf)) {
+<a class="jxr_linenumber" name="L354" href="#L354">354</a>       t.put(puts);
+<a class="jxr_linenumber" name="L355" href="#L355">355</a> 
+<a class="jxr_linenumber" name="L356" href="#L356">356</a>       <a href="../../../../../org/apache/hadoop/hbase/client/Scan.html">Scan</a> s = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Scan.html">Scan</a>();
+<a class="jxr_linenumber" name="L357" href="#L357">357</a>       s.setBatch(1);
+<a class="jxr_linenumber" name="L358" href="#L358">358</a>       s.setCaching(1);
+<a class="jxr_linenumber" name="L359" href="#L359">359</a>       <a href="../../../../../org/apache/hadoop/hbase/client/ResultScanner.html">ResultScanner</a> resultScanners = t.getScanner(s);
+<a class="jxr_linenumber" name="L360" href="#L360">360</a> 
+<a class="jxr_linenumber" name="L361" href="#L361">361</a>       <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> nextCount = 0; nextCount &lt; NUM_SCAN_NEXT; nextCount++) {
+<a class="jxr_linenumber" name="L362" href="#L362">362</a>         <a href="../../../../../org/apache/hadoop/hbase/client/Result.html">Result</a> result = resultScanners.next();
+<a class="jxr_linenumber" name="L363" href="#L363">363</a>         assertNotNull(result);
+<a class="jxr_linenumber" name="L364" href="#L364">364</a>         assertEquals(1, result.size());
+<a class="jxr_linenumber" name="L365" href="#L365">365</a>       }
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>     }
+<a class="jxr_linenumber" name="L367" href="#L367">367</a>     numScanNext += NUM_SCAN_NEXT;
+<a class="jxr_linenumber" name="L368" href="#L368">368</a>     <strong class="jxr_keyword">try</strong> (RegionLocator locator = TEST_UTIL.getConnection().getRegionLocator(tableName)) {
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>       <strong class="jxr_keyword">for</strong> ( HRegionLocation location: locator.getAllRegionLocations()) {
+<a class="jxr_linenumber" name="L370" href="#L370">370</a>         <a href="../../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a> i = location.getRegionInfo();
+<a class="jxr_linenumber" name="L371" href="#L371">371</a>         <a href="../../../../../org/apache/hadoop/hbase/regionserver/MetricsRegionAggregateSource.html">MetricsRegionAggregateSource</a> agg = rs.getRegion(i.getRegionName())
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>             .getMetrics()
+<a class="jxr_linenumber" name="L373" href="#L373">373</a>             .getSource()
+<a class="jxr_linenumber" name="L374" href="#L374">374</a>             .getAggregateSource();
+<a class="jxr_linenumber" name="L375" href="#L375">375</a>         String prefix = <span class="jxr_string">"namespace_"</span>+NamespaceDescriptor.DEFAULT_NAMESPACE_NAME_STR+
+<a class="jxr_linenumber" name="L376" href="#L376">376</a>             <span class="jxr_string">"_table_"</span>+tableNameString +
+<a class="jxr_linenumber" name="L377" href="#L377">377</a>             <span class="jxr_string">"_region_"</span> + i.getEncodedName()+
+<a class="jxr_linenumber" name="L378" href="#L378">378</a>             <span class="jxr_string">"_metric"</span>;
+<a class="jxr_linenumber" name="L379" href="#L379">379</a>         metricsHelper.assertCounter(prefix + <span class="jxr_string">"_scanNextNumOps"</span>, NUM_SCAN_NEXT, agg);
+<a class="jxr_linenumber" name="L380" href="#L380">380</a>       }
+<a class="jxr_linenumber" name="L381" href="#L381">381</a>       metricsHelper.assertCounterGt(<span class="jxr_string">"ScanNext_num_ops"</span>, numScanNext, serverSource);
+<a class="jxr_linenumber" name="L382" href="#L382">382</a>     }
+<a class="jxr_linenumber" name="L383" href="#L383">383</a>     <strong class="jxr_keyword">try</strong> (Admin admin = TEST_UTIL.getHBaseAdmin()) {
+<a class="jxr_linenumber" name="L384" href="#L384">384</a>       admin.disableTable(tableName);
+<a class="jxr_linenumber" name="L385" href="#L385">385</a>       admin.deleteTable(tableName);
+<a class="jxr_linenumber" name="L386" href="#L386">386</a>     }
+<a class="jxr_linenumber" name="L387" href="#L387">387</a>   }
+<a class="jxr_linenumber" name="L388" href="#L388">388</a> 
+<a class="jxr_linenumber" name="L389" href="#L389">389</a>   @Test
+<a class="jxr_linenumber" name="L390" href="#L390">390</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testScanNextForSmallScan() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L391" href="#L391">391</a>     String tableNameString = <span class="jxr_string">"testScanNextSmall"</span>;
+<a class="jxr_linenumber" name="L392" href="#L392">392</a>     <a href="../../../../../org/apache/hadoop/hbase/TableName.html">TableName</a> tableName = TableName.valueOf(tableNameString);
+<a class="jxr_linenumber" name="L393" href="#L393">393</a>     byte[] cf = Bytes.toBytes(<span class="jxr_string">"d"</span>);
+<a class="jxr_linenumber" name="L394" href="#L394">394</a>     byte[] qualifier = Bytes.toBytes(<span class="jxr_string">"qual"</span>);
+<a class="jxr_linenumber" name="L395" href="#L395">395</a>     byte[] val = Bytes.toBytes(<span class="jxr_string">"One"</span>);
+<a class="jxr_linenumber" name="L396" href="#L396">396</a> 
+<a class="jxr_linenumber" name="L397" href="#L397">397</a>     List&lt;Put&gt; puts = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L398" href="#L398">398</a>     <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> insertCount =0; insertCount &lt; 100; insertCount++) {
+<a class="jxr_linenumber" name="L399" href="#L399">399</a>       <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a> p = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Put.html">Put</a>(Bytes.toBytes(<span class="jxr_string">""</span> + insertCount + <span class="jxr_string">"row"</span>));
+<a class="jxr_linenumber" name="L400" href="#L400">400</a>       p.add(cf, qualifier, val);
+<a class="jxr_linenumber" name="L401" href="#L401">401</a>       puts.add(p);
+<a class="jxr_linenumber" name="L402" href="#L402">402</a>     }
+<a class="jxr_linenumber" name="L403" href="#L403">403</a>     <strong class="jxr_keyword">try</strong> (HTable t = TEST_UTIL.createTable(tableName, cf)) {
+<a class="jxr_linenumber" name="L404" href="#L404">404</a>       t.put(puts);
+<a class="jxr_linenumber" name="L405" href="#L405">405</a> 
+<a class="jxr_linenumber" name="L406" href="#L406">406</a>       <a href="../../../../../org/apache/hadoop/hbase/client/Scan.html">Scan</a> s = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/hadoop/hbase/client/Scan.html">Scan</a>();
+<a class="jxr_linenumber" name="L407" href="#L407">407</a>       s.setSmall(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L408" href="#L408">408</a>       s.setCaching(1);
+<a class="jxr_linenumber" name="L409" href="#L409">409</a>       <a href="../../../../../org/apache/hadoop/hbase/client/ResultScanner.html">ResultScanner</a> resultScanners = t.getScanner(s);
+<a class="jxr_linenumber" name="L410" href="#L410">410</a> 
+<a class="jxr_linenumber" name="L411" href="#L411">411</a>       <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> nextCount = 0; nextCount &lt; NUM_SCAN_NEXT; nextCount++) {
+<a class="jxr_linenumber" name="L412" href="#L412">412</a>         <a href="../../../../../org/apache/hadoop/hbase/client/Result.html">Result</a> result = resultScanners.next();
+<a class="jxr_linenumber" name="L413" href="#L413">413</a>         assertNotNull(result);
+<a class="jxr_linenumber" name="L414" href="#L414">414</a>         assertEquals(1, result.size());
+<a class="jxr_linenumber" name="L415" href="#L415">415</a>       }
+<a class="jxr_linenumber" name="L416" href="#L416">416</a>     }
+<a class="jxr_linenumber" name="L417" href="#L417">417</a>     numScanNext += NUM_SCAN_NEXT;
+<a class="jxr_linenumber" name="L418" href="#L418">418</a>     <strong class="jxr_keyword">try</strong> (RegionLocator locator = TEST_UTIL.getConnection().getRegionLocator(tableName)) {
+<a class="jxr_linenumber" name="L419" href="#L419">419</a>       <strong class="jxr_keyword">int</strong> cnt = 0;
+<a class="jxr_linenumber" name="L420" href="#L420">420</a>       <strong class="jxr_keyword">for</strong> (HRegionLocation location: locator.getAllRegionLocations()) {
+<a class="jxr_linenumber" name="L421" href="#L421">421</a>         cnt++;
+<a class="jxr_linenumber" name="L422" href="#L422">422</a>         <a href="../../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a> i = location.getRegionInfo();
+<a class="jxr_linenumber" name="L423" href="#L423">423</a>         <a href="../../../../../org/apache/hadoop/hbase/regionserver/MetricsRegionAggregateSource.html">MetricsRegionAggregateSource</a> agg = rs.getRegion(i.getRegionName())
+<a class="jxr_linenumber" name="L424" href="#L424">424</a>             .getMetrics()
+<a class="jxr_linenumber" name="L425" href="#L425">425</a>             .getSource()
+<a class="jxr_linenumber" name="L426" href="#L426">426</a>             .getAggregateSource();
+<a class="jxr_linenumber" name="L427" href="#L427">427</a>         String prefix = <span class="jxr_string">"namespace_"</span>+NamespaceDescriptor.DEFAULT_NAMESPACE_NAME_STR+
+<a class="jxr_linenumber" name="L428" href="#L428">428</a>             <span class="jxr_string">"_table_"</span>+tableNameString +
+<a class="jxr_linenumber" name="L429" href="#L429">429</a>             <span class="jxr_string">"_region_"</span> + i.getEncodedName()+
+<a class="jxr_linenumber" name="L430" href="#L430">430</a>             <span class="jxr_string">"_metric"</span>;
+<a class="jxr_linenumber" name="L431" href="#L431">431</a>         metricsHelper.assertCounter(prefix + <span class="jxr_string">"_scanNextNumOps"</span>, NUM_SCAN_NEXT, agg);
+<a class="jxr_linenumber" name="L432" href="#L432">432</a>       }
+<a class="jxr_linenumber" name="L433" href="#L433">433</a>       metricsHelper.assertCounterGt(<span class="jxr_string">"ScanNext_num_ops"</span>, numScanNext, serverSource);
+<a class="jxr_linenumber" name="L434" href="#L434">434</a>     }
+<a class="jxr_linenumber" name="L435" href="#L435">435</a>     <strong class="jxr_keyword">try</strong> (Admin admin = TEST_UTIL.getHBaseAdmin()) {
+<a class="jxr_linenumber" name="L436" href="#L436">436</a>       admin.disableTable(tableName);
+<a class="jxr_linenumber" name="L437" href="#L437">437</a>       admin.deleteTable(tableName);
+<a class="jxr_linenumber" name="L438" href="#L438">438</a>     }
+<a class="jxr_linenumber" name="L439" href="#L439">439</a>   }
+<a class="jxr_linenumber" name="L440" href="#L440">440</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

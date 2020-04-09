@@ -1,0 +1,1336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Log xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../../apidocs/org/infinispan/util/logging/Log.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> org.infinispan.util.logging;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.infinispan.IllegalLifecycleStateException;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.infinispan.commands.ReplicableCommand;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.infinispan.commands.tx.PrepareCommand;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.infinispan.commons.CacheConfigurationException;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.infinispan.commons.CacheException;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.infinispan.commons.CacheListenerException;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.infinispan.commons.marshall.AdvancedExternalizer;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.infinispan.commons.util.TypedProperties;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> org.infinispan.jmx.JmxDomainConflictException;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.infinispan.lifecycle.ComponentStatus;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> org.infinispan.partitionhandling.AvailabilityException;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> org.infinispan.partitionhandling.AvailabilityMode;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> org.infinispan.persistence.spi.PersistenceException;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> org.infinispan.persistence.support.SingletonCacheWriter;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> org.infinispan.remoting.RemoteException;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> org.infinispan.remoting.responses.Response;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.infinispan.remoting.transport.Address;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.infinispan.remoting.transport.jgroups.SuspectException;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.infinispan.topology.CacheTopology;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.infinispan.transaction.LockingMode;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.infinispan.transaction.TransactionMode;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.infinispan.transaction.impl.LocalTransaction;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.infinispan.transaction.xa.GlobalTransaction;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> org.infinispan.transaction.xa.recovery.RecoveryAwareRemoteTransaction;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.infinispan.transaction.xa.recovery.RecoveryAwareTransaction;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> org.infinispan.util.concurrent.TimeoutException;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> org.jboss.logging.BasicLogger;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> org.jboss.logging.annotations.Cause;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> org.jboss.logging.annotations.LogMessage;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> org.jboss.logging.annotations.Message;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> org.jboss.logging.annotations.MessageLogger;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> org.jgroups.View;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> javax.management.InstanceAlreadyExistsException;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> javax.management.MBeanRegistrationException;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> javax.management.ObjectName;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> javax.naming.NamingException;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">import</strong> javax.transaction.Synchronization;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <strong class="jxr_keyword">import</strong> javax.transaction.TransactionManager;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">import</strong> javax.transaction.xa.XAException;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">import</strong> javax.transaction.xa.XAResource;
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <strong class="jxr_keyword">import</strong> javax.xml.namespace.QName;
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <strong class="jxr_keyword">import</strong> java.io.File;
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <strong class="jxr_keyword">import</strong> java.lang.reflect.Method;
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <strong class="jxr_keyword">import</strong> java.net.URL;
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  <strong class="jxr_keyword">import</strong> java.nio.channels.FileChannel;
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  <strong class="jxr_keyword">import</strong> java.security.Permission;
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <strong class="jxr_keyword">import</strong> java.util.Collection;
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <strong class="jxr_keyword">import</strong> java.util.Map;
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <strong class="jxr_keyword">import</strong> java.util.UUID;
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.jboss.logging.Logger.Level.*;
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  <em class="jxr_javadoccomment"> * Infinispan's log abstraction layer on top of JBoss Logging.</em>
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_javadoccomment"> * &lt;p/&gt;</em>
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_javadoccomment"> * It contains explicit methods for all INFO or above levels so that they can</em>
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_javadoccomment"> * be internationalized. For the core module, message ids ranging from 0001</em>
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment"> * to 0900 inclusively have been reserved.</em>
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment"> * &lt;p/&gt;</em>
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment"> * &lt;code&gt; Log log = LogFactory.getLog( getClass() ); &lt;/code&gt; The above will get</em>
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment"> * you an instance of &lt;tt&gt;Log&lt;/tt&gt;, which can be used to generate log messages</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment"> * either via JBoss Logging which then can delegate to Log4J (if the libraries</em>
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment"> * are present) or (if not) the built-in JDK logger.</em>
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_javadoccomment"> * &lt;p/&gt;</em>
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  <em class="jxr_javadoccomment"> * In addition to the 6 log levels available, this framework also supports</em>
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  <em class="jxr_javadoccomment"> * parameter interpolation, similar to the JDKs {@link String#format(String, Object...)}</em>
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  <em class="jxr_javadoccomment"> * method. What this means is, that the following block:</em>
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  <em class="jxr_javadoccomment"> * &lt;code&gt; if (log.isTraceEnabled()) { log.trace("This is a message " + message + " and some other value is " + value); }</em>
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  <em class="jxr_javadoccomment"> * &lt;/code&gt;</em>
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  <em class="jxr_javadoccomment"> * &lt;p/&gt;</em>
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  <em class="jxr_javadoccomment"> * ... could be replaced with ...</em>
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  <em class="jxr_javadoccomment"> * &lt;p/&gt;</em>
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  <em class="jxr_javadoccomment"> * &lt;code&gt; if (log.isTraceEnabled()) log.tracef("This is a message %s and some other value is %s", message, value);</em>
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  <em class="jxr_javadoccomment"> * &lt;/code&gt;</em>
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  <em class="jxr_javadoccomment"> * &lt;p/&gt;</em>
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>  <em class="jxr_javadoccomment"> * This greatly enhances code readability.</em>
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  <em class="jxr_javadoccomment"> * &lt;p/&gt;</em>
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  <em class="jxr_javadoccomment"> * If you are passing a &lt;tt&gt;Throwable&lt;/tt&gt;, note that this should be passed in</em>
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  <em class="jxr_javadoccomment"> * &lt;i&gt;before&lt;/i&gt; the vararg parameter list.</em>
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  <em class="jxr_javadoccomment"> * &lt;p/&gt;</em>
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  <em class="jxr_javadoccomment"> * @author Manik Surtani</em>
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  <em class="jxr_javadoccomment"> * @since 4.0</em>
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>  <em class="jxr_javadoccomment"> * @private</em>
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  @MessageLogger(projectCode = <span class="jxr_string">"ISPN"</span>)
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> <a href="../../../../org/infinispan/util/logging/Log.html">Log</a> <strong class="jxr_keyword">extends</strong> BasicLogger {
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>  
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>     @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>     @Message(value = <span class="jxr_string">"Unable to load %s from cache loader"</span>, id = 1)
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>     <strong class="jxr_keyword">void</strong> unableToLoadFromCacheLoader(Object key, @Cause <a href="../../../../org/infinispan/persistence/spi/PersistenceException.html">PersistenceException</a> cle);
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>     @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>    @Message(value = <span class="jxr_string">"Field %s not found!!"</span>, id = 2)
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>    <strong class="jxr_keyword">void</strong> fieldNotFound(String fieldName);
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> 
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>    @Message(value = <span class="jxr_string">"Property %s could not be replaced as intended!"</span>, id = 3)
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>    <strong class="jxr_keyword">void</strong> propertyCouldNotBeReplaced(String line);
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>    @Message(value = <span class="jxr_string">"Unexpected error reading properties"</span>, id = 4)
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>    <strong class="jxr_keyword">void</strong> errorReadingProperties(@Cause IOException e);
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> 
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>    @Message(value = <span class="jxr_string">"Detected write skew on key [%s]. Another process has changed the entry since we last read it! Unable to copy entry for update."</span>, id = 5)
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>    <strong class="jxr_keyword">void</strong> unableToCopyEntryForUpdate(Object key);
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>    @Message(value = <span class="jxr_string">"Failed remote execution on node %s"</span>, id = 6)
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>    <strong class="jxr_keyword">void</strong> remoteExecutionFailed(<a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> address, @Cause Throwable t);
+<a class="jxr_linenumber" name="L118" href="#L118">118</a> 
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>    @Message(value = <span class="jxr_string">"Failed local execution "</span>, id = 7)
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>    <strong class="jxr_keyword">void</strong> localExecutionFailed(@Cause Throwable t);
+<a class="jxr_linenumber" name="L122" href="#L122">122</a> 
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>    @Message(value = <span class="jxr_string">"Can not select %s random members for %s"</span>, id = 8)
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>    <strong class="jxr_keyword">void</strong> cannotSelectRandomMembers(<strong class="jxr_keyword">int</strong> numNeeded, List&lt;Address&gt; members);
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>    @Message(value = <span class="jxr_string">"DistributionManager not yet joined the cluster. Cannot do anything about other concurrent joiners."</span>, id = 14)
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>    <strong class="jxr_keyword">void</strong> distributionManagerNotJoined();
+<a class="jxr_linenumber" name="L130" href="#L130">130</a> 
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>    @Message(value = <span class="jxr_string">"DistributionManager not started after waiting up to 5 minutes! Not rehashing!"</span>, id = 15)
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>    <strong class="jxr_keyword">void</strong> distributionManagerNotStarted();
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> 
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>    @Message(value = <span class="jxr_string">"Problem %s encountered when applying state for key %s!"</span>, id = 16)
+<a class="jxr_linenumber" name="L137" href="#L137">137</a>    <strong class="jxr_keyword">void</strong> problemApplyingStateForKey(String msg, Object key, @Cause Throwable t);
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> 
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L140" href="#L140">140</a>    @Message(value = <span class="jxr_string">"Unable to apply prepare %s"</span>, id = 18)
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>    <strong class="jxr_keyword">void</strong> unableToApplyPrepare(<a href="../../../../org/infinispan/commands/tx/PrepareCommand.html">PrepareCommand</a> pc, @Cause Throwable t);
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> 
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>    @Message(value = <span class="jxr_string">"Couldn't acquire shared lock"</span>, id = 19)
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>    <strong class="jxr_keyword">void</strong> couldNotAcquireSharedLock();
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> 
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>    @Message(value = <span class="jxr_string">"Expected just one response; got %s"</span>, id = 21)
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>    <strong class="jxr_keyword">void</strong> expectedJustOneResponse(Map&lt;Address, Response&gt; lr);
+<a class="jxr_linenumber" name="L150" href="#L150">150</a> 
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>    @Message(value = <span class="jxr_string">"wakeUpInterval is &lt;= 0, not starting expired purge thread"</span>, id = 25)
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>    <strong class="jxr_keyword">void</strong> notStartingEvictionThread();
+<a class="jxr_linenumber" name="L154" href="#L154">154</a> 
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>    @Message(value = <span class="jxr_string">"Caught exception purging data container!"</span>, id = 26)
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>    <strong class="jxr_keyword">void</strong> exceptionPurgingDataContainer(@Cause Exception e);
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>    @Message(value = <span class="jxr_string">"Could not acquire lock for eviction of %s"</span>, id = 27)
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>    <strong class="jxr_keyword">void</strong> couldNotAcquireLockForEviction(Object key, @Cause Exception e);
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> 
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>    @Message(value = <span class="jxr_string">"Unable to passivate entry under %s"</span>, id = 28)
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>    <strong class="jxr_keyword">void</strong> unableToPassivateEntry(Object key, @Cause Exception e);
+<a class="jxr_linenumber" name="L166" href="#L166">166</a> 
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>    @Message(value = <span class="jxr_string">"Passivating all entries to disk"</span>, id = 29)
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>    <strong class="jxr_keyword">void</strong> passivatingAllEntries();
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> 
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>    @Message(value = <span class="jxr_string">"Passivated %d entries in %s"</span>, id = 30)
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>    <strong class="jxr_keyword">void</strong> passivatedEntries(<strong class="jxr_keyword">int</strong> numEntries, String duration);
+<a class="jxr_linenumber" name="L174" href="#L174">174</a> 
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>    @LogMessage(level = TRACE)
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>    @Message(value = <span class="jxr_string">"MBeans were successfully registered to the platform MBean server."</span>, id = 31)
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>    <strong class="jxr_keyword">void</strong> mbeansSuccessfullyRegistered();
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> 
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>    @Message(value = <span class="jxr_string">"Problems un-registering MBeans"</span>, id = 32)
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>    <strong class="jxr_keyword">void</strong> problemsUnregisteringMBeans(@Cause Exception e);
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> 
+<a class="jxr_linenumber" name="L183" href="#L183">183</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L184" href="#L184">184</a>    @Message(value = <span class="jxr_string">"Unable to unregister Cache MBeans with pattern %s"</span>, id = 33)
+<a class="jxr_linenumber" name="L185" href="#L185">185</a>    <strong class="jxr_keyword">void</strong> unableToUnregisterMBeanWithPattern(String pattern, @Cause MBeanRegistrationException e);
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> 
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>    @Message(value = <span class="jxr_string">"There's already a JMX MBean instance %s already registered under "</span> +
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>          <span class="jxr_string">"'%s' JMX domain. If you want to allow multiple instances configured "</span> +
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>          <span class="jxr_string">"with same JMX domain enable 'allowDuplicateDomains' attribute in "</span> +
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>          <span class="jxr_string">"'globalJmxStatistics' config element"</span>, id = 34)
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>    <a href="../../../../org/infinispan/jmx/JmxDomainConflictException.html">JmxDomainConflictException</a> jmxMBeanAlreadyRegistered(String mBeanName, String jmxDomain);
+<a class="jxr_linenumber" name="L192" href="#L192">192</a> 
+<a class="jxr_linenumber" name="L193" href="#L193">193</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>    @Message(value = <span class="jxr_string">"Could not reflect field description of this class. Was it removed?"</span>, id = 35)
+<a class="jxr_linenumber" name="L195" href="#L195">195</a>    <strong class="jxr_keyword">void</strong> couldNotFindDescriptionField();
+<a class="jxr_linenumber" name="L196" href="#L196">196</a> 
+<a class="jxr_linenumber" name="L197" href="#L197">197</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>    @Message(value = <span class="jxr_string">"Did not find attribute %s"</span>, id = 36)
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>    <strong class="jxr_keyword">void</strong> couldNotFindAttribute(String name);
+<a class="jxr_linenumber" name="L200" href="#L200">200</a> 
+<a class="jxr_linenumber" name="L201" href="#L201">201</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L202" href="#L202">202</a>    @Message(value = <span class="jxr_string">"Failed to update attribute name %s with value %s"</span>, id = 37)
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>    <strong class="jxr_keyword">void</strong> failedToUpdateAttribute(String name, Object value);
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> 
+<a class="jxr_linenumber" name="L205" href="#L205">205</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L206" href="#L206">206</a>    @Message(value = <span class="jxr_string">"Method name %s doesn't start with \&quot;get\&quot;, \&quot;set\&quot;, or \&quot;is\&quot; "</span> +
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>          <span class="jxr_string">"but is annotated with @ManagedAttribute: will be ignored"</span>, id = 38)
+<a class="jxr_linenumber" name="L208" href="#L208">208</a>    <strong class="jxr_keyword">void</strong> ignoringManagedAttribute(String methodName);
+<a class="jxr_linenumber" name="L209" href="#L209">209</a> 
+<a class="jxr_linenumber" name="L210" href="#L210">210</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L211" href="#L211">211</a>    @Message(value = <span class="jxr_string">"Method %s must have a valid return type and zero parameters"</span>, id = 39)
+<a class="jxr_linenumber" name="L212" href="#L212">212</a>    <strong class="jxr_keyword">void</strong> invalidManagedAttributeMethod(String methodName);
+<a class="jxr_linenumber" name="L213" href="#L213">213</a> 
+<a class="jxr_linenumber" name="L214" href="#L214">214</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L215" href="#L215">215</a>    @Message(value = <span class="jxr_string">"Not adding annotated method %s since we already have read attribute"</span>, id = 40)
+<a class="jxr_linenumber" name="L216" href="#L216">216</a>    <strong class="jxr_keyword">void</strong> readManagedAttributeAlreadyPresent(Method m);
+<a class="jxr_linenumber" name="L217" href="#L217">217</a> 
+<a class="jxr_linenumber" name="L218" href="#L218">218</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L219" href="#L219">219</a>    @Message(value = <span class="jxr_string">"Not adding annotated method %s since we already have writable attribute"</span>, id = 41)
+<a class="jxr_linenumber" name="L220" href="#L220">220</a>    <strong class="jxr_keyword">void</strong> writeManagedAttributeAlreadyPresent(String methodName);
+<a class="jxr_linenumber" name="L221" href="#L221">221</a> 
+<a class="jxr_linenumber" name="L222" href="#L222">222</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L223" href="#L223">223</a>    @Message(value = <span class="jxr_string">"Did not find queried attribute with name %s"</span>, id = 42)
+<a class="jxr_linenumber" name="L224" href="#L224">224</a>    <strong class="jxr_keyword">void</strong> queriedAttributeNotFound(String attributeName);
+<a class="jxr_linenumber" name="L225" href="#L225">225</a> 
+<a class="jxr_linenumber" name="L226" href="#L226">226</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L227" href="#L227">227</a>    @Message(value = <span class="jxr_string">"Exception while writing value for attribute %s"</span>, id = 43)
+<a class="jxr_linenumber" name="L228" href="#L228">228</a>    <strong class="jxr_keyword">void</strong> errorWritingValueForAttribute(String attributeName, @Cause Exception e);
+<a class="jxr_linenumber" name="L229" href="#L229">229</a> 
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L231" href="#L231">231</a>    @Message(value = <span class="jxr_string">"Could not invoke set on attribute %s with value %s"</span>, id = 44)
+<a class="jxr_linenumber" name="L232" href="#L232">232</a>    <strong class="jxr_keyword">void</strong> couldNotInvokeSetOnAttribute(String attributeName, Object value);
+<a class="jxr_linenumber" name="L233" href="#L233">233</a> 
+<a class="jxr_linenumber" name="L234" href="#L234">234</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L235" href="#L235">235</a>    @Message(value = <span class="jxr_string">"Problems encountered while purging expired"</span>, id = 45)
+<a class="jxr_linenumber" name="L236" href="#L236">236</a>    <strong class="jxr_keyword">void</strong> problemPurgingExpired(@Cause Exception e);
+<a class="jxr_linenumber" name="L237" href="#L237">237</a> 
+<a class="jxr_linenumber" name="L238" href="#L238">238</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>    @Message(value = <span class="jxr_string">"Unknown responses from remote cache: %s"</span>, id = 46)
+<a class="jxr_linenumber" name="L240" href="#L240">240</a>    <strong class="jxr_keyword">void</strong> unknownResponsesFromRemoteCache(Collection&lt;Response&gt; responses);
+<a class="jxr_linenumber" name="L241" href="#L241">241</a> 
+<a class="jxr_linenumber" name="L242" href="#L242">242</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L243" href="#L243">243</a>    @Message(value = <span class="jxr_string">"Error while doing remote call"</span>, id = 47)
+<a class="jxr_linenumber" name="L244" href="#L244">244</a>    <strong class="jxr_keyword">void</strong> errorDoingRemoteCall(@Cause Exception e);
+<a class="jxr_linenumber" name="L245" href="#L245">245</a> 
+<a class="jxr_linenumber" name="L246" href="#L246">246</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L247" href="#L247">247</a>    @Message(value = <span class="jxr_string">"Interrupted or timeout while waiting for AsyncCacheWriter worker threads to push all state to the decorated store"</span>, id = 48)
+<a class="jxr_linenumber" name="L248" href="#L248">248</a>    <strong class="jxr_keyword">void</strong> interruptedWaitingAsyncStorePush(@Cause InterruptedException e);
+<a class="jxr_linenumber" name="L249" href="#L249">249</a> 
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>    @Message(value = <span class="jxr_string">"Unexpected error"</span>, id = 51)
+<a class="jxr_linenumber" name="L252" href="#L252">252</a>    <strong class="jxr_keyword">void</strong> unexpectedErrorInAsyncProcessor(@Cause Throwable t);
+<a class="jxr_linenumber" name="L253" href="#L253">253</a> 
+<a class="jxr_linenumber" name="L254" href="#L254">254</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>    @Message(value = <span class="jxr_string">"Interrupted on acquireLock for %d milliseconds!"</span>, id = 52)
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>    <strong class="jxr_keyword">void</strong> interruptedAcquiringLock(<strong class="jxr_keyword">long</strong> ms, @Cause InterruptedException e);
+<a class="jxr_linenumber" name="L257" href="#L257">257</a> 
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>    @Message(value = <span class="jxr_string">"Unable to process some async modifications after %d retries!"</span>, id = 53)
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>    <strong class="jxr_keyword">void</strong> unableToProcessAsyncModifications(<strong class="jxr_keyword">int</strong> retries);
+<a class="jxr_linenumber" name="L261" href="#L261">261</a> 
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>    @Message(value = <span class="jxr_string">"Unexpected error in AsyncStoreCoordinator thread. AsyncCacheWriter is dead!"</span>, id = 55)
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>    <strong class="jxr_keyword">void</strong> unexpectedErrorInAsyncStoreCoordinator(@Cause Throwable t);
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> 
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>    @Message(value = <span class="jxr_string">"Exception reported changing cache active status"</span>, id = 58)
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>    <strong class="jxr_keyword">void</strong> errorChangingSingletonStoreStatus(@Cause SingletonCacheWriter.PushStateException e);
+<a class="jxr_linenumber" name="L269" href="#L269">269</a> 
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>    @Message(value = <span class="jxr_string">"Had problems removing file %s"</span>, id = 59)
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>    <strong class="jxr_keyword">void</strong> problemsRemovingFile(File f);
+<a class="jxr_linenumber" name="L273" href="#L273">273</a> 
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>    @Message(value = <span class="jxr_string">"Problems purging file %s"</span>, id = 60)
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>    <strong class="jxr_keyword">void</strong> problemsPurgingFile(File buckedFile, @Cause <a href="../../../../org/infinispan/persistence/spi/PersistenceException.html">PersistenceException</a> e);
+<a class="jxr_linenumber" name="L277" href="#L277">277</a> 
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>    @Message(value = <span class="jxr_string">"Unable to acquire global lock to purge cache store"</span>, id = 61)
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>    <strong class="jxr_keyword">void</strong> unableToAcquireLockToPurgeStore();
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> 
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>    @Message(value = <span class="jxr_string">"Error while reading from file: %s"</span>, id = 62)
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>    <strong class="jxr_keyword">void</strong> errorReadingFromFile(File f, @Cause Exception e);
+<a class="jxr_linenumber" name="L285" href="#L285">285</a> 
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>    @Message(value = <span class="jxr_string">"Problems creating the directory: %s"</span>, id = 64)
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>    <strong class="jxr_keyword">void</strong> problemsCreatingDirectory(File dir);
+<a class="jxr_linenumber" name="L289" href="#L289">289</a> 
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>    @Message(value = <span class="jxr_string">"Exception while marshalling object: %s"</span>, id = 65)
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>    <strong class="jxr_keyword">void</strong> errorMarshallingObject(@Cause IOException ioe, Object obj);
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> 
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L295" href="#L295">295</a>    @Message(value = <span class="jxr_string">"Unable to read version id from first two bytes of stream, barfing."</span>, id = 66)
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>    <strong class="jxr_keyword">void</strong> unableToReadVersionId();
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> 
+<a class="jxr_linenumber" name="L298" href="#L298">298</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>    @Message(value = <span class="jxr_string">"Will try and wait for the cache %s to start"</span>, id = 67)
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>    <strong class="jxr_keyword">void</strong> waitForCacheToStart(String cacheName);
+<a class="jxr_linenumber" name="L301" href="#L301">301</a> 
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L303" href="#L303">303</a>    @Message(value = <span class="jxr_string">"Cache named %s does not exist on this cache manager!"</span>, id = 68)
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>    <strong class="jxr_keyword">void</strong> namedCacheDoesNotExist(String cacheName);
+<a class="jxr_linenumber" name="L305" href="#L305">305</a> 
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>    @Message(value = <span class="jxr_string">"Caught exception when handling command %s"</span>, id = 71)
+<a class="jxr_linenumber" name="L308" href="#L308">308</a>    <strong class="jxr_keyword">void</strong> exceptionHandlingCommand(<a href="../../../../org/infinispan/commands/ReplicableCommand.html">ReplicableCommand</a> cmd, @Cause Throwable t);
+<a class="jxr_linenumber" name="L309" href="#L309">309</a> 
+<a class="jxr_linenumber" name="L310" href="#L310">310</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L311" href="#L311">311</a>    @Message(value = <span class="jxr_string">"Failed replicating %d elements in replication queue"</span>, id = 72)
+<a class="jxr_linenumber" name="L312" href="#L312">312</a>    <strong class="jxr_keyword">void</strong> failedReplicatingQueue(<strong class="jxr_keyword">int</strong> size, @Cause Throwable t);
+<a class="jxr_linenumber" name="L313" href="#L313">313</a> 
+<a class="jxr_linenumber" name="L314" href="#L314">314</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>    @Message(value = <span class="jxr_string">"Unexpected error while replicating"</span>, id = 73)
+<a class="jxr_linenumber" name="L316" href="#L316">316</a>    <strong class="jxr_keyword">void</strong> unexpectedErrorReplicating(@Cause Throwable t);
+<a class="jxr_linenumber" name="L317" href="#L317">317</a> 
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>    @Message(value = <span class="jxr_string">"Message or message buffer is null or empty."</span>, id = 77)
+<a class="jxr_linenumber" name="L320" href="#L320">320</a>    <strong class="jxr_keyword">void</strong> msgOrMsgBufferEmpty();
+<a class="jxr_linenumber" name="L321" href="#L321">321</a> 
+<a class="jxr_linenumber" name="L322" href="#L322">322</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L323" href="#L323">323</a>    @Message(value = <span class="jxr_string">"Starting JGroups channel %s"</span>, id = 78)
+<a class="jxr_linenumber" name="L324" href="#L324">324</a>    <strong class="jxr_keyword">void</strong> startingJGroupsChannel(String cluster);
+<a class="jxr_linenumber" name="L325" href="#L325">325</a> 
+<a class="jxr_linenumber" name="L326" href="#L326">326</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>    @Message(value = <span class="jxr_string">"Channel %s local address is %s, physical addresses are %s"</span>, id = 79)
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>    <strong class="jxr_keyword">void</strong> localAndPhysicalAddress(String cluster, <a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> address, List&lt;Address&gt; physicalAddresses);
+<a class="jxr_linenumber" name="L329" href="#L329">329</a> 
+<a class="jxr_linenumber" name="L330" href="#L330">330</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>    @Message(value = <span class="jxr_string">"Disconnecting JGroups channel %s"</span>, id = 80)
+<a class="jxr_linenumber" name="L332" href="#L332">332</a>    <strong class="jxr_keyword">void</strong> disconnectJGroups(String cluster);
+<a class="jxr_linenumber" name="L333" href="#L333">333</a> 
+<a class="jxr_linenumber" name="L334" href="#L334">334</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L335" href="#L335">335</a>    @Message(value = <span class="jxr_string">"Problem closing channel %s; setting it to null"</span>, id = 81)
+<a class="jxr_linenumber" name="L336" href="#L336">336</a>    <strong class="jxr_keyword">void</strong> problemClosingChannel(@Cause Exception e, String cluster);
+<a class="jxr_linenumber" name="L337" href="#L337">337</a> 
+<a class="jxr_linenumber" name="L338" href="#L338">338</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L339" href="#L339">339</a>    @Message(value = <span class="jxr_string">"Stopping the RpcDispatcher for channel %s"</span>, id = 82)
+<a class="jxr_linenumber" name="L340" href="#L340">340</a>    <strong class="jxr_keyword">void</strong> stoppingRpcDispatcher(String cluster);
+<a class="jxr_linenumber" name="L341" href="#L341">341</a> 
+<a class="jxr_linenumber" name="L342" href="#L342">342</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L343" href="#L343">343</a>    @Message(value = <span class="jxr_string">"Class [%s] cannot be cast to JGroupsChannelLookup! Not using a channel lookup."</span>, id = 83)
+<a class="jxr_linenumber" name="L344" href="#L344">344</a>    <strong class="jxr_keyword">void</strong> wrongTypeForJGroupsChannelLookup(String channelLookupClassName, @Cause Exception e);
+<a class="jxr_linenumber" name="L345" href="#L345">345</a> 
+<a class="jxr_linenumber" name="L346" href="#L346">346</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L347" href="#L347">347</a>    @Message(value = <span class="jxr_string">"Errors instantiating [%s]! Not using a channel lookup."</span>, id = 84)
+<a class="jxr_linenumber" name="L348" href="#L348">348</a>    <strong class="jxr_keyword">void</strong> errorInstantiatingJGroupsChannelLookup(String channelLookupClassName, @Cause Exception e);
+<a class="jxr_linenumber" name="L349" href="#L349">349</a> 
+<a class="jxr_linenumber" name="L350" href="#L350">350</a>    @Message(value = <span class="jxr_string">"Error while trying to create a channel using the specified configuration file: %s"</span>, id = 85)
+<a class="jxr_linenumber" name="L351" href="#L351">351</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> errorCreatingChannelFromConfigFile(String cfg, @Cause Exception e);
+<a class="jxr_linenumber" name="L352" href="#L352">352</a> 
+<a class="jxr_linenumber" name="L353" href="#L353">353</a>    @Message(value = <span class="jxr_string">"Error while trying to create a channel using the specified configuration XML: %s"</span>, id = 86)
+<a class="jxr_linenumber" name="L354" href="#L354">354</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> errorCreatingChannelFromXML(String cfg, @Cause Exception e);
+<a class="jxr_linenumber" name="L355" href="#L355">355</a> 
+<a class="jxr_linenumber" name="L356" href="#L356">356</a>    @Message(value = <span class="jxr_string">"Error while trying to create a channel using the specified configuration string: %s"</span>, id = 87)
+<a class="jxr_linenumber" name="L357" href="#L357">357</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> errorCreatingChannelFromConfigString(String cfg, @Cause Exception e);
+<a class="jxr_linenumber" name="L358" href="#L358">358</a> 
+<a class="jxr_linenumber" name="L359" href="#L359">359</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L360" href="#L360">360</a>    @Message(value = <span class="jxr_string">"Unable to use any JGroups configuration mechanisms provided in properties %s. "</span> +
+<a class="jxr_linenumber" name="L361" href="#L361">361</a>          <span class="jxr_string">"Using default JGroups configuration!"</span>, id = 88)
+<a class="jxr_linenumber" name="L362" href="#L362">362</a>    <strong class="jxr_keyword">void</strong> unableToUseJGroupsPropertiesProvided(<a href="../../../../org/infinispan/commons/util/TypedProperties.html">TypedProperties</a> props);
+<a class="jxr_linenumber" name="L363" href="#L363">363</a> 
+<a class="jxr_linenumber" name="L364" href="#L364">364</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L365" href="#L365">365</a>    @Message(value = <span class="jxr_string">"getCoordinator(): Interrupted while waiting for members to be set"</span>, id = 89)
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>    <strong class="jxr_keyword">void</strong> interruptedWaitingForCoordinator(@Cause InterruptedException e);
+<a class="jxr_linenumber" name="L367" href="#L367">367</a> 
+<a class="jxr_linenumber" name="L368" href="#L368">368</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>    @Message(value = <span class="jxr_string">"Channel not set up properly!"</span>, id = 92)
+<a class="jxr_linenumber" name="L370" href="#L370">370</a>    <strong class="jxr_keyword">void</strong> channelNotSetUp();
+<a class="jxr_linenumber" name="L371" href="#L371">371</a> 
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L373" href="#L373">373</a>    @Message(value = <span class="jxr_string">"Received new, MERGED cluster view for channel %s: %s"</span>, id = 93)
+<a class="jxr_linenumber" name="L374" href="#L374">374</a>    <strong class="jxr_keyword">void</strong> receivedMergedView(String cluster, View newView);
+<a class="jxr_linenumber" name="L375" href="#L375">375</a> 
+<a class="jxr_linenumber" name="L376" href="#L376">376</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L377" href="#L377">377</a>    @Message(value = <span class="jxr_string">"Received new cluster view for channel %s: %s"</span>, id = 94)
+<a class="jxr_linenumber" name="L378" href="#L378">378</a>    <strong class="jxr_keyword">void</strong> receivedClusterView(String cluster, View newView);
+<a class="jxr_linenumber" name="L379" href="#L379">379</a> 
+<a class="jxr_linenumber" name="L380" href="#L380">380</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L381" href="#L381">381</a>    @Message(value = <span class="jxr_string">"Error while processing a prepare in a single-phase transaction"</span>, id = 97)
+<a class="jxr_linenumber" name="L382" href="#L382">382</a>    <strong class="jxr_keyword">void</strong> errorProcessing1pcPrepareCommand(@Cause Throwable e);
+<a class="jxr_linenumber" name="L383" href="#L383">383</a> 
+<a class="jxr_linenumber" name="L384" href="#L384">384</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L385" href="#L385">385</a>    @Message(value = <span class="jxr_string">"Exception while rollback"</span>, id = 98)
+<a class="jxr_linenumber" name="L386" href="#L386">386</a>    <strong class="jxr_keyword">void</strong> errorRollingBack(@Cause Throwable e);
+<a class="jxr_linenumber" name="L387" href="#L387">387</a> 
+<a class="jxr_linenumber" name="L388" href="#L388">388</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L389" href="#L389">389</a>    @Message(value = <span class="jxr_string">"Unprocessed Transaction Log Entries! = %d"</span>, id = 99)
+<a class="jxr_linenumber" name="L390" href="#L390">390</a>    <strong class="jxr_keyword">void</strong> unprocessedTxLogEntries(<strong class="jxr_keyword">int</strong> size);
+<a class="jxr_linenumber" name="L391" href="#L391">391</a> 
+<a class="jxr_linenumber" name="L392" href="#L392">392</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L393" href="#L393">393</a>    @Message(value = <span class="jxr_string">"Stopping, but there are %s local transactions and %s remote transactions that did not finish in time."</span>, id = 100)
+<a class="jxr_linenumber" name="L394" href="#L394">394</a>    <strong class="jxr_keyword">void</strong> unfinishedTransactionsRemain(<strong class="jxr_keyword">int</strong> localTransactions, <strong class="jxr_keyword">int</strong> remoteTransactions);
+<a class="jxr_linenumber" name="L395" href="#L395">395</a> 
+<a class="jxr_linenumber" name="L396" href="#L396">396</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L397" href="#L397">397</a>    @Message(value = <span class="jxr_string">"Failed synchronization registration"</span>, id = 101)
+<a class="jxr_linenumber" name="L398" href="#L398">398</a>    <strong class="jxr_keyword">void</strong> failedSynchronizationRegistration(@Cause Exception e);
+<a class="jxr_linenumber" name="L399" href="#L399">399</a> 
+<a class="jxr_linenumber" name="L400" href="#L400">400</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L401" href="#L401">401</a>    @Message(value = <span class="jxr_string">"Unable to roll back global transaction %s"</span>, id = 102)
+<a class="jxr_linenumber" name="L402" href="#L402">402</a>    <strong class="jxr_keyword">void</strong> unableToRollbackGlobalTx(<a href="../../../../org/infinispan/transaction/xa/GlobalTransaction.html">GlobalTransaction</a> gtx, @Cause Throwable e);
+<a class="jxr_linenumber" name="L403" href="#L403">403</a> 
+<a class="jxr_linenumber" name="L404" href="#L404">404</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L405" href="#L405">405</a>    @Message(value = <span class="jxr_string">"A remote transaction with the given id was already registered!!!"</span>, id = 103)
+<a class="jxr_linenumber" name="L406" href="#L406">406</a>    <strong class="jxr_keyword">void</strong> remoteTxAlreadyRegistered();
+<a class="jxr_linenumber" name="L407" href="#L407">407</a> 
+<a class="jxr_linenumber" name="L408" href="#L408">408</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L409" href="#L409">409</a>    @Message(value = <span class="jxr_string">"Falling back to DummyTransactionManager from Infinispan"</span>, id = 104)
+<a class="jxr_linenumber" name="L410" href="#L410">410</a>    <strong class="jxr_keyword">void</strong> fallingBackToDummyTm();
+<a class="jxr_linenumber" name="L411" href="#L411">411</a> 
+<a class="jxr_linenumber" name="L412" href="#L412">412</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L413" href="#L413">413</a>    @Message(value = <span class="jxr_string">"Failed creating initial JNDI context"</span>, id = 105)
+<a class="jxr_linenumber" name="L414" href="#L414">414</a>    <strong class="jxr_keyword">void</strong> failedToCreateInitialCtx(@Cause NamingException e);
+<a class="jxr_linenumber" name="L415" href="#L415">415</a> 
+<a class="jxr_linenumber" name="L416" href="#L416">416</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L417" href="#L417">417</a>    @Message(value = <span class="jxr_string">"Found WebSphere TransactionManager factory class [%s], but "</span> +
+<a class="jxr_linenumber" name="L418" href="#L418">418</a>          <span class="jxr_string">"couldn't invoke its static 'getTransactionManager' method"</span>, id = 106)
+<a class="jxr_linenumber" name="L419" href="#L419">419</a>    <strong class="jxr_keyword">void</strong> unableToInvokeWebsphereStaticGetTmMethod(@Cause Exception ex, String className);
+<a class="jxr_linenumber" name="L420" href="#L420">420</a> 
+<a class="jxr_linenumber" name="L421" href="#L421">421</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L422" href="#L422">422</a>    @Message(value = <span class="jxr_string">"Retrieving transaction manager %s"</span>, id = 107)
+<a class="jxr_linenumber" name="L423" href="#L423">423</a>    <strong class="jxr_keyword">void</strong> retrievingTm(TransactionManager tm);
+<a class="jxr_linenumber" name="L424" href="#L424">424</a> 
+<a class="jxr_linenumber" name="L425" href="#L425">425</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L426" href="#L426">426</a>    @Message(value = <span class="jxr_string">"Error enlisting resource"</span>, id = 108)
+<a class="jxr_linenumber" name="L427" href="#L427">427</a>    <strong class="jxr_keyword">void</strong> errorEnlistingResource(@Cause XAException e);
+<a class="jxr_linenumber" name="L428" href="#L428">428</a> 
+<a class="jxr_linenumber" name="L429" href="#L429">429</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L430" href="#L430">430</a>    @Message(value = <span class="jxr_string">"beforeCompletion() failed for %s"</span>, id = 109)
+<a class="jxr_linenumber" name="L431" href="#L431">431</a>    <strong class="jxr_keyword">void</strong> beforeCompletionFailed(Synchronization s, @Cause Throwable t);
+<a class="jxr_linenumber" name="L432" href="#L432">432</a> 
+<a class="jxr_linenumber" name="L433" href="#L433">433</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L434" href="#L434">434</a>    @Message(value = <span class="jxr_string">"Unexpected error from resource manager!"</span>, id = 110)
+<a class="jxr_linenumber" name="L435" href="#L435">435</a>    <strong class="jxr_keyword">void</strong> unexpectedErrorFromResourceManager(@Cause Throwable t);
+<a class="jxr_linenumber" name="L436" href="#L436">436</a> 
+<a class="jxr_linenumber" name="L437" href="#L437">437</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L438" href="#L438">438</a>    @Message(value = <span class="jxr_string">"afterCompletion() failed for %s"</span>, id = 111)
+<a class="jxr_linenumber" name="L439" href="#L439">439</a>    <strong class="jxr_keyword">void</strong> afterCompletionFailed(Synchronization s, @Cause Throwable t);
+<a class="jxr_linenumber" name="L440" href="#L440">440</a> 
+<a class="jxr_linenumber" name="L441" href="#L441">441</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L442" href="#L442">442</a>    @Message(value = <span class="jxr_string">"exception while committing"</span>, id = 112)
+<a class="jxr_linenumber" name="L443" href="#L443">443</a>    <strong class="jxr_keyword">void</strong> errorCommittingTx(@Cause XAException e);
+<a class="jxr_linenumber" name="L444" href="#L444">444</a> 
+<a class="jxr_linenumber" name="L445" href="#L445">445</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L446" href="#L446">446</a>    @Message(value = <span class="jxr_string">"Unbinding of DummyTransactionManager failed"</span>, id = 113)
+<a class="jxr_linenumber" name="L447" href="#L447">447</a>    <strong class="jxr_keyword">void</strong> unbindingDummyTmFailed(@Cause NamingException e);
+<a class="jxr_linenumber" name="L448" href="#L448">448</a> 
+<a class="jxr_linenumber" name="L449" href="#L449">449</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L450" href="#L450">450</a>    @Message(value = <span class="jxr_string">"Unsupported combination (dldEnabled, recoveryEnabled, xa) = (%s, %s, %s)"</span>, id = 114)
+<a class="jxr_linenumber" name="L451" href="#L451">451</a>    <strong class="jxr_keyword">void</strong> unsupportedTransactionConfiguration(<strong class="jxr_keyword">boolean</strong> dldEnabled, <strong class="jxr_keyword">boolean</strong> recoveryEnabled, <strong class="jxr_keyword">boolean</strong> xa);
+<a class="jxr_linenumber" name="L452" href="#L452">452</a> 
+<a class="jxr_linenumber" name="L453" href="#L453">453</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L454" href="#L454">454</a>    @Message(value = <span class="jxr_string">"Recovery call will be ignored as recovery is disabled. "</span> +
+<a class="jxr_linenumber" name="L455" href="#L455">455</a>          <span class="jxr_string">"More on recovery: http://community.jboss.org/docs/DOC-16646"</span>, id = 115)
+<a class="jxr_linenumber" name="L456" href="#L456">456</a>    <strong class="jxr_keyword">void</strong> recoveryIgnored();
+<a class="jxr_linenumber" name="L457" href="#L457">457</a> 
+<a class="jxr_linenumber" name="L458" href="#L458">458</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L459" href="#L459">459</a>    @Message(value = <span class="jxr_string">"Missing the list of prepared transactions from node %s. "</span> +
+<a class="jxr_linenumber" name="L460" href="#L460">460</a>          <span class="jxr_string">"Received response is %s"</span>, id = 116)
+<a class="jxr_linenumber" name="L461" href="#L461">461</a>    <strong class="jxr_keyword">void</strong> missingListPreparedTransactions(Object key, Object value);
+<a class="jxr_linenumber" name="L462" href="#L462">462</a> 
+<a class="jxr_linenumber" name="L463" href="#L463">463</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L464" href="#L464">464</a>    @Message(value = <span class="jxr_string">"There's already a prepared transaction with this xid: %s. "</span> +
+<a class="jxr_linenumber" name="L465" href="#L465">465</a>          <span class="jxr_string">"New transaction is %s. Are there two different transactions having same Xid in the cluster?"</span>, id = 117)
+<a class="jxr_linenumber" name="L466" href="#L466">466</a>    <strong class="jxr_keyword">void</strong> preparedTxAlreadyExists(<a href="../../../../org/infinispan/transaction/xa/recovery/RecoveryAwareTransaction.html">RecoveryAwareTransaction</a> previous,
+<a class="jxr_linenumber" name="L467" href="#L467">467</a>                                 <a href="../../../../org/infinispan/transaction/xa/recovery/RecoveryAwareRemoteTransaction.html">RecoveryAwareRemoteTransaction</a> remoteTransaction);
+<a class="jxr_linenumber" name="L468" href="#L468">468</a> 
+<a class="jxr_linenumber" name="L469" href="#L469">469</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L470" href="#L470">470</a>    @Message(value = <span class="jxr_string">"Could not load module at URL %s"</span>, id = 118)
+<a class="jxr_linenumber" name="L471" href="#L471">471</a>    <strong class="jxr_keyword">void</strong> couldNotLoadModuleAtUrl(URL url, @Cause Exception ex);
+<a class="jxr_linenumber" name="L472" href="#L472">472</a> 
+<a class="jxr_linenumber" name="L473" href="#L473">473</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L474" href="#L474">474</a>    @Message(value = <span class="jxr_string">"Module %s loaded, but could not be initialized"</span>, id = 119)
+<a class="jxr_linenumber" name="L475" href="#L475">475</a>    <strong class="jxr_keyword">void</strong> couldNotInitializeModule(Object key, @Cause Exception ex);
+<a class="jxr_linenumber" name="L476" href="#L476">476</a> 
+<a class="jxr_linenumber" name="L477" href="#L477">477</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L478" href="#L478">478</a>    @Message(value = <span class="jxr_string">"Invocation of %s threw an exception %s. Exception is ignored."</span>, id = 120)
+<a class="jxr_linenumber" name="L479" href="#L479">479</a>    <strong class="jxr_keyword">void</strong> ignoringException(String methodName, String exceptionName, @Cause Throwable t);
+<a class="jxr_linenumber" name="L480" href="#L480">480</a> 
+<a class="jxr_linenumber" name="L481" href="#L481">481</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L482" href="#L482">482</a>    @Message(value = <span class="jxr_string">"Unable to set value!"</span>, id = 121)
+<a class="jxr_linenumber" name="L483" href="#L483">483</a>    <strong class="jxr_keyword">void</strong> unableToSetValue(@Cause Exception e);
+<a class="jxr_linenumber" name="L484" href="#L484">484</a> 
+<a class="jxr_linenumber" name="L485" href="#L485">485</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L486" href="#L486">486</a>    @Message(value = <span class="jxr_string">"Unable to convert string property [%s] to an int! Using default value of %d"</span>, id = 122)
+<a class="jxr_linenumber" name="L487" href="#L487">487</a>    <strong class="jxr_keyword">void</strong> unableToConvertStringPropertyToInt(String value, <strong class="jxr_keyword">int</strong> defaultValue);
+<a class="jxr_linenumber" name="L488" href="#L488">488</a> 
+<a class="jxr_linenumber" name="L489" href="#L489">489</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L490" href="#L490">490</a>    @Message(value = <span class="jxr_string">"Unable to convert string property [%s] to a long! Using default value of %d"</span>, id = 123)
+<a class="jxr_linenumber" name="L491" href="#L491">491</a>    <strong class="jxr_keyword">void</strong> unableToConvertStringPropertyToLong(String value, <strong class="jxr_keyword">long</strong> defaultValue);
+<a class="jxr_linenumber" name="L492" href="#L492">492</a> 
+<a class="jxr_linenumber" name="L493" href="#L493">493</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L494" href="#L494">494</a>    @Message(value = <span class="jxr_string">"Unable to convert string property [%s] to a boolean! Using default value of %b"</span>, id = 124)
+<a class="jxr_linenumber" name="L495" href="#L495">495</a>    <strong class="jxr_keyword">void</strong> unableToConvertStringPropertyToBoolean(String value, <strong class="jxr_keyword">boolean</strong> defaultValue);
+<a class="jxr_linenumber" name="L496" href="#L496">496</a> 
+<a class="jxr_linenumber" name="L497" href="#L497">497</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L498" href="#L498">498</a>    @Message(value = <span class="jxr_string">"Unable to invoke getter %s on Configuration.class!"</span>, id = 125)
+<a class="jxr_linenumber" name="L499" href="#L499">499</a>    <strong class="jxr_keyword">void</strong> unableToInvokeGetterOnConfiguration(Method getter, @Cause Exception e);
+<a class="jxr_linenumber" name="L500" href="#L500">500</a> 
+<a class="jxr_linenumber" name="L501" href="#L501">501</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L502" href="#L502">502</a>    @Message(value = <span class="jxr_string">"Attempted to stop() from FAILED state, but caught exception; try calling destroy()"</span>, id = 126)
+<a class="jxr_linenumber" name="L503" href="#L503">503</a>    <strong class="jxr_keyword">void</strong> failedToCallStopAfterFailure(@Cause Throwable t);
+<a class="jxr_linenumber" name="L504" href="#L504">504</a> 
+<a class="jxr_linenumber" name="L505" href="#L505">505</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L506" href="#L506">506</a>    @Message(value = <span class="jxr_string">"Needed to call stop() before destroying but stop() threw exception. Proceeding to destroy"</span>, id = 127)
+<a class="jxr_linenumber" name="L507" href="#L507">507</a>    <strong class="jxr_keyword">void</strong> stopBeforeDestroyFailed(@Cause <a href="../../../../org/infinispan/commons/CacheException.html">CacheException</a> e);
+<a class="jxr_linenumber" name="L508" href="#L508">508</a> 
+<a class="jxr_linenumber" name="L509" href="#L509">509</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L510" href="#L510">510</a>    @Message(value = <span class="jxr_string">"Infinispan version: %s"</span>, id = 128)
+<a class="jxr_linenumber" name="L511" href="#L511">511</a>    <strong class="jxr_keyword">void</strong> version(String version);
+<a class="jxr_linenumber" name="L512" href="#L512">512</a> 
+<a class="jxr_linenumber" name="L513" href="#L513">513</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L514" href="#L514">514</a>    @Message(value = <span class="jxr_string">"Received a remote call but the cache is not in STARTED state - ignoring call."</span>, id = 129)
+<a class="jxr_linenumber" name="L515" href="#L515">515</a>    <strong class="jxr_keyword">void</strong> cacheNotStarted();
+<a class="jxr_linenumber" name="L516" href="#L516">516</a> 
+<a class="jxr_linenumber" name="L517" href="#L517">517</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L518" href="#L518">518</a>    @Message(value = <span class="jxr_string">"Caught exception! Aborting join."</span>, id = 130)
+<a class="jxr_linenumber" name="L519" href="#L519">519</a>    <strong class="jxr_keyword">void</strong> abortingJoin(@Cause Exception e);
+<a class="jxr_linenumber" name="L520" href="#L520">520</a> 
+<a class="jxr_linenumber" name="L521" href="#L521">521</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L522" href="#L522">522</a>    @Message(value = <span class="jxr_string">"%s completed join rehash in %s!"</span>, id = 131)
+<a class="jxr_linenumber" name="L523" href="#L523">523</a>    <strong class="jxr_keyword">void</strong> joinRehashCompleted(<a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> self, String duration);
+<a class="jxr_linenumber" name="L524" href="#L524">524</a> 
+<a class="jxr_linenumber" name="L525" href="#L525">525</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L526" href="#L526">526</a>    @Message(value = <span class="jxr_string">"%s aborted join rehash after %s!"</span>, id = 132)
+<a class="jxr_linenumber" name="L527" href="#L527">527</a>    <strong class="jxr_keyword">void</strong> joinRehashAborted(<a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> self, String duration);
+<a class="jxr_linenumber" name="L528" href="#L528">528</a> 
+<a class="jxr_linenumber" name="L529" href="#L529">529</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L530" href="#L530">530</a>    @Message(value = <span class="jxr_string">"Attempted to register listener of class %s, but no valid, "</span> +
+<a class="jxr_linenumber" name="L531" href="#L531">531</a>          <span class="jxr_string">"public methods annotated with method-level event annotations found! "</span> +
+<a class="jxr_linenumber" name="L532" href="#L532">532</a>          <span class="jxr_string">"Ignoring listener."</span>, id = 133)
+<a class="jxr_linenumber" name="L533" href="#L533">533</a>    <strong class="jxr_keyword">void</strong> noAnnotateMethodsFoundInListener(Class&lt;?&gt; listenerClass);
+<a class="jxr_linenumber" name="L534" href="#L534">534</a> 
+<a class="jxr_linenumber" name="L535" href="#L535">535</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L536" href="#L536">536</a>    @Message(value = <span class="jxr_string">"Unable to invoke method %s on Object instance %s - "</span> +
+<a class="jxr_linenumber" name="L537" href="#L537">537</a>          <span class="jxr_string">"removing this target object from list of listeners!"</span>, id = 134)
+<a class="jxr_linenumber" name="L538" href="#L538">538</a>    <strong class="jxr_keyword">void</strong> unableToInvokeListenerMethodAndRemoveListener(Method m, Object target, @Cause Throwable e);
+<a class="jxr_linenumber" name="L539" href="#L539">539</a> 
+<a class="jxr_linenumber" name="L540" href="#L540">540</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L541" href="#L541">541</a>    @Message(value = <span class="jxr_string">"Could not lock key %s in order to invalidate from L1 at node %s, skipping...."</span>, id = 135)
+<a class="jxr_linenumber" name="L542" href="#L542">542</a>    <strong class="jxr_keyword">void</strong> unableToLockToInvalidate(Object key, <a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> address);
+<a class="jxr_linenumber" name="L543" href="#L543">543</a> 
+<a class="jxr_linenumber" name="L544" href="#L544">544</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L545" href="#L545">545</a>    @Message(value = <span class="jxr_string">"Execution error"</span>, id = 136)
+<a class="jxr_linenumber" name="L546" href="#L546">546</a>    <strong class="jxr_keyword">void</strong> executionError(@Cause Throwable t);
+<a class="jxr_linenumber" name="L547" href="#L547">547</a> 
+<a class="jxr_linenumber" name="L548" href="#L548">548</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L549" href="#L549">549</a>    @Message(value = <span class="jxr_string">"Failed invalidating remote cache"</span>, id = 137)
+<a class="jxr_linenumber" name="L550" href="#L550">550</a>    <strong class="jxr_keyword">void</strong> failedInvalidatingRemoteCache(@Cause Exception e);
+<a class="jxr_linenumber" name="L551" href="#L551">551</a> 
+<a class="jxr_linenumber" name="L552" href="#L552">552</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L553" href="#L553">553</a>    @Message(value = <span class="jxr_string">"Could not register object with name: %s"</span>, id = 138)
+<a class="jxr_linenumber" name="L554" href="#L554">554</a>    <strong class="jxr_keyword">void</strong> couldNotRegisterObjectName(ObjectName objectName, @Cause InstanceAlreadyExistsException e);
+<a class="jxr_linenumber" name="L555" href="#L555">555</a> 
+<a class="jxr_linenumber" name="L556" href="#L556">556</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L557" href="#L557">557</a>    @Message(value = <span class="jxr_string">"Infinispan configuration schema could not be resolved locally nor fetched from URL. Local path=%s, schema path=%s, schema URL=%s"</span>, id = 139)
+<a class="jxr_linenumber" name="L558" href="#L558">558</a>    <strong class="jxr_keyword">void</strong> couldNotResolveConfigurationSchema(String localPath, String schemaPath, String schemaURL);
+<a class="jxr_linenumber" name="L559" href="#L559">559</a> 
+<a class="jxr_linenumber" name="L560" href="#L560">560</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L561" href="#L561">561</a>    @Message(value = <span class="jxr_string">"Lazy deserialization configuration is deprecated, please use storeAsBinary instead"</span>, id = 140)
+<a class="jxr_linenumber" name="L562" href="#L562">562</a>    <strong class="jxr_keyword">void</strong> lazyDeserializationDeprecated();
+<a class="jxr_linenumber" name="L563" href="#L563">563</a> 
+<a class="jxr_linenumber" name="L564" href="#L564">564</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L565" href="#L565">565</a>    @Message(value = <span class="jxr_string">"Could not rollback prepared 1PC transaction. This transaction will be rolled back by the recovery process, if enabled. Transaction: %s"</span>, id = 141)
+<a class="jxr_linenumber" name="L566" href="#L566">566</a>    <strong class="jxr_keyword">void</strong> couldNotRollbackPrepared1PcTransaction(<a href="../../../../org/infinispan/transaction/impl/LocalTransaction.html">LocalTransaction</a> localTransaction, @Cause Throwable e1);
+<a class="jxr_linenumber" name="L567" href="#L567">567</a> 
+<a class="jxr_linenumber" name="L568" href="#L568">568</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L569" href="#L569">569</a>    @Message(value = <span class="jxr_string">"Received a key that doesn't map to this node: %s, mapped to %s"</span>, id = 143)
+<a class="jxr_linenumber" name="L570" href="#L570">570</a>    <strong class="jxr_keyword">void</strong> keyDoesNotMapToLocalNode(Object key, Collection&lt;Address&gt; nodes);
+<a class="jxr_linenumber" name="L571" href="#L571">571</a> 
+<a class="jxr_linenumber" name="L572" href="#L572">572</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L573" href="#L573">573</a>    @Message(value = <span class="jxr_string">"Failed loading value for key %s from cache store"</span>, id = 144)
+<a class="jxr_linenumber" name="L574" href="#L574">574</a>    <strong class="jxr_keyword">void</strong> failedLoadingValueFromCacheStore(Object key, @Cause Exception e);
+<a class="jxr_linenumber" name="L575" href="#L575">575</a> 
+<a class="jxr_linenumber" name="L576" href="#L576">576</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L577" href="#L577">577</a>    @Message(value = <span class="jxr_string">"Error invalidating keys from L1 after rehash"</span>, id = 147)
+<a class="jxr_linenumber" name="L578" href="#L578">578</a>    <strong class="jxr_keyword">void</strong> failedToInvalidateKeys(@Cause Exception e);
+<a class="jxr_linenumber" name="L579" href="#L579">579</a> 
+<a class="jxr_linenumber" name="L580" href="#L580">580</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L581" href="#L581">581</a>    @Message(value = <span class="jxr_string">"Invalid %s value of %s. It can not be higher than %s which is %s"</span>, id = 148)
+<a class="jxr_linenumber" name="L582" href="#L582">582</a>    <strong class="jxr_keyword">void</strong> invalidTimeoutValue(Object configName1, Object value1, Object configName2, Object value2);
+<a class="jxr_linenumber" name="L583" href="#L583">583</a> 
+<a class="jxr_linenumber" name="L584" href="#L584">584</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L585" href="#L585">585</a>    @Message(value = <span class="jxr_string">"Fetch persistent state and purge on startup are both disabled, cache may contain stale entries on startup"</span>, id = 149)
+<a class="jxr_linenumber" name="L586" href="#L586">586</a>    <strong class="jxr_keyword">void</strong> staleEntriesWithoutFetchPersistentStateOrPurgeOnStartup();
+<a class="jxr_linenumber" name="L587" href="#L587">587</a> 
+<a class="jxr_linenumber" name="L588" href="#L588">588</a>    @LogMessage(level = FATAL)
+<a class="jxr_linenumber" name="L589" href="#L589">589</a>    @Message(value = <span class="jxr_string">"Rehash command received on non-distributed cache. All the nodes in the cluster should be using the same configuration."</span>, id = 150)
+<a class="jxr_linenumber" name="L590" href="#L590">590</a>    <strong class="jxr_keyword">void</strong> rehashCommandReceivedOnNonDistributedCache();
+<a class="jxr_linenumber" name="L591" href="#L591">591</a> 
+<a class="jxr_linenumber" name="L592" href="#L592">592</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L593" href="#L593">593</a>    @Message(value = <span class="jxr_string">"Error flushing to file: %s"</span>, id = 151)
+<a class="jxr_linenumber" name="L594" href="#L594">594</a>    <strong class="jxr_keyword">void</strong> errorFlushingToFileChannel(FileChannel f, @Cause Exception e);
+<a class="jxr_linenumber" name="L595" href="#L595">595</a> 
+<a class="jxr_linenumber" name="L596" href="#L596">596</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L597" href="#L597">597</a>    @Message(value = <span class="jxr_string">"Passivation configured without an eviction policy being selected. "</span> +
+<a class="jxr_linenumber" name="L598" href="#L598">598</a>       <span class="jxr_string">"Only manually evicted entities will be passivated."</span>, id = 152)
+<a class="jxr_linenumber" name="L599" href="#L599">599</a>    <strong class="jxr_keyword">void</strong> passivationWithoutEviction();
+<a class="jxr_linenumber" name="L600" href="#L600">600</a> 
+<a class="jxr_linenumber" name="L601" href="#L601">601</a>    <em class="jxr_comment">// Warning ISPN000153 removed as per ISPN-2554</em>
+<a class="jxr_linenumber" name="L602" href="#L602">602</a> 
+<a class="jxr_linenumber" name="L603" href="#L603">603</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L604" href="#L604">604</a>    @Message(value = <span class="jxr_string">"Unable to unlock keys %2$s for transaction %1$s after they were rebalanced off node %3$s"</span>, id = 154)
+<a class="jxr_linenumber" name="L605" href="#L605">605</a>    <strong class="jxr_keyword">void</strong> unableToUnlockRebalancedKeys(<a href="../../../../org/infinispan/transaction/xa/GlobalTransaction.html">GlobalTransaction</a> gtx, List&lt;Object&gt; keys, <a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> self, @Cause Throwable t);
+<a class="jxr_linenumber" name="L606" href="#L606">606</a> 
+<a class="jxr_linenumber" name="L607" href="#L607">607</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L608" href="#L608">608</a>    @Message(value = <span class="jxr_string">"Unblocking transactions failed"</span>, id = 159)
+<a class="jxr_linenumber" name="L609" href="#L609">609</a>    <strong class="jxr_keyword">void</strong> errorUnblockingTransactions(@Cause Exception e);
+<a class="jxr_linenumber" name="L610" href="#L610">610</a> 
+<a class="jxr_linenumber" name="L611" href="#L611">611</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L612" href="#L612">612</a>    @Message(value = <span class="jxr_string">"Could not complete injected transaction."</span>, id = 160)
+<a class="jxr_linenumber" name="L613" href="#L613">613</a>    <strong class="jxr_keyword">void</strong> couldNotCompleteInjectedTransaction(@Cause Throwable t);
+<a class="jxr_linenumber" name="L614" href="#L614">614</a> 
+<a class="jxr_linenumber" name="L615" href="#L615">615</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L616" href="#L616">616</a>    @Message(value = <span class="jxr_string">"Using a batchMode transaction manager"</span>, id = 161)
+<a class="jxr_linenumber" name="L617" href="#L617">617</a>    <strong class="jxr_keyword">void</strong> usingBatchModeTransactionManager();
+<a class="jxr_linenumber" name="L618" href="#L618">618</a> 
+<a class="jxr_linenumber" name="L619" href="#L619">619</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L620" href="#L620">620</a>    @Message(value = <span class="jxr_string">"Could not instantiate transaction manager"</span>, id = 162)
+<a class="jxr_linenumber" name="L621" href="#L621">621</a>    <strong class="jxr_keyword">void</strong> couldNotInstantiateTransactionManager(@Cause Exception e);
+<a class="jxr_linenumber" name="L622" href="#L622">622</a> 
+<a class="jxr_linenumber" name="L623" href="#L623">623</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L624" href="#L624">624</a>    @Message(value = <span class="jxr_string">"FileCacheStore ignored an unexpected file %2$s in path %1$s. The store path should be dedicated!"</span>, id = 163)
+<a class="jxr_linenumber" name="L625" href="#L625">625</a>    <strong class="jxr_keyword">void</strong> cacheLoaderIgnoringUnexpectedFile(Object parentPath, String name);
+<a class="jxr_linenumber" name="L626" href="#L626">626</a> 
+<a class="jxr_linenumber" name="L627" href="#L627">627</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L628" href="#L628">628</a>    @Message(value = <span class="jxr_string">"Rolling back to cache view %d, but last committed view is %d"</span>, id = 164)
+<a class="jxr_linenumber" name="L629" href="#L629">629</a>    <strong class="jxr_keyword">void</strong> cacheViewRollbackIdMismatch(<strong class="jxr_keyword">int</strong> committedViewId, <strong class="jxr_keyword">int</strong> committedView);
+<a class="jxr_linenumber" name="L630" href="#L630">630</a> 
+<a class="jxr_linenumber" name="L631" href="#L631">631</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L632" href="#L632">632</a>    @Message(value = <span class="jxr_string">"Strict peer-to-peer is enabled but the JGroups channel was started externally - this is very likely to result in RPC timeout errors on startup"</span>, id = 171)
+<a class="jxr_linenumber" name="L633" href="#L633">633</a>    <strong class="jxr_keyword">void</strong> warnStrictPeerToPeerWithInjectedChannel();
+<a class="jxr_linenumber" name="L634" href="#L634">634</a> 
+<a class="jxr_linenumber" name="L635" href="#L635">635</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L636" href="#L636">636</a>    @Message(value = <span class="jxr_string">"Custom interceptor %s has used @Inject, @Start or @Stop. These methods will not be processed. Please extend org.infinispan.interceptors.base.BaseCustomInterceptor instead, and your custom interceptor will have access to a cache and cacheManager.  Override stop() and start() for lifecycle methods."</span>, id = 173)
+<a class="jxr_linenumber" name="L637" href="#L637">637</a>    <strong class="jxr_keyword">void</strong> customInterceptorExpectsInjection(String customInterceptorFQCN);
+<a class="jxr_linenumber" name="L638" href="#L638">638</a> 
+<a class="jxr_linenumber" name="L639" href="#L639">639</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L640" href="#L640">640</a>    @Message(value = <span class="jxr_string">"Unexpected error reading configuration"</span>, id = 174)
+<a class="jxr_linenumber" name="L641" href="#L641">641</a>    <strong class="jxr_keyword">void</strong> errorReadingConfiguration(@Cause Exception e);
+<a class="jxr_linenumber" name="L642" href="#L642">642</a> 
+<a class="jxr_linenumber" name="L643" href="#L643">643</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L644" href="#L644">644</a>    @Message(value = <span class="jxr_string">"Unexpected error closing resource"</span>, id = 175)
+<a class="jxr_linenumber" name="L645" href="#L645">645</a>    <strong class="jxr_keyword">void</strong> failedToCloseResource(@Cause Throwable e);
+<a class="jxr_linenumber" name="L646" href="#L646">646</a> 
+<a class="jxr_linenumber" name="L647" href="#L647">647</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L648" href="#L648">648</a>    @Message(value = <span class="jxr_string">"The 'wakeUpInterval' attribute of the 'eviction' configuration XML element is deprecated. Setting the 'wakeUpInterval' attribute of the 'expiration' configuration XML element to %d instead"</span>, id = 176)
+<a class="jxr_linenumber" name="L649" href="#L649">649</a>    <strong class="jxr_keyword">void</strong> evictionWakeUpIntervalDeprecated(Long wakeUpInterval);
+<a class="jxr_linenumber" name="L650" href="#L650">650</a> 
+<a class="jxr_linenumber" name="L651" href="#L651">651</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L652" href="#L652">652</a>    @Message(value = <span class="jxr_string">"%s has been deprecated as a synonym for %s. Use one of %s instead"</span>, id = 177)
+<a class="jxr_linenumber" name="L653" href="#L653">653</a>    <strong class="jxr_keyword">void</strong> randomCacheModeSynonymsDeprecated(String candidate, String mode, List&lt;String&gt; synonyms);
+<a class="jxr_linenumber" name="L654" href="#L654">654</a> 
+<a class="jxr_linenumber" name="L655" href="#L655">655</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L656" href="#L656">656</a>    @Message(value = <span class="jxr_string">"stateRetrieval's 'alwaysProvideInMemoryState' attribute is no longer in use, "</span> +
+<a class="jxr_linenumber" name="L657" href="#L657">657</a>          <span class="jxr_string">"instead please make sure all instances of this named cache in the cluster have 'fetchInMemoryState' attribute enabled"</span>, id = 178)
+<a class="jxr_linenumber" name="L658" href="#L658">658</a>    <strong class="jxr_keyword">void</strong> alwaysProvideInMemoryStateDeprecated();
+<a class="jxr_linenumber" name="L659" href="#L659">659</a> 
+<a class="jxr_linenumber" name="L660" href="#L660">660</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L661" href="#L661">661</a>    @Message(value = <span class="jxr_string">"stateRetrieval's 'initialRetryWaitTime' attribute is no longer in use."</span>, id = 179)
+<a class="jxr_linenumber" name="L662" href="#L662">662</a>    <strong class="jxr_keyword">void</strong> initialRetryWaitTimeDeprecated();
+<a class="jxr_linenumber" name="L663" href="#L663">663</a> 
+<a class="jxr_linenumber" name="L664" href="#L664">664</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L665" href="#L665">665</a>    @Message(value = <span class="jxr_string">"stateRetrieval's 'logFlushTimeout' attribute is no longer in use."</span>, id = 180)
+<a class="jxr_linenumber" name="L666" href="#L666">666</a>    <strong class="jxr_keyword">void</strong> logFlushTimeoutDeprecated();
+<a class="jxr_linenumber" name="L667" href="#L667">667</a> 
+<a class="jxr_linenumber" name="L668" href="#L668">668</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L669" href="#L669">669</a>    @Message(value = <span class="jxr_string">"stateRetrieval's 'maxProgressingLogWrites' attribute is no longer in use."</span>, id = 181)
+<a class="jxr_linenumber" name="L670" href="#L670">670</a>    <strong class="jxr_keyword">void</strong> maxProgressingLogWritesDeprecated();
+<a class="jxr_linenumber" name="L671" href="#L671">671</a> 
+<a class="jxr_linenumber" name="L672" href="#L672">672</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L673" href="#L673">673</a>    @Message(value = <span class="jxr_string">"stateRetrieval's 'numRetries' attribute is no longer in use."</span>, id = 182)
+<a class="jxr_linenumber" name="L674" href="#L674">674</a>    <strong class="jxr_keyword">void</strong> numRetriesDeprecated();
+<a class="jxr_linenumber" name="L675" href="#L675">675</a> 
+<a class="jxr_linenumber" name="L676" href="#L676">676</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L677" href="#L677">677</a>    @Message(value = <span class="jxr_string">"stateRetrieval's 'retryWaitTimeIncreaseFactor' attribute is no longer in use."</span>, id = 183)
+<a class="jxr_linenumber" name="L678" href="#L678">678</a>    <strong class="jxr_keyword">void</strong> retryWaitTimeIncreaseFactorDeprecated();
+<a class="jxr_linenumber" name="L679" href="#L679">679</a> 
+<a class="jxr_linenumber" name="L680" href="#L680">680</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L681" href="#L681">681</a>    @Message(value = <span class="jxr_string">"The stateRetrieval configuration element has been deprecated, "</span> +
+<a class="jxr_linenumber" name="L682" href="#L682">682</a>          <span class="jxr_string">"we're assuming you meant stateTransfer. Please see XML schema for more information."</span>, id = 184)
+<a class="jxr_linenumber" name="L683" href="#L683">683</a>    <strong class="jxr_keyword">void</strong> stateRetrievalConfigurationDeprecated();
+<a class="jxr_linenumber" name="L684" href="#L684">684</a> 
+<a class="jxr_linenumber" name="L685" href="#L685">685</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L686" href="#L686">686</a>    @Message(value = <span class="jxr_string">"hash's 'rehashEnabled' attribute has been deprecated. Please use stateTransfer.fetchInMemoryState instead"</span>, id = 185)
+<a class="jxr_linenumber" name="L687" href="#L687">687</a>    <strong class="jxr_keyword">void</strong> hashRehashEnabledDeprecated();
+<a class="jxr_linenumber" name="L688" href="#L688">688</a> 
+<a class="jxr_linenumber" name="L689" href="#L689">689</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L690" href="#L690">690</a>    @Message(value = <span class="jxr_string">"hash's 'rehashRpcTimeout' attribute has been deprecated. Please use stateTransfer.timeout instead"</span>, id = 186)
+<a class="jxr_linenumber" name="L691" href="#L691">691</a>    <strong class="jxr_keyword">void</strong> hashRehashRpcTimeoutDeprecated();
+<a class="jxr_linenumber" name="L692" href="#L692">692</a> 
+<a class="jxr_linenumber" name="L693" href="#L693">693</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L694" href="#L694">694</a>    @Message(value = <span class="jxr_string">"hash's 'rehashWait' attribute has been deprecated. Please use stateTransfer.timeout instead"</span>, id = 187)
+<a class="jxr_linenumber" name="L695" href="#L695">695</a>    <strong class="jxr_keyword">void</strong> hashRehashWaitDeprecated();
+<a class="jxr_linenumber" name="L696" href="#L696">696</a> 
+<a class="jxr_linenumber" name="L697" href="#L697">697</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L698" href="#L698">698</a>    @Message(value = <span class="jxr_string">"Error while processing a commit in a two-phase transaction"</span>, id = 188)
+<a class="jxr_linenumber" name="L699" href="#L699">699</a>    <strong class="jxr_keyword">void</strong> errorProcessing2pcCommitCommand(@Cause Throwable e);
+<a class="jxr_linenumber" name="L700" href="#L700">700</a> 
+<a class="jxr_linenumber" name="L701" href="#L701">701</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L702" href="#L702">702</a>    @Message(value = <span class="jxr_string">"While stopping a cache or cache manager, one of its components failed to stop"</span>, id = 189)
+<a class="jxr_linenumber" name="L703" href="#L703">703</a>    <strong class="jxr_keyword">void</strong> componentFailedToStop(@Cause Throwable e);
+<a class="jxr_linenumber" name="L704" href="#L704">704</a> 
+<a class="jxr_linenumber" name="L705" href="#L705">705</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L706" href="#L706">706</a>    @Message(value = <span class="jxr_string">"Use of the 'loader' element to configure a store is deprecated, please use the 'store' element instead"</span>, id = 190)
+<a class="jxr_linenumber" name="L707" href="#L707">707</a>    <strong class="jxr_keyword">void</strong> deprecatedLoaderAsStoreConfiguration();
+<a class="jxr_linenumber" name="L708" href="#L708">708</a> 
+<a class="jxr_linenumber" name="L709" href="#L709">709</a>    @LogMessage(level = DEBUG)
+<a class="jxr_linenumber" name="L710" href="#L710">710</a>    @Message(value = <span class="jxr_string">"When indexing locally a cache with shared cache loader, preload must be enabled"</span>, id = 191)
+<a class="jxr_linenumber" name="L711" href="#L711">711</a>    <strong class="jxr_keyword">void</strong> localIndexingWithSharedCacheLoaderRequiresPreload();
+<a class="jxr_linenumber" name="L712" href="#L712">712</a> 
+<a class="jxr_linenumber" name="L713" href="#L713">713</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L714" href="#L714">714</a>    @Message(value = <span class="jxr_string">"hash's 'numVirtualNodes' attribute has been deprecated. Please use hash.numSegments instead"</span>, id = 192)
+<a class="jxr_linenumber" name="L715" href="#L715">715</a>    <strong class="jxr_keyword">void</strong> hashNumVirtualNodesDeprecated();
+<a class="jxr_linenumber" name="L716" href="#L716">716</a> 
+<a class="jxr_linenumber" name="L717" href="#L717">717</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L718" href="#L718">718</a>    @Message(value = <span class="jxr_string">"hash's 'consistentHash' attribute has been deprecated. Please use hash.consistentHashFactory instead"</span>, id = 193)
+<a class="jxr_linenumber" name="L719" href="#L719">719</a>    <strong class="jxr_keyword">void</strong> consistentHashDeprecated();
+<a class="jxr_linenumber" name="L720" href="#L720">720</a> 
+<a class="jxr_linenumber" name="L721" href="#L721">721</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L722" href="#L722">722</a>    @Message(value = <span class="jxr_string">"Failed loading keys from cache store"</span>, id = 194)
+<a class="jxr_linenumber" name="L723" href="#L723">723</a>    <strong class="jxr_keyword">void</strong> failedLoadingKeysFromCacheStore(@Cause Exception e);
+<a class="jxr_linenumber" name="L724" href="#L724">724</a> 
+<a class="jxr_linenumber" name="L725" href="#L725">725</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L726" href="#L726">726</a>    @Message(value = <span class="jxr_string">"Error during rebalance for cache %s on node %s"</span>, id = 195)
+<a class="jxr_linenumber" name="L727" href="#L727">727</a>    <strong class="jxr_keyword">void</strong> rebalanceError(String cacheName, <a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> node, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L728" href="#L728">728</a> 
+<a class="jxr_linenumber" name="L729" href="#L729">729</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L730" href="#L730">730</a>    @Message(value = <span class="jxr_string">"Failed to recover cluster state after the current node became the coordinator"</span>, id = 196)
+<a class="jxr_linenumber" name="L731" href="#L731">731</a>    <strong class="jxr_keyword">void</strong> failedToRecoverClusterState(@Cause Throwable cause);
+<a class="jxr_linenumber" name="L732" href="#L732">732</a> 
+<a class="jxr_linenumber" name="L733" href="#L733">733</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L734" href="#L734">734</a>    @Message(value = <span class="jxr_string">"Error updating cluster member list"</span>, id = 197)
+<a class="jxr_linenumber" name="L735" href="#L735">735</a>    <strong class="jxr_keyword">void</strong> errorUpdatingMembersList(@Cause Throwable cause);
+<a class="jxr_linenumber" name="L736" href="#L736">736</a> 
+<a class="jxr_linenumber" name="L737" href="#L737">737</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L738" href="#L738">738</a>    @Message(value = <span class="jxr_string">"Unable to register MBeans for default cache"</span>, id = 198)
+<a class="jxr_linenumber" name="L739" href="#L739">739</a>    <strong class="jxr_keyword">void</strong> unableToRegisterMBeans();
+<a class="jxr_linenumber" name="L740" href="#L740">740</a> 
+<a class="jxr_linenumber" name="L741" href="#L741">741</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L742" href="#L742">742</a>    @Message(value = <span class="jxr_string">"Unable to register MBeans for named cache %s"</span>, id = 199)
+<a class="jxr_linenumber" name="L743" href="#L743">743</a>    <strong class="jxr_keyword">void</strong> unableToRegisterMBeans(String cacheName);
+<a class="jxr_linenumber" name="L744" href="#L744">744</a> 
+<a class="jxr_linenumber" name="L745" href="#L745">745</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L746" href="#L746">746</a>    @Message(value = <span class="jxr_string">"Unable to register MBeans for cache manager"</span>, id = 200)
+<a class="jxr_linenumber" name="L747" href="#L747">747</a>    <strong class="jxr_keyword">void</strong> unableToRegisterCacheManagerMBeans();
+<a class="jxr_linenumber" name="L748" href="#L748">748</a> 
+<a class="jxr_linenumber" name="L749" href="#L749">749</a>    @LogMessage(level = TRACE)
+<a class="jxr_linenumber" name="L750" href="#L750">750</a>    @Message(value = <span class="jxr_string">"This cache is configured to backup to its own site (%s)."</span>, id = 201)
+<a class="jxr_linenumber" name="L751" href="#L751">751</a>    <strong class="jxr_keyword">void</strong> cacheBackupsDataToSameSite(String siteName);
+<a class="jxr_linenumber" name="L752" href="#L752">752</a> 
+<a class="jxr_linenumber" name="L753" href="#L753">753</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L754" href="#L754">754</a>    @Message(value = <span class="jxr_string">"Problems backing up data for cache %s to site %s: %s"</span>, id = 202)
+<a class="jxr_linenumber" name="L755" href="#L755">755</a>    <strong class="jxr_keyword">void</strong> warnXsiteBackupFailed(String cacheName, String key, Object value);
+<a class="jxr_linenumber" name="L756" href="#L756">756</a> 
+<a class="jxr_linenumber" name="L757" href="#L757">757</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L758" href="#L758">758</a>    @Message(value = <span class="jxr_string">"The rollback request for tx %s cannot be processed by the cache %s as this cache is not transactional!"</span>, id=203)
+<a class="jxr_linenumber" name="L759" href="#L759">759</a>    <strong class="jxr_keyword">void</strong> cannotRespondToRollback(<a href="../../../../org/infinispan/transaction/xa/GlobalTransaction.html">GlobalTransaction</a> globalTransaction, String cacheName);
+<a class="jxr_linenumber" name="L760" href="#L760">760</a> 
+<a class="jxr_linenumber" name="L761" href="#L761">761</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L762" href="#L762">762</a>    @Message(value = <span class="jxr_string">"The commit request for tx %s cannot be processed by the cache %s as this cache is not transactional!"</span>, id=204)
+<a class="jxr_linenumber" name="L763" href="#L763">763</a>    <strong class="jxr_keyword">void</strong> cannotRespondToCommit(<a href="../../../../org/infinispan/transaction/xa/GlobalTransaction.html">GlobalTransaction</a> globalTransaction, String cacheName);
+<a class="jxr_linenumber" name="L764" href="#L764">764</a> 
+<a class="jxr_linenumber" name="L765" href="#L765">765</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L766" href="#L766">766</a>    @Message(value = <span class="jxr_string">"Trying to bring back an non-existent site (%s)!"</span>, id=205)
+<a class="jxr_linenumber" name="L767" href="#L767">767</a>    <strong class="jxr_keyword">void</strong> tryingToBringOnlineNonexistentSite(String siteName);
+<a class="jxr_linenumber" name="L768" href="#L768">768</a> 
+<a class="jxr_linenumber" name="L769" href="#L769">769</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L770" href="#L770">770</a>    @Message(value = <span class="jxr_string">"Could not execute cancelation command locally %s"</span>, id=206)
+<a class="jxr_linenumber" name="L771" href="#L771">771</a>    <strong class="jxr_keyword">void</strong> couldNotExecuteCancellationLocally(String message);
+<a class="jxr_linenumber" name="L772" href="#L772">772</a> 
+<a class="jxr_linenumber" name="L773" href="#L773">773</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L774" href="#L774">774</a>    @Message(value = <span class="jxr_string">"Could not interrupt as no thread found for command uuid %s"</span>, id=207)
+<a class="jxr_linenumber" name="L775" href="#L775">775</a>    <strong class="jxr_keyword">void</strong> couldNotInterruptThread(UUID id);
+<a class="jxr_linenumber" name="L776" href="#L776">776</a> 
+<a class="jxr_linenumber" name="L777" href="#L777">777</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L778" href="#L778">778</a>    @Message(value = <span class="jxr_string">"No live owners found for segment %d of cache %s. Current owners are:  %s. Faulty owners: %s"</span>, id=208)
+<a class="jxr_linenumber" name="L779" href="#L779">779</a>    <strong class="jxr_keyword">void</strong> noLiveOwnersFoundForSegment(<strong class="jxr_keyword">int</strong> segmentId, String cacheName, Collection&lt;Address&gt; owners, Collection&lt;Address&gt; faultySources);
+<a class="jxr_linenumber" name="L780" href="#L780">780</a> 
+<a class="jxr_linenumber" name="L781" href="#L781">781</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L782" href="#L782">782</a>    @Message(value = <span class="jxr_string">"Failed to retrieve transactions for segments %s of cache %s from node %s"</span>, id=209)
+<a class="jxr_linenumber" name="L783" href="#L783">783</a>    <strong class="jxr_keyword">void</strong> failedToRetrieveTransactionsForSegments(Collection&lt;Integer&gt; segments, String cacheName, <a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> source, @Cause Exception e);
+<a class="jxr_linenumber" name="L784" href="#L784">784</a> 
+<a class="jxr_linenumber" name="L785" href="#L785">785</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L786" href="#L786">786</a>    @Message(value = <span class="jxr_string">"Failed to request segments %s of cache %s from node %s (node will not be retried)"</span>, id=210)
+<a class="jxr_linenumber" name="L787" href="#L787">787</a>    <strong class="jxr_keyword">void</strong> failedToRequestSegments(Collection&lt;Integer&gt; segments, String cacheName, <a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> source, @Cause Throwable e);
+<a class="jxr_linenumber" name="L788" href="#L788">788</a> 
+<a class="jxr_linenumber" name="L789" href="#L789">789</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L790" href="#L790">790</a>    @Message(value = <span class="jxr_string">"Unable to load %s from any of the following classloaders: %s"</span>, id=213)
+<a class="jxr_linenumber" name="L791" href="#L791">791</a>    <strong class="jxr_keyword">void</strong> unableToLoadClass(String classname, String classloaders, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L792" href="#L792">792</a> 
+<a class="jxr_linenumber" name="L793" href="#L793">793</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L794" href="#L794">794</a>    @Message(value = <span class="jxr_string">"Unable to remove entry under %s from cache store after activation"</span>, id = 214)
+<a class="jxr_linenumber" name="L795" href="#L795">795</a>    <strong class="jxr_keyword">void</strong> unableToRemoveEntryAfterActivation(Object key, @Cause Exception e);
+<a class="jxr_linenumber" name="L796" href="#L796">796</a> 
+<a class="jxr_linenumber" name="L797" href="#L797">797</a>    @Message(value = <span class="jxr_string">"Unknown migrator %s"</span>, id=215)
+<a class="jxr_linenumber" name="L798" href="#L798">798</a>    Exception unknownMigrator(String migratorName);
+<a class="jxr_linenumber" name="L799" href="#L799">799</a> 
+<a class="jxr_linenumber" name="L800" href="#L800">800</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L801" href="#L801">801</a>    @Message(value = <span class="jxr_string">"%d entries migrated to cache %s in %s"</span>, id = 216)
+<a class="jxr_linenumber" name="L802" href="#L802">802</a>    <strong class="jxr_keyword">void</strong> entriesMigrated(<strong class="jxr_keyword">long</strong> count, String name, String prettyTime);
+<a class="jxr_linenumber" name="L803" href="#L803">803</a> 
+<a class="jxr_linenumber" name="L804" href="#L804">804</a>    @Message(value = <span class="jxr_string">"Received exception from %s, see cause for remote stack trace"</span>, id = 217)
+<a class="jxr_linenumber" name="L805" href="#L805">805</a>    <a href="../../../../org/infinispan/remoting/RemoteException.html">RemoteException</a> remoteException(<a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> sender, @Cause Exception e);
+<a class="jxr_linenumber" name="L806" href="#L806">806</a> 
+<a class="jxr_linenumber" name="L807" href="#L807">807</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L808" href="#L808">808</a>    @Message(value = <span class="jxr_string">"Timeout while waiting for the transaction validation. The command will not be processed. "</span> +
+<a class="jxr_linenumber" name="L809" href="#L809">809</a>          <span class="jxr_string">"Transaction is %s"</span>, id = 218)
+<a class="jxr_linenumber" name="L810" href="#L810">810</a>    <strong class="jxr_keyword">void</strong> timeoutWaitingUntilTransactionPrepared(String globalTx);
+<a class="jxr_linenumber" name="L811" href="#L811">811</a> 
+<a class="jxr_linenumber" name="L812" href="#L812">812</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L813" href="#L813">813</a>    @Message(value = <span class="jxr_string">"Shutdown while handling command %s"</span>, id = 219)
+<a class="jxr_linenumber" name="L814" href="#L814">814</a>    <strong class="jxr_keyword">void</strong> shutdownHandlingCommand(<a href="../../../../org/infinispan/commands/ReplicableCommand.html">ReplicableCommand</a> command);
+<a class="jxr_linenumber" name="L815" href="#L815">815</a> 
+<a class="jxr_linenumber" name="L816" href="#L816">816</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L817" href="#L817">817</a>    @Message(value = <span class="jxr_string">"Problems un-marshalling remote command from byte buffer"</span>, id = 220)
+<a class="jxr_linenumber" name="L818" href="#L818">818</a>    <strong class="jxr_keyword">void</strong> errorUnMarshallingCommand(@Cause Throwable throwable);
+<a class="jxr_linenumber" name="L819" href="#L819">819</a> 
+<a class="jxr_linenumber" name="L820" href="#L820">820</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L821" href="#L821">821</a>    @Message(value = <span class="jxr_string">"Unknown response value [%s]. Expected [%s]"</span>, id = 221)
+<a class="jxr_linenumber" name="L822" href="#L822">822</a>    <strong class="jxr_keyword">void</strong> unexpectedResponse(String actual, String expected);
+<a class="jxr_linenumber" name="L823" href="#L823">823</a> 
+<a class="jxr_linenumber" name="L824" href="#L824">824</a>    @Message(value = <span class="jxr_string">"Custom interceptor missing class"</span>, id = 222)
+<a class="jxr_linenumber" name="L825" href="#L825">825</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> customInterceptorMissingClass();
+<a class="jxr_linenumber" name="L826" href="#L826">826</a> 
+<a class="jxr_linenumber" name="L827" href="#L827">827</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L828" href="#L828">828</a>    @Message(value = <span class="jxr_string">"Custom interceptor '%s' does not extend BaseCustomInterceptor, which is recommended"</span>, id = 223)
+<a class="jxr_linenumber" name="L829" href="#L829">829</a>    <strong class="jxr_keyword">void</strong> suggestCustomInterceptorInheritance(String customInterceptorClassName);
+<a class="jxr_linenumber" name="L830" href="#L830">830</a> 
+<a class="jxr_linenumber" name="L831" href="#L831">831</a>    @Message(value = <span class="jxr_string">"Custom interceptor '%s' specifies more than one position"</span>, id = 224)
+<a class="jxr_linenumber" name="L832" href="#L832">832</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> multipleCustomInterceptorPositions(String customInterceptorClassName);
+<a class="jxr_linenumber" name="L833" href="#L833">833</a> 
+<a class="jxr_linenumber" name="L834" href="#L834">834</a>    @Message(value = <span class="jxr_string">"Custom interceptor '%s' doesn't specify a position"</span>, id = 225)
+<a class="jxr_linenumber" name="L835" href="#L835">835</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> missingCustomInterceptorPosition(String customInterceptorClassName);
+<a class="jxr_linenumber" name="L836" href="#L836">836</a> 
+<a class="jxr_linenumber" name="L837" href="#L837">837</a>    @Message(value = <span class="jxr_string">"Error while initializing SSL context"</span>, id = 226)
+<a class="jxr_linenumber" name="L838" href="#L838">838</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> sslInitializationException(@Cause Throwable e);
+<a class="jxr_linenumber" name="L839" href="#L839">839</a> 
+<a class="jxr_linenumber" name="L840" href="#L840">840</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L841" href="#L841">841</a>    @Message(value = <span class="jxr_string">"Support for concurrent updates can no longer be configured (it is always enabled by default)"</span>, id = 227)
+<a class="jxr_linenumber" name="L842" href="#L842">842</a>    <strong class="jxr_keyword">void</strong> warnConcurrentUpdateSupportCannotBeConfigured();
+<a class="jxr_linenumber" name="L843" href="#L843">843</a> 
+<a class="jxr_linenumber" name="L844" href="#L844">844</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L845" href="#L845">845</a>    @Message(value = <span class="jxr_string">"Failed to recover cache %s state after the current node became the coordinator"</span>, id = 228)
+<a class="jxr_linenumber" name="L846" href="#L846">846</a>    <strong class="jxr_keyword">void</strong> failedToRecoverCacheState(String cacheName, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L847" href="#L847">847</a> 
+<a class="jxr_linenumber" name="L848" href="#L848">848</a>    @Message(value = <span class="jxr_string">"Unexpected initial version type (only NumericVersion instances supported): %s"</span>, id = 229)
+<a class="jxr_linenumber" name="L849" href="#L849">849</a>    IllegalArgumentException unexpectedInitialVersion(String className);
+<a class="jxr_linenumber" name="L850" href="#L850">850</a> 
+<a class="jxr_linenumber" name="L851" href="#L851">851</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L852" href="#L852">852</a>    @Message(value = <span class="jxr_string">"Failed to start rebalance for cache %s"</span>, id = 230)
+<a class="jxr_linenumber" name="L853" href="#L853">853</a>    <strong class="jxr_keyword">void</strong> rebalanceStartError(String cacheName, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L854" href="#L854">854</a> 
+<a class="jxr_linenumber" name="L855" href="#L855">855</a>    @Message(value=<span class="jxr_string">"Cache mode should be DIST or REPL, rather than %s"</span>, id = 231)
+<a class="jxr_linenumber" name="L856" href="#L856">856</a>    IllegalStateException requireDistOrReplCache(String cacheType);
+<a class="jxr_linenumber" name="L857" href="#L857">857</a> 
+<a class="jxr_linenumber" name="L858" href="#L858">858</a>    @Message(value=<span class="jxr_string">"Cache is in an invalid state: %s"</span>, id = 232)
+<a class="jxr_linenumber" name="L859" href="#L859">859</a>    IllegalStateException invalidCacheState(String cacheState);
+<a class="jxr_linenumber" name="L860" href="#L860">860</a> 
+<a class="jxr_linenumber" name="L861" href="#L861">861</a>    @Message(value = <span class="jxr_string">"Root element for %s already registered in ParserRegistry"</span>, id = 234)
+<a class="jxr_linenumber" name="L862" href="#L862">862</a>    IllegalArgumentException parserRootElementAlreadyRegistered(QName qName);
+<a class="jxr_linenumber" name="L863" href="#L863">863</a> 
+<a class="jxr_linenumber" name="L864" href="#L864">864</a>    @Message(value = <span class="jxr_string">"Configuration parser %s does not declare any Namespace annotations"</span>, id = 235)
+<a class="jxr_linenumber" name="L865" href="#L865">865</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> parserDoesNotDeclareNamespaces(String name);
+<a class="jxr_linenumber" name="L866" href="#L866">866</a> 
+<a class="jxr_linenumber" name="L867" href="#L867">867</a>    @Message(value = <span class="jxr_string">"Purging expired entries failed"</span>, id = 236)
+<a class="jxr_linenumber" name="L868" href="#L868">868</a>    <a href="../../../../org/infinispan/persistence/spi/PersistenceException.html">PersistenceException</a> purgingExpiredEntriesFailed(@Cause Throwable cause);
+<a class="jxr_linenumber" name="L869" href="#L869">869</a> 
+<a class="jxr_linenumber" name="L870" href="#L870">870</a>    @Message(value = <span class="jxr_string">"Waiting for expired entries to be purge timed out"</span>, id = 237)
+<a class="jxr_linenumber" name="L871" href="#L871">871</a>    <a href="../../../../org/infinispan/persistence/spi/PersistenceException.html">PersistenceException</a> timedOutWaitingForExpiredEntriesToBePurged(@Cause Throwable cause);
+<a class="jxr_linenumber" name="L872" href="#L872">872</a> 
+<a class="jxr_linenumber" name="L873" href="#L873">873</a>    @Message(value = <span class="jxr_string">"Directory %s does not exist and cannot be created!"</span>, id = 238)
+<a class="jxr_linenumber" name="L874" href="#L874">874</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> directoryCannotBeCreated(String path);
+<a class="jxr_linenumber" name="L875" href="#L875">875</a> 
+<a class="jxr_linenumber" name="L876" href="#L876">876</a>    @Message(value=<span class="jxr_string">"Cache manager is shutting down, so type write externalizer for type=%s cannot be resolved"</span>, id = 239)
+<a class="jxr_linenumber" name="L877" href="#L877">877</a>    IOException externalizerTableStopped(String className);
+<a class="jxr_linenumber" name="L878" href="#L878">878</a> 
+<a class="jxr_linenumber" name="L879" href="#L879">879</a>    @Message(value=<span class="jxr_string">"Cache manager is shutting down, so type (id=%d) cannot be resolved. Interruption being pushed up."</span>, id = 240)
+<a class="jxr_linenumber" name="L880" href="#L880">880</a>    IOException pushReadInterruptionDueToCacheManagerShutdown(<strong class="jxr_keyword">int</strong> readerIndex, @Cause InterruptedException cause);
+<a class="jxr_linenumber" name="L881" href="#L881">881</a> 
+<a class="jxr_linenumber" name="L882" href="#L882">882</a>    @Message(value=<span class="jxr_string">"Cache manager is %s and type (id=%d) cannot be resolved (thread not interrupted)"</span>, id = 241)
+<a class="jxr_linenumber" name="L883" href="#L883">883</a>    <a href="../../../../org/infinispan/commons/CacheException.html">CacheException</a> cannotResolveExternalizerReader(<a href="../../../../org/infinispan/lifecycle/ComponentStatus.html">ComponentStatus</a> status, <strong class="jxr_keyword">int</strong> readerIndex);
+<a class="jxr_linenumber" name="L884" href="#L884">884</a> 
+<a class="jxr_linenumber" name="L885" href="#L885">885</a>    @Message(value=<span class="jxr_string">"Missing foreign externalizer with id=%s, either externalizer was not configured by client, or module lifecycle implementation adding externalizer was not loaded properly"</span>, id = 242)
+<a class="jxr_linenumber" name="L886" href="#L886">886</a>    <a href="../../../../org/infinispan/commons/CacheException.html">CacheException</a> missingForeignExternalizer(<strong class="jxr_keyword">int</strong> foreignId);
+<a class="jxr_linenumber" name="L887" href="#L887">887</a> 
+<a class="jxr_linenumber" name="L888" href="#L888">888</a>    @Message(value=<span class="jxr_string">"Type of data read is unknown. Id=%d is not amongst known reader indexes."</span>, id = 243)
+<a class="jxr_linenumber" name="L889" href="#L889">889</a>    <a href="../../../../org/infinispan/commons/CacheException.html">CacheException</a> unknownExternalizerReaderIndex(<strong class="jxr_keyword">int</strong> readerIndex);
+<a class="jxr_linenumber" name="L890" href="#L890">890</a> 
+<a class="jxr_linenumber" name="L891" href="#L891">891</a>    @Message(value=<span class="jxr_string">"AdvancedExternalizer's getTypeClasses for externalizer %s must return a non-empty set"</span>, id = 244)
+<a class="jxr_linenumber" name="L892" href="#L892">892</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> advanceExternalizerTypeClassesUndefined(String className);
+<a class="jxr_linenumber" name="L893" href="#L893">893</a> 
+<a class="jxr_linenumber" name="L894" href="#L894">894</a>    @Message(value=<span class="jxr_string">"Duplicate id found! AdvancedExternalizer id=%d for %s is shared by another externalizer (%s). Reader index is %d"</span>, id = 245)
+<a class="jxr_linenumber" name="L895" href="#L895">895</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> duplicateExternalizerIdFound(<strong class="jxr_keyword">int</strong> externalizerId, Class&lt;?&gt; typeClass, String otherExternalizer, <strong class="jxr_keyword">int</strong> readerIndex);
+<a class="jxr_linenumber" name="L896" href="#L896">896</a> 
+<a class="jxr_linenumber" name="L897" href="#L897">897</a>    @Message(value=<span class="jxr_string">"Internal %s externalizer is using an id(%d) that exceeded the limit. It needs to be smaller than %d"</span>, id = 246)
+<a class="jxr_linenumber" name="L898" href="#L898">898</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> internalExternalizerIdLimitExceeded(AdvancedExternalizer&lt;?&gt; ext, <strong class="jxr_keyword">int</strong> externalizerId, <strong class="jxr_keyword">int</strong> maxId);
+<a class="jxr_linenumber" name="L899" href="#L899">899</a> 
+<a class="jxr_linenumber" name="L900" href="#L900">900</a>    @Message(value=<span class="jxr_string">"Foreign %s externalizer is using a negative id(%d). Only positive id values are allowed."</span>, id = 247)
+<a class="jxr_linenumber" name="L901" href="#L901">901</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> foreignExternalizerUsingNegativeId(AdvancedExternalizer&lt;?&gt; ext, <strong class="jxr_keyword">int</strong> externalizerId);
+<a class="jxr_linenumber" name="L902" href="#L902">902</a> 
+<a class="jxr_linenumber" name="L903" href="#L903">903</a>    @Message(value =  <span class="jxr_string">"Invalid cache loader configuration!!  Only ONE cache loader may have fetchPersistentState set "</span> +
+<a class="jxr_linenumber" name="L904" href="#L904">904</a>          <span class="jxr_string">"to true.  Cache will not start!"</span>, id = 248)
+<a class="jxr_linenumber" name="L905" href="#L905">905</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> multipleCacheStoresWithFetchPersistentState();
+<a class="jxr_linenumber" name="L906" href="#L906">906</a> 
+<a class="jxr_linenumber" name="L907" href="#L907">907</a>    @Message(value =  <span class="jxr_string">"The cache loader configuration %s does not specify the loader class using @ConfigurationFor"</span>, id = 249)
+<a class="jxr_linenumber" name="L908" href="#L908">908</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> loaderConfigurationDoesNotSpecifyLoaderClass(String className);
+<a class="jxr_linenumber" name="L909" href="#L909">909</a> 
+<a class="jxr_linenumber" name="L910" href="#L910">910</a>    @Message(value = <span class="jxr_string">"Invalid configuration, expecting '%s' got '%s' instead"</span>, id = 250)
+<a class="jxr_linenumber" name="L911" href="#L911">911</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> incompatibleLoaderConfiguration(String expected, String actual);
+<a class="jxr_linenumber" name="L912" href="#L912">912</a> 
+<a class="jxr_linenumber" name="L913" href="#L913">913</a>    @Message(value = <span class="jxr_string">"Cache Loader configuration cannot be null"</span>, id = 251)
+<a class="jxr_linenumber" name="L914" href="#L914">914</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> cacheLoaderConfigurationCannotBeNull();
+<a class="jxr_linenumber" name="L915" href="#L915">915</a> 
+<a class="jxr_linenumber" name="L916" href="#L916">916</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L917" href="#L917">917</a>    @Message(value = <span class="jxr_string">"Error executing parallel store task"</span>, id = 252)
+<a class="jxr_linenumber" name="L918" href="#L918">918</a>    <strong class="jxr_keyword">void</strong> errorExecutingParallelStoreTask(@Cause Throwable cause);
+<a class="jxr_linenumber" name="L919" href="#L919">919</a> 
+<a class="jxr_linenumber" name="L920" href="#L920">920</a>    @Message(value = <span class="jxr_string">"Invalid Cache Loader class: %s"</span>, id = 253)
+<a class="jxr_linenumber" name="L921" href="#L921">921</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> invalidCacheLoaderClass(String name);
+<a class="jxr_linenumber" name="L922" href="#L922">922</a> 
+<a class="jxr_linenumber" name="L923" href="#L923">923</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L924" href="#L924">924</a>    @Message(value = <span class="jxr_string">"The transport element's 'strictPeerToPeer' attribute is no longer in use."</span>, id = 254)
+<a class="jxr_linenumber" name="L925" href="#L925">925</a>    <strong class="jxr_keyword">void</strong> strictPeerToPeerDeprecated();
+<a class="jxr_linenumber" name="L926" href="#L926">926</a> 
+<a class="jxr_linenumber" name="L927" href="#L927">927</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L928" href="#L928">928</a>    @Message(value = <span class="jxr_string">"Error while processing prepare"</span>, id = 255)
+<a class="jxr_linenumber" name="L929" href="#L929">929</a>    <strong class="jxr_keyword">void</strong> errorProcessingPrepare(@Cause Throwable e);
+<a class="jxr_linenumber" name="L930" href="#L930">930</a> 
+<a class="jxr_linenumber" name="L931" href="#L931">931</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L932" href="#L932">932</a>    @Message(value = <span class="jxr_string">"Configurator SAXParse error"</span>, id = 256)
+<a class="jxr_linenumber" name="L933" href="#L933">933</a>    <strong class="jxr_keyword">void</strong> configuratorSAXParseError(@Cause Exception e);
+<a class="jxr_linenumber" name="L934" href="#L934">934</a> 
+<a class="jxr_linenumber" name="L935" href="#L935">935</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L936" href="#L936">936</a>    @Message(value = <span class="jxr_string">"Configurator SAX error"</span>, id = 257)
+<a class="jxr_linenumber" name="L937" href="#L937">937</a>    <strong class="jxr_keyword">void</strong> configuratorSAXError(@Cause Exception e);
+<a class="jxr_linenumber" name="L938" href="#L938">938</a> 
+<a class="jxr_linenumber" name="L939" href="#L939">939</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L940" href="#L940">940</a>    @Message(value = <span class="jxr_string">"Configurator general error"</span>, id = 258)
+<a class="jxr_linenumber" name="L941" href="#L941">941</a>    <strong class="jxr_keyword">void</strong> configuratorError(@Cause Exception e);
+<a class="jxr_linenumber" name="L942" href="#L942">942</a> 
+<a class="jxr_linenumber" name="L943" href="#L943">943</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L944" href="#L944">944</a>    @Message(value = <span class="jxr_string">"Async store executor did not stop properly"</span>, id = 259)
+<a class="jxr_linenumber" name="L945" href="#L945">945</a>    <strong class="jxr_keyword">void</strong> errorAsyncStoreNotStopped();
+<a class="jxr_linenumber" name="L946" href="#L946">946</a> 
+<a class="jxr_linenumber" name="L947" href="#L947">947</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L948" href="#L948">948</a>    @Message(value = <span class="jxr_string">"Exception executing command"</span>, id = 260)
+<a class="jxr_linenumber" name="L949" href="#L949">949</a>    <strong class="jxr_keyword">void</strong> exceptionExecutingInboundCommand(@Cause Exception e);
+<a class="jxr_linenumber" name="L950" href="#L950">950</a> 
+<a class="jxr_linenumber" name="L951" href="#L951">951</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L952" href="#L952">952</a>    @Message(value = <span class="jxr_string">"Failed to execute outbound transfer"</span>, id = 261)
+<a class="jxr_linenumber" name="L953" href="#L953">953</a>    <strong class="jxr_keyword">void</strong> failedOutBoundTransferExecution(@Cause Throwable e);
+<a class="jxr_linenumber" name="L954" href="#L954">954</a> 
+<a class="jxr_linenumber" name="L955" href="#L955">955</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L956" href="#L956">956</a>    @Message(value = <span class="jxr_string">"Failed to enlist TransactionXaAdapter to transaction"</span>, id = 262)
+<a class="jxr_linenumber" name="L957" href="#L957">957</a>    <strong class="jxr_keyword">void</strong> failedToEnlistTransactionXaAdapter(@Cause Throwable e);
+<a class="jxr_linenumber" name="L958" href="#L958">958</a> 
+<a class="jxr_linenumber" name="L959" href="#L959">959</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L960" href="#L960">960</a>    @Message(value = <span class="jxr_string">"FIFO strategy is deprecated, LRU will be used instead"</span>, id = 263)
+<a class="jxr_linenumber" name="L961" href="#L961">961</a>    <strong class="jxr_keyword">void</strong> warnFifoStrategyIsDeprecated();
+<a class="jxr_linenumber" name="L962" href="#L962">962</a> 
+<a class="jxr_linenumber" name="L963" href="#L963">963</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L964" href="#L964">964</a>    @Message(value = <span class="jxr_string">"Not using an L1 invalidation reaper thread. This could lead to memory leaks as the requestors map may grow indefinitely!"</span>, id = 264)
+<a class="jxr_linenumber" name="L965" href="#L965">965</a>    <strong class="jxr_keyword">void</strong> warnL1NotHavingReaperThread();
+<a class="jxr_linenumber" name="L966" href="#L966">966</a> 
+<a class="jxr_linenumber" name="L967" href="#L967">967</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L968" href="#L968">968</a>    @Message(value = <span class="jxr_string">"Unable to reset GlobalComponentRegistry after a failed restart!"</span>, id = 265)
+<a class="jxr_linenumber" name="L969" href="#L969">969</a>    <strong class="jxr_keyword">void</strong> unableToResetGlobalComponentRegistryAfterRestart(@Cause Exception e);
+<a class="jxr_linenumber" name="L970" href="#L970">970</a> 
+<a class="jxr_linenumber" name="L971" href="#L971">971</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L972" href="#L972">972</a>    @Message(value = <span class="jxr_string">"Unable to reset GlobalComponentRegistry after a failed restart due to an exception of type %s with message %s. Use DEBUG level logging for full exception details."</span>, id = 266)
+<a class="jxr_linenumber" name="L973" href="#L973">973</a>    <strong class="jxr_keyword">void</strong> unableToResetGlobalComponentRegistryAfterRestart(String type, String message, @Cause Exception e);
+<a class="jxr_linenumber" name="L974" href="#L974">974</a> 
+<a class="jxr_linenumber" name="L975" href="#L975">975</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L976" href="#L976">976</a>    @Message(value = <span class="jxr_string">"Problems creating interceptor %s"</span>, id = 267)
+<a class="jxr_linenumber" name="L977" href="#L977">977</a>    <strong class="jxr_keyword">void</strong> unableToCreateInterceptor(Class type, @Cause Exception e);
+<a class="jxr_linenumber" name="L978" href="#L978">978</a> 
+<a class="jxr_linenumber" name="L979" href="#L979">979</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L980" href="#L980">980</a>    @Message(value = <span class="jxr_string">"Unable to broadcast evicts as a part of the prepare phase. Rolling back."</span>, id = 268)
+<a class="jxr_linenumber" name="L981" href="#L981">981</a>    <strong class="jxr_keyword">void</strong> unableToRollbackEvictionsDuringPrepare(@Cause Throwable e);
+<a class="jxr_linenumber" name="L982" href="#L982">982</a> 
+<a class="jxr_linenumber" name="L983" href="#L983">983</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L984" href="#L984">984</a>    @Message(value = <span class="jxr_string">"Cache used for Grid metadata should be synchronous."</span>, id = 269)
+<a class="jxr_linenumber" name="L985" href="#L985">985</a>    <strong class="jxr_keyword">void</strong> warnGridFSMetadataCacheRequiresSync();
+<a class="jxr_linenumber" name="L986" href="#L986">986</a> 
+<a class="jxr_linenumber" name="L987" href="#L987">987</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L988" href="#L988">988</a>    @Message(value = <span class="jxr_string">"Could not commit local tx %s"</span>, id = 270)
+<a class="jxr_linenumber" name="L989" href="#L989">989</a>    <strong class="jxr_keyword">void</strong> warnCouldNotCommitLocalTx(Object transactionDescription, @Cause Exception e);
+<a class="jxr_linenumber" name="L990" href="#L990">990</a> 
+<a class="jxr_linenumber" name="L991" href="#L991">991</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L992" href="#L992">992</a>    @Message(value = <span class="jxr_string">"Could not rollback local tx %s"</span>, id = 271)
+<a class="jxr_linenumber" name="L993" href="#L993">993</a>    <strong class="jxr_keyword">void</strong> warnCouldNotRollbackLocalTx(Object transactionDescription, @Cause Exception e);
+<a class="jxr_linenumber" name="L994" href="#L994">994</a> 
+<a class="jxr_linenumber" name="L995" href="#L995">995</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L996" href="#L996">996</a>    @Message(value = <span class="jxr_string">"Exception removing recovery information"</span>, id = 272)
+<a class="jxr_linenumber" name="L997" href="#L997">997</a>    <strong class="jxr_keyword">void</strong> warnExceptionRemovingRecovery(@Cause Exception e);
+<a class="jxr_linenumber" name="L998" href="#L998">998</a> 
+<a class="jxr_linenumber" name="L999" href="#L999">999</a>    @Message(value = <span class="jxr_string">"Indexing can not be enabled on caches in Invalidation mode"</span>, id = 273)
+<a class="jxr_linenumber" name="L1000" href="#L1000">1000</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> invalidConfigurationIndexingWithInvalidation();
+<a class="jxr_linenumber" name="L1001" href="#L1001">1001</a> 
+<a class="jxr_linenumber" name="L1002" href="#L1002">1002</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L1003" href="#L1003">1003</a>    @Message(value = <span class="jxr_string">"Persistence enabled without any CacheLoaderInterceptor in InterceptorChain!"</span>, id = 274)
+<a class="jxr_linenumber" name="L1004" href="#L1004">1004</a>    <strong class="jxr_keyword">void</strong> persistenceWithoutCacheLoaderInterceptor();
+<a class="jxr_linenumber" name="L1005" href="#L1005">1005</a> 
+<a class="jxr_linenumber" name="L1006" href="#L1006">1006</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L1007" href="#L1007">1007</a>    @Message(value = <span class="jxr_string">"Persistence enabled without any CacheWriteInterceptor in InterceptorChain!"</span>, id = 275)
+<a class="jxr_linenumber" name="L1008" href="#L1008">1008</a>    <strong class="jxr_keyword">void</strong> persistenceWithoutCacheWriteInterceptor();
+<a class="jxr_linenumber" name="L1009" href="#L1009">1009</a> 
+<a class="jxr_linenumber" name="L1010" href="#L1010">1010</a>    @Message(value = <span class="jxr_string">"Could not find migration data in cache %s"</span>, id = 276)
+<a class="jxr_linenumber" name="L1011" href="#L1011">1011</a>    <a href="../../../../org/infinispan/commons/CacheException.html">CacheException</a> missingMigrationData(String name);
+<a class="jxr_linenumber" name="L1012" href="#L1012">1012</a> 
+<a class="jxr_linenumber" name="L1013" href="#L1013">1013</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1014" href="#L1014">1014</a>    @Message(value = <span class="jxr_string">"Could not migrate key %s"</span>, id = 277)
+<a class="jxr_linenumber" name="L1015" href="#L1015">1015</a>    <strong class="jxr_keyword">void</strong> keyMigrationFailed(String key, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L1016" href="#L1016">1016</a> 
+<a class="jxr_linenumber" name="L1017" href="#L1017">1017</a>    @Message(value = <span class="jxr_string">"Indexing can only be enabled if infinispan-query.jar is available on your classpath, and this jar has not been detected."</span>, id = 278)
+<a class="jxr_linenumber" name="L1018" href="#L1018">1018</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> invalidConfigurationIndexingWithoutModule();
+<a class="jxr_linenumber" name="L1019" href="#L1019">1019</a> 
+<a class="jxr_linenumber" name="L1020" href="#L1020">1020</a>    @Message(value = <span class="jxr_string">"Failed to read stored entries from file. Error in file %s at offset %d"</span>, id = 279)
+<a class="jxr_linenumber" name="L1021" href="#L1021">1021</a>    <a href="../../../../org/infinispan/persistence/spi/PersistenceException.html">PersistenceException</a> errorReadingFileStore(String path, <strong class="jxr_keyword">long</strong> offset);
+<a class="jxr_linenumber" name="L1022" href="#L1022">1022</a> 
+<a class="jxr_linenumber" name="L1023" href="#L1023">1023</a>    @Message(value = <span class="jxr_string">"Caught exception [%s] while invoking method [%s] on listener instance: %s"</span>, id = 280)
+<a class="jxr_linenumber" name="L1024" href="#L1024">1024</a>    <a href="../../../../org/infinispan/commons/CacheListenerException.html">CacheListenerException</a> exceptionInvokingListener(String name, Method m, Object target, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L1025" href="#L1025">1025</a> 
+<a class="jxr_linenumber" name="L1026" href="#L1026">1026</a>    @Message(value = <span class="jxr_string">"%s reported that a third node was suspected, see cause for info on the node that was suspected"</span>, id = 281)
+<a class="jxr_linenumber" name="L1027" href="#L1027">1027</a>    <a href="../../../../org/infinispan/remoting/transport/jgroups/SuspectException.html">SuspectException</a> thirdPartySuspected(<a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> sender, @Cause <a href="../../../../org/infinispan/remoting/transport/jgroups/SuspectException.html">SuspectException</a> e);
+<a class="jxr_linenumber" name="L1028" href="#L1028">1028</a> 
+<a class="jxr_linenumber" name="L1029" href="#L1029">1029</a>    @Message(value = <span class="jxr_string">"Cannot enable Invocation Batching when the Transaction Mode is NON_TRANSACTIONAL, set the transaction mode to TRANSACTIONAL"</span>, id = 282)
+<a class="jxr_linenumber" name="L1030" href="#L1030">1030</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> invocationBatchingNeedsTransactionalCache();
+<a class="jxr_linenumber" name="L1031" href="#L1031">1031</a> 
+<a class="jxr_linenumber" name="L1032" href="#L1032">1032</a>    @Message(value = <span class="jxr_string">"A cache configured with invocation batching can't have recovery enabled"</span>, id = 283)
+<a class="jxr_linenumber" name="L1033" href="#L1033">1033</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> invocationBatchingCannotBeRecoverable();
+<a class="jxr_linenumber" name="L1034" href="#L1034">1034</a> 
+<a class="jxr_linenumber" name="L1035" href="#L1035">1035</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1036" href="#L1036">1036</a>    @Message(value = <span class="jxr_string">"Problem encountered while installing cluster listener"</span>, id = 284)
+<a class="jxr_linenumber" name="L1037" href="#L1037">1037</a>    <strong class="jxr_keyword">void</strong> clusterListenerInstallationFailure(@Cause Throwable cause);
+<a class="jxr_linenumber" name="L1038" href="#L1038">1038</a> 
+<a class="jxr_linenumber" name="L1039" href="#L1039">1039</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1040" href="#L1040">1040</a>    @Message(value = <span class="jxr_string">"Issue when retrieving cluster listeners from %s response was %s"</span>, id = 285)
+<a class="jxr_linenumber" name="L1041" href="#L1041">1041</a>    <strong class="jxr_keyword">void</strong> unsuccessfulResponseForClusterListeners(<a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> address, <a href="../../../../org/infinispan/remoting/responses/Response.html">Response</a> response);
+<a class="jxr_linenumber" name="L1042" href="#L1042">1042</a> 
+<a class="jxr_linenumber" name="L1043" href="#L1043">1043</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1044" href="#L1044">1044</a>    @Message(value = <span class="jxr_string">"Issue when retrieving cluster listeners from %s"</span>, id = 286)
+<a class="jxr_linenumber" name="L1045" href="#L1045">1045</a>    <strong class="jxr_keyword">void</strong> exceptionDuringClusterListenerRetrieval(<a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> address, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L1046" href="#L1046">1046</a> 
+<a class="jxr_linenumber" name="L1047" href="#L1047">1047</a>    @Message(value = <span class="jxr_string">"Unauthorized access: subject '%s' lacks '%s' permission"</span>, id = 287)
+<a class="jxr_linenumber" name="L1048" href="#L1048">1048</a>    SecurityException unauthorizedAccess(String subject, String permission);
+<a class="jxr_linenumber" name="L1049" href="#L1049">1049</a> 
+<a class="jxr_linenumber" name="L1050" href="#L1050">1050</a>    @Message(value = <span class="jxr_string">"A principal-to-role mapper has not been specified"</span>, id = 288)
+<a class="jxr_linenumber" name="L1051" href="#L1051">1051</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> invalidPrincipalRoleMapper();
+<a class="jxr_linenumber" name="L1052" href="#L1052">1052</a> 
+<a class="jxr_linenumber" name="L1053" href="#L1053">1053</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1054" href="#L1054">1054</a>    @Message(value = <span class="jxr_string">"Unable to send X-Site state chunk to '%s'."</span>, id = 289)
+<a class="jxr_linenumber" name="L1055" href="#L1055">1055</a>    <strong class="jxr_keyword">void</strong> unableToSendXSiteState(String site, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L1056" href="#L1056">1056</a> 
+<a class="jxr_linenumber" name="L1057" href="#L1057">1057</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1058" href="#L1058">1058</a>    @Message(value = <span class="jxr_string">"Unable to wait for X-Site state chunk ACKs from '%s'."</span>, id = 290)
+<a class="jxr_linenumber" name="L1059" href="#L1059">1059</a>    <strong class="jxr_keyword">void</strong> unableToWaitForXSiteStateAcks(String site, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L1060" href="#L1060">1060</a> 
+<a class="jxr_linenumber" name="L1061" href="#L1061">1061</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1062" href="#L1062">1062</a>    @Message(value = <span class="jxr_string">"Unable to apply X-Site state chunk."</span>, id = 291)
+<a class="jxr_linenumber" name="L1063" href="#L1063">1063</a>    <strong class="jxr_keyword">void</strong> unableToApplyXSiteState(@Cause Throwable cause);
+<a class="jxr_linenumber" name="L1064" href="#L1064">1064</a> 
+<a class="jxr_linenumber" name="L1065" href="#L1065">1065</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1066" href="#L1066">1066</a>    @Message(value = <span class="jxr_string">"Unrecognized attribute %s.  Please check your configuration.  Ignoring!!"</span>, id = 292)
+<a class="jxr_linenumber" name="L1067" href="#L1067">1067</a>    <strong class="jxr_keyword">void</strong> unrecognizedAttribute(String property);
+<a class="jxr_linenumber" name="L1068" href="#L1068">1068</a> 
+<a class="jxr_linenumber" name="L1069" href="#L1069">1069</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L1070" href="#L1070">1070</a>    @Message(value = <span class="jxr_string">"Ignoring XML attribute %s, please remove from configuration file"</span>, id = 293)
+<a class="jxr_linenumber" name="L1071" href="#L1071">1071</a>    <strong class="jxr_keyword">void</strong> ignoreXmlAttribute(Object attribute);
+<a class="jxr_linenumber" name="L1072" href="#L1072">1072</a> 
+<a class="jxr_linenumber" name="L1073" href="#L1073">1073</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L1074" href="#L1074">1074</a>    @Message(value = <span class="jxr_string">"Ignoring XML element %s, please remove from configuration file"</span>, id = 294)
+<a class="jxr_linenumber" name="L1075" href="#L1075">1075</a>    <strong class="jxr_keyword">void</strong> ignoreXmlElement(Object element);
+<a class="jxr_linenumber" name="L1076" href="#L1076">1076</a> 
+<a class="jxr_linenumber" name="L1077" href="#L1077">1077</a>    @Message(value = <span class="jxr_string">"No thread pool with name %s found"</span>, id = 295)
+<a class="jxr_linenumber" name="L1078" href="#L1078">1078</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> undefinedThreadPoolName(String name);
+<a class="jxr_linenumber" name="L1079" href="#L1079">1079</a> 
+<a class="jxr_linenumber" name="L1080" href="#L1080">1080</a>    @Message(value = <span class="jxr_string">"Attempt to add a %s permission to a SecurityPermissionCollection"</span>, id = 296)
+<a class="jxr_linenumber" name="L1081" href="#L1081">1081</a>    IllegalArgumentException invalidPermission(Permission permission);
+<a class="jxr_linenumber" name="L1082" href="#L1082">1082</a> 
+<a class="jxr_linenumber" name="L1083" href="#L1083">1083</a>    @Message(value = <span class="jxr_string">"Attempt to add a permission to a read-only SecurityPermissionCollection"</span>, id = 297)
+<a class="jxr_linenumber" name="L1084" href="#L1084">1084</a>    SecurityException readOnlyPermissionCollection();
+<a class="jxr_linenumber" name="L1085" href="#L1085">1085</a> 
+<a class="jxr_linenumber" name="L1086" href="#L1086">1086</a>    @LogMessage(level = DEBUG)
+<a class="jxr_linenumber" name="L1087" href="#L1087">1087</a>    @Message(value = <span class="jxr_string">"Using internal security checker"</span>, id = 298)
+<a class="jxr_linenumber" name="L1088" href="#L1088">1088</a>    <strong class="jxr_keyword">void</strong> authorizationEnabledWithoutSecurityManager();
+<a class="jxr_linenumber" name="L1089" href="#L1089">1089</a> 
+<a class="jxr_linenumber" name="L1090" href="#L1090">1090</a>    @Message(value = <span class="jxr_string">"Unable to acquire lock after %s for key %s and requestor %s. Lock is held by %s, while request came from %s"</span>, id = 299)
+<a class="jxr_linenumber" name="L1091" href="#L1091">1091</a>    <a href="../../../../org/infinispan/util/concurrent/TimeoutException.html">TimeoutException</a> unableToAcquireLock(String timeout, Object key, Object requestor, Object owner, String origin);
+<a class="jxr_linenumber" name="L1092" href="#L1092">1092</a> 
+<a class="jxr_linenumber" name="L1093" href="#L1093">1093</a>    @Message(value = <span class="jxr_string">"There was an exception while processing retrieval of entry values"</span>, id = 300)
+<a class="jxr_linenumber" name="L1094" href="#L1094">1094</a>    <a href="../../../../org/infinispan/commons/CacheException.html">CacheException</a> exceptionProcessingEntryRetrievalValues(@Cause Throwable cause);
+<a class="jxr_linenumber" name="L1095" href="#L1095">1095</a> 
+<a class="jxr_linenumber" name="L1096" href="#L1096">1096</a>    @Message(value = <span class="jxr_string">"Iterator response for identifier %s encountered unexpected exception"</span>, id = 301)
+<a class="jxr_linenumber" name="L1097" href="#L1097">1097</a>    <a href="../../../../org/infinispan/commons/CacheException.html">CacheException</a> exceptionProcessingIteratorResponse(UUID identifier, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L1098" href="#L1098">1098</a> 
+<a class="jxr_linenumber" name="L1099" href="#L1099">1099</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1100" href="#L1100">1100</a>    @Message(value = <span class="jxr_string">"Issue when retrieving transactions from %s, response was %s"</span>, id = 302)
+<a class="jxr_linenumber" name="L1101" href="#L1101">1101</a>    <strong class="jxr_keyword">void</strong> unsuccessfulResponseRetrievingTransactionsForSegments(<a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> address, <a href="../../../../org/infinispan/remoting/responses/Response.html">Response</a> response);
+<a class="jxr_linenumber" name="L1102" href="#L1102">1102</a> 
+<a class="jxr_linenumber" name="L1103" href="#L1103">1103</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1104" href="#L1104">1104</a>    @Message(value = <span class="jxr_string">"More than one configuration file with specified name on classpath. The first one will be used:\n %s"</span>, id = 304)
+<a class="jxr_linenumber" name="L1105" href="#L1105">1105</a>    <strong class="jxr_keyword">void</strong> ambiguousConfigurationFiles(String files);
+<a class="jxr_linenumber" name="L1106" href="#L1106">1106</a> 
+<a class="jxr_linenumber" name="L1107" href="#L1107">1107</a>    @Message(value = <span class="jxr_string">"Cluster is operating in degraded mode because of node failures."</span>, id = 305)
+<a class="jxr_linenumber" name="L1108" href="#L1108">1108</a>    <a href="../../../../org/infinispan/partitionhandling/AvailabilityException.html">AvailabilityException</a> partitionDegraded();
+<a class="jxr_linenumber" name="L1109" href="#L1109">1109</a> 
+<a class="jxr_linenumber" name="L1110" href="#L1110">1110</a>    @Message(value = <span class="jxr_string">"Key '%s' is not available. Not all owners are in this partition"</span>, id = 306)
+<a class="jxr_linenumber" name="L1111" href="#L1111">1111</a>    <a href="../../../../org/infinispan/partitionhandling/AvailabilityException.html">AvailabilityException</a> degradedModeKeyUnavailable(Object key);
+<a class="jxr_linenumber" name="L1112" href="#L1112">1112</a> 
+<a class="jxr_linenumber" name="L1113" href="#L1113">1113</a>    @Message(value = <span class="jxr_string">"Cannot clear when the cluster is partitioned"</span>, id = 307)
+<a class="jxr_linenumber" name="L1114" href="#L1114">1114</a>    <a href="../../../../org/infinispan/partitionhandling/AvailabilityException.html">AvailabilityException</a> clearDisallowedWhilePartitioned();
+<a class="jxr_linenumber" name="L1115" href="#L1115">1115</a> 
+<a class="jxr_linenumber" name="L1116" href="#L1116">1116</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L1117" href="#L1117">1117</a>    @Message(value = <span class="jxr_string">"Rebalancing enabled"</span>, id = 308)
+<a class="jxr_linenumber" name="L1118" href="#L1118">1118</a>    <strong class="jxr_keyword">void</strong> rebalancingEnabled();
+<a class="jxr_linenumber" name="L1119" href="#L1119">1119</a> 
+<a class="jxr_linenumber" name="L1120" href="#L1120">1120</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L1121" href="#L1121">1121</a>    @Message(value = <span class="jxr_string">"Rebalancing suspended"</span>, id = 309)
+<a class="jxr_linenumber" name="L1122" href="#L1122">1122</a>    <strong class="jxr_keyword">void</strong> rebalancingSuspended();
+<a class="jxr_linenumber" name="L1123" href="#L1123">1123</a> 
+<a class="jxr_linenumber" name="L1124" href="#L1124">1124</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L1125" href="#L1125">1125</a>    @Message(value = <span class="jxr_string">"Starting cluster-wide rebalance for cache %s, topology %s"</span>, id = 310)
+<a class="jxr_linenumber" name="L1126" href="#L1126">1126</a>    <strong class="jxr_keyword">void</strong> startRebalance(String cacheName, <a href="../../../../org/infinispan/topology/CacheTopology.html">CacheTopology</a> cacheTopology);
+<a class="jxr_linenumber" name="L1127" href="#L1127">1127</a> 
+<a class="jxr_linenumber" name="L1128" href="#L1128">1128</a>    @LogMessage(level = DEBUG)
+<a class="jxr_linenumber" name="L1129" href="#L1129">1129</a>    @Message(value = <span class="jxr_string">"Received a command from an outdated topology, returning the exception to caller"</span>, id = 311)
+<a class="jxr_linenumber" name="L1130" href="#L1130">1130</a>    <strong class="jxr_keyword">void</strong> outdatedTopology(@Cause Throwable oe);
+<a class="jxr_linenumber" name="L1131" href="#L1131">1131</a> 
+<a class="jxr_linenumber" name="L1132" href="#L1132">1132</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1133" href="#L1133">1133</a>    @Message(value = <span class="jxr_string">"Cache %s lost data because of graceful leaver %s"</span>, id = 312)
+<a class="jxr_linenumber" name="L1134" href="#L1134">1134</a>    <strong class="jxr_keyword">void</strong> lostDataBecauseOfGracefulLeaver(String cacheName, <a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> leaver);
+<a class="jxr_linenumber" name="L1135" href="#L1135">1135</a> 
+<a class="jxr_linenumber" name="L1136" href="#L1136">1136</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1137" href="#L1137">1137</a>    @Message(value = <span class="jxr_string">"Cache %s lost data because of abrupt leavers %s"</span>, id = 313)
+<a class="jxr_linenumber" name="L1138" href="#L1138">1138</a>    <strong class="jxr_keyword">void</strong> lostDataBecauseOfAbruptLeavers(String cacheName, Collection&lt;Address&gt; leavers);
+<a class="jxr_linenumber" name="L1139" href="#L1139">1139</a> 
+<a class="jxr_linenumber" name="L1140" href="#L1140">1140</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1141" href="#L1141">1141</a>    @Message(value = <span class="jxr_string">"Cache %s lost at least half of the stable members, possible split brain causing data inconsistency. Current members are %s, lost members are %s, stable members are %s"</span>, id = 314)
+<a class="jxr_linenumber" name="L1142" href="#L1142">1142</a>    <strong class="jxr_keyword">void</strong> minorityPartition(String cacheName, Collection&lt;Address&gt; currentMembers, Collection&lt;Address&gt; lostMembers, Collection&lt;Address&gt; stableMembers);
+<a class="jxr_linenumber" name="L1143" href="#L1143">1143</a> 
+<a class="jxr_linenumber" name="L1144" href="#L1144">1144</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L1145" href="#L1145">1145</a>    @Message(value = <span class="jxr_string">"Unexpected availability mode %s for cache %s partition %s"</span>, id = 315)
+<a class="jxr_linenumber" name="L1146" href="#L1146">1146</a>    <strong class="jxr_keyword">void</strong> unexpectedAvailabilityMode(<a href="../../../../org/infinispan/partitionhandling/AvailabilityMode.html">AvailabilityMode</a> availabilityMode, String cacheName, <a href="../../../../org/infinispan/topology/CacheTopology.html">CacheTopology</a> cacheTopology);
+<a class="jxr_linenumber" name="L1147" href="#L1147">1147</a> 
+<a class="jxr_linenumber" name="L1148" href="#L1148">1148</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L1149" href="#L1149">1149</a>    @Message(value = <span class="jxr_string">"Cache %s lost data because of graceful leaver %s, entering degraded mode"</span>, id = 316)
+<a class="jxr_linenumber" name="L1150" href="#L1150">1150</a>    <strong class="jxr_keyword">void</strong> enteringDegradedModeGracefulLeaver(String cacheName, <a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> leaver);
+<a class="jxr_linenumber" name="L1151" href="#L1151">1151</a> 
+<a class="jxr_linenumber" name="L1152" href="#L1152">1152</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L1153" href="#L1153">1153</a>    @Message(value = <span class="jxr_string">"Cache %s lost data because of abrupt leavers %s, assuming a network split and entering degraded mode"</span>, id = 317)
+<a class="jxr_linenumber" name="L1154" href="#L1154">1154</a>    <strong class="jxr_keyword">void</strong> enteringDegradedModeLostData(String cacheName, Collection&lt;Address&gt; leavers);
+<a class="jxr_linenumber" name="L1155" href="#L1155">1155</a> 
+<a class="jxr_linenumber" name="L1156" href="#L1156">1156</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L1157" href="#L1157">1157</a>    @Message(value = <span class="jxr_string">"Cache %s lost at least half of the stable members, assuming a network split and entering degraded mode. Current members are %s, lost members are %s, stable members are %s"</span>, id = 318)
+<a class="jxr_linenumber" name="L1158" href="#L1158">1158</a>    <strong class="jxr_keyword">void</strong> enteringDegradedModeMinorityPartition(String cacheName, Collection&lt;Address&gt; currentMembers, Collection&lt;Address&gt; lostMembers, Collection&lt;Address&gt; stableMembers);
+<a class="jxr_linenumber" name="L1159" href="#L1159">1159</a> 
+<a class="jxr_linenumber" name="L1160" href="#L1160">1160</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L1161" href="#L1161">1161</a>    @Message(value = <span class="jxr_string">"After merge (or coordinator change), cache %s still hasn't recovered all its data and must stay in degraded mode. Current members are %s, lost members are %s, stable members are %s"</span>, id = 319)
+<a class="jxr_linenumber" name="L1162" href="#L1162">1162</a>    <strong class="jxr_keyword">void</strong> keepingDegradedModeAfterMergeDataLost(String cacheName, Collection&lt;Address&gt; currentMembers, Collection&lt;Address&gt; lostMembers, Collection&lt;Address&gt; stableMembers);
+<a class="jxr_linenumber" name="L1163" href="#L1163">1163</a> 
+<a class="jxr_linenumber" name="L1164" href="#L1164">1164</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L1165" href="#L1165">1165</a>    @Message(value = <span class="jxr_string">"After merge (or coordinator change), cache %s still hasn't recovered a majority of members and must stay in degraded mode. Current members are %s, lost members are %s, stable members are %s"</span>, id = 320)
+<a class="jxr_linenumber" name="L1166" href="#L1166">1166</a>    <strong class="jxr_keyword">void</strong> keepingDegradedModeAfterMergeMinorityPartition(String cacheName, Collection&lt;Address&gt; currentMembers, Collection&lt;Address&gt; lostMembers, Collection&lt;Address&gt; stableMembers);
+<a class="jxr_linenumber" name="L1167" href="#L1167">1167</a> 
+<a class="jxr_linenumber" name="L1168" href="#L1168">1168</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1169" href="#L1169">1169</a>    @Message(value = <span class="jxr_string">"Cyclic dependency detected between caches, stop order ignored"</span>, id = 321)
+<a class="jxr_linenumber" name="L1170" href="#L1170">1170</a>    <strong class="jxr_keyword">void</strong> stopOrderIgnored();
+<a class="jxr_linenumber" name="L1171" href="#L1171">1171</a> 
+<a class="jxr_linenumber" name="L1172" href="#L1172">1172</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1173" href="#L1173">1173</a>    @Message(value = <span class="jxr_string">"Unable to re-start x-site state transfer to site %s"</span>, id = 322)
+<a class="jxr_linenumber" name="L1174" href="#L1174">1174</a>    <strong class="jxr_keyword">void</strong> failedToRestartXSiteStateTransfer(String siteName, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L1175" href="#L1175">1175</a> 
+<a class="jxr_linenumber" name="L1176" href="#L1176">1176</a>    @Message(value = <span class="jxr_string">"%s is in 'TERMINATED' state and so it does not accept new invocations. "</span> +
+<a class="jxr_linenumber" name="L1177" href="#L1177">1177</a>          <span class="jxr_string">"Either restart it or recreate the cache container."</span>, id = 323)
+<a class="jxr_linenumber" name="L1178" href="#L1178">1178</a>    <a href="../../../../org/infinispan/IllegalLifecycleStateException.html">IllegalLifecycleStateException</a> cacheIsTerminated(String cacheName);
+<a class="jxr_linenumber" name="L1179" href="#L1179">1179</a> 
+<a class="jxr_linenumber" name="L1180" href="#L1180">1180</a>    @Message(value = <span class="jxr_string">"%s is in 'STOPPING' state and this is an invocation not belonging to an on-going transaction, so it does not accept new invocations. "</span> +
+<a class="jxr_linenumber" name="L1181" href="#L1181">1181</a>          <span class="jxr_string">"Either restart it or recreate the cache container."</span>, id = 324)
+<a class="jxr_linenumber" name="L1182" href="#L1182">1182</a>    <a href="../../../../org/infinispan/IllegalLifecycleStateException.html">IllegalLifecycleStateException</a> cacheIsStopping(String cacheName);
+<a class="jxr_linenumber" name="L1183" href="#L1183">1183</a> 
+<a class="jxr_linenumber" name="L1184" href="#L1184">1184</a>    @Message (value=<span class="jxr_string">"Creating tmp cache %s timed out waiting for rebalancing to complete on node %s "</span>, id=325)
+<a class="jxr_linenumber" name="L1185" href="#L1185">1185</a>    RuntimeException creatingTmpCacheTimedOut(String cacheName, <a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> address);
+<a class="jxr_linenumber" name="L1186" href="#L1186">1186</a> 
+<a class="jxr_linenumber" name="L1187" href="#L1187">1187</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1188" href="#L1188">1188</a>    @Message(value = <span class="jxr_string">"Remote transaction %s timed out. Rolling back after %d ms"</span>, id = 326)
+<a class="jxr_linenumber" name="L1189" href="#L1189">1189</a>    <strong class="jxr_keyword">void</strong> remoteTransactionTimeout(<a href="../../../../org/infinispan/transaction/xa/GlobalTransaction.html">GlobalTransaction</a> gtx, <strong class="jxr_keyword">long</strong> ageMilliSeconds);
+<a class="jxr_linenumber" name="L1190" href="#L1190">1190</a> 
+<a class="jxr_linenumber" name="L1191" href="#L1191">1191</a>    @Message(value = <span class="jxr_string">"Cannot find a parser for element '%s' in namespace '%s'. Check that your configuration is up-to date for this version of Infinispan."</span>, id = 327)
+<a class="jxr_linenumber" name="L1192" href="#L1192">1192</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> unsupportedConfiguration(String element, String namespaceUri);
+<a class="jxr_linenumber" name="L1193" href="#L1193">1193</a> 
+<a class="jxr_linenumber" name="L1194" href="#L1194">1194</a>    @LogMessage(level = DEBUG)
+<a class="jxr_linenumber" name="L1195" href="#L1195">1195</a>    @Message(value = <span class="jxr_string">"Finished local rebalance for cache %s on node %s, topology id = %d"</span>, id = 328)
+<a class="jxr_linenumber" name="L1196" href="#L1196">1196</a>    <strong class="jxr_keyword">void</strong> rebalanceCompleted(String cacheName, <a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> node, <strong class="jxr_keyword">int</strong> topologyId);
+<a class="jxr_linenumber" name="L1197" href="#L1197">1197</a> 
+<a class="jxr_linenumber" name="L1198" href="#L1198">1198</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1199" href="#L1199">1199</a>    @Message(value = <span class="jxr_string">"Unable to read rebalancing status from coordinator %s"</span>, id = 329)
+<a class="jxr_linenumber" name="L1200" href="#L1200">1200</a>    <strong class="jxr_keyword">void</strong> errorReadingRebalancingStatus(<a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> coordinator, @Cause Exception e);
+<a class="jxr_linenumber" name="L1201" href="#L1201">1201</a> 
+<a class="jxr_linenumber" name="L1202" href="#L1202">1202</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1203" href="#L1203">1203</a>    @Message(value = <span class="jxr_string">"Distributed task failed at %s. The task is failing over to be executed at %s"</span>, id = 330)
+<a class="jxr_linenumber" name="L1204" href="#L1204">1204</a>    <strong class="jxr_keyword">void</strong> distributedTaskFailover(<a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> failedAtAddress, <a href="../../../../org/infinispan/remoting/transport/Address.html">Address</a> failoverTarget, @Cause Exception e);
+<a class="jxr_linenumber" name="L1205" href="#L1205">1205</a> 
+<a class="jxr_linenumber" name="L1206" href="#L1206">1206</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1207" href="#L1207">1207</a>    @Message(value = <span class="jxr_string">"Unable to invoke method %s on Object instance %s "</span>, id = 331)
+<a class="jxr_linenumber" name="L1208" href="#L1208">1208</a>    <strong class="jxr_keyword">void</strong> unableToInvokeListenerMethod(Method m, Object target, @Cause Throwable e);
+<a class="jxr_linenumber" name="L1209" href="#L1209">1209</a> 
+<a class="jxr_linenumber" name="L1210" href="#L1210">1210</a>    @Message(value = <span class="jxr_string">"Remote transaction %s rolled back because originator is no longer in the cluster"</span>, id = 332)
+<a class="jxr_linenumber" name="L1211" href="#L1211">1211</a>    <a href="../../../../org/infinispan/commons/CacheException.html">CacheException</a> orphanTransactionRolledBack(<a href="../../../../org/infinispan/transaction/xa/GlobalTransaction.html">GlobalTransaction</a> gtx);
+<a class="jxr_linenumber" name="L1212" href="#L1212">1212</a> 
+<a class="jxr_linenumber" name="L1213" href="#L1213">1213</a>    @Message(value = <span class="jxr_string">"The site must be specified."</span>, id = 333)
+<a class="jxr_linenumber" name="L1214" href="#L1214">1214</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> backupSiteNullName();
+<a class="jxr_linenumber" name="L1215" href="#L1215">1215</a> 
+<a class="jxr_linenumber" name="L1216" href="#L1216">1216</a>    @Message(value = <span class="jxr_string">"Using a custom failure policy requires a failure policy class to be specified."</span>, id = 334)
+<a class="jxr_linenumber" name="L1217" href="#L1217">1217</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> customBackupFailurePolicyClassNotSpecified();
+<a class="jxr_linenumber" name="L1218" href="#L1218">1218</a> 
+<a class="jxr_linenumber" name="L1219" href="#L1219">1219</a>    @Message(value = <span class="jxr_string">"Two-phase commit can only be used with synchronous backup strategy."</span>, id = 335)
+<a class="jxr_linenumber" name="L1220" href="#L1220">1220</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> twoPhaseCommitAsyncBackup();
+<a class="jxr_linenumber" name="L1221" href="#L1221">1221</a> 
+<a class="jxr_linenumber" name="L1222" href="#L1222">1222</a>    @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L1223" href="#L1223">1223</a>    @Message(value = <span class="jxr_string">"Finished cluster-wide rebalance for cache %s, topology id = %d"</span>, id = 336)
+<a class="jxr_linenumber" name="L1224" href="#L1224">1224</a>    <strong class="jxr_keyword">void</strong> clusterWideRebalanceCompleted(String cacheName, <strong class="jxr_keyword">int</strong> topologyId);
+<a class="jxr_linenumber" name="L1225" href="#L1225">1225</a> 
+<a class="jxr_linenumber" name="L1226" href="#L1226">1226</a>    @Message(value = <span class="jxr_string">"The 'site' must be specified!"</span>, id = 337)
+<a class="jxr_linenumber" name="L1227" href="#L1227">1227</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> backupMissingSite();
+<a class="jxr_linenumber" name="L1228" href="#L1228">1228</a> 
+<a class="jxr_linenumber" name="L1229" href="#L1229">1229</a>    @Message(value = <span class="jxr_string">"It is required to specify a 'failurePolicyClass' when using a custom backup failure policy!"</span>, id = 338)
+<a class="jxr_linenumber" name="L1230" href="#L1230">1230</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> missingBackupFailurePolicyClass();
+<a class="jxr_linenumber" name="L1231" href="#L1231">1231</a> 
+<a class="jxr_linenumber" name="L1232" href="#L1232">1232</a>    @Message(value = <span class="jxr_string">"Null name not allowed (use 'defaultRemoteCache()' in case you want to specify the default cache name)."</span>, id = 339)
+<a class="jxr_linenumber" name="L1233" href="#L1233">1233</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> backupForNullCache();
+<a class="jxr_linenumber" name="L1234" href="#L1234">1234</a> 
+<a class="jxr_linenumber" name="L1235" href="#L1235">1235</a>    @Message(value = <span class="jxr_string">"Both 'remoteCache' and 'remoteSite' must be specified for a backup'!"</span>, id = 340)
+<a class="jxr_linenumber" name="L1236" href="#L1236">1236</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> backupForMissingParameters();
+<a class="jxr_linenumber" name="L1237" href="#L1237">1237</a> 
+<a class="jxr_linenumber" name="L1238" href="#L1238">1238</a>    @Message(value = <span class="jxr_string">"Cannot configure async properties for an sync cache. Set the cache mode to async first."</span>, id = 341)
+<a class="jxr_linenumber" name="L1239" href="#L1239">1239</a>    IllegalStateException asyncPropertiesConfigOnSyncCache();
+<a class="jxr_linenumber" name="L1240" href="#L1240">1240</a> 
+<a class="jxr_linenumber" name="L1241" href="#L1241">1241</a>    @Message(value = <span class="jxr_string">"Cannot configure sync properties for an async cache. Set the cache mode to sync first."</span>, id = 342)
+<a class="jxr_linenumber" name="L1242" href="#L1242">1242</a>    IllegalStateException syncPropertiesConfigOnAsyncCache();
+<a class="jxr_linenumber" name="L1243" href="#L1243">1243</a> 
+<a class="jxr_linenumber" name="L1244" href="#L1244">1244</a>    @Message(value = <span class="jxr_string">"Must have a transport set in the global configuration in "</span> +
+<a class="jxr_linenumber" name="L1245" href="#L1245">1245</a>                <span class="jxr_string">"order to define a clustered cache"</span>, id = 343)
+<a class="jxr_linenumber" name="L1246" href="#L1246">1246</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> missingTransportConfiguration();
+<a class="jxr_linenumber" name="L1247" href="#L1247">1247</a> 
+<a class="jxr_linenumber" name="L1248" href="#L1248">1248</a>    @Message(value = <span class="jxr_string">"reaperWakeUpInterval must be &gt;= 0, we got %d"</span>, id = 344)
+<a class="jxr_linenumber" name="L1249" href="#L1249">1249</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> invalidReaperWakeUpInterval(<strong class="jxr_keyword">long</strong> timeout);
+<a class="jxr_linenumber" name="L1250" href="#L1250">1250</a> 
+<a class="jxr_linenumber" name="L1251" href="#L1251">1251</a>    @Message(value = <span class="jxr_string">"completedTxTimeout must be &gt;= 0, we got %d"</span>, id = 345)
+<a class="jxr_linenumber" name="L1252" href="#L1252">1252</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> invalidCompletedTxTimeout(<strong class="jxr_keyword">long</strong> timeout);
+<a class="jxr_linenumber" name="L1253" href="#L1253">1253</a> 
+<a class="jxr_linenumber" name="L1254" href="#L1254">1254</a>    @Message(value = <span class="jxr_string">"Total Order based protocol not available for transaction mode %s"</span>, id = 346)
+<a class="jxr_linenumber" name="L1255" href="#L1255">1255</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> invalidTxModeForTotalOrder(<a href="../../../../org/infinispan/transaction/TransactionMode.html">TransactionMode</a> transactionMode);
+<a class="jxr_linenumber" name="L1256" href="#L1256">1256</a> 
+<a class="jxr_linenumber" name="L1257" href="#L1257">1257</a>    @Message(value = <span class="jxr_string">"Cache mode %s is not supported by Total Order based protocol"</span>, id = 347)
+<a class="jxr_linenumber" name="L1258" href="#L1258">1258</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> invalidCacheModeForTotalOrder(String friendlyCacheModeString);
+<a class="jxr_linenumber" name="L1259" href="#L1259">1259</a> 
+<a class="jxr_linenumber" name="L1260" href="#L1260">1260</a>    @Message(value = <span class="jxr_string">"Total Order based protocol not available with recovery"</span>, id = 348)
+<a class="jxr_linenumber" name="L1261" href="#L1261">1261</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> unavailableTotalOrderWithTxRecovery();
+<a class="jxr_linenumber" name="L1262" href="#L1262">1262</a> 
+<a class="jxr_linenumber" name="L1263" href="#L1263">1263</a>    @Message(value = <span class="jxr_string">"Total Order based protocol not available with %s"</span>, id = 349)
+<a class="jxr_linenumber" name="L1264" href="#L1264">1264</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> invalidLockingModeForTotalOrder(<a href="../../../../org/infinispan/transaction/LockingMode.html">LockingMode</a> lockingMode);
+<a class="jxr_linenumber" name="L1265" href="#L1265">1265</a> 
+<a class="jxr_linenumber" name="L1266" href="#L1266">1266</a>    @Message(value = <span class="jxr_string">"Enabling the L1 cache is only supported when using DISTRIBUTED as a cache mode.  Your cache mode is set to %s"</span>, id = 350)
+<a class="jxr_linenumber" name="L1267" href="#L1267">1267</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> l1OnlyForDistributedCache(String cacheMode);
+<a class="jxr_linenumber" name="L1268" href="#L1268">1268</a> 
+<a class="jxr_linenumber" name="L1269" href="#L1269">1269</a>    @Message(value = <span class="jxr_string">"Using a L1 lifespan of 0 or a negative value is meaningless"</span>, id = 351)
+<a class="jxr_linenumber" name="L1270" href="#L1270">1270</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> l1InvalidLifespan();
+<a class="jxr_linenumber" name="L1271" href="#L1271">1271</a> 
+<a class="jxr_linenumber" name="L1272" href="#L1272">1272</a>    @Message(value = <span class="jxr_string">"Use of the replication queue is invalid when using DISTRIBUTED mode."</span>, id = 352)
+<a class="jxr_linenumber" name="L1273" href="#L1273">1273</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> noReplicationQueueDistributedCache();
+<a class="jxr_linenumber" name="L1274" href="#L1274">1274</a> 
+<a class="jxr_linenumber" name="L1275" href="#L1275">1275</a>    @Message(value = <span class="jxr_string">"Use of the replication queue is only allowed with an ASYNCHRONOUS cluster mode."</span>, id = 353)
+<a class="jxr_linenumber" name="L1276" href="#L1276">1276</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> replicationQueueOnlyForAsyncCaches();
+<a class="jxr_linenumber" name="L1277" href="#L1277">1277</a> 
+<a class="jxr_linenumber" name="L1278" href="#L1278">1278</a>    @Message(value = <span class="jxr_string">"Cannot define both interceptor class (%s) and interceptor instance (%s)"</span>, id = 354)
+<a class="jxr_linenumber" name="L1279" href="#L1279">1279</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> interceptorClassAndInstanceDefined(String customInterceptorClassName, String customInterceptor);
+<a class="jxr_linenumber" name="L1280" href="#L1280">1280</a> 
+<a class="jxr_linenumber" name="L1281" href="#L1281">1281</a>    @Message(value = <span class="jxr_string">"Unable to instantiate loader/writer instance for StoreConfiguration %s"</span>, id = 355)
+<a class="jxr_linenumber" name="L1282" href="#L1282">1282</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> unableToInstantiateClass(Class&lt;?&gt; storeConfigurationClass);
+<a class="jxr_linenumber" name="L1283" href="#L1283">1283</a> 
+<a class="jxr_linenumber" name="L1284" href="#L1284">1284</a>    @Message(value = <span class="jxr_string">"Maximum data container size is currently 2^48 - 1, the number provided was %s"</span>, id = 356)
+<a class="jxr_linenumber" name="L1285" href="#L1285">1285</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> evictionSizeTooLarge(<strong class="jxr_keyword">long</strong> value);
+<a class="jxr_linenumber" name="L1286" href="#L1286">1286</a> 
+<a class="jxr_linenumber" name="L1287" href="#L1287">1287</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L1288" href="#L1288">1288</a>    @Message(value = <span class="jxr_string">"end() failed for %s"</span>, id = 357)
+<a class="jxr_linenumber" name="L1289" href="#L1289">1289</a>    <strong class="jxr_keyword">void</strong> xaResourceEndFailed(XAResource resource, @Cause Throwable t);
+<a class="jxr_linenumber" name="L1290" href="#L1290">1290</a> 
+<a class="jxr_linenumber" name="L1291" href="#L1291">1291</a>    @Message(value = <span class="jxr_string">"A cache configuration named %s already exists. This cannot be configured externally by the user."</span>, id = 358)
+<a class="jxr_linenumber" name="L1292" href="#L1292">1292</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> existingConfigForInternalCache(String name);
+<a class="jxr_linenumber" name="L1293" href="#L1293">1293</a> 
+<a class="jxr_linenumber" name="L1294" href="#L1294">1294</a>    @Message(value = <span class="jxr_string">"Keys '%s' are not available. Not all owners are in this partition"</span>, id = 359)
+<a class="jxr_linenumber" name="L1295" href="#L1295">1295</a>    <a href="../../../../org/infinispan/partitionhandling/AvailabilityException.html">AvailabilityException</a> degradedModeKeysUnavailable(Collection&lt;?&gt; keys);
+<a class="jxr_linenumber" name="L1296" href="#L1296">1296</a> 
+<a class="jxr_linenumber" name="L1297" href="#L1297">1297</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1298" href="#L1298">1298</a>    @Message(value = <span class="jxr_string">"The xml element eviction-executor has been deprecated and replaced by expiration-executor, please update your configuration file."</span>, id = 360)
+<a class="jxr_linenumber" name="L1299" href="#L1299">1299</a>    <strong class="jxr_keyword">void</strong> evictionExecutorDeprecated();
+<a class="jxr_linenumber" name="L1300" href="#L1300">1300</a> 
+<a class="jxr_linenumber" name="L1301" href="#L1301">1301</a>    @Message(value = <span class="jxr_string">"Cannot commit remote transaction %s as it was already rolled back"</span>, id = 361)
+<a class="jxr_linenumber" name="L1302" href="#L1302">1302</a>    <a href="../../../../org/infinispan/commons/CacheException.html">CacheException</a> remoteTransactionAlreadyRolledBack(<a href="../../../../org/infinispan/transaction/xa/GlobalTransaction.html">GlobalTransaction</a> gtx);
+<a class="jxr_linenumber" name="L1303" href="#L1303">1303</a> 
+<a class="jxr_linenumber" name="L1304" href="#L1304">1304</a>    @Message(value = <span class="jxr_string">"Could not find status for remote transaction %s, please increase transaction.completedTxTimeout"</span>, id = 362)
+<a class="jxr_linenumber" name="L1305" href="#L1305">1305</a>    <a href="../../../../org/infinispan/util/concurrent/TimeoutException.html">TimeoutException</a> remoteTransactionStatusMissing(<a href="../../../../org/infinispan/transaction/xa/GlobalTransaction.html">GlobalTransaction</a> gtx);
+<a class="jxr_linenumber" name="L1306" href="#L1306">1306</a> 
+<a class="jxr_linenumber" name="L1307" href="#L1307">1307</a>    @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L1308" href="#L1308">1308</a>    @Message(value = <span class="jxr_string">"No indexing service provider found for indexed filter of type %s"</span>, id = 363)
+<a class="jxr_linenumber" name="L1309" href="#L1309">1309</a>    <strong class="jxr_keyword">void</strong> noFilterIndexingServiceProviderFound(String filterClassName);
+<a class="jxr_linenumber" name="L1310" href="#L1310">1310</a> 
+<a class="jxr_linenumber" name="L1311" href="#L1311">1311</a>    @Message(value = <span class="jxr_string">"Attempted to register cluster listener of class %s, but listener is annotated as only observing pre events!"</span>, id = 364)
+<a class="jxr_linenumber" name="L1312" href="#L1312">1312</a>    <a href="../../../../org/infinispan/commons/CacheException.html">CacheException</a> clusterListenerRegisteredWithOnlyPreEvents(Class&lt;?&gt; listenerClass);
+<a class="jxr_linenumber" name="L1313" href="#L1313">1313</a> 
+<a class="jxr_linenumber" name="L1314" href="#L1314">1314</a>    @Message(value = <span class="jxr_string">"Could not find the specified JGroups configuration file '%s'"</span>, id = 365)
+<a class="jxr_linenumber" name="L1315" href="#L1315">1315</a>    <a href="../../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a> jgroupsConfigurationNotFound(String cfg);
+<a class="jxr_linenumber" name="L1316" href="#L1316">1316</a>    
+<a class="jxr_linenumber" name="L1317" href="#L1317">1317</a>    @Message(value = <span class="jxr_string">"Unable to add a 'null' Custom Cache Store"</span>, id = 366)
+<a class="jxr_linenumber" name="L1318" href="#L1318">1318</a>    IllegalArgumentException unableToAddNullCustomStore();
+<a class="jxr_linenumber" name="L1319" href="#L1319">1319</a> 
+<a class="jxr_linenumber" name="L1320" href="#L1320">1320</a>    @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L1321" href="#L1321">1321</a>    @Message(value = <span class="jxr_string">"There was an issue with topology update for topology: %s"</span>, id = 367)
+<a class="jxr_linenumber" name="L1322" href="#L1322">1322</a>    <strong class="jxr_keyword">void</strong> topologyUpdateError(<strong class="jxr_keyword">int</strong> topologyId, @Cause Throwable t);
+<a class="jxr_linenumber" name="L1323" href="#L1323">1323</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

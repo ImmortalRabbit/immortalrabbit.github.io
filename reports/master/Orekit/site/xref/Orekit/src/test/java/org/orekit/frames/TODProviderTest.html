@@ -1,0 +1,443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>TODProviderTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../apidocs/org/orekit/frames/TODProviderTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/* Copyright 2002-2016 CS Systèmes d'Information</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Licensed to CS Systèmes d'Information (CS) under one or more</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> * contributor license agreements.  See the NOTICE file distributed with</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * this work for additional information regarding copyright ownership.</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * CS licenses this file to You under the Apache License, Version 2.0</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * (the "License"); you may not use this file except in compliance with</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> * the License.  You may obtain a copy of the License at</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> *   <a href="http://www.apache.org/licenses/LICENSE-2." target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.</a>0</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_comment"> * See the License for the specific language governing permissions and</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_comment"> * limitations under the License.</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_comment"> */</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">package</strong> org.orekit.frames;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.io.ByteArrayInputStream;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> java.io.ByteArrayOutputStream;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> java.io.FileNotFoundException;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> java.io.ObjectInputStream;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> java.io.ObjectOutputStream;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.hipparchus.geometry.euclidean.threed.Rotation;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> org.hipparchus.geometry.euclidean.threed.RotationConvention;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> org.hipparchus.geometry.euclidean.threed.Vector3D;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> org.hipparchus.util.FastMath;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> org.junit.Assert;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> org.junit.Before;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> org.junit.Test;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> org.orekit.Utils;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> org.orekit.errors.OrekitException;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> org.orekit.time.AbsoluteDate;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> org.orekit.time.DateComponents;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> org.orekit.time.TimeComponents;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> org.orekit.time.TimeScalesFactory;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">import</strong> org.orekit.utils.AngularDerivativesFilter;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <strong class="jxr_keyword">import</strong> org.orekit.utils.CartesianDerivativesFilter;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">import</strong> org.orekit.utils.Constants;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">import</strong> org.orekit.utils.IERSConventions;
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <strong class="jxr_keyword">import</strong> org.orekit.utils.OrekitConfiguration;
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <strong class="jxr_keyword">import</strong> org.orekit.utils.PVCoordinates;
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/orekit/frames/TODProviderTest.html">TODProviderTest</a> {
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>      @Test
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testRotationRate() <strong class="jxr_keyword">throws</strong> OrekitException {
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>          <a href="../../../org/orekit/frames/TransformProvider.html">TransformProvider</a> provider =
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>                  <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/frames/InterpolatingTransformProvider.html">InterpolatingTransformProvider</a>(<strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/frames/TODProvider.html">TODProvider</a>(IERSConventions.IERS_1996, <strong class="jxr_keyword">null</strong>),
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>                                                     CartesianDerivativesFilter.USE_PVA,
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>                                                     AngularDerivativesFilter.USE_R,
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>                                                     AbsoluteDate.PAST_INFINITY, AbsoluteDate.FUTURE_INFINITY,
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>                                                     3, 1.0, 5, Constants.JULIAN_DAY, 100.0);
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>          <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> tMin = <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a>(2035, 3, 2, 15, 58, 59, TimeScalesFactory.getUTC());
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>          <strong class="jxr_keyword">double</strong> minRate = provider.getTransform(tMin).getRotationRate().getNorm();
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>          Assert.assertEquals(6.4e-14, minRate, 1.0e-15);
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>          <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> tMax = <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a>(2043, 12, 16, 14, 18, 9, TimeScalesFactory.getUTC());
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>          <strong class="jxr_keyword">double</strong> maxRate = provider.getTransform(tMax).getRotationRate().getNorm();
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>          Assert.assertEquals(1.4e-11, maxRate, 1.0e-12);
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>      }
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>      @Test
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testAASReferenceLEO() <strong class="jxr_keyword">throws</strong> OrekitException {
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>          <em class="jxr_comment">// this reference test has been extracted from the following paper:</em>
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>          <em class="jxr_comment">// Implementation Issues Surrounding the New IAU Reference Systems for Astrodynamics</em>
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>          <em class="jxr_comment">// David A. Vallado, John H. Seago, P. Kenneth Seidelmann</em>
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>          <em class="jxr_comment">// http://www.centerforspace.com/downloads/files/pubs/AAS-06-134.pdf</em>
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>          Utils.setLoaders(IERSConventions.IERS_1996,
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>                           Utils.buildEOPList(IERSConventions.IERS_1996, <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[][] {
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>                               { 53098, -0.4399619, 0.0015563, -0.140682, 0.333309, -0.052195, -0.003875, Double.NaN, Double.NaN },
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>                               { 53099, -0.4399619, 0.0015563, -0.140682, 0.333309, -0.052195, -0.003875, Double.NaN, Double.NaN },
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>                               { 53100, -0.4399619, 0.0015563, -0.140682, 0.333309, -0.052195, -0.003875, Double.NaN, Double.NaN },
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>                               { 53101, -0.4399619, 0.0015563, -0.140682, 0.333309, -0.052195, -0.003875, Double.NaN, Double.NaN },
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>                               { 53102, -0.4399619, 0.0015563, -0.140682, 0.333309, -0.052195, -0.003875, Double.NaN, Double.NaN },
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>                               { 53103, -0.4399619, 0.0015563, -0.140682, 0.333309, -0.052195, -0.003875, Double.NaN, Double.NaN },
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>                               { 53104, -0.4399619, 0.0015563, -0.140682, 0.333309, -0.052195, -0.003875, Double.NaN, Double.NaN },
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>                               { 53105, -0.4399619, 0.0015563, -0.140682, 0.333309, -0.052195, -0.003875, Double.NaN, Double.NaN }
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>                           }));
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>          <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> t0 = <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a>(<strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/time/DateComponents.html">DateComponents</a>(2004, 04, 06),
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>                                             <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/time/TimeComponents.html">TimeComponents</a>(07, 51, 28.386009),
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>                                             TimeScalesFactory.getUTC());
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>          <a href="../../../org/orekit/frames/Transform.html">Transform</a> tt = FramesFactory.getMOD(IERSConventions.IERS_1996).
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>                  getTransformTo(FramesFactory.getTOD(IERSConventions.IERS_1996, <strong class="jxr_keyword">true</strong>), t0);
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>          <a href="../../../org/orekit/frames/Transform.html">Transform</a> ff = FramesFactory.getMOD(false).getTransformTo(FramesFactory.getTOD(false), t0);
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>          <em class="jxr_comment">//TOD iau76</em>
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>          <a href="../../../org/orekit/utils/PVCoordinates.html">PVCoordinates</a> pvTODiau76 =
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>              <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/utils/PVCoordinates.html">PVCoordinates</a>(<strong class="jxr_keyword">new</strong> Vector3D(5094514.7804, 6127366.4612, 6380344.5328),
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>                                <strong class="jxr_keyword">new</strong> Vector3D(-4746.088567, 786.077222, 5531.931288));
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>          <em class="jxr_comment">//MOD iau76</em>
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>          <a href="../../../org/orekit/utils/PVCoordinates.html">PVCoordinates</a> pvMODiau76WithoutNutCorr =
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>              <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/utils/PVCoordinates.html">PVCoordinates</a>(<strong class="jxr_keyword">new</strong> Vector3D(5094029.0167, 6127870.9363, 6380247.8885),
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>                                <strong class="jxr_keyword">new</strong> Vector3D(-4746.262495, 786.014149, 5531.791025));
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>         <em class="jxr_comment">//MOD iau76</em>
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>         <a href="../../../org/orekit/utils/PVCoordinates.html">PVCoordinates</a> pvMODiau76 =
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>             <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/utils/PVCoordinates.html">PVCoordinates</a>(<strong class="jxr_keyword">new</strong> Vector3D(5094028.3745, 6127870.8164, 6380248.5164),
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>                               <strong class="jxr_keyword">new</strong> Vector3D(-4746.263052, 786.014045, 5531.790562));
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> 
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>         <em class="jxr_comment">// it seems the induced effect of pole nutation correction δΔψ on the equation of the equinoxes</em>
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>         <em class="jxr_comment">// was not taken into account in the reference paper, so we fix it here for the test</em>
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> dDeltaPsi =
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>                 FramesFactory.getEOPHistory(IERSConventions.IERS_1996, <strong class="jxr_keyword">true</strong>).getEquinoxNutationCorrection(t0)[0];
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> epsilonA = IERSConventions.IERS_1996.getMeanObliquityFunction().value(t0);
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>         <strong class="jxr_keyword">final</strong> <a href="../../../org/orekit/frames/Transform.html">Transform</a> fix =
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>                 <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/frames/Transform.html">Transform</a>(t0, <strong class="jxr_keyword">new</strong> Rotation(Vector3D.PLUS_K,
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>                                                dDeltaPsi * FastMath.cos(epsilonA),
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>                                                RotationConvention.FRAME_TRANSFORM));
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>         checkPV(pvTODiau76, fix.transformPVCoordinates(tt.transformPVCoordinates(pvMODiau76)), 1.13e-3, 5.3e-5);
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>         checkPV(pvTODiau76, ff.transformPVCoordinates(pvMODiau76WithoutNutCorr), 1.07e-3, 5.3e-5);
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> 
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>     }
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> 
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>     @Test
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testAASReferenceGEO() <strong class="jxr_keyword">throws</strong> OrekitException {
+<a class="jxr_linenumber" name="L122" href="#L122">122</a> 
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>         <em class="jxr_comment">// this reference test has been extracted from the following paper:</em>
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>         <em class="jxr_comment">// Implementation Issues Surrounding the New IAU Reference Systems for Astrodynamics</em>
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>         <em class="jxr_comment">// David A. Vallado, John H. Seago, P. Kenneth Seidelmann</em>
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>         <em class="jxr_comment">// http://www.centerforspace.com/downloads/files/pubs/AAS-06-134.pdf</em>
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>         Utils.setLoaders(IERSConventions.IERS_1996,
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>                          Utils.buildEOPList(IERSConventions.IERS_1996, <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[][] {
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>                              { 53153, -0.4709050,  0.0000000, -0.083853,  0.467217, -0.053614, -0.004494, Double.NaN, Double.NaN },
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>                              { 53154, -0.4709050,  0.0000000, -0.083853,  0.467217, -0.053614, -0.004494, Double.NaN, Double.NaN },
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>                              { 53155, -0.4709050,  0.0000000, -0.083853,  0.467217, -0.053614, -0.004494, Double.NaN, Double.NaN },
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>                              { 53156, -0.4709050,  0.0000000, -0.083853,  0.467217, -0.053614, -0.004494, Double.NaN, Double.NaN },
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>                              { 53157, -0.4709050,  0.0000000, -0.083853,  0.467217, -0.053614, -0.004494, Double.NaN, Double.NaN },
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>                              { 53158, -0.4709050,  0.0000000, -0.083853,  0.467217, -0.053614, -0.004494, Double.NaN, Double.NaN },
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>                              { 53159, -0.4709050,  0.0000000, -0.083853,  0.467217, -0.053614, -0.004494, Double.NaN, Double.NaN },
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>                              { 53160, -0.4709050,  0.0000000, -0.083853,  0.467217, -0.053614, -0.004494, Double.NaN, Double.NaN }
+<a class="jxr_linenumber" name="L137" href="#L137">137</a>                          }));
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>         <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> t0 = <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a>(<strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/time/DateComponents.html">DateComponents</a>(2004, 06, 01),
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>                                            TimeComponents.H00,
+<a class="jxr_linenumber" name="L140" href="#L140">140</a>                                            TimeScalesFactory.getUTC());
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> 
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>         <a href="../../../org/orekit/frames/Transform.html">Transform</a> tt = FramesFactory.getMOD(IERSConventions.IERS_1996).
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>                 getTransformTo(FramesFactory.getTOD(IERSConventions.IERS_1996, <strong class="jxr_keyword">true</strong>), t0);
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>         <a href="../../../org/orekit/frames/Transform.html">Transform</a> ff = FramesFactory.getMOD(false).getTransformTo(FramesFactory.getTOD(false), t0);
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>         <em class="jxr_comment">// TOD iau76</em>
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>         <a href="../../../org/orekit/utils/PVCoordinates.html">PVCoordinates</a> pvTODiau76 =
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>             <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/utils/PVCoordinates.html">PVCoordinates</a>(<strong class="jxr_keyword">new</strong> Vector3D(-40577427.7501, -11500096.1306, 10293.2583),
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>                               <strong class="jxr_keyword">new</strong> Vector3D(837.552338, -2957.524176, -0.928772));
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>         <em class="jxr_comment">// MOD iau76</em>
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>         <a href="../../../org/orekit/utils/PVCoordinates.html">PVCoordinates</a> pvMODiau76WithoutNutCorr =
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>             <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/utils/PVCoordinates.html">PVCoordinates</a>(<strong class="jxr_keyword">new</strong> Vector3D(-40576822.6385, -11502231.5013, 9738.2304),
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>                               <strong class="jxr_keyword">new</strong> Vector3D(837.708020, -2957.480118, -0.814275));
+<a class="jxr_linenumber" name="L154" href="#L154">154</a> 
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>         <em class="jxr_comment">// MOD iau76</em>
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>         <a href="../../../org/orekit/utils/PVCoordinates.html">PVCoordinates</a> pvMODiau76 =
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>             <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/utils/PVCoordinates.html">PVCoordinates</a>(<strong class="jxr_keyword">new</strong> Vector3D(-40576822.6395, -11502231.5015, 9733.7842),
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>                               <strong class="jxr_keyword">new</strong> Vector3D(837.708020, -2957.480117, -0.814253));
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>           
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> 
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>         <em class="jxr_comment">// it seems the induced effect of pole nutation correction δΔψ on the equation of the equinoxes</em>
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>         <em class="jxr_comment">// was not taken into account in the reference paper, so we fix it here for the test</em>
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> dDeltaPsi =
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>                 FramesFactory.getEOPHistory(IERSConventions.IERS_1996, <strong class="jxr_keyword">true</strong>).getEquinoxNutationCorrection(t0)[0];
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> epsilonA = IERSConventions.IERS_1996.getMeanObliquityFunction().value(t0);
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>         <strong class="jxr_keyword">final</strong> <a href="../../../org/orekit/frames/Transform.html">Transform</a> fix =
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>                 <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/frames/Transform.html">Transform</a>(t0, <strong class="jxr_keyword">new</strong> Rotation(Vector3D.PLUS_K,
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>                                                dDeltaPsi * FastMath.cos(epsilonA),
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>                                                RotationConvention.FRAME_TRANSFORM));
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> 
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>         checkPV(pvTODiau76, fix.transformPVCoordinates(tt.transformPVCoordinates(pvMODiau76)), 4.86e-4, 6.2e-5);
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>         checkPV(pvTODiau76, ff.transformPVCoordinates(pvMODiau76WithoutNutCorr), 4.87e-4, 6.31e-5);
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> 
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>     }
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> 
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>     @Test
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testInterpolationAccuracyWithEOP() <strong class="jxr_keyword">throws</strong> OrekitException, FileNotFoundException {
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> 
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>         <em class="jxr_comment">// max interpolation error observed on a one month period with 60 seconds step</em>
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>         <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>         <em class="jxr_comment">// number of sample points    time between sample points    max error</em>
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>         <em class="jxr_comment">//        6                          86400s /  8 =  3h       19.56e-12 rad</em>
+<a class="jxr_linenumber" name="L183" href="#L183">183</a>         <em class="jxr_comment">//        6                          86400s / 12 =  2h       13.02e-12 rad</em>
+<a class="jxr_linenumber" name="L184" href="#L184">184</a>         <em class="jxr_comment">//        6                          86400s / 16 =  1h30      9.75e-12 rad</em>
+<a class="jxr_linenumber" name="L185" href="#L185">185</a>         <em class="jxr_comment">//        6                          86400s / 20 =  1h12      7.79e-12 rad</em>
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>         <em class="jxr_comment">//        6                          86400s / 24 =  1h        6.48e-12 rad</em>
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>         <em class="jxr_comment">//        8                          86400s /  8 =  3h       20.91e-12 rad</em>
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>         <em class="jxr_comment">//        8                          86400s / 12 =  2h       13.91e-12 rad</em>
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>         <em class="jxr_comment">//        8                          86400s / 16 =  1h30     10.42e-12 rad</em>
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>         <em class="jxr_comment">//        8                          86400s / 20 =  1h12      8.32e-12 rad</em>
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>         <em class="jxr_comment">//        8                          86400s / 24 =  1h        6.92e-12 rad</em>
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>         <em class="jxr_comment">//       10                          86400s /  8 =  3h       21.65e-12 rad</em>
+<a class="jxr_linenumber" name="L193" href="#L193">193</a>         <em class="jxr_comment">//       10                          86400s / 12 =  2h       14.41e-12 rad</em>
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>         <em class="jxr_comment">//       10                          86400s / 16 =  1h30     10.78e-12 rad</em>
+<a class="jxr_linenumber" name="L195" href="#L195">195</a>         <em class="jxr_comment">//       10                          86400s / 20 =  1h12      8.61e-12 rad</em>
+<a class="jxr_linenumber" name="L196" href="#L196">196</a>         <em class="jxr_comment">//       10                          86400s / 24 =  1h        7.16e-12 rad</em>
+<a class="jxr_linenumber" name="L197" href="#L197">197</a>         <em class="jxr_comment">//       12                          86400s /  8 =  3h       22.12e-12 rad</em>
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>         <em class="jxr_comment">//       12                          86400s / 12 =  2h       14.72e-12 rad</em>
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>         <em class="jxr_comment">//       12                          86400s / 16 =  1h30     11.02e-12 rad</em>
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>         <em class="jxr_comment">//       12                          86400s / 20 =  1h12      8.80e-12 rad</em>
+<a class="jxr_linenumber" name="L201" href="#L201">201</a>         <em class="jxr_comment">//       12                          86400s / 24 =  1h        7.32e-12 rad</em>
+<a class="jxr_linenumber" name="L202" href="#L202">202</a>         <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>         <em class="jxr_comment">// looking at error behavior during along the sample show the max error is</em>
+<a class="jxr_linenumber" name="L204" href="#L204">204</a>         <em class="jxr_comment">// a peak at 00h00 each day for all curves, which matches the EOP samples</em>
+<a class="jxr_linenumber" name="L205" href="#L205">205</a>         <em class="jxr_comment">// points used for correction (eopHistoru is set to non null at construction here).</em>
+<a class="jxr_linenumber" name="L206" href="#L206">206</a>         <em class="jxr_comment">// So looking only at max error does not allow to select an interpolation</em>
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>         <em class="jxr_comment">// setting as they all fall in a similar 6e-12 to 8e-12 range. Looking at</em>
+<a class="jxr_linenumber" name="L208" href="#L208">208</a>         <em class="jxr_comment">// the error behavior between these peaks however shows that there is still</em>
+<a class="jxr_linenumber" name="L209" href="#L209">209</a>         <em class="jxr_comment">// some signal if the time interval is between sample points is too large,</em>
+<a class="jxr_linenumber" name="L210" href="#L210">210</a>         <em class="jxr_comment">// in order to get only numerical noise, we have to go as far as 1h between</em>
+<a class="jxr_linenumber" name="L211" href="#L211">211</a>         <em class="jxr_comment">// the points.</em>
+<a class="jxr_linenumber" name="L212" href="#L212">212</a>         <em class="jxr_comment">// We finally select 6 interpolation points separated by 1 hour each</em>
+<a class="jxr_linenumber" name="L213" href="#L213">213</a>         <a href="../../../org/orekit/frames/EOPHistory.html">EOPHistory</a> eopHistory = FramesFactory.getEOPHistory(IERSConventions.IERS_1996, false);
+<a class="jxr_linenumber" name="L214" href="#L214">214</a>         <a href="../../../org/orekit/frames/TransformProvider.html">TransformProvider</a> nonInterpolating = <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/frames/TODProvider.html">TODProvider</a>(IERSConventions.IERS_1996, eopHistory);
+<a class="jxr_linenumber" name="L215" href="#L215">215</a>         <strong class="jxr_keyword">final</strong> <a href="../../../org/orekit/frames/TransformProvider.html">TransformProvider</a> interpolating =
+<a class="jxr_linenumber" name="L216" href="#L216">216</a>                 <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/frames/InterpolatingTransformProvider.html">InterpolatingTransformProvider</a>(nonInterpolating,
+<a class="jxr_linenumber" name="L217" href="#L217">217</a>                                                    CartesianDerivativesFilter.USE_PVA,
+<a class="jxr_linenumber" name="L218" href="#L218">218</a>                                                    AngularDerivativesFilter.USE_R,
+<a class="jxr_linenumber" name="L219" href="#L219">219</a>                                                    AbsoluteDate.PAST_INFINITY, AbsoluteDate.FUTURE_INFINITY,
+<a class="jxr_linenumber" name="L220" href="#L220">220</a>                                                    6, Constants.JULIAN_DAY / 24,
+<a class="jxr_linenumber" name="L221" href="#L221">221</a>                                                    OrekitConfiguration.getCacheSlotsNumber(),
+<a class="jxr_linenumber" name="L222" href="#L222">222</a>                                                    Constants.JULIAN_YEAR, 30 * Constants.JULIAN_DAY);
+<a class="jxr_linenumber" name="L223" href="#L223">223</a> 
+<a class="jxr_linenumber" name="L224" href="#L224">224</a>         <em class="jxr_comment">// the following time range is located around the maximal observed error</em>
+<a class="jxr_linenumber" name="L225" href="#L225">225</a>         <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> start = <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a>(2002, 11, 11, 0, 0, 0.0, TimeScalesFactory.getTAI());
+<a class="jxr_linenumber" name="L226" href="#L226">226</a>         <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> end   = <strong class="jxr_keyword">new</strong> AbsoluteDate(2002, 11, 15, 6, 0, 0.0, TimeScalesFactory.getTAI());
+<a class="jxr_linenumber" name="L227" href="#L227">227</a>         <strong class="jxr_keyword">double</strong> maxError = 0.0;
+<a class="jxr_linenumber" name="L228" href="#L228">228</a>         <strong class="jxr_keyword">for</strong> (AbsoluteDate date = start; date.compareTo(end) &lt; 0; date = date.shiftedBy(60)) {
+<a class="jxr_linenumber" name="L229" href="#L229">229</a>             <strong class="jxr_keyword">final</strong> <a href="../../../org/orekit/frames/Transform.html">Transform</a> transform =
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>                     <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/frames/Transform.html">Transform</a>(date,
+<a class="jxr_linenumber" name="L231" href="#L231">231</a>                                   interpolating.getTransform(date),
+<a class="jxr_linenumber" name="L232" href="#L232">232</a>                                   nonInterpolating.getTransform(date).getInverse());
+<a class="jxr_linenumber" name="L233" href="#L233">233</a>             <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> error = transform.getRotation().getAngle();
+<a class="jxr_linenumber" name="L234" href="#L234">234</a>             maxError = FastMath.max(maxError, error);
+<a class="jxr_linenumber" name="L235" href="#L235">235</a>         }
+<a class="jxr_linenumber" name="L236" href="#L236">236</a> 
+<a class="jxr_linenumber" name="L237" href="#L237">237</a>         Assert.assertTrue(maxError &lt; 7e-12);
+<a class="jxr_linenumber" name="L238" href="#L238">238</a> 
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>     }
+<a class="jxr_linenumber" name="L240" href="#L240">240</a> 
+<a class="jxr_linenumber" name="L241" href="#L241">241</a>     @Test
+<a class="jxr_linenumber" name="L242" href="#L242">242</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testInterpolationAccuracyWithoutEOP() <strong class="jxr_keyword">throws</strong> OrekitException, FileNotFoundException {
+<a class="jxr_linenumber" name="L243" href="#L243">243</a> 
+<a class="jxr_linenumber" name="L244" href="#L244">244</a>         <em class="jxr_comment">// max interpolation error observed on a one month period with 60 seconds step</em>
+<a class="jxr_linenumber" name="L245" href="#L245">245</a>         <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="L246" href="#L246">246</a>         <em class="jxr_comment">// number of sample points    time between sample points    max error</em>
+<a class="jxr_linenumber" name="L247" href="#L247">247</a>         <em class="jxr_comment">//        5                          86400s /  3 =  8h     3286.90e-15 rad</em>
+<a class="jxr_linenumber" name="L248" href="#L248">248</a>         <em class="jxr_comment">//        5                          86400s /  6 =  4h      103.90e-15 rad</em>
+<a class="jxr_linenumber" name="L249" href="#L249">249</a>         <em class="jxr_comment">//        5                          86400s /  8 =  3h       24.74e-15 rad</em>
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>         <em class="jxr_comment">//        5                          86400s / 12 =  2h        4.00e-15 rad</em>
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>         <em class="jxr_comment">//        6                          86400s /  3 =  8h      328.91e-15 rad</em>
+<a class="jxr_linenumber" name="L252" href="#L252">252</a>         <em class="jxr_comment">//        6                          86400s /  6 =  4h        5.92e-15 rad</em>
+<a class="jxr_linenumber" name="L253" href="#L253">253</a>         <em class="jxr_comment">//        6                          86400s /  8 =  3h        3.95e-15 rad</em>
+<a class="jxr_linenumber" name="L254" href="#L254">254</a>         <em class="jxr_comment">//        6                          86400s / 12 =  2h        3.94e-15 rad</em>
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>         <em class="jxr_comment">//        8                          86400s /  3 =  8h        5.87e-15 rad</em>
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>         <em class="jxr_comment">//        8                          86400s /  6 =  4h        4.73e-15 rad</em>
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>         <em class="jxr_comment">//        8                          86400s /  8 =  3h        4.45e-15 rad</em>
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>         <em class="jxr_comment">//        8                          86400s / 12 =  2h        3.87e-15 rad</em>
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>         <em class="jxr_comment">//       10                          86400s /  3 =  8h        5.29e-15 rad</em>
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>         <em class="jxr_comment">//       10                          86400s /  6 =  4h        5.36e-15 rad</em>
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>         <em class="jxr_comment">//       10                          86400s /  8 =  3h        5.86e-15 rad</em>
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>         <em class="jxr_comment">//       10                          86400s / 12 =  2h        5.76e-15 rad</em>
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>         <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>         <em class="jxr_comment">// </em>
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>         <em class="jxr_comment">// We don't see anymore the peak at 00h00 so this confirms it is related to EOP</em>
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>         <em class="jxr_comment">// sampling. All values between 3e-15 and 6e-15 are really equivalent: it is</em>
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>         <em class="jxr_comment">// mostly numerical noise. The best settings are 6 or 8 points every 2 or 3 hours.</em>
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>         <em class="jxr_comment">// We finally select 6 interpolation points separated by 3 hours each</em>
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>         <a href="../../../org/orekit/frames/TransformProvider.html">TransformProvider</a> nonInterpolating = <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/frames/TODProvider.html">TODProvider</a>(IERSConventions.IERS_1996, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>                 <strong class="jxr_keyword">final</strong> <a href="../../../org/orekit/frames/TransformProvider.html">TransformProvider</a> interpolating =
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>                         <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/frames/InterpolatingTransformProvider.html">InterpolatingTransformProvider</a>(nonInterpolating,
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>                                                            CartesianDerivativesFilter.USE_PVA,
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>                                                            AngularDerivativesFilter.USE_R,
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>                                                            AbsoluteDate.PAST_INFINITY, AbsoluteDate.FUTURE_INFINITY,
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>                                                            6, Constants.JULIAN_DAY / 8,
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>                                                            OrekitConfiguration.getCacheSlotsNumber(),
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>                                                            Constants.JULIAN_YEAR, 30 * Constants.JULIAN_DAY);
+<a class="jxr_linenumber" name="L278" href="#L278">278</a> 
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>                 <em class="jxr_comment">// the following time range is located around the maximal observed error</em>
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>                 <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> start = <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a>(2002, 11, 11, 0, 0, 0.0, TimeScalesFactory.getTAI());
+<a class="jxr_linenumber" name="L281" href="#L281">281</a>                 <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> end   = <strong class="jxr_keyword">new</strong> AbsoluteDate(2002, 11, 15, 6, 0, 0.0, TimeScalesFactory.getTAI());
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>                 <strong class="jxr_keyword">double</strong> maxError = 0.0;
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>                 <strong class="jxr_keyword">for</strong> (AbsoluteDate date = start; date.compareTo(end) &lt; 0; date = date.shiftedBy(60)) {
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>                     <strong class="jxr_keyword">final</strong> <a href="../../../org/orekit/frames/Transform.html">Transform</a> transform =
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>                             <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/frames/Transform.html">Transform</a>(date,
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>                                           interpolating.getTransform(date),
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>                                           nonInterpolating.getTransform(date).getInverse());
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> error = transform.getRotation().getAngle();
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>                     maxError = FastMath.max(maxError, error);
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>                 }
+<a class="jxr_linenumber" name="L291" href="#L291">291</a> 
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>                 Assert.assertTrue(maxError &lt; 4.0e-15);
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> 
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>     }
+<a class="jxr_linenumber" name="L295" href="#L295">295</a> 
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>     @Test
+<a class="jxr_linenumber" name="L297" href="#L297">297</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSofaPnm80() <strong class="jxr_keyword">throws</strong> OrekitException {
+<a class="jxr_linenumber" name="L298" href="#L298">298</a> 
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>         <em class="jxr_comment">// the reference value has been computed using the March 2012 version of the SOFA library</em>
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>         <em class="jxr_comment">// http://www.iausofa.org/2012_0301_C.html, with the following code</em>
+<a class="jxr_linenumber" name="L301" href="#L301">301</a>         <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>         <em class="jxr_comment">//        double utc1, utc2, tai1, tai2, tt1, tt2, rmatpn[3][3];</em>
+<a class="jxr_linenumber" name="L303" href="#L303">303</a>         <em class="jxr_comment">//        </em>
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>         <em class="jxr_comment">//        // 2004-02-14:00:00:00Z, MJD = 53049, UT1-UTC = -0.4093509</em>
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>         <em class="jxr_comment">//        utc1  = DJM0 + 53049.0;</em>
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>         <em class="jxr_comment">//        utc2  = 0.0;</em>
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>         <em class="jxr_comment">//        iauUtctai(utc1, utc2, &amp;tai1, &amp;tai2);</em>
+<a class="jxr_linenumber" name="L308" href="#L308">308</a>         <em class="jxr_comment">//        iauTaitt(tai1, tai2, &amp;tt1, &amp;tt2);</em>
+<a class="jxr_linenumber" name="L309" href="#L309">309</a>         <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="L310" href="#L310">310</a>         <em class="jxr_comment">//        iauPnm80(tt1, tt2, rmatpn);</em>
+<a class="jxr_linenumber" name="L311" href="#L311">311</a>         <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="L312" href="#L312">312</a>         <em class="jxr_comment">//        printf("iauPnm80(%.20g, %.20g, rmatpn)\n"</em>
+<a class="jxr_linenumber" name="L313" href="#L313">313</a>         <em class="jxr_comment">//               "  --&gt; %.20g %.20g %.20g\n"</em>
+<a class="jxr_linenumber" name="L314" href="#L314">314</a>         <em class="jxr_comment">//               "      %.20g %.20g %.20g\n"</em>
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>         <em class="jxr_comment">//               "      %.20g %.20g %.20g\n",</em>
+<a class="jxr_linenumber" name="L316" href="#L316">316</a>         <em class="jxr_comment">//               tt1, tt2,</em>
+<a class="jxr_linenumber" name="L317" href="#L317">317</a>         <em class="jxr_comment">//               rmatpn[0][0], rmatpn[0][1], rmatpn[0][2],</em>
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>         <em class="jxr_comment">//               rmatpn[1][0], rmatpn[1][1], rmatpn[1][2],</em>
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>         <em class="jxr_comment">//               rmatpn[2][0], rmatpn[2][1], rmatpn[2][2]);</em>
+<a class="jxr_linenumber" name="L320" href="#L320">320</a>         <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="L321" href="#L321">321</a>         <em class="jxr_comment">// the output of this test reads:</em>
+<a class="jxr_linenumber" name="L322" href="#L322">322</a>         <em class="jxr_comment">//        iauNutm80(2453049.5, 0.00074287037037037029902, nut)</em>
+<a class="jxr_linenumber" name="L323" href="#L323">323</a>         <em class="jxr_comment">//         --&gt; 0.99999999859236310407 4.8681019508684473249e-05 2.1105264333587349032e-05</em>
+<a class="jxr_linenumber" name="L324" href="#L324">324</a>         <em class="jxr_comment">//            -4.8680343021901595118e-05 0.99999999830143670998 -3.205231683600651138e-05</em>
+<a class="jxr_linenumber" name="L325" href="#L325">325</a>         <em class="jxr_comment">//            -2.1106824637199909505e-05 3.2051289379386727063e-05 0.99999999926360838565</em>
+<a class="jxr_linenumber" name="L326" href="#L326">326</a>         <em class="jxr_comment">//        iauPnm80(2453049.5, 0.00074287037037037029902, rmatpn)</em>
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>         <em class="jxr_comment">//         --&gt; 0.99999954755358466674 -0.00087243169070689370777 -0.00037915111913272635073</em>
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>         <em class="jxr_comment">//            0.0008724195377896877112 0.99999961892302935418 -3.2217171614061089913e-05</em>
+<a class="jxr_linenumber" name="L329" href="#L329">329</a>         <em class="jxr_comment">//            0.00037917908192846747854 3.1886378193416632805e-05 0.99999992760323874741</em>
+<a class="jxr_linenumber" name="L330" href="#L330">330</a> 
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>         <em class="jxr_comment">// As the iauNutm80 and iauPnm80 do not allow user to specify EOP corrections,</em>
+<a class="jxr_linenumber" name="L332" href="#L332">332</a>         <em class="jxr_comment">// the test is done with Predefined.TOD_WITHOUT_EOP_CORRECTIONS.</em>
+<a class="jxr_linenumber" name="L333" href="#L333">333</a> 
+<a class="jxr_linenumber" name="L334" href="#L334">334</a>         <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> date = <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a>(2004, 2, 14, TimeScalesFactory.getUTC());
+<a class="jxr_linenumber" name="L335" href="#L335">335</a>         <a href="../../../org/orekit/frames/Frame.html">Frame</a> tod  = FramesFactory.getFrame(Predefined.TOD_WITHOUT_EOP_CORRECTIONS);
+<a class="jxr_linenumber" name="L336" href="#L336">336</a>         checkRotation(<strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[][] {
+<a class="jxr_linenumber" name="L337" href="#L337">337</a>             { 0.99999999859236310407, 4.8681019508684473249e-05, 2.1105264333587349032e-05 },
+<a class="jxr_linenumber" name="L338" href="#L338">338</a>             { -4.8680343021901595118e-05, 0.99999999830143670998, -3.205231683600651138e-05 },
+<a class="jxr_linenumber" name="L339" href="#L339">339</a>             { -2.1106824637199909505e-05, 3.2051289379386727063e-05, 0.99999999926360838565    }
+<a class="jxr_linenumber" name="L340" href="#L340">340</a> 
+<a class="jxr_linenumber" name="L341" href="#L341">341</a>         }, tod.getParent().getTransformTo(tod, date), 5.0e-11);
+<a class="jxr_linenumber" name="L342" href="#L342">342</a>         checkRotation(<strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[][] {
+<a class="jxr_linenumber" name="L343" href="#L343">343</a>             { 0.99999954755358466674,   -0.00087243169070689370777, -0.00037915111913272635073 },
+<a class="jxr_linenumber" name="L344" href="#L344">344</a>             { 0.0008724195377896877112,  0.99999961892302935418,    -3.2217171614061089913e-05 },
+<a class="jxr_linenumber" name="L345" href="#L345">345</a>             { 0.00037917908192846747854, 3.1886378193416632805e-05,  0.99999992760323874741    }
+<a class="jxr_linenumber" name="L346" href="#L346">346</a> 
+<a class="jxr_linenumber" name="L347" href="#L347">347</a>         }, tod.getParent().getParent().getTransformTo(tod, date), 5.0e-11);
+<a class="jxr_linenumber" name="L348" href="#L348">348</a> 
+<a class="jxr_linenumber" name="L349" href="#L349">349</a>     }
+<a class="jxr_linenumber" name="L350" href="#L350">350</a> 
+<a class="jxr_linenumber" name="L351" href="#L351">351</a>     @Test
+<a class="jxr_linenumber" name="L352" href="#L352">352</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testTOD1976vs2006() <strong class="jxr_keyword">throws</strong> OrekitException {
+<a class="jxr_linenumber" name="L353" href="#L353">353</a> 
+<a class="jxr_linenumber" name="L354" href="#L354">354</a>         <strong class="jxr_keyword">final</strong> <a href="../../../org/orekit/frames/Frame.html">Frame</a> tod1976 = FramesFactory.getTOD(IERSConventions.IERS_1996, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L355" href="#L355">355</a>         <strong class="jxr_keyword">final</strong> <a href="../../../org/orekit/frames/Frame.html">Frame</a> tod2006 = FramesFactory.getTOD(IERSConventions.IERS_2010, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L356" href="#L356">356</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">double</strong> dt = 0; dt &lt; 2 * Constants.JULIAN_YEAR; dt += 100 * Constants.JULIAN_DAY) {
+<a class="jxr_linenumber" name="L357" href="#L357">357</a>             <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> date = <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a>(AbsoluteDate.J2000_EPOCH, dt);
+<a class="jxr_linenumber" name="L358" href="#L358">358</a>             <strong class="jxr_keyword">double</strong> delta = tod1976.getTransformTo(tod2006, date).getRotation().getAngle();
+<a class="jxr_linenumber" name="L359" href="#L359">359</a>             <em class="jxr_comment">// TOD2006 and TOD2000 are similar to about 65 milli-arcseconds</em>
+<a class="jxr_linenumber" name="L360" href="#L360">360</a>             <em class="jxr_comment">// between 2000 and 2002, with EOP corrections taken into account in both cases</em>
+<a class="jxr_linenumber" name="L361" href="#L361">361</a>             Assert.assertEquals(0.0, delta, 3.2e-7);
+<a class="jxr_linenumber" name="L362" href="#L362">362</a>         }
+<a class="jxr_linenumber" name="L363" href="#L363">363</a> 
+<a class="jxr_linenumber" name="L364" href="#L364">364</a>     }
+<a class="jxr_linenumber" name="L365" href="#L365">365</a> 
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>     @Test
+<a class="jxr_linenumber" name="L367" href="#L367">367</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testTOD2000vs2006() <strong class="jxr_keyword">throws</strong> OrekitException {
+<a class="jxr_linenumber" name="L368" href="#L368">368</a> 
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>         <strong class="jxr_keyword">final</strong> <a href="../../../org/orekit/frames/Frame.html">Frame</a> tod2000 = FramesFactory.getTOD(IERSConventions.IERS_2003, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L370" href="#L370">370</a>         <strong class="jxr_keyword">final</strong> <a href="../../../org/orekit/frames/Frame.html">Frame</a> tod2006 = FramesFactory.getTOD(IERSConventions.IERS_2010, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L371" href="#L371">371</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">double</strong> dt = 0; dt &lt; 2 * Constants.JULIAN_YEAR; dt += 100 * Constants.JULIAN_DAY) {
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>             <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> date = <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a>(AbsoluteDate.J2000_EPOCH, dt);
+<a class="jxr_linenumber" name="L373" href="#L373">373</a>             <strong class="jxr_keyword">double</strong> delta = tod2000.getTransformTo(tod2006, date).getRotation().getAngle();
+<a class="jxr_linenumber" name="L374" href="#L374">374</a>             <em class="jxr_comment">// TOD2006 and TOD2000 are similar to about 30 micro-arcseconds</em>
+<a class="jxr_linenumber" name="L375" href="#L375">375</a>             <em class="jxr_comment">// between 2000 and 2002, with EOP corrections taken into account in both cases</em>
+<a class="jxr_linenumber" name="L376" href="#L376">376</a>             Assert.assertEquals(0.0, delta, 1.5e-10);
+<a class="jxr_linenumber" name="L377" href="#L377">377</a>         }
+<a class="jxr_linenumber" name="L378" href="#L378">378</a> 
+<a class="jxr_linenumber" name="L379" href="#L379">379</a>     }
+<a class="jxr_linenumber" name="L380" href="#L380">380</a> 
+<a class="jxr_linenumber" name="L381" href="#L381">381</a>     @Test
+<a class="jxr_linenumber" name="L382" href="#L382">382</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSerialization() <strong class="jxr_keyword">throws</strong> OrekitException, IOException, ClassNotFoundException {
+<a class="jxr_linenumber" name="L383" href="#L383">383</a>         <a href="../../../org/orekit/frames/TODProvider.html">TODProvider</a> provider = <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/frames/TODProvider.html">TODProvider</a>(IERSConventions.IERS_2010,
+<a class="jxr_linenumber" name="L384" href="#L384">384</a>                                                FramesFactory.getEOPHistory(IERSConventions.IERS_2010, <strong class="jxr_keyword">true</strong>));
+<a class="jxr_linenumber" name="L385" href="#L385">385</a>         
+<a class="jxr_linenumber" name="L386" href="#L386">386</a>         ByteArrayOutputStream bos = <strong class="jxr_keyword">new</strong> ByteArrayOutputStream();
+<a class="jxr_linenumber" name="L387" href="#L387">387</a>         ObjectOutputStream    oos = <strong class="jxr_keyword">new</strong> ObjectOutputStream(bos);
+<a class="jxr_linenumber" name="L388" href="#L388">388</a>         oos.writeObject(provider);
+<a class="jxr_linenumber" name="L389" href="#L389">389</a> 
+<a class="jxr_linenumber" name="L390" href="#L390">390</a>         Assert.assertTrue(bos.size() &gt; 280000);
+<a class="jxr_linenumber" name="L391" href="#L391">391</a>         Assert.assertTrue(bos.size() &lt; 285000);
+<a class="jxr_linenumber" name="L392" href="#L392">392</a> 
+<a class="jxr_linenumber" name="L393" href="#L393">393</a>         ByteArrayInputStream  bis = <strong class="jxr_keyword">new</strong> ByteArrayInputStream(bos.toByteArray());
+<a class="jxr_linenumber" name="L394" href="#L394">394</a>         ObjectInputStream     ois = <strong class="jxr_keyword">new</strong> ObjectInputStream(bis);
+<a class="jxr_linenumber" name="L395" href="#L395">395</a>         <a href="../../../org/orekit/frames/TODProvider.html">TODProvider</a> deserialized  = (TODProvider) ois.readObject();
+<a class="jxr_linenumber" name="L396" href="#L396">396</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; FastMath.min(100, provider.getEOPHistory().getEntries().size()); ++i) {
+<a class="jxr_linenumber" name="L397" href="#L397">397</a>             <a href="../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> date = provider.getEOPHistory().getEntries().get(i).getDate();
+<a class="jxr_linenumber" name="L398" href="#L398">398</a>             <a href="../../../org/orekit/frames/Transform.html">Transform</a> expectedIdentity = <strong class="jxr_keyword">new</strong> <a href="../../../org/orekit/frames/Transform.html">Transform</a>(date,
+<a class="jxr_linenumber" name="L399" href="#L399">399</a>                                                        provider.getTransform(date).getInverse(),
+<a class="jxr_linenumber" name="L400" href="#L400">400</a>                                                        deserialized.getTransform(date));
+<a class="jxr_linenumber" name="L401" href="#L401">401</a>             Assert.assertEquals(0.0, expectedIdentity.getTranslation().getNorm(), 1.0e-15);
+<a class="jxr_linenumber" name="L402" href="#L402">402</a>             Assert.assertEquals(0.0, expectedIdentity.getRotation().getAngle(),   1.0e-15);
+<a class="jxr_linenumber" name="L403" href="#L403">403</a>         }
+<a class="jxr_linenumber" name="L404" href="#L404">404</a> 
+<a class="jxr_linenumber" name="L405" href="#L405">405</a>     }
+<a class="jxr_linenumber" name="L406" href="#L406">406</a> 
+<a class="jxr_linenumber" name="L407" href="#L407">407</a>     @Before
+<a class="jxr_linenumber" name="L408" href="#L408">408</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setUp() {
+<a class="jxr_linenumber" name="L409" href="#L409">409</a>         Utils.setDataRoot(<span class="jxr_string">"compressed-data"</span>);
+<a class="jxr_linenumber" name="L410" href="#L410">410</a>     }
+<a class="jxr_linenumber" name="L411" href="#L411">411</a> 
+<a class="jxr_linenumber" name="L412" href="#L412">412</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> checkPV(<a href="../../../org/orekit/utils/PVCoordinates.html">PVCoordinates</a> reference, <a href="../../../org/orekit/utils/PVCoordinates.html">PVCoordinates</a> result,
+<a class="jxr_linenumber" name="L413" href="#L413">413</a>                          <strong class="jxr_keyword">double</strong> expectedPositionError, <strong class="jxr_keyword">double</strong> expectedVelocityError) {
+<a class="jxr_linenumber" name="L414" href="#L414">414</a> 
+<a class="jxr_linenumber" name="L415" href="#L415">415</a>         Vector3D dP = result.getPosition().subtract(reference.getPosition());
+<a class="jxr_linenumber" name="L416" href="#L416">416</a>         Vector3D dV = result.getVelocity().subtract(reference.getVelocity());
+<a class="jxr_linenumber" name="L417" href="#L417">417</a>         Assert.assertEquals(expectedPositionError, dP.getNorm(), 0.01 * expectedPositionError);
+<a class="jxr_linenumber" name="L418" href="#L418">418</a>         Assert.assertEquals(expectedVelocityError, dV.getNorm(), 0.01 * expectedVelocityError);
+<a class="jxr_linenumber" name="L419" href="#L419">419</a>     }
+<a class="jxr_linenumber" name="L420" href="#L420">420</a> 
+<a class="jxr_linenumber" name="L421" href="#L421">421</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> checkRotation(<strong class="jxr_keyword">double</strong>[][] reference, <a href="../../../org/orekit/frames/Transform.html">Transform</a> t, <strong class="jxr_keyword">double</strong> epsilon) {
+<a class="jxr_linenumber" name="L422" href="#L422">422</a>         <strong class="jxr_keyword">double</strong>[][] mat = t.getRotation().getMatrix();
+<a class="jxr_linenumber" name="L423" href="#L423">423</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; 3; ++i) {
+<a class="jxr_linenumber" name="L424" href="#L424">424</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> j = 0; j &lt; 3; ++j) {
+<a class="jxr_linenumber" name="L425" href="#L425">425</a>                 Assert.assertEquals(reference[i][j], mat[i][j], epsilon);
+<a class="jxr_linenumber" name="L426" href="#L426">426</a>             }
+<a class="jxr_linenumber" name="L427" href="#L427">427</a>         }
+<a class="jxr_linenumber" name="L428" href="#L428">428</a>     }
+<a class="jxr_linenumber" name="L429" href="#L429">429</a> 
+<a class="jxr_linenumber" name="L430" href="#L430">430</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

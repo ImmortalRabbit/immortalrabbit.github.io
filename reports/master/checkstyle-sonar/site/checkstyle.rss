@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+<rss version="0.91">
+  <channel>
+    <title>sample - Checkstyle report</title>
+    <link>${project.url}</link>
+    <description>sample - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2020</copyright>
+    <item>
+      <title>File: 36,
+             Errors: 0,
+             Warnings: 115,
+             Infos: 0
+      </title>
+            <link>${project.url}/checkstyle.html</link>
+      <description>
+        <p>Click <a href="${project.url}/checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.CheckstylePlugin.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstylePlugin.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.CheckstyleSensor.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleSensor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.CheckstyleAuditListenerTest.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleAuditListenerTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.CheckstyleExecutorTest.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleExecutorTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.CheckstyleVersionTest.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleVersionTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.package-info.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.CheckstyleConfigurationTest.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleConfigurationTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.internal.CheckUtil.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/internal/CheckUtil.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.CheckstyleSeverityUtilsTest.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleSeverityUtilsTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.CheckstyleRulesDefinition.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleRulesDefinition.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.test-resources.World.java">checkstyle-sonar/test-resources/World.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.CheckstyleConfiguration.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleConfiguration.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.CheckstyleAuditListener.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleAuditListener.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.CheckstyleProfileExporterTest.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleProfileExporterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.CheckstyleRulesDefinitionTest.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleRulesDefinitionTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.test-resources.Hello.java">checkstyle-sonar/test-resources/Hello.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.internal.ChecksTest.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/internal/ChecksTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.CheckstyleSensorTest.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleSensorTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.internal.XmlUtil.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/internal/XmlUtil.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.it.java.org.checkstyle.plugins.sonar.CheckJarTest.java">checkstyle-sonar/src/it/java/org/checkstyle/plugins/sonar/CheckJarTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.it.java.org.checkstyle.plugins.sonar.RunPluginTest.java">checkstyle-sonar/src/it/java/org/checkstyle/plugins/sonar/RunPluginTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.CheckstyleProfileExporter.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleProfileExporter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.rule.ActiveRuleWrapperServerImpl.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/rule/ActiveRuleWrapperServerImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.CheckstyleConstantsTest.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleConstantsTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.CheckstyleTestUtils.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleTestUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.CheckstyleSeverityUtils.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleSeverityUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.CheckstyleProfileImporter.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleProfileImporter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.CheckstyleProfileImporterTest.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleProfileImporterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.CheckstyleExecutor.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleExecutor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.CheckstyleVersion.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleVersion.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.test.java.org.sonar.plugins.checkstyle.CheckstylePluginTest.java">checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstylePluginTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.it.resources.integration-test-project.src.test.java.com.acme.AppTest.java">checkstyle-sonar/src/it/resources/integration-test-project/src/test/java/com/acme/AppTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.rule.ActiveRuleWrapperScannerImpl.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/rule/ActiveRuleWrapperScannerImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.rule.ActiveRuleWrapper.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/rule/ActiveRuleWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.main.java.org.sonar.plugins.checkstyle.CheckstyleConstants.java">checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleConstants.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#checkstyle-sonar.src.it.resources.integration-test-project.src.main.java.com.acme.App.java">checkstyle-sonar/src/it/resources/integration-test-project/src/main/java/com/acme/App.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+

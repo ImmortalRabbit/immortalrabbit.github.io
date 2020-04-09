@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>RollbackNoPrepareOptimisticTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../apidocs/org/infinispan/xsite/RollbackNoPrepareOptimisticTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> org.infinispan.xsite;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.infinispan.commands.VisitableCommand;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.infinispan.configuration.cache.CacheMode;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.infinispan.configuration.cache.ConfigurationBuilder;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.infinispan.factories.ComponentRegistry;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.infinispan.factories.GlobalComponentRegistry;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.infinispan.manager.CacheContainer;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> javax.transaction.TransactionManager;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.AssertJUnit.assertEquals;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.AssertJUnit.assertNotNull;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.AssertJUnit.assertNull;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  @Test(groups = <span class="jxr_string">"xsite"</span>, testName = <span class="jxr_string">"xsite.RollbackNoPrepareOptimisticTest"</span>)
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/infinispan/xsite/RollbackNoPrepareOptimisticTest.html">RollbackNoPrepareOptimisticTest</a> <strong class="jxr_keyword">extends</strong> <a href="../../../org/infinispan/xsite/AbstractTwoSitesTest.html">AbstractTwoSitesTest</a> {
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>     <strong class="jxr_keyword">public</strong> <a href="../../../org/infinispan/xsite/RollbackNoPrepareOptimisticTest.html">RollbackNoPrepareOptimisticTest</a>() {
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>        use2Pc = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>     }
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testRollbackNoCommit() <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>        String key = key(<span class="jxr_string">"LON"</span>);
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>        String val = val(<span class="jxr_string">"LON"</span>);
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>        <a href="../../../org/infinispan/factories/ComponentRegistry.html">ComponentRegistry</a> cr = backup(<span class="jxr_string">"LON"</span>).getAdvancedCache().getComponentRegistry();
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>        <a href="../../../org/infinispan/factories/GlobalComponentRegistry.html">GlobalComponentRegistry</a> gcr = cr.getGlobalComponentRegistry();
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>        <a href="../../../org/infinispan/xsite/BackupReceiverRepositoryImpl.html">BackupReceiverRepositoryImpl</a> brr = (BackupReceiverRepositoryImpl) gcr.getComponent(BackupReceiverRepository.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>        <a href="../../../org/infinispan/xsite/BackupReceiver.html">BackupReceiver</a> backupCacheManager = brr.getBackupReceiver(<span class="jxr_string">"LON"</span>, CacheContainer.DEFAULT_CACHE_NAME);
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>        <a href="../../../org/infinispan/xsite/RollbackNoPrepareOptimisticTest.html">BackupReceiverWrapper</a> brWrapper = <strong class="jxr_keyword">new</strong> <a href="../../../org/infinispan/xsite/RollbackNoPrepareOptimisticTest.html">BackupReceiverWrapper</a>(backupCacheManager);
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>        brr.replace(<span class="jxr_string">"LON"</span>, CacheContainer.DEFAULT_CACHE_NAME, brWrapper);
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>        assertNull(brWrapper.received);
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>        cache(<span class="jxr_string">"LON"</span>, 0).put(key, val);
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>        assertNotNull(brWrapper.received);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>        assertEquals(backup(<span class="jxr_string">"LON"</span>).get(key), val);
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>        brWrapper.received = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>        TransactionManager tmLon0 = cache(<span class="jxr_string">"LON"</span>, 0).getAdvancedCache().getTransactionManager();
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>        assertNull(brWrapper.received);
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>        tmLon0.begin();
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>        cache(<span class="jxr_string">"LON"</span>, 0).put(key, val);
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>        log.trace(<span class="jxr_string">"Before rollback!"</span>);
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>        tmLon0.rollback();
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>        assertNull(brWrapper.received);
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>     }
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/infinispan/xsite/RollbackNoPrepareOptimisticTest.html">BackupReceiverWrapper</a> <strong class="jxr_keyword">extends</strong> <a href="../../../org/infinispan/xsite/BackupReceiverDelegator.html">BackupReceiverDelegator</a> {
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>        <strong class="jxr_keyword">volatile</strong> <a href="../../../org/infinispan/commands/VisitableCommand.html">VisitableCommand</a> received;
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>        <strong class="jxr_keyword">public</strong> <a href="../../../org/infinispan/xsite/RollbackNoPrepareOptimisticTest.html">BackupReceiverWrapper</a>(<a href="../../../org/infinispan/xsite/BackupReceiver.html">BackupReceiver</a> br) {
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>           <strong class="jxr_keyword">super</strong>(br);
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>        }
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>        @Override
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>        <strong class="jxr_keyword">public</strong> Object handleRemoteCommand(<a href="../../../org/infinispan/commands/VisitableCommand.html">VisitableCommand</a> command) <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>           received = command;
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>           <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">super</strong>.handleRemoteCommand(command);
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>        }
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>     }
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>     @Override
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>     <strong class="jxr_keyword">protected</strong> <a href="../../../org/infinispan/configuration/cache/ConfigurationBuilder.html">ConfigurationBuilder</a> getNycActiveConfig() {
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>        <strong class="jxr_keyword">return</strong> getDefaultClusteredCacheConfig(CacheMode.DIST_SYNC, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>     }
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>     @Override
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>     <strong class="jxr_keyword">protected</strong> <a href="../../../org/infinispan/configuration/cache/ConfigurationBuilder.html">ConfigurationBuilder</a> getLonActiveConfig() {
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>        <strong class="jxr_keyword">return</strong> getDefaultClusteredCacheConfig(CacheMode.DIST_SYNC, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>     }
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

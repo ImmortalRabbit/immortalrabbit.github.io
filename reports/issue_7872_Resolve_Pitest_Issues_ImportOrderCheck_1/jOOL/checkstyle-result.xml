@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.32-SNAPSHOT">
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/CheckedBiFunctionTest.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.LinkedHashMap&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="27" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/TupleTest.java">
+<error line="30" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.ArrayList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="30" column="1" severity="warning" message="Wrong order for &apos;java.util.ArrayList&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="38" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.tuple.Tuple2&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="38" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.tuple.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="40" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/CheckedRunnableTest.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/CheckedConsumerTest.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Arrays&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/CheckedFunctionTest.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.LinkedHashMap&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="28" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/CheckedComparatorTest.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Comparator&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="22" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/Utils.java">
+<error line="21" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.function.Consumer&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/CurryTest.java">
+<error line="21" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.function.Function5&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="21" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.function.Function5&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="25" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Test&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/SeqTest.java">
+<error line="32" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.ByteArrayInputStream&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="32" column="1" severity="warning" message="Wrong order for &apos;java.io.ByteArrayInputStream&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="48" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.tuple.Tuple2&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="48" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.tuple.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="56" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Test&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/CheckedPredicateTest.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.function.DoublePredicate&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="29" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/CheckedBiConsumerTest.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.LinkedHashMap&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="27" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/CheckedSupplierTest.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.function.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/SQLTest.java">
+<error line="22" column="1" severity="warning" message="Extra separation in import group before &apos;java.sql.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="31" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.tuple.Tuple.tuple&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/CheckedUnaryOperatorTest.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.function.DoubleUnaryOperator&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="29" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/CheckedBinaryOperatorTest.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.function.BinaryOperator&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="29" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/test/java/org/jooq/lambda/CheckedBiPredicateTest.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.function.BiPredicate&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="22" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/tuple/Tuple0.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.function.Function1&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.function.Function1&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="25" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.function.Function0&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/tuple/Tuple1.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.function.Function1&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.function.Function1&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/tuple/Tuples.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/tuple/Tuple.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/tuple/Tuple6.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.function.Function1&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.function.Function1&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/tuple/Tuple7.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.function.Function1&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.function.Function1&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/tuple/Tuple4.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.function.Function1&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.function.Function1&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/tuple/Tuple8.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.function.Function1&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.function.Function1&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/tuple/Range.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/tuple/Tuple5.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.function.Function1&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.function.Function1&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/tuple/Tuple2.java">
+<error line="25" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.function.Function1&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="25" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.function.Function1&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/tuple/Tuple3.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.function.Function1&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.function.Function1&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/tuple/package-info.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/Seq.java">
+<error line="23" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.IOException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="23" column="1" severity="warning" message="Wrong order for &apos;java.io.IOException&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="60" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.function.Function3&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="60" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.function.Function3&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/SeqImpl.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/Unchecked.java">
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.fi.lang.CheckedRunnable&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="23" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.IOException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/SQL.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/function/Function0.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.tuple.Tuple0&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.tuple.Tuple0&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/function/Function1.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.tuple.Tuple1&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.tuple.Tuple1&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/function/Function6.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/function/Function7.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/function/Function8.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/function/Function4.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/function/Function5.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/function/Function2.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;org.jooq.lambda.tuple.Tuple1&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.jooq.lambda.tuple.Tuple1&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/function/Function3.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/function/package-info.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/UncheckedException.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedIntSupplier.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedToLongBiFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedObjIntConsumer.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedDoubleSupplier.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedLongUnaryOperator.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedConsumer.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedPredicate.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedBiPredicate.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedUnaryOperator.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedIntPredicate.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedLongToDoubleFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedIntToDoubleFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedBooleanSupplier.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedToDoubleBiFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedDoubleUnaryOperator.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedLongSupplier.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedObjLongConsumer.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedIntUnaryOperator.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedLongBinaryOperator.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedDoubleBinaryOperator.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedBiConsumer.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedToIntFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedIntToLongFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedObjDoubleConsumer.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedIntFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedLongConsumer.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedBinaryOperator.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedDoubleFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedLongToIntFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedDoublePredicate.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedToIntBiFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedLongFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedIntConsumer.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedIntBinaryOperator.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedDoubleToIntFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedSupplier.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedDoubleToLongFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedLongPredicate.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedDoubleConsumer.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedToDoubleFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedBiFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/CheckedToLongFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/function/package-info.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/CheckedComparator.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/util/package-info.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/lang/CheckedRunnable.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/lang/package-info.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/fi/package-info.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/FunctionalSpliterator.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/jOOL/src/main/java/org/jooq/lambda/package-info.java">
+</file>
+</checkstyle>

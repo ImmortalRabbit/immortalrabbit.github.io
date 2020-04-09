@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>TestDrainingServer xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../../apidocs/org/apache/hadoop/hbase/TestDrainingServer.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Licensed to the Apache Software Foundation (ASF) under one</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * or more contributor license agreements.  See the NOTICE file</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> * distributed with this work for additional information</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * regarding copyright ownership.  The ASF licenses this file</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_javadoccomment"> * to you under the Apache License, Version 2.0 (the</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_javadoccomment"> * "License"); you may not use this file except in compliance</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_javadoccomment"> * with the License.  You may obtain a copy of the License at</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> *     <a href="http://www.apache.org/licenses/LICENSE-2." target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.</a>0</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> * Unless required by applicable law or agreed to in writing, software</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> * See the License for the specific language governing permissions and</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> * limitations under the License.</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.hadoop.hbase;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.logging.Log;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.logging.LogFactory;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.conf.Configuration;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.coordination.ZkCoordinatedStateManager;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.executor.EventType;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.executor.ExecutorService;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.executor.ExecutorType;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.master.AssignmentManager;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.master.HMaster;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.master.LoadBalancer;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.master.RegionPlan;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.master.RegionState;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.master.ServerManager;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.master.balancer.LoadBalancerFactory;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.regionserver.RegionOpeningState;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.testclassification.MediumTests;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.zookeeper.ZKAssign;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.zookeeper.ZooKeeperWatcher;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> org.junit.AfterClass;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">import</strong> org.junit.BeforeClass;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <strong class="jxr_keyword">import</strong> org.junit.Test;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">import</strong> org.junit.experimental.categories.Category;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">import</strong> org.mockito.Mockito;
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <strong class="jxr_keyword">import</strong> java.util.ArrayList;
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <strong class="jxr_keyword">import</strong> java.util.HashMap;
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <strong class="jxr_keyword">import</strong> java.util.HashSet;
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <strong class="jxr_keyword">import</strong> java.util.Map;
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  <strong class="jxr_keyword">import</strong> java.util.Map.Entry;
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  <strong class="jxr_keyword">import</strong> java.util.Set;
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertFalse;
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertNotEquals;
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertTrue;
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_javadoccomment"> * Test the draining servers feature.</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  @Category(MediumTests.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/hadoop/hbase/TestDrainingServer.html">TestDrainingServer</a> {
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Log LOG = LogFactory.getLog(TestDrainingServer.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/HBaseTestingUtility.html">HBaseTestingUtility</a> TEST_UTIL = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/HBaseTestingUtility.html">HBaseTestingUtility</a>();
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>    <strong class="jxr_keyword">private</strong> <a href="../../../../org/apache/hadoop/hbase/Abortable.html">Abortable</a> abortable = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/Abortable.html">Abortable</a>() {
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>      @Override
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isAborted() {
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>        <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>      }
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      @Override
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> abort(String why, Throwable e) {
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>      }
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>    };
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>    @AfterClass
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> afterClass() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>      TEST_UTIL.shutdownMiniZKCluster();
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>    }
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>    
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>    @BeforeClass
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> beforeClass() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>      TEST_UTIL.getConfiguration().setBoolean(<span class="jxr_string">"hbase.assignment.usezk"</span>, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>      TEST_UTIL.startMiniZKCluster();
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>    }
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>    @Test
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testAssignmentManagerDoesntUseDrainingServer() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>      <a href="../../../../org/apache/hadoop/hbase/master/AssignmentManager.html">AssignmentManager</a> am;
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>      Configuration conf = TEST_UTIL.getConfiguration();
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>      <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/master/HMaster.html">HMaster</a> master = Mockito.mock(HMaster.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>      <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/Server.html">Server</a> server = Mockito.mock(Server.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>      <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/master/ServerManager.html">ServerManager</a> serverManager = Mockito.mock(ServerManager.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>      <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/ServerName.html">ServerName</a> SERVERNAME_A = ServerName.valueOf(<span class="jxr_string">"mockserver_a.org"</span>, 1000, 8000);
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>      <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/ServerName.html">ServerName</a> SERVERNAME_B = ServerName.valueOf(<span class="jxr_string">"mockserver_b.org"</span>, 1001, 8000);
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      <a href="../../../../org/apache/hadoop/hbase/master/LoadBalancer.html">LoadBalancer</a> balancer = LoadBalancerFactory.getLoadBalancer(conf);
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a> REGIONINFO = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a>(TableName.valueOf(<span class="jxr_string">"table_test"</span>),
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>          HConstants.EMPTY_START_ROW, HConstants.EMPTY_START_ROW);
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>     <a href="../../../../org/apache/hadoop/hbase/zookeeper/ZooKeeperWatcher.html">ZooKeeperWatcher</a> zkWatcher = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/zookeeper/ZooKeeperWatcher.html">ZooKeeperWatcher</a>(TEST_UTIL.getConfiguration(),
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>       <span class="jxr_string">"zkWatcher-Test"</span>, abortable, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> 
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>     Map&lt;ServerName, ServerLoad&gt; onlineServers = <strong class="jxr_keyword">new</strong> HashMap&lt;ServerName, ServerLoad&gt;();
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> 
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>     onlineServers.put(SERVERNAME_A, ServerLoad.EMPTY_SERVERLOAD);
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>     onlineServers.put(SERVERNAME_B, ServerLoad.EMPTY_SERVERLOAD);
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>     Mockito.when(server.getConfiguration()).thenReturn(conf);
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>     Mockito.when(server.getServerName()).thenReturn(ServerName.valueOf(<span class="jxr_string">"masterMock,1,1"</span>));
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>     Mockito.when(server.getZooKeeper()).thenReturn(zkWatcher);
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>     <a href="../../../../org/apache/hadoop/hbase/CoordinatedStateManager.html">CoordinatedStateManager</a> cp = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/coordination/ZkCoordinatedStateManager.html">ZkCoordinatedStateManager</a>();
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>     cp.initialize(server);
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>     cp.start();
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>     Mockito.when(server.getCoordinatedStateManager()).thenReturn(cp);
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> 
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>     Mockito.when(serverManager.getOnlineServers()).thenReturn(onlineServers);
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>     Mockito.when(serverManager.getOnlineServersList())
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>     .thenReturn(<strong class="jxr_keyword">new</strong> ArrayList&lt;ServerName&gt;(onlineServers.keySet()));
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>     
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>     Mockito.when(serverManager.createDestinationServersList())
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>         .thenReturn(<strong class="jxr_keyword">new</strong> ArrayList&lt;ServerName&gt;(onlineServers.keySet()));
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>     Mockito.when(serverManager.createDestinationServersList(<strong class="jxr_keyword">null</strong>))
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>         .thenReturn(<strong class="jxr_keyword">new</strong> ArrayList&lt;ServerName&gt;(onlineServers.keySet()));
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>     
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>     <strong class="jxr_keyword">for</strong> (ServerName sn : onlineServers.keySet()) {
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>       Mockito.when(serverManager.isServerOnline(sn)).thenReturn(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>       Mockito.when(serverManager.sendRegionClose(sn, REGIONINFO, -1)).thenReturn(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>       Mockito.when(serverManager.sendRegionClose(sn, REGIONINFO, -1, <strong class="jxr_keyword">null</strong>, false)).thenReturn(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>       Mockito.when(serverManager.sendRegionOpen(sn, REGIONINFO, -1, <strong class="jxr_keyword">new</strong> ArrayList&lt;ServerName&gt;()))
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>       .thenReturn(RegionOpeningState.OPENED);
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>       Mockito.when(serverManager.sendRegionOpen(sn, REGIONINFO, -1, <strong class="jxr_keyword">null</strong>))
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>       .thenReturn(RegionOpeningState.OPENED);
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>       Mockito.when(serverManager.addServerToDrainList(sn)).thenReturn(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>     }
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>     Mockito.when(master.getServerManager()).thenReturn(serverManager);
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> 
+<a class="jxr_linenumber" name="L140" href="#L140">140</a>     am = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/master/AssignmentManager.html">AssignmentManager</a>(server, serverManager,
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>         balancer, startupMasterExecutor(<span class="jxr_string">"mockExecutorService"</span>), <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> 
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>     Mockito.when(master.getAssignmentManager()).thenReturn(am);
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>     Mockito.when(master.getZooKeeper()).thenReturn(zkWatcher);
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>     am.addPlan(REGIONINFO.getEncodedName(), <strong class="jxr_keyword">new</strong> RegionPlan(REGIONINFO, <strong class="jxr_keyword">null</strong>, SERVERNAME_A));
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> 
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>     zkWatcher.registerListenerFirst(am);
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> 
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>     addServerToDrainedList(SERVERNAME_A, onlineServers, serverManager);
+<a class="jxr_linenumber" name="L151" href="#L151">151</a> 
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>     am.assign(REGIONINFO, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L153" href="#L153">153</a> 
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>     setRegionOpenedOnZK(zkWatcher, SERVERNAME_A, REGIONINFO);
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>     setRegionOpenedOnZK(zkWatcher, SERVERNAME_B, REGIONINFO);
+<a class="jxr_linenumber" name="L156" href="#L156">156</a> 
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>     am.waitForAssignment(REGIONINFO);
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>     assertTrue(am.getRegionStates().isRegionOnline(REGIONINFO));
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>     assertNotEquals(am.getRegionStates().getRegionServerOfRegion(REGIONINFO), SERVERNAME_A);
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>   }
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> 
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>   @Test
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testAssignmentManagerDoesntUseDrainedServerWithBulkAssign() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>     Configuration conf = TEST_UTIL.getConfiguration();
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>     <a href="../../../../org/apache/hadoop/hbase/master/LoadBalancer.html">LoadBalancer</a> balancer = LoadBalancerFactory.getLoadBalancer(conf);
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>     <a href="../../../../org/apache/hadoop/hbase/master/AssignmentManager.html">AssignmentManager</a> am;
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>     <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/master/HMaster.html">HMaster</a> master = Mockito.mock(HMaster.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>     <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/Server.html">Server</a> server = Mockito.mock(Server.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>     <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/master/ServerManager.html">ServerManager</a> serverManager = Mockito.mock(ServerManager.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>     <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/ServerName.html">ServerName</a> SERVERNAME_A = ServerName.valueOf(<span class="jxr_string">"mockserverbulk_a.org"</span>, 1000, 8000);
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>     <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/ServerName.html">ServerName</a> SERVERNAME_B = ServerName.valueOf(<span class="jxr_string">"mockserverbulk_b.org"</span>, 1001, 8000);
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>     <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/ServerName.html">ServerName</a> SERVERNAME_C = ServerName.valueOf(<span class="jxr_string">"mockserverbulk_c.org"</span>, 1002, 8000);
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>     <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/ServerName.html">ServerName</a> SERVERNAME_D = ServerName.valueOf(<span class="jxr_string">"mockserverbulk_d.org"</span>, 1003, 8000);
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>     <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/ServerName.html">ServerName</a> SERVERNAME_E = ServerName.valueOf(<span class="jxr_string">"mockserverbulk_e.org"</span>, 1004, 8000);
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>     <strong class="jxr_keyword">final</strong> Map&lt;HRegionInfo, ServerName&gt; bulk = <strong class="jxr_keyword">new</strong> HashMap&lt;HRegionInfo, ServerName&gt;();
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> 
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>     Set&lt;ServerName&gt; bunchServersAssigned = <strong class="jxr_keyword">new</strong> HashSet&lt;ServerName&gt;();
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>     
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>     <a href="../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a> REGIONINFO_A = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a>(TableName.valueOf(<span class="jxr_string">"table_A"</span>),
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>         HConstants.EMPTY_START_ROW, HConstants.EMPTY_START_ROW);
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>     <a href="../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a> REGIONINFO_B = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a>(TableName.valueOf(<span class="jxr_string">"table_B"</span>),
+<a class="jxr_linenumber" name="L183" href="#L183">183</a>       HConstants.EMPTY_START_ROW, HConstants.EMPTY_START_ROW);
+<a class="jxr_linenumber" name="L184" href="#L184">184</a>     <a href="../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a> REGIONINFO_C = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a>(TableName.valueOf(<span class="jxr_string">"table_C"</span>),
+<a class="jxr_linenumber" name="L185" href="#L185">185</a>       HConstants.EMPTY_START_ROW, HConstants.EMPTY_START_ROW);
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>     <a href="../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a> REGIONINFO_D = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a>(TableName.valueOf(<span class="jxr_string">"table_D"</span>),
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>       HConstants.EMPTY_START_ROW, HConstants.EMPTY_START_ROW);
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>     <a href="../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a> REGIONINFO_E = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a>(TableName.valueOf(<span class="jxr_string">"table_E"</span>),
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>       HConstants.EMPTY_START_ROW, HConstants.EMPTY_START_ROW);
+<a class="jxr_linenumber" name="L190" href="#L190">190</a> 
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>     Map&lt;ServerName, ServerLoad&gt; onlineServers = <strong class="jxr_keyword">new</strong> HashMap&lt;ServerName, ServerLoad&gt;();
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>     List&lt;ServerName&gt; drainedServers = <strong class="jxr_keyword">new</strong> ArrayList&lt;ServerName&gt;();
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> 
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>     onlineServers.put(SERVERNAME_A, ServerLoad.EMPTY_SERVERLOAD);
+<a class="jxr_linenumber" name="L195" href="#L195">195</a>     onlineServers.put(SERVERNAME_B, ServerLoad.EMPTY_SERVERLOAD);
+<a class="jxr_linenumber" name="L196" href="#L196">196</a>     onlineServers.put(SERVERNAME_C, ServerLoad.EMPTY_SERVERLOAD);
+<a class="jxr_linenumber" name="L197" href="#L197">197</a>     onlineServers.put(SERVERNAME_D, ServerLoad.EMPTY_SERVERLOAD);
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>     onlineServers.put(SERVERNAME_E, ServerLoad.EMPTY_SERVERLOAD);
+<a class="jxr_linenumber" name="L199" href="#L199">199</a> 
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>     bulk.put(REGIONINFO_A, SERVERNAME_A);
+<a class="jxr_linenumber" name="L201" href="#L201">201</a>     bulk.put(REGIONINFO_B, SERVERNAME_B);
+<a class="jxr_linenumber" name="L202" href="#L202">202</a>     bulk.put(REGIONINFO_C, SERVERNAME_C);
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>     bulk.put(REGIONINFO_D, SERVERNAME_D);
+<a class="jxr_linenumber" name="L204" href="#L204">204</a>     bulk.put(REGIONINFO_E, SERVERNAME_E);
+<a class="jxr_linenumber" name="L205" href="#L205">205</a> 
+<a class="jxr_linenumber" name="L206" href="#L206">206</a>     <a href="../../../../org/apache/hadoop/hbase/zookeeper/ZooKeeperWatcher.html">ZooKeeperWatcher</a> zkWatcher = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/zookeeper/ZooKeeperWatcher.html">ZooKeeperWatcher</a>(TEST_UTIL.getConfiguration(),
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>         <span class="jxr_string">"zkWatcher-BulkAssignTest"</span>, abortable, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L208" href="#L208">208</a> 
+<a class="jxr_linenumber" name="L209" href="#L209">209</a>     Mockito.when(server.getConfiguration()).thenReturn(conf);
+<a class="jxr_linenumber" name="L210" href="#L210">210</a>     Mockito.when(server.getServerName()).thenReturn(ServerName.valueOf(<span class="jxr_string">"masterMock,1,1"</span>));
+<a class="jxr_linenumber" name="L211" href="#L211">211</a>     Mockito.when(server.getZooKeeper()).thenReturn(zkWatcher);
+<a class="jxr_linenumber" name="L212" href="#L212">212</a> 
+<a class="jxr_linenumber" name="L213" href="#L213">213</a>     <a href="../../../../org/apache/hadoop/hbase/CoordinatedStateManager.html">CoordinatedStateManager</a> cp = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/coordination/ZkCoordinatedStateManager.html">ZkCoordinatedStateManager</a>();
+<a class="jxr_linenumber" name="L214" href="#L214">214</a>     cp.initialize(server);
+<a class="jxr_linenumber" name="L215" href="#L215">215</a>     cp.start();
+<a class="jxr_linenumber" name="L216" href="#L216">216</a> 
+<a class="jxr_linenumber" name="L217" href="#L217">217</a>     Mockito.when(server.getCoordinatedStateManager()).thenReturn(cp);
+<a class="jxr_linenumber" name="L218" href="#L218">218</a> 
+<a class="jxr_linenumber" name="L219" href="#L219">219</a>     Mockito.when(serverManager.getOnlineServers()).thenReturn(onlineServers);
+<a class="jxr_linenumber" name="L220" href="#L220">220</a>     Mockito.when(serverManager.getOnlineServersList()).thenReturn(
+<a class="jxr_linenumber" name="L221" href="#L221">221</a>       <strong class="jxr_keyword">new</strong> ArrayList&lt;ServerName&gt;(onlineServers.keySet()));
+<a class="jxr_linenumber" name="L222" href="#L222">222</a>     
+<a class="jxr_linenumber" name="L223" href="#L223">223</a>     Mockito.when(serverManager.createDestinationServersList()).thenReturn(
+<a class="jxr_linenumber" name="L224" href="#L224">224</a>       <strong class="jxr_keyword">new</strong> ArrayList&lt;ServerName&gt;(onlineServers.keySet()));
+<a class="jxr_linenumber" name="L225" href="#L225">225</a>     Mockito.when(serverManager.createDestinationServersList(<strong class="jxr_keyword">null</strong>)).thenReturn(
+<a class="jxr_linenumber" name="L226" href="#L226">226</a>       <strong class="jxr_keyword">new</strong> ArrayList&lt;ServerName&gt;(onlineServers.keySet()));
+<a class="jxr_linenumber" name="L227" href="#L227">227</a>     
+<a class="jxr_linenumber" name="L228" href="#L228">228</a>     <strong class="jxr_keyword">for</strong> (Entry&lt;HRegionInfo, ServerName&gt; entry : bulk.entrySet()) {
+<a class="jxr_linenumber" name="L229" href="#L229">229</a>       Mockito.when(serverManager.isServerOnline(entry.getValue())).thenReturn(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>       Mockito.when(serverManager.sendRegionClose(entry.getValue(), 
+<a class="jxr_linenumber" name="L231" href="#L231">231</a>         entry.getKey(), -1)).thenReturn(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L232" href="#L232">232</a>       Mockito.when(serverManager.sendRegionOpen(entry.getValue(), 
+<a class="jxr_linenumber" name="L233" href="#L233">233</a>         entry.getKey(), -1, <strong class="jxr_keyword">null</strong>)).thenReturn(RegionOpeningState.OPENED);  
+<a class="jxr_linenumber" name="L234" href="#L234">234</a>       Mockito.when(serverManager.addServerToDrainList(entry.getValue())).thenReturn(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L235" href="#L235">235</a>     }
+<a class="jxr_linenumber" name="L236" href="#L236">236</a>     
+<a class="jxr_linenumber" name="L237" href="#L237">237</a>     Mockito.when(master.getServerManager()).thenReturn(serverManager);
+<a class="jxr_linenumber" name="L238" href="#L238">238</a> 
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>     drainedServers.add(SERVERNAME_A);
+<a class="jxr_linenumber" name="L240" href="#L240">240</a>     drainedServers.add(SERVERNAME_B);
+<a class="jxr_linenumber" name="L241" href="#L241">241</a>     drainedServers.add(SERVERNAME_C);
+<a class="jxr_linenumber" name="L242" href="#L242">242</a>     drainedServers.add(SERVERNAME_D);
+<a class="jxr_linenumber" name="L243" href="#L243">243</a> 
+<a class="jxr_linenumber" name="L244" href="#L244">244</a>     am = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/master/AssignmentManager.html">AssignmentManager</a>(server, serverManager,
+<a class="jxr_linenumber" name="L245" href="#L245">245</a>       balancer, startupMasterExecutor(<span class="jxr_string">"mockExecutorServiceBulk"</span>), <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L246" href="#L246">246</a>     
+<a class="jxr_linenumber" name="L247" href="#L247">247</a>     Mockito.when(master.getAssignmentManager()).thenReturn(am);
+<a class="jxr_linenumber" name="L248" href="#L248">248</a> 
+<a class="jxr_linenumber" name="L249" href="#L249">249</a>     zkWatcher.registerListener(am);
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>     
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>     <strong class="jxr_keyword">for</strong> (ServerName drained : drainedServers) {
+<a class="jxr_linenumber" name="L252" href="#L252">252</a>       addServerToDrainedList(drained, onlineServers, serverManager);
+<a class="jxr_linenumber" name="L253" href="#L253">253</a>     }
+<a class="jxr_linenumber" name="L254" href="#L254">254</a>     
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>     am.assign(bulk);
+<a class="jxr_linenumber" name="L256" href="#L256">256</a> 
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>     Map&lt;String, RegionState&gt; regionsInTransition = am.getRegionStates().getRegionsInTransition();
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>     <strong class="jxr_keyword">for</strong> (Entry&lt;String, RegionState&gt; entry : regionsInTransition.entrySet()) {
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>       setRegionOpenedOnZK(zkWatcher, entry.getValue().getServerName(), 
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>         entry.getValue().getRegion());
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>     }
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>     
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>     am.waitForAssignment(REGIONINFO_A);
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>     am.waitForAssignment(REGIONINFO_B);
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>     am.waitForAssignment(REGIONINFO_C);
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>     am.waitForAssignment(REGIONINFO_D);
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>     am.waitForAssignment(REGIONINFO_E);
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>     
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>     Map&lt;HRegionInfo, ServerName&gt; regionAssignments = am.getRegionStates().getRegionAssignments();
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>     <strong class="jxr_keyword">for</strong> (Entry&lt;HRegionInfo, ServerName&gt; entry : regionAssignments.entrySet()) {
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>       LOG.info(<span class="jxr_string">"Region Assignment: "</span> 
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>           + entry.getKey().getRegionNameAsString() + <span class="jxr_string">" Server: "</span> + entry.getValue());
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>       bunchServersAssigned.add(entry.getValue());
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>     }
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>     
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>     <strong class="jxr_keyword">for</strong> (ServerName sn : drainedServers) {
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>       assertFalse(bunchServersAssigned.contains(sn));
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>     }
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>   }
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> 
+<a class="jxr_linenumber" name="L281" href="#L281">281</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> addServerToDrainedList(<a href="../../../../org/apache/hadoop/hbase/ServerName.html">ServerName</a> serverName, 
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>       Map&lt;ServerName, ServerLoad&gt; onlineServers, <a href="../../../../org/apache/hadoop/hbase/master/ServerManager.html">ServerManager</a> serverManager) {
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>     onlineServers.remove(serverName);
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>     List&lt;ServerName&gt; availableServers = <strong class="jxr_keyword">new</strong> ArrayList&lt;ServerName&gt;(onlineServers.keySet());
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>     Mockito.when(serverManager.createDestinationServersList()).thenReturn(availableServers);
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>     Mockito.when(serverManager.createDestinationServersList(<strong class="jxr_keyword">null</strong>)).thenReturn(availableServers);
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>   }
+<a class="jxr_linenumber" name="L288" href="#L288">288</a> 
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> setRegionOpenedOnZK(<strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/zookeeper/ZooKeeperWatcher.html">ZooKeeperWatcher</a> zkWatcher, <strong class="jxr_keyword">final</strong> <a href="../../../../org/apache/hadoop/hbase/ServerName.html">ServerName</a> serverName,
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>                                    <a href="../../../../org/apache/hadoop/hbase/HRegionInfo.html">HRegionInfo</a> hregionInfo) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>     <strong class="jxr_keyword">int</strong> version = ZKAssign.getVersion(zkWatcher, hregionInfo);
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>     <strong class="jxr_keyword">int</strong> versionTransition = ZKAssign.transitionNode(zkWatcher,
+<a class="jxr_linenumber" name="L293" href="#L293">293</a>         hregionInfo, serverName, EventType.M_ZK_REGION_OFFLINE,
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>         EventType.RS_ZK_REGION_OPENING, version);
+<a class="jxr_linenumber" name="L295" href="#L295">295</a>     ZKAssign.transitionNodeOpened(zkWatcher, hregionInfo, serverName, versionTransition);
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>   }
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> 
+<a class="jxr_linenumber" name="L298" href="#L298">298</a>   <strong class="jxr_keyword">private</strong> <a href="../../../../org/apache/hadoop/hbase/executor/ExecutorService.html">ExecutorService</a> startupMasterExecutor(<strong class="jxr_keyword">final</strong> String name) {
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>     <a href="../../../../org/apache/hadoop/hbase/executor/ExecutorService.html">ExecutorService</a> executor = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/hadoop/hbase/executor/ExecutorService.html">ExecutorService</a>(name);
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>     executor.startExecutorService(ExecutorType.MASTER_OPEN_REGION, 3);
+<a class="jxr_linenumber" name="L301" href="#L301">301</a>     executor.startExecutorService(ExecutorType.MASTER_CLOSE_REGION, 3);
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>     executor.startExecutorService(ExecutorType.MASTER_SERVER_OPERATIONS, 3);
+<a class="jxr_linenumber" name="L303" href="#L303">303</a>     executor.startExecutorService(ExecutorType.MASTER_META_SERVER_OPERATIONS, 3);
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>     <strong class="jxr_keyword">return</strong> executor;
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>   }
+<a class="jxr_linenumber" name="L306" href="#L306">306</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

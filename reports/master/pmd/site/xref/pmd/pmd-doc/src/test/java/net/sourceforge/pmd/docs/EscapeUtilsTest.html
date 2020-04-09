@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EscapeUtilsTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../../apidocs/net/sourceforge/pmd/docs/EscapeUtilsTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * BSD-style license; for more info see <a href="http://pmd.sourceforge.net/license.htm" target="alexandria_uri">http://pmd.sourceforge.net/license.htm</a>l</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">package</strong> net.sourceforge.pmd.docs;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertEquals;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> java.util.Arrays;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.junit.Test;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../net/sourceforge/pmd/docs/EscapeUtilsTest.html">EscapeUtilsTest</a> {
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>      @Test
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testEscapeMarkdown() {
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>          assertEquals(<span class="jxr_string">"This is a &#92;&#92;&#92;&#92;backslash"</span>, EscapeUtils.escapeMarkdown(<span class="jxr_string">"This is a &#92;&#92;backslash"</span>));
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>          assertEquals(<span class="jxr_string">"This \&quot;&#92;&#92;*\&quot; is not a emphasis"</span>, EscapeUtils.escapeMarkdown(<span class="jxr_string">"This \&quot;*\&quot; is not a emphasis"</span>));
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>          assertEquals(<span class="jxr_string">"This \&quot;&#92;&#92;*&#92;&#92;*\&quot; is not a strong style"</span>, EscapeUtils.escapeMarkdown(<span class="jxr_string">"This \&quot;**\&quot; is not a strong style"</span>));
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>          assertEquals(<span class="jxr_string">"This \&quot;&#92;&#92;[foo&#92;&#92;]\&quot; does not start a link"</span>, EscapeUtils.escapeMarkdown(<span class="jxr_string">"This \&quot;[foo]\&quot; does not start a link"</span>));
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>          assertEquals(<span class="jxr_string">"This \&quot;&#92;&#92;~bar&#92;&#92;~\&quot; is not a strike-through"</span>, EscapeUtils.escapeMarkdown(<span class="jxr_string">"This \&quot;~bar~\&quot; is not a strike-through"</span>));
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>          assertEquals(<span class="jxr_string">"That's \&quot;&#92;&#92;|\&quot; just a bar"</span>, EscapeUtils.escapeMarkdown(<span class="jxr_string">"That's \&quot;|\&quot; just a bar"</span>));
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>          assertEquals(<span class="jxr_string">"This \&quot;&#92;&#92;_\&quot; is just a underscore"</span>, EscapeUtils.escapeMarkdown(<span class="jxr_string">"This \&quot;_\&quot; is just a underscore"</span>));
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>      }
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>      @Test
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testEscapeHtmlWithinMarkdownSingleLine() {
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>          assertEquals(<span class="jxr_string">"a &amp;lt;script&amp;gt; tag outside of `&lt;script&gt;` backticks should be escaped"</span>,
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>                  EscapeUtils.escapeSingleLine(<span class="jxr_string">"a &lt;script&gt; tag outside of `&lt;script&gt;` backticks should be escaped"</span>));
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>          assertEquals(<span class="jxr_string">"a &amp;lt;script&amp;gt; &amp;quot;tag&amp;quot; outside of `&lt;script&gt;` backticks should be escaped &amp;lt;multiple&amp;gt; times `&lt;strong&gt;`."</span>,
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>                  EscapeUtils.escapeSingleLine(<span class="jxr_string">"a &lt;script&gt; \&quot;tag\&quot; outside of `&lt;script&gt;` backticks should be escaped &lt;multiple&gt; times `&lt;strong&gt;`."</span>));
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>          assertEquals(<span class="jxr_string">"URLS: a https://pmd.github.io or a &lt;https://pmd.github.io&gt; are turned into links"</span>,
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>                  EscapeUtils.escapeSingleLine(<span class="jxr_string">"URLS: a https://pmd.github.io or a &lt;https://pmd.github.io&gt; are turned into links"</span>));
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>          assertEquals(<span class="jxr_string">"multiple URLS: &lt;https://pmd.github.io&gt; and &lt;https://pmd.github.io&gt; are two links"</span>,
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>                  EscapeUtils.escapeSingleLine(<span class="jxr_string">"multiple URLS: &lt;https://pmd.github.io&gt; and &lt;https://pmd.github.io&gt; are two links"</span>));
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>          assertEquals(<span class="jxr_string">"URL: &lt;http://www.google.com&gt; is a url without ssl"</span>,
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>                  EscapeUtils.escapeSingleLine(<span class="jxr_string">"URL: &lt;http://www.google.com&gt; is a url without ssl"</span>));
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>          assertEquals(<span class="jxr_string">"&gt; this is a quote line"</span>,
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>                  EscapeUtils.escapeSingleLine(<span class="jxr_string">"&gt; this is a quote line"</span>));
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>          assertEquals(<span class="jxr_string">"combination of URLs and backticks: &lt;https://pmd.github.io&gt; but `&lt;script&gt;` &amp;lt;strong&amp;gt;escaped&amp;lt;/strong&amp;gt;"</span>,
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>                  EscapeUtils.escapeSingleLine(<span class="jxr_string">"combination of URLs and backticks: &lt;https://pmd.github.io&gt; but `&lt;script&gt;` &lt;strong&gt;escaped&lt;/strong&gt;"</span>));
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>          assertEquals(<span class="jxr_string">"combination of URLs and backticks: `&lt;script&gt;` &amp;lt;strong&amp;gt;escaped&amp;lt;/strong&amp;gt; but &lt;https://pmd.github.io&gt;"</span>,
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>                  EscapeUtils.escapeSingleLine(<span class="jxr_string">"combination of URLs and backticks: `&lt;script&gt;` &lt;strong&gt;escaped&lt;/strong&gt; but &lt;https://pmd.github.io&gt;"</span>));
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>      }
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>      @Test
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testEscapeHtmlWithinMarkdownBlocks() {
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>          String text = <span class="jxr_string">"paragraph\n\n&gt; quote &lt;script&gt;\n&gt; quote line \&quot;2\&quot;\n&gt;quote line `&lt;script&gt;` 3\n\n"</span>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>                  + <span class="jxr_string">"next paragraph\n\n    code &lt;script&gt; \&quot;a &lt; b\&quot;\n    code line 2\n\n"</span>
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>                  + <span class="jxr_string">"next paragraph\n\n```\ncode &lt;script&gt; \&quot;a &lt; b\&quot;\ncode line 2\n```\n\n"</span>
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>                  + <span class="jxr_string">"next paragraph\n\n```java\nString = \&quot;code &lt;script&gt; with syntax highlighting\&quot;;\ncode line 2\n```\n"</span>;
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>          String expected = <span class="jxr_string">"paragraph\n\n&gt; quote &amp;lt;script&amp;gt;\n&gt; quote line &amp;quot;2&amp;quot;\n&gt;quote line `&lt;script&gt;` 3\n\n"</span>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>                  + <span class="jxr_string">"next paragraph\n\n    code &lt;script&gt; \&quot;a &lt; b\&quot;\n    code line 2\n\n"</span>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>                  + <span class="jxr_string">"next paragraph\n\n```\ncode &lt;script&gt; \&quot;a &lt; b\&quot;\ncode line 2\n```\n\n"</span>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>                  + <span class="jxr_string">"next paragraph\n\n```java\nString = \&quot;code &lt;script&gt; with syntax highlighting\&quot;;\ncode line 2\n```\n"</span>;
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>          List&lt;String&gt; escaped = EscapeUtils.escapeLines(Arrays.asList(text.split(<span class="jxr_string">"\n"</span>)));
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>          assertEquals(Arrays.asList(expected.split(<span class="jxr_string">"\n"</span>)), escaped);
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>      }
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

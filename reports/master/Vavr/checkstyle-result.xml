@@ -1,0 +1,1058 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.32-SNAPSHOT">
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Function8Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Function3Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Function2Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Tuple8Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.List&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/CheckedFunction7Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/CheckedFunction6Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Tuple2Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.List&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="22" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Tuple3Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.List&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/CheckedFunction0Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/CheckedFunction1Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Tuple5Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.List&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Tuple4Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.List&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Function4Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Function5Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/APITest.java">
+<error line="18" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.CharSeq&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.CharSeq&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="27" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/CheckedFunction4Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/CheckedFunction5Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Tuple1Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.List&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Tuple0Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.List&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="19" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Function0Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Function1Test.java">
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="19" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Function7Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Function6Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/CheckedFunction3Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/CheckedFunction2Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Tuple6Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.List&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/Tuple7Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.List&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/test/java/io/vavr/CheckedFunction8Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Try&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Try&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/CheckedFunction4.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Function0.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/CheckedFunction8.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Tuple0.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/collection/ArrayType.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Collection&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Tuple1.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Tuple.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Function1.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/CheckedFunction5.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Tuple6.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/CheckedFunction2.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Function6.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Function7.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/CheckedFunction3.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Tuple7.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Tuple4.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Function8.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Tuple8.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Function4.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/CheckedFunction0.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/CheckedFunction1.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Function5.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Tuple5.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Function2.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/CheckedFunction6.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/API.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.*&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Tuple2.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Tuple3.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/CheckedFunction7.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src-gen/main/java/io/vavr/Function3.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.control.Option&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/TupleTest.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/PriorityQueueTest.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Comparator.comparingInt&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Wrong order for &apos;io.vavr.TestComparators.toStringComparator&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/QuickSortTest.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.lang.Integer.signum&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Wrong order for &apos;io.vavr.API.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/HashMapTest.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/AbstractIndexedSeqTest.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/ListTest.java">
+<error line="12" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.InvalidObjectException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/ComparatorsTest.java">
+<error line="5" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Comparator&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="7" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.Comparators.naturalComparator&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/TreeMapTest.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Arrays.asList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Wrong order for &apos;io.vavr.API.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/TreeSetTest.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Comparator.nullsFirst&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="21" column="1" severity="warning" message="Wrong order for &apos;io.vavr.TestComparators.toStringComparator&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/HashSetTest.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="22" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert.assertTrue&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/AbstractLinearSeqTest.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/HashMultimapTest.java">
+<error line="7" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/AbstractSeqTest.java">
+<error line="12" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="23" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThatThrownBy&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/ArrayTest.java">
+<error line="10" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/HashArrayMappedTrieTest.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Random&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/QueueTest.java">
+<error line="10" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/CollectionsTest.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/AbstractSetTest.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/AbstractSortedMapTest.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/IntMod2Test.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler03Test.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler02Test.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigInteger&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler09Test.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler08Test.java">
+<error line="10" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler40Test.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler41Test.java">
+<error line="10" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Comparator.reverseOrder&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.euler.Utils.isPrime&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler37Test.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler36Test.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler14Test.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler15Test.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigInteger&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.euler.Utils.factorial&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler57Test.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/PrimeNumbers.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler20Test.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigInteger&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler21Test.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Objects&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler13Test.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigInteger&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.euler.Utils.file&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler12Test.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.euler.Utils.factors&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler19Test.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.time.DayOfWeek&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.For&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler18Test.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler27Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.For&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler26Test.java">
+<error line="18" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="21" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Utils.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.File&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.$&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler04Test.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler05Test.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler30Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler31Test.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler55Test.java">
+<error line="10" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigInteger&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Sieve.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler23Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler22Test.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.euler.Utils.file&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler17Test.java">
+<error line="12" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler16Test.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigInteger&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler29Test.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigInteger&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler28Test.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler99Test.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Arrays.asList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="12" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.euler.Utils.file&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler43Test.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler42Test.java">
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.euler.Utils.file&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler34Test.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.euler.Utils.MEMOIZED_FACTORIAL&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler35Test.java">
+<error line="12" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.function.Predicate&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler48Test.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler01Test.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler45Test.java">
+<error line="10" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler33Test.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.euler.Utils.factors&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler32Test.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple3&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler07Test.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler06Test.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler71Test.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler39Test.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.lang.Math.floor&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option.some&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler38Test.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler24Test.java">
+<error line="10" column="1" severity="warning" message="Wrong order for &apos;io.vavr.API&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.$&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler25Test.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.euler.Utils.fibonacci&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler10Test.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler11Test.java">
+<error line="13" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/euler/Euler67Test.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Arrays&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/BitSetTest.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="21" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.stream.Collectors.toList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="22" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Serializables.deserialize&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/IntMap.java">
+<error line="13" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/LinkedHashMapTest.java">
+<error line="8" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/LinkedHashMultimapTest.java">
+<error line="7" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/AbstractTraversableRangeTest.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/TreeTest.java">
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.InvalidObjectException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/CharSeqTest.java">
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.IOException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Arrays.asList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/IteratorTest.java">
+<error line="19" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="30" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.Iterator.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/LinkedHashSetTest.java">
+<error line="7" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/VectorTest.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.InvalidObjectException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/IntMod2.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/StreamTest.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.InvalidObjectException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.Stream.concat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/JavaConvertersTest.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.JavaConvertersTest.ChangePolicy.IMMUTABLE&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/VectorPropertyTest.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.List&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.Tuple&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/RedBlackTreeTest.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.NoSuchElementException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/TreeMultimapTest.java">
+<error line="7" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/StringTest.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.UnsupportedEncodingException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/AbstractTraversableTest.java">
+<error line="10" column="1" severity="warning" message="Wrong order for &apos;io.vavr.AbstractValueTest&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;java.lang.System.lineSeparator&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/IntMultimap.java">
+<error line="12" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/AbstractMapTest.java">
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="28" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Arrays.asList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="29" column="1" severity="warning" message="Wrong order for &apos;io.vavr.API.Some&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/AbstractMultimapTest.java">
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="25" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Arrays.asList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/collection/AbstractSortedSetTest.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Comparator.naturalOrder&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Wrong order for &apos;io.vavr.TestComparators.toStringComparator&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/ValueTest.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.ArrayList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/AssertionsExtensions.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.lang.reflect.Constructor&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/JavaCollections.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/PredicatesTest.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.$&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/MatchTest.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="21" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="23" column="1" severity="warning" message="Wrong order for &apos;io.vavr.MatchTest_DeveloperPatterns.$Developer&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/TestComparators.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Comparator.comparing&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/concurrent/PromiseTest.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.concurrent.Concurrent.zZz&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/concurrent/Concurrent.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Random&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.fail&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/concurrent/ExecutorServices.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/concurrent/FutureTest.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.Iterator&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.IOException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.concurrent.TimeUnit.MILLISECONDS&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="27" column="1" severity="warning" message="Wrong order for &apos;io.vavr.concurrent.Concurrent.waitUntil&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/IterableTest.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Arrays&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/AbstractValueTest.java">
+<error line="13" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.Array&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="21" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="27" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/MatchErrorTest.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.$&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/LazyTest.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.Iterator&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.concurrent.CompletableFuture.runAsync&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="27" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.Iterator.range&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/Serializables.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/control/EitherLeftProjectionTest.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/control/TryTest.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Wrong order for &apos;io.vavr.*&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="21" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.IOException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/control/EitherRightProjectionTest.java">
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.Left&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/control/EitherTest.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.NoSuchElementException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.Left&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/control/OptionTest.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.AbstractValueTest&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/io/vavr/control/ValidationTest.java">
+<error line="13" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.ArrayList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/test/java/outside_of_vavr/IllegalAccessErrorTest.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.function.BiFunction&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/CheckedConsumer.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Traversable.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigInteger&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Tree.java">
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="22" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.Tree.Order.PRE_ORDER&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="23" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.Tree.*&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Vector.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.Collections.withSize&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/TreeMap.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/SortedSet.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Comparator&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Map.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/BitSet.java">
+<error line="12" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/TreeMultimap.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/LinkedHashMap.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/LinkedHashMultimap.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/HashMap.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Maps.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Comparator&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.Tuple&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Seq.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/List.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List.Nil&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.JavaConverters.ChangePolicy.IMMUTABLE&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Queue.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.JavaConverters.ChangePolicy.IMMUTABLE&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/JavaConverters.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Foldable.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.NoSuchElementException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/AbstractQueue.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.NoSuchElementException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/LinearSeq.java">
+<error line="12" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Comparator&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/PriorityQueue.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.PriorityQueueBase.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/RedBlackTree.java">
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="21" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.RedBlackTree.Color.BLACK&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Stream.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.JavaConverters.ChangePolicy.IMMUTABLE&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/IndexedSeq.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Comparator&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Iterator.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.math.BigDecimal&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="19" column="1" severity="warning" message="Extra separation in import group before &apos;java.lang.Double.NEGATIVE_INFINITY&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="22" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.IteratorModule.BigDecimalHelper.areEqual&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/AbstractMultimap.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="19" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.Tuple&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Multimaps.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Objects&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/BitMappedTrie.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.function.Function.identity&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.ArrayType.obj&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Array.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.JavaConverters.ChangePolicy.IMMUTABLE&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/GwtIncompatible.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/SortedMultimap.java">
+<error line="10" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Collection&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/HashSet.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/AbstractIterator.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/HashArrayMappedTrie.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;java.lang.Integer.bitCount&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="19" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.HashArrayMappedTrieModule.Action.PUT&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Comparators.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/LinkedHashSet.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Collections.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.ArrayList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/HashMultimap.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/SortedMap.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Comparator&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Set.java">
+<error line="12" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/TreeSet.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Ordered.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/CharSeq.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="22" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.collection.JavaConverters.ChangePolicy.IMMUTABLE&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/package-info.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/collection/Multimap.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/CheckedPredicate.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/Lambda.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/CheckedRunnable.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/$.java">
+<error line="14" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/NotImplementedError.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/Lazy.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.IOException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/MatchError.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/concurrent/Future.java">
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.NoSuchElementException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/concurrent/Promise.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Objects&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.concurrent.Future.DEFAULT_EXECUTOR_SERVICE&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/concurrent/GuardedBy.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.lang.annotation.ElementType.FIELD&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/concurrent/GwtIncompatible.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/concurrent/package-info.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/concurrent/FutureImpl.java">
+<error line="12" column="1" severity="warning" message="Wrong order for &apos;io.vavr.control.Option&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Objects&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/GwtIncompatible.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/Predicates.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Objects&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/Value.java">
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.PrintStream&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="30" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/PartialFunction.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/control/Validation.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.Iterator&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/control/Option.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/control/Either.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/control/GwtIncompatible.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/control/package-info.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/control/Try.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.collection.Iterator&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.Match&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr/src/main/java/io/vavr/package-info.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-match/src/main/java/io/vavr/match/UnapplyChecker.java">
+<error line="18" column="1" severity="warning" message="Extra separation in import group before &apos;javax.lang.model.element.Modifier.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-match/src/main/java/io/vavr/match/PatternsProcessor.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;javax.annotation.processing.AbstractProcessor&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="30" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.stream.Collectors.toList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-match/src/main/java/io/vavr/match/annotation/Patterns.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-match/src/main/java/io/vavr/match/annotation/Unapply.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-match/src/main/java/io/vavr/match/generator/ImportManager.java">
+<error line="11" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.stream.Collectors.joining&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-match/src/main/java/io/vavr/match/generator/Generator.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.ArrayList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.stream.Collectors.joining&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-match/src/main/java/io/vavr/match/model/TypeParameterModel.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;javax.lang.model.type.TypeKind.DECLARED&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-match/src/main/java/io/vavr/match/model/ClassModel.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.stream.Collectors.toList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-match/src/main/java/io/vavr/match/model/MethodModel.java">
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.stream.Collectors.toList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-match/src/main/java/io/vavr/match/model/ParameterModel.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/collection/HashSetBenchmark.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.JmhRunner.create&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/collection/ArrayBenchmark.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.ArrayList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Arrays.asList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Wrong order for &apos;io.vavr.JmhRunner.create&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/collection/ListBenchmark.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.ArrayList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Arrays.asList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="warning" message="Wrong order for &apos;io.vavr.JmhRunner.create&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/collection/BitSetBenchmark.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.JmhRunner.create&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/collection/IteratorBenchmark.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Random&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.JmhRunner.Includes.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/collection/CharSeqBenchmark.java">
+<error line="13" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Objects&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.lang.String.valueOf&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="warning" message="Wrong order for &apos;io.vavr.JmhRunner.create&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/collection/PriorityQueueBenchmark.java">
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Collections&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="22" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Arrays.asList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="23" column="1" severity="warning" message="Wrong order for &apos;io.vavr.JmhRunner.create&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/collection/VectorBenchmark.java">
+<error line="18" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Comparator&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="22" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Arrays.asList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="25" column="1" severity="warning" message="Wrong order for &apos;io.vavr.JmhRunner.Includes.*&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Wrong order for &apos;io.vavr.JmhRunner.*&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/MemoryUsage.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.text.DecimalFormat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.lang.Math.max&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/BenchmarkPerformanceReporter.java">
+<error line="19" column="1" severity="warning" message="Extra separation in import group before &apos;java.text.DecimalFormat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/JmhRunner.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Collection&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="28" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.Array&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/idiom/TryBenchmark.java">
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.Array&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/idiom/ForBenchmark.java">
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.ArrayList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="22" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.stream.Collectors.toList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="23" column="1" severity="warning" message="Wrong order for &apos;io.vavr.API.*&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/idiom/TupleBenchmark.java">
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.Array&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/idiom/PatternMatchingBenchmark.java">
+<error line="18" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Random&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.*&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-benchmark/src/test/java/io/vavr/control/LazyBenchmark.java">
+<error line="17" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.API.Array&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src-gen/test/java/io/vavr/test/PropertyCheck5Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.CheckedFunction5&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.CheckedFunction5&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src-gen/test/java/io/vavr/test/PropertyCheck4Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.CheckedFunction4&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.CheckedFunction4&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src-gen/test/java/io/vavr/test/PropertyCheck2Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.CheckedFunction2&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.CheckedFunction2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src-gen/test/java/io/vavr/test/PropertyCheck3Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.CheckedFunction3&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.CheckedFunction3&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src-gen/test/java/io/vavr/test/PropertyCheck8Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.CheckedFunction8&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.CheckedFunction8&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src-gen/test/java/io/vavr/test/PropertyTest.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.CheckedFunction1&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.CheckedFunction1&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="19" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src-gen/test/java/io/vavr/test/PropertyCheck6Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.CheckedFunction6&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.CheckedFunction6&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src-gen/test/java/io/vavr/test/PropertyCheck7Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.CheckedFunction7&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.CheckedFunction7&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src-gen/test/java/io/vavr/test/PropertyCheck1Test.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;io.vavr.CheckedFunction1&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Wrong order for &apos;io.vavr.CheckedFunction1&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src-gen/main/java/io/vavr/test/Property.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src/test/java/io/vavr/test/ArbitraryTest.java">
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;java.time.LocalDateTime&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="21" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src/test/java/io/vavr/test/GenTest.java">
+<error line="11" column="1" severity="warning" message="Wrong order for &apos;io.vavr.Tuple2&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Arrays&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src/test/java/io/vavr/test/ConditionTest.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src/test/java/io/vavr/test/CheckResultTest.java">
+<error line="14" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Objects&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="16" column="1" severity="warning" message="Extra separation in import group before &apos;org.assertj.core.api.Assertions.assertThat&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src/main/java/io/vavr/test/Gen.java">
+<error line="15" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.Objects&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src/main/java/io/vavr/test/CheckResult.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Serializable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src/main/java/io/vavr/test/Arbitrary.java">
+<error line="12" column="1" severity="warning" message="Extra separation in import group before &apos;java.time.Duration&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src/main/java/io/vavr/test/Checkable.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/Vavr/vavr-test/src/main/java/io/vavr/test/package-info.java">
+</file>
+</checkstyle>

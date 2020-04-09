@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>DataContainerFactory xref</title>
+<link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../apidocs/org/infinispan/factories/DataContainerFactory.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> org.infinispan.factories;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.infinispan.commons.equivalence.AnyEquivalence;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.infinispan.commons.equivalence.Equivalence;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.infinispan.commons.CacheConfigurationException;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.infinispan.container.DataContainer;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.infinispan.container.DefaultDataContainer;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.infinispan.eviction.EvictionStrategy;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.infinispan.eviction.EvictionThreadPolicy;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.infinispan.factories.annotations.DefaultFactoryFor;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * Constructs the data container</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> * </em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> * @author Manik Surtani (&lt;a href="<a href="mailto:manik@jboss.org" target="alexandria_uri">mailto:manik@jboss.org</a>"&gt;manik@jboss.org&lt;/a&gt;)</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> * @author Vladimir Blagojevic</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> * @since 4.0</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  @DefaultFactoryFor(classes = DataContainer.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/infinispan/factories/DataContainerFactory.html">DataContainerFactory</a> <strong class="jxr_keyword">extends</strong> <a href="../../../org/infinispan/factories/AbstractNamedCacheComponentFactory.html">AbstractNamedCacheComponentFactory</a> <strong class="jxr_keyword">implements</strong>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>           <a href="../../../org/infinispan/factories/AutoInstantiableFactory.html">AutoInstantiableFactory</a> {
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>     @Override
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>     @SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>     <strong class="jxr_keyword">public</strong> &lt;T&gt; T construct(Class&lt;T&gt; componentType) {
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>        <strong class="jxr_keyword">if</strong> (configuration.dataContainer().dataContainer() != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>           <strong class="jxr_keyword">return</strong> (T) configuration.dataContainer().dataContainer();
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>        } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>           <a href="../../../org/infinispan/eviction/EvictionStrategy.html">EvictionStrategy</a> st = configuration.eviction().strategy();
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>           <strong class="jxr_keyword">int</strong> level = configuration.locking().concurrencyLevel();
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>           <a href="../../../org/infinispan/commons/equivalence/Equivalence.html">Equivalence</a> keyEquivalence = configuration.dataContainer().keyEquivalence();
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>           <strong class="jxr_keyword">switch</strong> (st) {
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>              <strong class="jxr_keyword">case</strong> NONE:
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>                 <strong class="jxr_keyword">return</strong> (T) DefaultDataContainer.unBoundedDataContainer(
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>                       level, keyEquivalence);
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>              <strong class="jxr_keyword">case</strong> UNORDERED:
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>              <strong class="jxr_keyword">case</strong> LRU:
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>              <strong class="jxr_keyword">case</strong> FIFO:
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>              <strong class="jxr_keyword">case</strong> LIRS:
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>                 <strong class="jxr_keyword">long</strong> maxEntries = configuration.eviction().maxEntries();
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>                 <em class="jxr_comment">//handle case when &lt; 0 value signifies unbounded container </em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>                 <strong class="jxr_keyword">if</strong>(maxEntries &lt; 0) {
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>                     <strong class="jxr_keyword">return</strong> (T) DefaultDataContainer.unBoundedDataContainer(
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>                           level, keyEquivalence);
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>                 }
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>                 <a href="../../../org/infinispan/eviction/EvictionThreadPolicy.html">EvictionThreadPolicy</a> policy = configuration.eviction().threadPolicy();
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>                 <strong class="jxr_keyword">return</strong> (T) DefaultDataContainer.boundedDataContainer(
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>                    level, maxEntries, st, policy, keyEquivalence);
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>              <strong class="jxr_keyword">default</strong>:
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../org/infinispan/commons/CacheConfigurationException.html">CacheConfigurationException</a>(<span class="jxr_string">"Unknown eviction strategy "</span>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>                          + configuration.eviction().strategy());
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>           }
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>        }
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>     }
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>$ xref</title>
+<link type="text/css" rel="stylesheet" href="../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../apidocs/io/vavr/$.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*                        __    __  __  __    __  ___</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> *                       \  \  /  /    \  \  /  /  __/</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> *                        \  \/  /  /\  \  \/  /  /</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> *                         \____/__/  \__\____/__/.ɪᴏ</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * ᶜᵒᵖʸʳᶦᵍʰᵗ ᵇʸ ᵛᵃᵛʳ ⁻ ˡᶦᶜᵉⁿˢᵉᵈ ᵘⁿᵈᵉʳ ᵗʰᵉ ᵃᵖᵃᶜʰᵉ ˡᶦᶜᵉⁿˢᵉ ᵛᵉʳˢᶦᵒⁿ ᵗʷᵒ ᵈᵒᵗ ᶻᵉʳᵒ</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> */</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">package</strong> io.vavr;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> io.vavr.control.Either;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> io.vavr.control.Try;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> io.vavr.control.Validation;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> io.vavr.match.annotation.Patterns;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> io.vavr.match.annotation.Unapply;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> io.vavr.collection.List;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> io.vavr.concurrent.Future;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> io.vavr.control.Option;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment"> * &lt;strong&gt;INTERNAL TYPE - turned to io.vavr.Patterns by vavr-match annotation processor.&lt;/strong&gt;</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  @Patterns
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">class</strong> $ {
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>      <em class="jxr_comment">// -- io.vavr</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>      <em class="jxr_comment">// Tuple0-N</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>      @Unapply
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>      <strong class="jxr_keyword">static</strong> <a href="../../io/vavr/Tuple0.html">Tuple0</a> <a href="../../io/vavr/Tuple0.html">Tuple0</a>(<a href="../../io/vavr/Tuple0.html">Tuple0</a> tuple0) { <strong class="jxr_keyword">return</strong> tuple0; }
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>      @Unapply
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>      <strong class="jxr_keyword">static</strong> &lt;T1&gt; Tuple1&lt;T1&gt; <a href="../../io/vavr/Tuple1.html">Tuple1</a>(Tuple1&lt;T1&gt; tuple1) { <strong class="jxr_keyword">return</strong> tuple1; }
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>      @Unapply
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>      <strong class="jxr_keyword">static</strong> &lt;T1, T2&gt; Tuple2&lt;T1, T2&gt; <a href="../../io/vavr/Tuple2.html">Tuple2</a>(Tuple2&lt;T1, T2&gt; tuple2) { <strong class="jxr_keyword">return</strong> tuple2; }
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>      @Unapply
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>      <strong class="jxr_keyword">static</strong> &lt;T1, T2, T3&gt; Tuple3&lt;T1, T2, T3&gt; <a href="../../io/vavr/Tuple3.html">Tuple3</a>(Tuple3&lt;T1, T2, T3&gt; tuple3) { <strong class="jxr_keyword">return</strong> tuple3; }
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      @Unapply
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>      <strong class="jxr_keyword">static</strong> &lt;T1, T2, T3, T4&gt; Tuple4&lt;T1, T2, T3, T4&gt; <a href="../../io/vavr/Tuple4.html">Tuple4</a>(Tuple4&lt;T1, T2, T3, T4&gt; tuple4) { <strong class="jxr_keyword">return</strong> tuple4; }
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>      @Unapply
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>      <strong class="jxr_keyword">static</strong> &lt;T1, T2, T3, T4, T5&gt; Tuple5&lt;T1, T2, T3, T4, T5&gt; <a href="../../io/vavr/Tuple5.html">Tuple5</a>(Tuple5&lt;T1, T2, T3, T4, T5&gt; tuple5) { <strong class="jxr_keyword">return</strong> tuple5; }
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>      @Unapply
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>      <strong class="jxr_keyword">static</strong> &lt;T1, T2, T3, T4, T5, T6&gt; Tuple6&lt;T1, T2, T3, T4, T5, T6&gt; <a href="../../io/vavr/Tuple6.html">Tuple6</a>(Tuple6&lt;T1, T2, T3, T4, T5, T6&gt; tuple6) { <strong class="jxr_keyword">return</strong> tuple6; }
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>      @Unapply
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>      <strong class="jxr_keyword">static</strong> &lt;T1, T2, T3, T4, T5, T6, T7&gt; Tuple7&lt;T1, T2, T3, T4, T5, T6, T7&gt; <a href="../../io/vavr/Tuple7.html">Tuple7</a>(Tuple7&lt;T1, T2, T3, T4, T5, T6, T7&gt; tuple7) { <strong class="jxr_keyword">return</strong> tuple7; }
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>      @Unapply
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>      <strong class="jxr_keyword">static</strong> &lt;T1, T2, T3, T4, T5, T6, T7, T8&gt; Tuple8&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt; <a href="../../io/vavr/Tuple8.html">Tuple8</a>(Tuple8&lt;T1, T2, T3, T4, T5, T6, T7, T8&gt; tuple8) { <strong class="jxr_keyword">return</strong> tuple8; }
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>      <em class="jxr_comment">// -- io.vavr.collection</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>      <em class="jxr_comment">// List</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>      @Unapply
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>      <strong class="jxr_keyword">static</strong> &lt;T&gt; Tuple2&lt;T, List&lt;T&gt;&gt; <a href="../../io/vavr/collection/Stream.html">Cons</a>(List.Cons&lt;T&gt; cons) { <strong class="jxr_keyword">return</strong> Tuple.of(cons.head(), cons.tail()); }
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>      @Unapply
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>      <strong class="jxr_keyword">static</strong> &lt;T&gt; <a href="../../io/vavr/Tuple0.html">Tuple0</a> <a href="../../io/vavr/collection/List.html">Nil</a>(List.Nil&lt;T&gt; nil) { <strong class="jxr_keyword">return</strong> Tuple.empty(); }
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>      <em class="jxr_comment">// -- io.vavr.concurrent</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>      @Unapply
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>      <strong class="jxr_keyword">static</strong> &lt;T&gt; Tuple1&lt;Option&lt;Try&lt;T&gt;&gt;&gt; <a href="../../io/vavr/concurrent/Future.html">Future</a>(Future&lt;T&gt; future) { <strong class="jxr_keyword">return</strong> Tuple.of(future.getValue()); }
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>      <em class="jxr_comment">// -- io.vavr.control</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>      <em class="jxr_comment">// Either</em>
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>      @Unapply
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>      <strong class="jxr_keyword">static</strong> &lt;L, R&gt; Tuple1&lt;R&gt; <a href="../../io/vavr/control/Either.html">Right</a>(Either.Right&lt;L, R&gt; right) { <strong class="jxr_keyword">return</strong> Tuple.of(right.get()); }
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>      @Unapply
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>      <strong class="jxr_keyword">static</strong> &lt;L, R&gt; Tuple1&lt;L&gt; <a href="../../io/vavr/control/Either.html">Left</a>(Either.Left&lt;L, R&gt; left) { <strong class="jxr_keyword">return</strong> Tuple.of(left.getLeft()); }
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>      <em class="jxr_comment">// Option</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>      @Unapply
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>      <strong class="jxr_keyword">static</strong> &lt;T&gt; Tuple1&lt;T&gt; <a href="../../io/vavr/control/Option.html">Some</a>(Option.Some&lt;T&gt; some) { <strong class="jxr_keyword">return</strong> Tuple.of(some.get()); }
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>      @Unapply
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      <strong class="jxr_keyword">static</strong> &lt;T&gt; <a href="../../io/vavr/Tuple0.html">Tuple0</a> <a href="../../io/vavr/control/Option.html">None</a>(Option.None&lt;T&gt; none) { <strong class="jxr_keyword">return</strong> Tuple.empty(); }
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>      <em class="jxr_comment">// Try</em>
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      @Unapply
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>      <strong class="jxr_keyword">static</strong> &lt;T&gt; Tuple1&lt;T&gt; <a href="../../io/vavr/control/Try.html">Success</a>(Try.Success&lt;T&gt; success) { <strong class="jxr_keyword">return</strong> Tuple.of(success.get()); }
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>      @Unapply
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>      <strong class="jxr_keyword">static</strong> &lt;T&gt; Tuple1&lt;Throwable&gt; <a href="../../io/vavr/control/Try.html">Failure</a>(Try.Failure&lt;T&gt; failure) { <strong class="jxr_keyword">return</strong> Tuple.of(failure.getCause()); }
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>      <em class="jxr_comment">// Validation</em>
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>      @Unapply
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>      <strong class="jxr_keyword">static</strong> &lt;E, T&gt; Tuple1&lt;T&gt; <a href="../../io/vavr/control/Validation.html">Valid</a>(Validation.Valid&lt;E, T&gt; valid) { <strong class="jxr_keyword">return</strong> Tuple.of(valid.get()); }
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>      @Unapply
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>      <strong class="jxr_keyword">static</strong> &lt;E, T&gt; Tuple1&lt;E&gt; <a href="../../io/vavr/control/Validation.html">Invalid</a>(Validation.Invalid&lt;E, T&gt; invalid) { <strong class="jxr_keyword">return</strong> Tuple.of(invalid.getError()); }
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

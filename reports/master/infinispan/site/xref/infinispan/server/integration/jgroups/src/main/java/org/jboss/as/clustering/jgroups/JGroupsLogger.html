@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>JGroupsLogger xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../../../../../apidocs/org/jboss/as/clustering/jgroups/JGroupsLogger.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * JBoss, Home of Professional Open Source.</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> * Copyright 2011, Red Hat, Inc., and individual contributors</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * as indicated by the @author tags. See the copyright.txt file in the</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * distribution for a full listing of individual contributors.</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> * This is free software; you can redistribute it and/or modify it</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> * under the terms of the GNU Lesser General Public License as</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> * published by the Free Software Foundation; either version 2.1 of</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> * the License, or (at your option) any later version.</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_comment"> * This software is distributed in the hope that it will be useful,</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_comment"> * but WITHOUT ANY WARRANTY; without even the implied warranty of</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_comment"> * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_comment"> * Lesser General Public License for more details.</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_comment"> * You should have received a copy of the GNU Lesser General Public</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_comment"> * License along with this software; if not, write to the Free</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_comment"> * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_comment"> * 02110-1301 USA, or see the FSF site: <a href="http://www.fsf.org" target="alexandria_uri">http://www.fsf.org</a>.</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_comment"> */</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">package</strong> org.jboss.as.clustering.jgroups;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.jboss.logging.Logger.Level.ERROR;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.jboss.logging.Logger.Level.INFO;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.jboss.logging.Logger.Level.TRACE;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.jboss.logging.Logger.Level.WARN;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> org.jboss.logging.BasicLogger;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> org.jboss.logging.annotations.Cause;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> org.jboss.logging.annotations.LogMessage;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> org.jboss.logging.Logger;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> org.jboss.logging.annotations.Message;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> org.jboss.logging.annotations.MessageLogger;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <em class="jxr_javadoccomment"> * Date: 29.08.2011</em>
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment"> * @author &lt;a href="<a href="mailto:jperkins@redhat.com" target="alexandria_uri">mailto:jperkins@redhat.com</a>"&gt;James R. Perkins&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  @MessageLogger(projectCode = <span class="jxr_string">"JBAS"</span>)
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> <a href="../../../../../org/jboss/as/clustering/jgroups/JGroupsLogger.html">JGroupsLogger</a> <strong class="jxr_keyword">extends</strong> BasicLogger {
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>      String ROOT_LOGGER_CATEGORY = JGroupsLogger.<strong class="jxr_keyword">class</strong>.getPackage().getName();
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment">     * The root logger.</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>      <a href="../../../../../org/jboss/as/clustering/jgroups/JGroupsLogger.html">JGroupsLogger</a> ROOT_LOGGER = Logger.getMessageLogger(JGroupsLogger.<strong class="jxr_keyword">class</strong>, ROOT_LOGGER_CATEGORY);
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment">     * Logs an informational message indicating the JGroups subsystem is being activated.</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>      @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>      @Message(id = 10260, value = <span class="jxr_string">"Activating JGroups subsystem."</span>)
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>      <strong class="jxr_keyword">void</strong> activatingSubsystem();
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>      @LogMessage(level = TRACE)
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>      @Message(id = 10261, value = <span class="jxr_string">"Setting %s.%s=%d"</span>)
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>      <strong class="jxr_keyword">void</strong> setProtocolPropertyValue(String protocol, String property, Object value);
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>      @LogMessage(level = TRACE)
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>      @Message(id = 10262, value = <span class="jxr_string">"Failed to set non-existent %s.%s=%d"</span>)
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>      <strong class="jxr_keyword">void</strong> nonExistentProtocolPropertyValue(@Cause Throwable cause, String protocolName, String propertyName, Object propertyValue);
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>      @LogMessage(level = TRACE)
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>      @Message(id = 10263, value = <span class="jxr_string">"Could not set %s.%s and %s.%s, %s socket binding does not specify a multicast socket"</span>)
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>      <strong class="jxr_keyword">void</strong> couldNotSetAddressAndPortNoMulticastSocket(@Cause Throwable cause, String protocolName, String addressProperty, String protocolNameAgain, String portProperty, String bindingName);
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>      @LogMessage(level = ERROR)
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      @Message(id = 10264, value = <span class="jxr_string">"Error accessing original value for property %s of protocol %s"</span>)
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>      <strong class="jxr_keyword">void</strong> unableToAccessProtocolPropertyValue(@Cause Throwable cause, String propertyName, String protocolName);
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>      @Message(id = 10265, value = <span class="jxr_string">"property %s for protocol %s attempting to override socket binding value %s : property value %s will be ignored"</span>)
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>      <strong class="jxr_keyword">void</strong> unableToOverrideSocketBindingValue(String propertyName, String protocolName, String bindingName, Object propertyValue);
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>DirectoryOnMultipleCachesTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../../apidocs/org/infinispan/lucene/DirectoryOnMultipleCachesTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> org.infinispan.lucene;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.apache.lucene.store.Directory;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.infinispan.Cache;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.infinispan.lucene.directory.DirectoryBuilder;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.infinispan.lucene.impl.FileListCacheValue;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.infinispan.lucene.testutils.TestSegmentReadLocker;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.infinispan.manager.CacheContainer;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.infinispan.test.TestingUtil;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.testng.AssertJUnit;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.AfterClass;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.BeforeClass;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> java.util.ArrayList;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> java.util.Iterator;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.infinispan.lucene.CacheTestSupport.assertTextIsFoundInIds;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.infinispan.lucene.CacheTestSupport.optimizeIndex;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.infinispan.lucene.CacheTestSupport.writeTextToIndex;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment"> * Verifies the Index can be spread across three different caches; this is useful so that each cache can be configured</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment"> * independently to better match the intended usage (like avoiding a CacheStore for volatile locking data).</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> * @author Sanne Grinovero</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  @SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  @Test(groups = <span class="jxr_string">"functional"</span>, testName = <span class="jxr_string">"lucene.DirectoryOnMultipleCachesTest"</span>)
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/infinispan/lucene/DirectoryOnMultipleCachesTest.html">DirectoryOnMultipleCachesTest</a> {
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>     <em class="jxr_comment">//timeout for test verifyIntendedLockCachesUsage()</em>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> SLEEP = 60; <em class="jxr_comment">//60 msecs</em>
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> MAX_ITERATIONS = 1000; <em class="jxr_comment">//max timeout: SLEEP * MAX_ITERATIONS msecs (+- 60 seconds)</em>
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>     <strong class="jxr_keyword">private</strong> <a href="../../../org/infinispan/manager/CacheContainer.html">CacheContainer</a> cacheManager;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>     <strong class="jxr_keyword">private</strong> <a href="../../../org/infinispan/Cache.html">Cache</a> metadataCache;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>     <strong class="jxr_keyword">private</strong> <a href="../../../org/infinispan/Cache.html">Cache</a> chunkCache;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>     <strong class="jxr_keyword">private</strong> <a href="../../../org/infinispan/Cache.html">Cache</a> lockCache;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>     @BeforeClass
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> createBeforeClass() {
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>        cacheManager = CacheTestSupport.createLocalCacheManager();
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>        metadataCache = cacheManager.getCache(<span class="jxr_string">"metadata"</span>);
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>        chunkCache = cacheManager.getCache(<span class="jxr_string">"chunks"</span>);
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>        lockCache = cacheManager.getCache(<span class="jxr_string">"locks"</span>);
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>     }
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>     @Test
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testRunningOnMultipleCaches() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>        assert metadataCache != chunkCache;
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>        assert chunkCache != lockCache;
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>        assert lockCache != metadataCache;
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>        String indexName = <span class="jxr_string">"testingIndex"</span>;
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>        <a href="../../../org/infinispan/lucene/testutils/TestSegmentReadLocker.html">TestSegmentReadLocker</a> testSegmentReadLocker = <strong class="jxr_keyword">new</strong> <a href="../../../org/infinispan/lucene/testutils/TestSegmentReadLocker.html">TestSegmentReadLocker</a>(lockCache, chunkCache, metadataCache, indexName);
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>        Directory dir = DirectoryBuilder.newDirectoryInstance(metadataCache, chunkCache, lockCache, indexName)
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>              .overrideSegmentReadLocker(testSegmentReadLocker).chunkSize(100).create();
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>        writeTextToIndex(dir, 0, <span class="jxr_string">"hello world"</span>);
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>        assertTextIsFoundInIds(dir, <span class="jxr_string">"hello"</span>, 0);
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>        writeTextToIndex(dir, 1, <span class="jxr_string">"hello solar system"</span>);
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>        assertTextIsFoundInIds(dir, <span class="jxr_string">"hello"</span>, 0, 1);
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>        assertTextIsFoundInIds(dir, <span class="jxr_string">"system"</span>, 1);
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>        optimizeIndex(dir);
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>        assertTextIsFoundInIds(dir, <span class="jxr_string">"hello"</span>, 0, 1);
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>        dir.close();
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>     }
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>     @Test(dependsOnMethods = <span class="jxr_string">"testRunningOnMultipleCaches"</span>)
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> verifyIntendedChunkCachesUsage() {
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>        <strong class="jxr_keyword">int</strong> chunks = 0;
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>        <strong class="jxr_keyword">for</strong> (Object key : chunkCache.keySet()) {
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>           chunks++;
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>           AssertJUnit.assertEquals(ChunkCacheKey.<strong class="jxr_keyword">class</strong>, key.getClass());
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>           Object value = chunkCache.get(key);
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>           AssertJUnit.assertEquals(byte[].<strong class="jxr_keyword">class</strong>, value.getClass());
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>        }
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>        assert chunks != 0;
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>     }
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>  
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>     @Test(dependsOnMethods = <span class="jxr_string">"testRunningOnMultipleCaches"</span>)
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> verifyIntendedLockCachesUsage() {
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>        <strong class="jxr_keyword">final</strong> List&lt;Object&gt; keysThatShouldBeRemoved = <strong class="jxr_keyword">new</strong> ArrayList&lt;Object&gt;();
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>        <em class="jxr_comment">//all locks should be cleared now, so if any value is left it should be equal to one.</em>
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>        <strong class="jxr_keyword">for</strong> (Object key : lockCache.keySet()) {
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>           AssertJUnit.assertEquals(FileReadLockKey.<strong class="jxr_keyword">class</strong>, key.getClass());
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>           <strong class="jxr_keyword">int</strong> value = (Integer) lockCache.get(key);
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>           <strong class="jxr_keyword">if</strong> (value == 0) {
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>              <em class="jxr_comment">//zero means that key is removed. However the remove operation is done asynchronously so it can take some</em>
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>              <em class="jxr_comment">// time to be really removed from the lockCache.</em>
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>              keysThatShouldBeRemoved.add(key);
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>              <strong class="jxr_keyword">continue</strong>;
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>           }
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>           AssertJUnit.assertEquals(1, value);
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>        }
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>        <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; MAX_ITERATIONS &amp;&amp; !keysThatShouldBeRemoved.isEmpty(); ++i) {
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>           <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>             Thread.sleep(SLEEP);
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>          } <strong class="jxr_keyword">catch</strong> (InterruptedException e) {
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>             Thread.currentThread().interrupt();
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>             <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>          }
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>          <strong class="jxr_keyword">for</strong> (Iterator&lt;Object&gt; iterator = keysThatShouldBeRemoved.iterator(); iterator.hasNext(); ) {
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>             <strong class="jxr_keyword">if</strong> (!lockCache.containsKey(iterator.next())) {
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>                <em class="jxr_comment">//this key has been removed as expected</em>
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>                iterator.remove();
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>             }
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>          }
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>       }
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>       AssertJUnit.assertTrue(<span class="jxr_string">"The following keys "</span> + keysThatShouldBeRemoved + <span class="jxr_string">" are supposed to be removed from lockCache"</span>,
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>                              keysThatShouldBeRemoved.isEmpty());
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>    }
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>    @Test(dependsOnMethods = <span class="jxr_string">"testRunningOnMultipleCaches"</span>)
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> verifyIntendedMetadataCachesUsage() {
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>       <strong class="jxr_keyword">int</strong> metadata = 0;
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>       <strong class="jxr_keyword">int</strong> filelists = 0;
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>       <strong class="jxr_keyword">for</strong> (Object key : metadataCache.keySet()) {
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>          Object value = metadataCache.get(key);
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>          <strong class="jxr_keyword">if</strong> (key.getClass().equals(org.infinispan.lucene.FileListCacheKey.<strong class="jxr_keyword">class</strong>)) {
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>             filelists++;
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>             AssertJUnit.assertEquals(FileListCacheValue.<strong class="jxr_keyword">class</strong>, value.getClass());
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (key.getClass().equals(FileCacheKey.<strong class="jxr_keyword">class</strong>)) {
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>             metadata++;
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>             AssertJUnit.assertEquals(FileMetadata.<strong class="jxr_keyword">class</strong>, value.getClass());
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>          } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>             AssertJUnit.fail(<span class="jxr_string">"unexpected type of key in metadata cache: "</span> + key.getClass());
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>          }
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>       }
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>       AssertJUnit.assertEquals(1, filelists);
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>       assert metadata != 0;
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>    }
+<a class="jxr_linenumber" name="L135" href="#L135">135</a> 
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>    @AfterClass
+<a class="jxr_linenumber" name="L137" href="#L137">137</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> afterClass() {
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>       TestingUtil.killCacheManagers(cacheManager);
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>    }
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> 
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

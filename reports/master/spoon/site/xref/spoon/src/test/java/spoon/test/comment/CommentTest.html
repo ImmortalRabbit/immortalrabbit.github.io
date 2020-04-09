@@ -1,0 +1,1223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>CommentTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../apidocs/spoon/test/comment/CommentTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (C) 2006-2018 INRIA and contributors</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * Spoon - <a href="http://spoon.gforge.inria.fr" target="alexandria_uri">http://spoon.gforge.inria.fr</a>/</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * This software is governed by the CeCILL-C License under French law and</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_javadoccomment"> * abiding by the rules of distribution of free software. You can use, modify</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_javadoccomment"> * and/or redistribute the software under the terms of the CeCILL-C license as</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_javadoccomment"> * circulated by CEA, CNRS and INRIA at <a href="http://www.cecill.info" target="alexandria_uri">http://www.cecill.info</a>.</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> * This program is distributed in the hope that it will be useful, but WITHOUT</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> * FITNESS FOR A PARTICULAR PURPOSE. See the CeCILL-C License for more details.</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> * The fact that you are presently reading this means that you have had</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> * knowledge of the CeCILL-C license and that you accept its terms.</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">package</strong> spoon.test.comment;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.io.IOUtils;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.StringEscapeUtils;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.junit.Test;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> spoon.Launcher;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> spoon.SpoonException;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.CtModel;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtBinaryOperator;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtBlock;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtCatch;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtComment;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtConditional;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtConstructorCall;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtDo;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtExpression;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtFor;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtIf;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtInvocation;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtJavaDoc;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtJavaDocTag;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtLambda;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtLiteral;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtLocalVariable;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtNewArray;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtReturn;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtStatement;
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtSwitch;
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtSynchronized;
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.code.CtTry;
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtAnnotationMethod;
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtAnnotationType;
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtAnonymousExecutable;
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtClass;
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtConstructor;
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtElement;
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtEnum;
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtEnumValue;
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtField;
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtInterface;
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtMethod;
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtNamedElement;
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtPackage;
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtParameter;
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtType;
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.ModifierKind;
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.factory.Factory;
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.factory.FactoryImpl;
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.visitor.filter.AbstractFilter;
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.visitor.filter.TypeFilter;
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <strong class="jxr_keyword">import</strong> spoon.support.DefaultCoreFactory;
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <strong class="jxr_keyword">import</strong> spoon.support.JavaOutputProcessor;
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  <strong class="jxr_keyword">import</strong> spoon.support.StandardEnvironment;
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  <strong class="jxr_keyword">import</strong> spoon.support.compiler.jdt.JDTSnippetCompiler;
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  <strong class="jxr_keyword">import</strong> spoon.support.reflect.code.CtCommentImpl;
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  <strong class="jxr_keyword">import</strong> spoon.test.comment.testclasses.BlockComment;
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  <strong class="jxr_keyword">import</strong> spoon.test.comment.testclasses.Comment1;
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  <strong class="jxr_keyword">import</strong> spoon.test.comment.testclasses.Comment2;
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  <strong class="jxr_keyword">import</strong> spoon.test.comment.testclasses.CommentsOnStatements;
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  <strong class="jxr_keyword">import</strong> spoon.test.comment.testclasses.InlineComment;
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  <strong class="jxr_keyword">import</strong> spoon.test.comment.testclasses.JavaDocComment;
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  <strong class="jxr_keyword">import</strong> spoon.test.comment.testclasses.JavaDocEmptyCommentAndTags;
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  <strong class="jxr_keyword">import</strong> spoon.test.comment.testclasses.OtherJavaDoc;
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  <strong class="jxr_keyword">import</strong> spoon.test.comment.testclasses.TestClassWithComments;
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  <strong class="jxr_keyword">import</strong> spoon.test.comment.testclasses.WildComments;
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>  <strong class="jxr_keyword">import</strong> spoon.test.comment.testclasses.WindowsEOL;
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  <strong class="jxr_keyword">import</strong> java.io.File;
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  <strong class="jxr_keyword">import</strong> java.io.FileInputStream;
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  <strong class="jxr_keyword">import</strong> java.io.FileOutputStream;
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  <strong class="jxr_keyword">import</strong> java.io.FileReader;
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  <strong class="jxr_keyword">import</strong> java.io.InputStream;
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>  <strong class="jxr_keyword">import</strong> java.util.ArrayList;
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  <strong class="jxr_keyword">import</strong> java.util.Arrays;
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  <strong class="jxr_keyword">import</strong> java.util.StringTokenizer;
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>  <strong class="jxr_keyword">import</strong> java.util.regex.Matcher;
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  <strong class="jxr_keyword">import</strong> java.util.regex.Pattern;
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  <strong class="jxr_keyword">import</strong> java.util.stream.Collectors;
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertEquals;
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertNotNull;
+<a class="jxr_linenumber" name="L100" href="#L100">100</a> <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertTrue;
+<a class="jxr_linenumber" name="L101" href="#L101">101</a> <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.fail;
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> 
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../spoon/test/comment/CommentTest.html">CommentTest</a> {
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> 
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> 	<strong class="jxr_keyword">private</strong> String newLine = System.getProperty(<span class="jxr_string">"line.separator"</span>);
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 	<strong class="jxr_keyword">private</strong> <a href="../../../spoon/reflect/factory/Factory.html">Factory</a> getSpoonFactory() {
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> 		<strong class="jxr_keyword">final</strong> <a href="../../../spoon/Launcher.html">Launcher</a> launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> 		launcher.run(<strong class="jxr_keyword">new</strong> String[]{
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> 				<span class="jxr_string">"-i"</span>, <span class="jxr_string">"./src/test/java/spoon/test/comment/testclasses/"</span>,
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 				<span class="jxr_string">"-o"</span>, <span class="jxr_string">"./target/spooned/"</span>,
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 				<span class="jxr_string">"-c"</span>
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> 		});
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 		<strong class="jxr_keyword">return</strong> launcher.getFactory();
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 	}
+<a class="jxr_linenumber" name="L116" href="#L116">116</a> 
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> 	<strong class="jxr_keyword">private</strong> <a href="../../../spoon/reflect/code/CtComment.html">CtComment</a> createFakeComment(<a href="../../../spoon/reflect/factory/Factory.html">Factory</a> factory, String content) {
+<a class="jxr_linenumber" name="L118" href="#L118">118</a> 		<strong class="jxr_keyword">return</strong> factory.Code().createInlineComment(content);
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> 	}
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> 
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> 	<strong class="jxr_keyword">private</strong> <a href="../../../spoon/reflect/code/CtComment.html">CtComment</a> createFakeBlockComment(<a href="../../../spoon/reflect/factory/Factory.html">Factory</a> factory, String content) {
+<a class="jxr_linenumber" name="L122" href="#L122">122</a> 		<strong class="jxr_keyword">return</strong> factory.Code().createComment(content, CtComment.CommentType.BLOCK);
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> 	}
+<a class="jxr_linenumber" name="L124" href="#L124">124</a> 
+<a class="jxr_linenumber" name="L125" href="#L125">125</a> 	@Test
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCombinedPackageInfoComment() {
+<a class="jxr_linenumber" name="L127" href="#L127">127</a> 		Factory f = getSpoonFactory();
+<a class="jxr_linenumber" name="L128" href="#L128">128</a> 		CtPackage p = f.Package().get(<span class="jxr_string">"spoon.test.comment.testclasses"</span>);
+<a class="jxr_linenumber" name="L129" href="#L129">129</a> 		String l_content = ((JavaOutputProcessor) f.getEnvironment().getDefaultFileGenerator()).getPrinter().printPackageInfo(p);
+<a class="jxr_linenumber" name="L130" href="#L130">130</a> 		String EOL = System.getProperty(<span class="jxr_string">"line.separator"</span>);
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> 		assertEquals(<span class="jxr_string">"/* comment1 */"</span> + EOL
+<a class="jxr_linenumber" name="L132" href="#L132">132</a> 				+ <span class="jxr_string">"// comment2"</span> + EOL
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> 				+ <span class="jxr_string">"/**"</span> + EOL
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> 				+ <span class="jxr_string">" * Comment3"</span> + EOL
+<a class="jxr_linenumber" name="L135" href="#L135">135</a> 				+ <span class="jxr_string">" */"</span> + EOL
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> 				+ <span class="jxr_string">"@java.lang.Deprecated"</span> + EOL
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 				+ <span class="jxr_string">"package spoon.test.comment.testclasses;"</span> + EOL, l_content);
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> 	}
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> 
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> 	<strong class="jxr_keyword">private</strong> List&lt;CtJavaDocTag&gt; getTagByType(List&lt;CtJavaDocTag&gt; elements, CtJavaDocTag.TagType type) {
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> 		List&lt;CtJavaDocTag&gt; output = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> 		<strong class="jxr_keyword">for</strong> (CtJavaDocTag element : elements) {
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> 			<strong class="jxr_keyword">if</strong> (element.getType() == type) {
+<a class="jxr_linenumber" name="L144" href="#L144">144</a> 				output.add(element);
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 			}
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> 		}
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> 		<strong class="jxr_keyword">return</strong> output;
+<a class="jxr_linenumber" name="L148" href="#L148">148</a> 	}
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> 
+<a class="jxr_linenumber" name="L150" href="#L150">150</a> 	@Test
+<a class="jxr_linenumber" name="L151" href="#L151">151</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testJavaDocCommentOnUnix() {
+<a class="jxr_linenumber" name="L152" href="#L152">152</a> 		<em class="jxr_comment">//the EOL is taken from JavaDocComment.java, which is committed in git with linux \n</em>
+<a class="jxr_linenumber" name="L153" href="#L153">153</a> 		<em class="jxr_comment">//that is true on Windows too.</em>
+<a class="jxr_linenumber" name="L154" href="#L154">154</a> 		String EOL = <span class="jxr_string">"\n"</span>;
+<a class="jxr_linenumber" name="L155" href="#L155">155</a> 		Factory f = getSpoonFactory();
+<a class="jxr_linenumber" name="L156" href="#L156">156</a> 		CtClass&lt;?&gt; type = (CtClass&lt;?&gt;) f.Type().get(JavaDocComment.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> 		<strong class="jxr_keyword">this</strong>.testJavaDocComment(type, EOL);
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 	}
+<a class="jxr_linenumber" name="L159" href="#L159">159</a> 
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> 	@Test
+<a class="jxr_linenumber" name="L161" href="#L161">161</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testJavadocShortAndLongComment() {
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> 		<em class="jxr_comment">// contract: in case we cannot determine if it is a short comment, we take the whole content</em>
+<a class="jxr_linenumber" name="L163" href="#L163">163</a> 		Factory f = getSpoonFactory();
+<a class="jxr_linenumber" name="L164" href="#L164">164</a> 		CtClass&lt;?&gt; type = (CtClass&lt;?&gt;) f.Type().get(OtherJavaDoc.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L165" href="#L165">165</a> 		CtJavaDoc classJavaDoc = (CtJavaDoc) type.getComments().get(0);
+<a class="jxr_linenumber" name="L166" href="#L166">166</a> 		assertEquals(<span class="jxr_string">"A short description without a proper end"</span>, classJavaDoc.getShortDescription());
+<a class="jxr_linenumber" name="L167" href="#L167">167</a> 		assertEquals(<span class="jxr_string">"A short description without a proper end"</span>, classJavaDoc.getLongDescription());
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> 	}
+<a class="jxr_linenumber" name="L169" href="#L169">169</a> 
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> 	@Test
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testJavaDocCommentOnMac() {
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> 		String EOL = <span class="jxr_string">"\n"</span>;
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> 		Launcher launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L174" href="#L174">174</a> 		launcher.addInputResource(<span class="jxr_string">"./src/test/resources/comment/JavaDocComment.java"</span>);
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> 		launcher.getEnvironment().setCommentEnabled(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L176" href="#L176">176</a> 		launcher.run();
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> 
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> 		CtClass&lt;?&gt; type = (CtClass&lt;?&gt;) launcher.getFactory().Type().get(<span class="jxr_string">"spoon.test.comment.testclasses.JavaDocComment"</span>);
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> 		<strong class="jxr_keyword">this</strong>.testJavaDocComment(type, EOL);
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> 	}
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> 
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> testJavaDocComment(<a href="../../../spoon/reflect/declaration/CtClass.html">CtClass</a> type, String EOL) {
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> 		CtJavaDoc classJavaDoc = (CtJavaDoc) type.getComments().get(0);
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> 		<em class="jxr_comment">//contract: test that java doc is printed correctly</em>
+<a class="jxr_linenumber" name="L185" href="#L185">185</a> 		String str = classJavaDoc.toString();
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> 		StringTokenizer st = <strong class="jxr_keyword">new</strong> StringTokenizer(str, System.getProperty(<span class="jxr_string">"line.separator"</span>));
+<a class="jxr_linenumber" name="L187" href="#L187">187</a> 		<strong class="jxr_keyword">boolean</strong> first = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> 		<strong class="jxr_keyword">while</strong> (st.hasMoreTokens()) {
+<a class="jxr_linenumber" name="L189" href="#L189">189</a> 			String line = st.nextToken();
+<a class="jxr_linenumber" name="L190" href="#L190">190</a> 			<strong class="jxr_keyword">if</strong> (first) {
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> 				<em class="jxr_comment">//first</em>
+<a class="jxr_linenumber" name="L192" href="#L192">192</a> 				first = false;
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> 				assertEquals(3, line.length());
+<a class="jxr_linenumber" name="L194" href="#L194">194</a> 				assertEquals(<span class="jxr_string">"/**"</span>, line);
+<a class="jxr_linenumber" name="L195" href="#L195">195</a> 			} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L196" href="#L196">196</a> 				<strong class="jxr_keyword">if</strong> (st.hasMoreTokens()) {
+<a class="jxr_linenumber" name="L197" href="#L197">197</a> 					<em class="jxr_comment">//in the middle</em>
+<a class="jxr_linenumber" name="L198" href="#L198">198</a> 					assertTrue(line.length() &gt;= 2);
+<a class="jxr_linenumber" name="L199" href="#L199">199</a> 					assertEquals(<span class="jxr_string">" *"</span>, line.substring(0, 2));
+<a class="jxr_linenumber" name="L200" href="#L200">200</a> 				} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L201" href="#L201">201</a> 					<em class="jxr_comment">//last</em>
+<a class="jxr_linenumber" name="L202" href="#L202">202</a> 					assertTrue(line.length() == 3);
+<a class="jxr_linenumber" name="L203" href="#L203">203</a> 					assertEquals(<span class="jxr_string">" */"</span>, line.substring(0, 3));
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> 				}
+<a class="jxr_linenumber" name="L205" href="#L205">205</a> 			}
+<a class="jxr_linenumber" name="L206" href="#L206">206</a> 		}
+<a class="jxr_linenumber" name="L207" href="#L207">207</a> 		assertEquals(<span class="jxr_string">"JavaDoc test class."</span> + EOL + EOL
+<a class="jxr_linenumber" name="L208" href="#L208">208</a> 				+ <span class="jxr_string">"Long description"</span>, classJavaDoc.getContent());
+<a class="jxr_linenumber" name="L209" href="#L209">209</a> 
+<a class="jxr_linenumber" name="L210" href="#L210">210</a> 		List&lt;CtJavaDocTag&gt; elements = type.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtJavaDocTag.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L211" href="#L211">211</a> 		assertEquals(8, elements.size());
+<a class="jxr_linenumber" name="L212" href="#L212">212</a> 
+<a class="jxr_linenumber" name="L213" href="#L213">213</a> 
+<a class="jxr_linenumber" name="L214" href="#L214">214</a> 		List&lt;CtJavaDocTag&gt; authorTags = getTagByType(elements, CtJavaDocTag.TagType.AUTHOR);
+<a class="jxr_linenumber" name="L215" href="#L215">215</a> 		assertEquals(1, authorTags.size());
+<a class="jxr_linenumber" name="L216" href="#L216">216</a> 		assertEquals(<span class="jxr_string">"Thomas Durieux"</span>, authorTags.get(0).getContent());
+<a class="jxr_linenumber" name="L217" href="#L217">217</a> 
+<a class="jxr_linenumber" name="L218" href="#L218">218</a> 		List&lt;CtJavaDocTag&gt; deprecatedTags = getTagByType(elements, CtJavaDocTag.TagType.DEPRECATED);
+<a class="jxr_linenumber" name="L219" href="#L219">219</a> 		assertEquals(1, deprecatedTags.size());
+<a class="jxr_linenumber" name="L220" href="#L220">220</a> 		assertEquals(<span class="jxr_string">""</span>, deprecatedTags.get(0).getContent());
+<a class="jxr_linenumber" name="L221" href="#L221">221</a> 
+<a class="jxr_linenumber" name="L222" href="#L222">222</a> 
+<a class="jxr_linenumber" name="L223" href="#L223">223</a> 		List&lt;CtJavaDocTag&gt; sinceTags = getTagByType(elements, CtJavaDocTag.TagType.SINCE);
+<a class="jxr_linenumber" name="L224" href="#L224">224</a> 		assertEquals(2, sinceTags.size());
+<a class="jxr_linenumber" name="L225" href="#L225">225</a> 		assertEquals(<span class="jxr_string">"1.3"</span>, sinceTags.get(0).getContent());
+<a class="jxr_linenumber" name="L226" href="#L226">226</a> 		assertEquals(<span class="jxr_string">"1.3"</span>, sinceTags.get(1).getContent());
+<a class="jxr_linenumber" name="L227" href="#L227">227</a> 
+<a class="jxr_linenumber" name="L228" href="#L228">228</a> 		List&lt;CtJavaDocTag&gt; paramTags = getTagByType(elements, CtJavaDocTag.TagType.PARAM);
+<a class="jxr_linenumber" name="L229" href="#L229">229</a> 		assertEquals(1, paramTags.size());
+<a class="jxr_linenumber" name="L230" href="#L230">230</a> 		assertEquals(<span class="jxr_string">"the parameters"</span>, paramTags.get(0).getContent());
+<a class="jxr_linenumber" name="L231" href="#L231">231</a> 		assertEquals(<span class="jxr_string">"i"</span>, paramTags.get(0).getParam());
+<a class="jxr_linenumber" name="L232" href="#L232">232</a> 
+<a class="jxr_linenumber" name="L233" href="#L233">233</a> 		CtJavaDocTag tagClone = paramTags.get(0).clone();
+<a class="jxr_linenumber" name="L234" href="#L234">234</a> 		assertEquals(<span class="jxr_string">"the parameters"</span>, tagClone.getContent());
+<a class="jxr_linenumber" name="L235" href="#L235">235</a> 		assertEquals(<span class="jxr_string">"i"</span>, tagClone.getParam());
+<a class="jxr_linenumber" name="L236" href="#L236">236</a> 
+<a class="jxr_linenumber" name="L237" href="#L237">237</a> 		List&lt;CtJavaDocTag&gt; throwsTags = getTagByType(elements, CtJavaDocTag.TagType.THROWS);
+<a class="jxr_linenumber" name="L238" href="#L238">238</a> 		assertEquals(1, throwsTags.size());
+<a class="jxr_linenumber" name="L239" href="#L239">239</a> 		assertEquals(<span class="jxr_string">"an exception"</span>, throwsTags.get(0).getContent());
+<a class="jxr_linenumber" name="L240" href="#L240">240</a> 		assertEquals(<span class="jxr_string">"RuntimeException"</span>, throwsTags.get(0).getParam());
+<a class="jxr_linenumber" name="L241" href="#L241">241</a> 
+<a class="jxr_linenumber" name="L242" href="#L242">242</a> 
+<a class="jxr_linenumber" name="L243" href="#L243">243</a> 		assertEquals(<span class="jxr_string">"JavaDoc test class."</span>, classJavaDoc.getShortDescription());
+<a class="jxr_linenumber" name="L244" href="#L244">244</a> 		assertEquals(<span class="jxr_string">"Long description"</span>, classJavaDoc.getLongDescription());
+<a class="jxr_linenumber" name="L245" href="#L245">245</a> 
+<a class="jxr_linenumber" name="L246" href="#L246">246</a> 		CtJavaDocTag deprecatedTag = classJavaDoc.getTags().get(0);
+<a class="jxr_linenumber" name="L247" href="#L247">247</a> 		assertTrue(classJavaDoc.toString().contains(<span class="jxr_string">"@deprecated"</span>));
+<a class="jxr_linenumber" name="L248" href="#L248">248</a> 		classJavaDoc.removeTag(0);
+<a class="jxr_linenumber" name="L249" href="#L249">249</a> 		assertEquals(-1, classJavaDoc.toString().indexOf(<span class="jxr_string">"@deprecated"</span>));
+<a class="jxr_linenumber" name="L250" href="#L250">250</a> 		classJavaDoc.addTag(deprecatedTag);
+<a class="jxr_linenumber" name="L251" href="#L251">251</a> 		assertTrue(classJavaDoc.toString().contains(<span class="jxr_string">"@deprecated"</span>));
+<a class="jxr_linenumber" name="L252" href="#L252">252</a> 	}
+<a class="jxr_linenumber" name="L253" href="#L253">253</a> 
+<a class="jxr_linenumber" name="L254" href="#L254">254</a> 	@Test
+<a class="jxr_linenumber" name="L255" href="#L255">255</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testJavaDocEmptyCommentAndTag() {
+<a class="jxr_linenumber" name="L256" href="#L256">256</a> 		String EOL = <span class="jxr_string">"\n"</span>;	<em class="jxr_comment">//the sources are checked out with \n even on Windows.</em>
+<a class="jxr_linenumber" name="L257" href="#L257">257</a> 
+<a class="jxr_linenumber" name="L258" href="#L258">258</a> 		Factory f = getSpoonFactory();
+<a class="jxr_linenumber" name="L259" href="#L259">259</a> 		CtClass&lt;?&gt; type = (CtClass&lt;?&gt;) f.Type().get(JavaDocEmptyCommentAndTags.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L260" href="#L260">260</a> 
+<a class="jxr_linenumber" name="L261" href="#L261">261</a> 		CtJavaDoc classJavaDoc = (CtJavaDoc) type.getComments().get(0);
+<a class="jxr_linenumber" name="L262" href="#L262">262</a> 		<em class="jxr_comment">//contract: content is never null</em>
+<a class="jxr_linenumber" name="L263" href="#L263">263</a> 		assertNotNull(classJavaDoc.getContent());
+<a class="jxr_linenumber" name="L264" href="#L264">264</a> 		<em class="jxr_comment">//contract: empty content is ""</em>
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> 		assertEquals(<span class="jxr_string">""</span>, classJavaDoc.getContent());
+<a class="jxr_linenumber" name="L266" href="#L266">266</a> 
+<a class="jxr_linenumber" name="L267" href="#L267">267</a> 		CtJavaDoc methodJavaDoc = (CtJavaDoc) type.getMethodsByName(<span class="jxr_string">"m"</span>).get(0).getComments().get(1);
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> 		<em class="jxr_comment">//contract: content is never null</em>
+<a class="jxr_linenumber" name="L269" href="#L269">269</a> 		assertNotNull(methodJavaDoc.getContent());
+<a class="jxr_linenumber" name="L270" href="#L270">270</a> 		<em class="jxr_comment">//contract: empty content is ""</em>
+<a class="jxr_linenumber" name="L271" href="#L271">271</a> 		assertEquals(<span class="jxr_string">""</span>, methodJavaDoc.getContent());
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> 	}
+<a class="jxr_linenumber" name="L273" href="#L273">273</a> 
+<a class="jxr_linenumber" name="L274" href="#L274">274</a> 	@Test
+<a class="jxr_linenumber" name="L275" href="#L275">275</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testRemoveComment() {
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> 		Factory f = getSpoonFactory();
+<a class="jxr_linenumber" name="L277" href="#L277">277</a> 		CtClass&lt;?&gt; type = (CtClass&lt;?&gt;) f.Type().get(InlineComment.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L278" href="#L278">278</a> 		List&lt;CtComment&gt; comments = type.getComments();
+<a class="jxr_linenumber" name="L279" href="#L279">279</a> 		List&lt;CtComment&gt; compilationUnitComments = type.getPosition().getCompilationUnit().getComments();
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> 		assertEquals(6, comments.size() + compilationUnitComments.size());
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> 		type.removeComment(comments.get(0));
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> 		assertEquals(5, type.getComments().size() +  + compilationUnitComments.size());
+<a class="jxr_linenumber" name="L283" href="#L283">283</a> 	}
+<a class="jxr_linenumber" name="L284" href="#L284">284</a> 
+<a class="jxr_linenumber" name="L285" href="#L285">285</a> 	@Test
+<a class="jxr_linenumber" name="L286" href="#L286">286</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testInLineComment() {
+<a class="jxr_linenumber" name="L287" href="#L287">287</a> 		Factory f = getSpoonFactory();
+<a class="jxr_linenumber" name="L288" href="#L288">288</a> 		CtClass&lt;?&gt; type = (CtClass&lt;?&gt;) f.Type().get(InlineComment.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L289" href="#L289">289</a> 		String strType = type.toString();
+<a class="jxr_linenumber" name="L290" href="#L290">290</a> 		
+<a class="jxr_linenumber" name="L291" href="#L291">291</a> 		List&lt;CtComment&gt; compilationUnitComments = type.getPosition().getCompilationUnit().getComments();
+<a class="jxr_linenumber" name="L292" href="#L292">292</a> 		assertEquals(2, compilationUnitComments.size());
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> 		assertEquals(CtComment.CommentType.BLOCK, compilationUnitComments.get(0).getCommentType());
+<a class="jxr_linenumber" name="L294" href="#L294">294</a> 		assertEquals(<span class="jxr_string">"Top File\nLine 2"</span>, compilationUnitComments.get(0).getContent());
+<a class="jxr_linenumber" name="L295" href="#L295">295</a> 		assertEquals(<span class="jxr_string">"Bottom File"</span>, compilationUnitComments.get(1).getContent());
+<a class="jxr_linenumber" name="L296" href="#L296">296</a> 
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> 		List&lt;CtComment&gt; comments = type.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtComment.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L298" href="#L298">298</a> 		<em class="jxr_comment">// verify that the number of comment present in the AST is correct</em>
+<a class="jxr_linenumber" name="L299" href="#L299">299</a> 		assertEquals(67, comments.size());
+<a class="jxr_linenumber" name="L300" href="#L300">300</a> 
+<a class="jxr_linenumber" name="L301" href="#L301">301</a> 		<em class="jxr_comment">// verify that all comments present in the AST are printed</em>
+<a class="jxr_linenumber" name="L302" href="#L302">302</a> 		<strong class="jxr_keyword">for</strong> (CtComment comment : comments) {
+<a class="jxr_linenumber" name="L303" href="#L303">303</a> 			assertNotNull(comment.getParent());
+<a class="jxr_linenumber" name="L304" href="#L304">304</a> 			assertTrue(comment.toString() + <span class="jxr_string">":"</span> + comment.getParent() + <span class="jxr_string">" is not printed"</span>, strType.contains(comment.toString()));
+<a class="jxr_linenumber" name="L305" href="#L305">305</a> 		}
+<a class="jxr_linenumber" name="L306" href="#L306">306</a> 
+<a class="jxr_linenumber" name="L307" href="#L307">307</a> 		assertEquals(4, type.getComments().size());
+<a class="jxr_linenumber" name="L308" href="#L308">308</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment class"</span>), type.getComments().get(0));
+<a class="jxr_linenumber" name="L309" href="#L309">309</a> 
+<a class="jxr_linenumber" name="L310" href="#L310">310</a> 		CtField&lt;?&gt; field = type.getField(<span class="jxr_string">"field"</span>);
+<a class="jxr_linenumber" name="L311" href="#L311">311</a> 		assertEquals(4, field.getComments().size());
+<a class="jxr_linenumber" name="L312" href="#L312">312</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"Comment Field"</span>), field.getComments().get(0));
+<a class="jxr_linenumber" name="L313" href="#L313">313</a> 		assertEquals(<span class="jxr_string">"// Comment Field"</span> + newLine
+<a class="jxr_linenumber" name="L314" href="#L314">314</a> 				+ <span class="jxr_string">"// comment field 2"</span> + newLine
+<a class="jxr_linenumber" name="L315" href="#L315">315</a> 				+ <span class="jxr_string">"// comment in field"</span> + newLine
+<a class="jxr_linenumber" name="L316" href="#L316">316</a> 				+ <span class="jxr_string">"private int field = 10;// after field"</span> + newLine, field.toString());
+<a class="jxr_linenumber" name="L317" href="#L317">317</a> 
+<a class="jxr_linenumber" name="L318" href="#L318">318</a> 		CtAnonymousExecutable ctAnonymousExecutable = type.getAnonymousExecutables().get(0);
+<a class="jxr_linenumber" name="L319" href="#L319">319</a> 		assertEquals(1, ctAnonymousExecutable.getComments().size());
+<a class="jxr_linenumber" name="L320" href="#L320">320</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment static block"</span>), ctAnonymousExecutable.getComments().get(0));
+<a class="jxr_linenumber" name="L321" href="#L321">321</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment inside static"</span>), ctAnonymousExecutable.getBody().getStatement(0));
+<a class="jxr_linenumber" name="L322" href="#L322">322</a> 		assertEquals(<span class="jxr_string">"// comment static block"</span> + newLine
+<a class="jxr_linenumber" name="L323" href="#L323">323</a> 				+ <span class="jxr_string">"static {"</span> + newLine
+<a class="jxr_linenumber" name="L324" href="#L324">324</a> 				+ <span class="jxr_string">"    // comment inside static"</span> + newLine
+<a class="jxr_linenumber" name="L325" href="#L325">325</a> 				+ <span class="jxr_string">"}"</span>, ctAnonymousExecutable.toString());
+<a class="jxr_linenumber" name="L326" href="#L326">326</a> 
+<a class="jxr_linenumber" name="L327" href="#L327">327</a> 		CtConstructor constructor = type.getConstructor();
+<a class="jxr_linenumber" name="L328" href="#L328">328</a> 		assertEquals(1, constructor.getComments().size());
+<a class="jxr_linenumber" name="L329" href="#L329">329</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment constructor"</span>), constructor.getComments().get(0));
+<a class="jxr_linenumber" name="L330" href="#L330">330</a> 		<em class="jxr_comment">// index 0 is the implicit super call</em>
+<a class="jxr_linenumber" name="L331" href="#L331">331</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"Comment in constructor"</span>), constructor.getBody().getStatement(1));
+<a class="jxr_linenumber" name="L332" href="#L332">332</a> 		assertEquals(<span class="jxr_string">"// comment constructor"</span> + newLine
+<a class="jxr_linenumber" name="L333" href="#L333">333</a> 				+ <span class="jxr_string">"public InlineComment() {"</span> + newLine
+<a class="jxr_linenumber" name="L334" href="#L334">334</a> 				+ <span class="jxr_string">"    // Comment in constructor"</span> + newLine
+<a class="jxr_linenumber" name="L335" href="#L335">335</a> 				+ <span class="jxr_string">"}"</span>, constructor.toString());
+<a class="jxr_linenumber" name="L336" href="#L336">336</a> 
+<a class="jxr_linenumber" name="L337" href="#L337">337</a> 		CtMethod&lt;Object&gt; m = type.getMethod(<span class="jxr_string">"m"</span>);
+<a class="jxr_linenumber" name="L338" href="#L338">338</a> 		assertEquals(1, m.getComments().size());
+<a class="jxr_linenumber" name="L339" href="#L339">339</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment method"</span>), m.getComments().get(0));
+<a class="jxr_linenumber" name="L340" href="#L340">340</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment empty method block"</span>), m.getBody().getStatement(0));
+<a class="jxr_linenumber" name="L341" href="#L341">341</a> 		assertEquals(<span class="jxr_string">"// comment method"</span> + newLine
+<a class="jxr_linenumber" name="L342" href="#L342">342</a> 				+ <span class="jxr_string">"public void m() {"</span> + newLine
+<a class="jxr_linenumber" name="L343" href="#L343">343</a> 				+ <span class="jxr_string">"    // comment empty method block"</span> + newLine
+<a class="jxr_linenumber" name="L344" href="#L344">344</a> 				+ <span class="jxr_string">"}"</span>, m.toString());
+<a class="jxr_linenumber" name="L345" href="#L345">345</a> 
+<a class="jxr_linenumber" name="L346" href="#L346">346</a> 
+<a class="jxr_linenumber" name="L347" href="#L347">347</a> 		CtMethod&lt;Object&gt; m1 = type.getMethod(<span class="jxr_string">"m1"</span>);
+<a class="jxr_linenumber" name="L348" href="#L348">348</a> 
+<a class="jxr_linenumber" name="L349" href="#L349">349</a> 		CtSwitch ctSwitch = m1.getBody().getStatement(0);
+<a class="jxr_linenumber" name="L350" href="#L350">350</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment switch"</span>), ctSwitch.getComments().get(0));
+<a class="jxr_linenumber" name="L351" href="#L351">351</a> 		assertEquals(<span class="jxr_string">"// comment switch"</span> + newLine
+<a class="jxr_linenumber" name="L352" href="#L352">352</a> 				+ <span class="jxr_string">"switch (1) {"</span> + newLine
+<a class="jxr_linenumber" name="L353" href="#L353">353</a> 				+ <span class="jxr_string">"    // before first case"</span> + newLine
+<a class="jxr_linenumber" name="L354" href="#L354">354</a> 				+ <span class="jxr_string">"    case 0 :"</span> + newLine
+<a class="jxr_linenumber" name="L355" href="#L355">355</a> 				+ <span class="jxr_string">"        // comment case 0: empty case"</span> + newLine
+<a class="jxr_linenumber" name="L356" href="#L356">356</a> 				+ <span class="jxr_string">"    case 1 :"</span> + newLine
+<a class="jxr_linenumber" name="L357" href="#L357">357</a> 				+ <span class="jxr_string">"        // comment case 1"</span> + newLine
+<a class="jxr_linenumber" name="L358" href="#L358">358</a> 				+ <span class="jxr_string">"        int i = 0;"</span> + newLine
+<a class="jxr_linenumber" name="L359" href="#L359">359</a> 				+ <span class="jxr_string">"    default :"</span> + newLine
+<a class="jxr_linenumber" name="L360" href="#L360">360</a> 				+ <span class="jxr_string">"        // comment default"</span> + newLine
+<a class="jxr_linenumber" name="L361" href="#L361">361</a> 				+ <span class="jxr_string">"}"</span>, ctSwitch.toString());
+<a class="jxr_linenumber" name="L362" href="#L362">362</a> 
+<a class="jxr_linenumber" name="L363" href="#L363">363</a> 		CtFor ctFor = m1.getBody().getStatement(1);
+<a class="jxr_linenumber" name="L364" href="#L364">364</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment for"</span>), ctFor.getComments().get(0));
+<a class="jxr_linenumber" name="L365" href="#L365">365</a> 		assertEquals(<span class="jxr_string">"// comment for"</span> + newLine
+<a class="jxr_linenumber" name="L366" href="#L366">366</a> 				+ <span class="jxr_string">"for (int i = 0; i &lt; 10; i++) {"</span> + newLine
+<a class="jxr_linenumber" name="L367" href="#L367">367</a> 				+ <span class="jxr_string">"    // comment for block"</span> + newLine
+<a class="jxr_linenumber" name="L368" href="#L368">368</a> 				+ <span class="jxr_string">"}"</span>, ctFor.toString());
+<a class="jxr_linenumber" name="L369" href="#L369">369</a> 
+<a class="jxr_linenumber" name="L370" href="#L370">370</a> 		CtIf ctIf = m1.getBody().getStatement(2);
+<a class="jxr_linenumber" name="L371" href="#L371">371</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment if"</span>), ctIf.getComments().get(0));
+<a class="jxr_linenumber" name="L372" href="#L372">372</a> 		assertEquals(<span class="jxr_string">"// comment if"</span> + newLine
+<a class="jxr_linenumber" name="L373" href="#L373">373</a> 				+ <span class="jxr_string">"if ((1 % 2) == 0) {"</span> + newLine
+<a class="jxr_linenumber" name="L374" href="#L374">374</a> 				+ <span class="jxr_string">"    // comment unary operator"</span> + newLine
+<a class="jxr_linenumber" name="L375" href="#L375">375</a> 				+ <span class="jxr_string">"    field++;"</span> + newLine
+<a class="jxr_linenumber" name="L376" href="#L376">376</a> 				+ <span class="jxr_string">"}"</span>, ctIf.toString());
+<a class="jxr_linenumber" name="L377" href="#L377">377</a> 
+<a class="jxr_linenumber" name="L378" href="#L378">378</a> 		CtConstructorCall ctConstructorCall = m1.getBody().getStatement(3);
+<a class="jxr_linenumber" name="L379" href="#L379">379</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment constructor call"</span>), ctConstructorCall.getComments().get(0));
+<a class="jxr_linenumber" name="L380" href="#L380">380</a> 		assertEquals(<span class="jxr_string">"// comment constructor call"</span> + newLine
+<a class="jxr_linenumber" name="L381" href="#L381">381</a> 				+ <span class="jxr_string">"new spoon.test.comment.testclasses.InlineComment()"</span>, ctConstructorCall.toString());
+<a class="jxr_linenumber" name="L382" href="#L382">382</a> 
+<a class="jxr_linenumber" name="L383" href="#L383">383</a> 		CtInvocation ctInvocation = m1.getBody().getStatement(4);
+<a class="jxr_linenumber" name="L384" href="#L384">384</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment invocation"</span>), ctInvocation.getComments().get(0));
+<a class="jxr_linenumber" name="L385" href="#L385">385</a> 		assertEquals(<span class="jxr_string">"// comment invocation"</span> + newLine
+<a class="jxr_linenumber" name="L386" href="#L386">386</a> 				+ <span class="jxr_string">"this.m()"</span>, ctInvocation.toString());
+<a class="jxr_linenumber" name="L387" href="#L387">387</a> 
+<a class="jxr_linenumber" name="L388" href="#L388">388</a> 		CtLocalVariable ctLocalVariable = m1.getBody().getStatement(5);
+<a class="jxr_linenumber" name="L389" href="#L389">389</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment local variable"</span>), ctLocalVariable.getComments().get(0));
+<a class="jxr_linenumber" name="L390" href="#L390">390</a> 		assertEquals(<span class="jxr_string">"// comment local variable"</span> + newLine
+<a class="jxr_linenumber" name="L391" href="#L391">391</a> 				+ <span class="jxr_string">"int i = 0"</span>, ctLocalVariable.toString());
+<a class="jxr_linenumber" name="L392" href="#L392">392</a> 
+<a class="jxr_linenumber" name="L393" href="#L393">393</a> 		CtLocalVariable ctLocalVariable2 = m1.getBody().getStatement(6);
+<a class="jxr_linenumber" name="L394" href="#L394">394</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment multi assignments"</span>), ctLocalVariable2.getComments().get(0));
+<a class="jxr_linenumber" name="L395" href="#L395">395</a> 		assertEquals(<span class="jxr_string">"// comment multi assignments"</span> + newLine
+<a class="jxr_linenumber" name="L396" href="#L396">396</a> 				+ <span class="jxr_string">"int j = 2"</span>, ctLocalVariable2.toString());
+<a class="jxr_linenumber" name="L397" href="#L397">397</a> 
+<a class="jxr_linenumber" name="L398" href="#L398">398</a> 		CtDo ctDo = m1.getBody().getStatement(7);
+<a class="jxr_linenumber" name="L399" href="#L399">399</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment dowhile"</span>), ctDo.getComments().get(0));
+<a class="jxr_linenumber" name="L400" href="#L400">400</a> 		assertEquals(<span class="jxr_string">"// comment dowhile"</span> + newLine
+<a class="jxr_linenumber" name="L401" href="#L401">401</a> 				+ <span class="jxr_string">"do {"</span> + newLine
+<a class="jxr_linenumber" name="L402" href="#L402">402</a> 				+ <span class="jxr_string">"    // comment in do while"</span> + newLine
+<a class="jxr_linenumber" name="L403" href="#L403">403</a> 				+ <span class="jxr_string">"    i++;"</span> + newLine
+<a class="jxr_linenumber" name="L404" href="#L404">404</a> 				+ <span class="jxr_string">"    // comment end do while"</span> + newLine
+<a class="jxr_linenumber" name="L405" href="#L405">405</a> 				+ <span class="jxr_string">"} while (i &lt; 10 )"</span>, ctDo.toString());
+<a class="jxr_linenumber" name="L406" href="#L406">406</a> 
+<a class="jxr_linenumber" name="L407" href="#L407">407</a> 		CtTry ctTry = m1.getBody().getStatement(8);
+<a class="jxr_linenumber" name="L408" href="#L408">408</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment try"</span>), ctTry.getComments().get(0));
+<a class="jxr_linenumber" name="L409" href="#L409">409</a> 		assertEquals(<span class="jxr_string">"// comment try"</span> + newLine
+<a class="jxr_linenumber" name="L410" href="#L410">410</a> 				+ <span class="jxr_string">"try {"</span> + newLine
+<a class="jxr_linenumber" name="L411" href="#L411">411</a> 				+ <span class="jxr_string">"    // comment in try"</span> + newLine
+<a class="jxr_linenumber" name="L412" href="#L412">412</a> 				+ <span class="jxr_string">"    i++;"</span> + newLine
+<a class="jxr_linenumber" name="L413" href="#L413">413</a> 				+ <span class="jxr_string">"}// between"</span> + newLine
+<a class="jxr_linenumber" name="L414" href="#L414">414</a> 				+ <span class="jxr_string">"// try/catch"</span> + newLine
+<a class="jxr_linenumber" name="L415" href="#L415">415</a> 				+ <span class="jxr_string">" catch (java.lang.Exception e) {"</span> + newLine
+<a class="jxr_linenumber" name="L416" href="#L416">416</a> 				+ <span class="jxr_string">"    // comment in catch"</span> + newLine
+<a class="jxr_linenumber" name="L417" href="#L417">417</a> 				+ <span class="jxr_string">"}"</span>, ctTry.toString());
+<a class="jxr_linenumber" name="L418" href="#L418">418</a> 
+<a class="jxr_linenumber" name="L419" href="#L419">419</a> 		CtSynchronized ctSynchronized = m1.getBody().getStatement(9);
+<a class="jxr_linenumber" name="L420" href="#L420">420</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment synchronized"</span>), ctSynchronized.getComments().get(0));
+<a class="jxr_linenumber" name="L421" href="#L421">421</a> 		assertEquals(<span class="jxr_string">"// comment synchronized"</span> + newLine
+<a class="jxr_linenumber" name="L422" href="#L422">422</a> 				+ <span class="jxr_string">"synchronized(this) {"</span> + newLine
+<a class="jxr_linenumber" name="L423" href="#L423">423</a> 				+ <span class="jxr_string">"    // comment in synchronized"</span> + newLine
+<a class="jxr_linenumber" name="L424" href="#L424">424</a> 				+ <span class="jxr_string">"}"</span>, ctSynchronized.toString());
+<a class="jxr_linenumber" name="L425" href="#L425">425</a> 
+<a class="jxr_linenumber" name="L426" href="#L426">426</a> 		CtLocalVariable ctLocalVariable1 = m1.getBody().getStatement(10);
+<a class="jxr_linenumber" name="L427" href="#L427">427</a> 		CtConditional ctConditional = (CtConditional) ctLocalVariable1.getDefaultExpression();
+<a class="jxr_linenumber" name="L428" href="#L428">428</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment after condition CtConditional"</span>), ctConditional.getCondition().getComments().get(0));
+<a class="jxr_linenumber" name="L429" href="#L429">429</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment before then CtConditional"</span>), ctConditional.getThenExpression().getComments().get(0));
+<a class="jxr_linenumber" name="L430" href="#L430">430</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment after then CtConditional"</span>), ctConditional.getThenExpression().getComments().get(1));
+<a class="jxr_linenumber" name="L431" href="#L431">431</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment before else CtConditional"</span>), ctConditional.getElseExpression().getComments().get(0));
+<a class="jxr_linenumber" name="L432" href="#L432">432</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment after else CtConditional"</span>), ctLocalVariable1.getComments().get(0));
+<a class="jxr_linenumber" name="L433" href="#L433">433</a> 		assertEquals(<span class="jxr_string">"java.lang.Double dou = (i == 1// comment after condition CtConditional"</span> + newLine
+<a class="jxr_linenumber" name="L434" href="#L434">434</a> 				+ <span class="jxr_string">") ? // comment before then CtConditional"</span> + newLine
+<a class="jxr_linenumber" name="L435" href="#L435">435</a> 				+ <span class="jxr_string">"null// comment after then CtConditional"</span> + newLine
+<a class="jxr_linenumber" name="L436" href="#L436">436</a> 				+ <span class="jxr_string">" : // comment before else CtConditional"</span> + newLine
+<a class="jxr_linenumber" name="L437" href="#L437">437</a> 				+ <span class="jxr_string">"new java.lang.Double(j / ((double) (i - 1)))// comment after else CtConditional"</span> + newLine, ctLocalVariable1.toString());
+<a class="jxr_linenumber" name="L438" href="#L438">438</a> 
+<a class="jxr_linenumber" name="L439" href="#L439">439</a> 		CtNewArray ctNewArray = (CtNewArray) ((CtLocalVariable) m1.getBody().getStatement(11)).getDefaultExpression();
+<a class="jxr_linenumber" name="L440" href="#L440">440</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"last comment at the end of array"</span>), ctNewArray.getComments().get(0));
+<a class="jxr_linenumber" name="L441" href="#L441">441</a> 
+<a class="jxr_linenumber" name="L442" href="#L442">442</a> 		CtElement arrayValue = (CtElement) ctNewArray.getElements().get(0);
+<a class="jxr_linenumber" name="L443" href="#L443">443</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment before array value"</span>), arrayValue.getComments().get(0));
+<a class="jxr_linenumber" name="L444" href="#L444">444</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment after array value"</span>), arrayValue.getComments().get(1));
+<a class="jxr_linenumber" name="L445" href="#L445">445</a> 
+<a class="jxr_linenumber" name="L446" href="#L446">446</a> 
+<a class="jxr_linenumber" name="L447" href="#L447">447</a> 		CtLocalVariable ctLocalVariableString = m1.getBody().getStatement(12);
+<a class="jxr_linenumber" name="L448" href="#L448">448</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment multi line string"</span>), ((CtBinaryOperator) ((CtBinaryOperator) ctLocalVariableString.getDefaultExpression()).getRightHandOperand()).getLeftHandOperand().getComments().get(0));
+<a class="jxr_linenumber" name="L449" href="#L449">449</a> 		assertEquals(<span class="jxr_string">"\&quot;\&quot; + (\&quot;\&quot;// comment multi line string"</span> + newLine
+<a class="jxr_linenumber" name="L450" href="#L450">450</a> 				+ <span class="jxr_string">" + \&quot;\&quot;)"</span>, ctLocalVariableString.getDefaultExpression().toString());
+<a class="jxr_linenumber" name="L451" href="#L451">451</a> 
+<a class="jxr_linenumber" name="L452" href="#L452">452</a> 		ctLocalVariable1 = m1.getBody().getStatement(13);
+<a class="jxr_linenumber" name="L453" href="#L453">453</a> 		assertEquals(<span class="jxr_string">"boolean c = (i == 1) ? // comment before then boolean CtConditional"</span> + newLine
+<a class="jxr_linenumber" name="L454" href="#L454">454</a> 				+ <span class="jxr_string">"i == 1// comment after then boolean CtConditional"</span> + newLine
+<a class="jxr_linenumber" name="L455" href="#L455">455</a> 				+ <span class="jxr_string">" : i == 2"</span>, ctLocalVariable1.toString());
+<a class="jxr_linenumber" name="L456" href="#L456">456</a> 
+<a class="jxr_linenumber" name="L457" href="#L457">457</a> 		CtReturn ctReturn = m1.getBody().getStatement(14);
+<a class="jxr_linenumber" name="L458" href="#L458">458</a> 		assertEquals(createFakeComment(f, <span class="jxr_string">"comment return"</span>), ctReturn.getComments().get(0));
+<a class="jxr_linenumber" name="L459" href="#L459">459</a> 		assertEquals(<span class="jxr_string">"// comment return"</span> + newLine
+<a class="jxr_linenumber" name="L460" href="#L460">460</a> 				+ <span class="jxr_string">"return"</span>, ctReturn.toString());
+<a class="jxr_linenumber" name="L461" href="#L461">461</a> 
+<a class="jxr_linenumber" name="L462" href="#L462">462</a> 
+<a class="jxr_linenumber" name="L463" href="#L463">463</a> 		CtMethod m2 = type.getMethodsByName(<span class="jxr_string">"m2"</span>).get(0);
+<a class="jxr_linenumber" name="L464" href="#L464">464</a> 		assertEquals(6, m2.getComments().size());
+<a class="jxr_linenumber" name="L465" href="#L465">465</a> 
+<a class="jxr_linenumber" name="L466" href="#L466">466</a> 		CtParameter ctParameter = (CtParameter) m2.getParameters().get(0);
+<a class="jxr_linenumber" name="L467" href="#L467">467</a> 		assertEquals(4, ctParameter.getComments().size());
+<a class="jxr_linenumber" name="L468" href="#L468">468</a> 
+<a class="jxr_linenumber" name="L469" href="#L469">469</a> 		assertEquals(<span class="jxr_string">"// comment before type"</span> + newLine
+<a class="jxr_linenumber" name="L470" href="#L470">470</a> 				+ <span class="jxr_string">"// comment after parameter"</span> + newLine
+<a class="jxr_linenumber" name="L471" href="#L471">471</a> 				+ <span class="jxr_string">"// comment before throws"</span> + newLine
+<a class="jxr_linenumber" name="L472" href="#L472">472</a> 				+ <span class="jxr_string">"// comment before exception 1"</span> + newLine
+<a class="jxr_linenumber" name="L473" href="#L473">473</a> 				+ <span class="jxr_string">"// comment before exception 2"</span> + newLine
+<a class="jxr_linenumber" name="L474" href="#L474">474</a> 				+ <span class="jxr_string">"// comment before block"</span> + newLine
+<a class="jxr_linenumber" name="L475" href="#L475">475</a> 				+ <span class="jxr_string">"public void m2(// comment before name"</span> + newLine
+<a class="jxr_linenumber" name="L476" href="#L476">476</a> 				+ <span class="jxr_string">"// comment before parameters"</span> + newLine
+<a class="jxr_linenumber" name="L477" href="#L477">477</a> 				+ <span class="jxr_string">"// comment before type parameter"</span> + newLine
+<a class="jxr_linenumber" name="L478" href="#L478">478</a> 				+ <span class="jxr_string">"// comment before name parameter"</span> + newLine
+<a class="jxr_linenumber" name="L479" href="#L479">479</a> 				+ <span class="jxr_string">"int i) throws java.lang.Error, java.lang.Exception {"</span> + newLine
+<a class="jxr_linenumber" name="L480" href="#L480">480</a> 				+ <span class="jxr_string">"}"</span>, m2.toString());
+<a class="jxr_linenumber" name="L481" href="#L481">481</a> 	}
+<a class="jxr_linenumber" name="L482" href="#L482">482</a> 
+<a class="jxr_linenumber" name="L483" href="#L483">483</a> 	@Test
+<a class="jxr_linenumber" name="L484" href="#L484">484</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testBlockComment() {
+<a class="jxr_linenumber" name="L485" href="#L485">485</a> 		Factory f = getSpoonFactory();
+<a class="jxr_linenumber" name="L486" href="#L486">486</a> 		CtClass&lt;?&gt; type = (CtClass&lt;?&gt;) f.Type().get(BlockComment.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L487" href="#L487">487</a> 		String strType = type.toString();
+<a class="jxr_linenumber" name="L488" href="#L488">488</a> 		
+<a class="jxr_linenumber" name="L489" href="#L489">489</a> 		List&lt;CtComment&gt; compilationUnitComments = type.getPosition().getCompilationUnit().getComments();
+<a class="jxr_linenumber" name="L490" href="#L490">490</a> 		assertEquals(2, compilationUnitComments.size());
+<a class="jxr_linenumber" name="L491" href="#L491">491</a> 		assertEquals(<span class="jxr_string">"Bottom File"</span>, compilationUnitComments.get(1).getContent());
+<a class="jxr_linenumber" name="L492" href="#L492">492</a> 
+<a class="jxr_linenumber" name="L493" href="#L493">493</a> 		List&lt;CtComment&gt; comments = type.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtComment.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L494" href="#L494">494</a> 		<em class="jxr_comment">// verify that the number of comment present in the AST is correct</em>
+<a class="jxr_linenumber" name="L495" href="#L495">495</a> 		assertEquals(50, comments.size());
+<a class="jxr_linenumber" name="L496" href="#L496">496</a> 
+<a class="jxr_linenumber" name="L497" href="#L497">497</a> 		<em class="jxr_comment">// verify that all comments present in the AST are printed</em>
+<a class="jxr_linenumber" name="L498" href="#L498">498</a> 		<strong class="jxr_keyword">for</strong> (CtComment comment : comments) {
+<a class="jxr_linenumber" name="L499" href="#L499">499</a> 			assertNotNull(comment.getParent());
+<a class="jxr_linenumber" name="L500" href="#L500">500</a> 			assertTrue(comment.toString() + <span class="jxr_string">":"</span> + comment.getParent() + <span class="jxr_string">" is not printed"</span>, strType.contains(comment.toString()));
+<a class="jxr_linenumber" name="L501" href="#L501">501</a> 		}
+<a class="jxr_linenumber" name="L502" href="#L502">502</a> 
+<a class="jxr_linenumber" name="L503" href="#L503">503</a> 		assertEquals(3, type.getComments().size());
+<a class="jxr_linenumber" name="L504" href="#L504">504</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment class"</span>), type.getComments().get(0));
+<a class="jxr_linenumber" name="L505" href="#L505">505</a> 
+<a class="jxr_linenumber" name="L506" href="#L506">506</a> 		CtField&lt;?&gt; field = type.getField(<span class="jxr_string">"field"</span>);
+<a class="jxr_linenumber" name="L507" href="#L507">507</a> 		assertEquals(2, field.getComments().size());
+<a class="jxr_linenumber" name="L508" href="#L508">508</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"Comment Field"</span>), field.getComments().get(0));
+<a class="jxr_linenumber" name="L509" href="#L509">509</a> 		assertEquals(<span class="jxr_string">"/* Comment Field */"</span> + newLine
+<a class="jxr_linenumber" name="L510" href="#L510">510</a> 				+ <span class="jxr_string">"/* comment in field */"</span> + newLine
+<a class="jxr_linenumber" name="L511" href="#L511">511</a> 				+ <span class="jxr_string">"private int field = 10;"</span>, field.toString());
+<a class="jxr_linenumber" name="L512" href="#L512">512</a> 
+<a class="jxr_linenumber" name="L513" href="#L513">513</a> 		CtAnonymousExecutable ctAnonymousExecutable = type.getAnonymousExecutables().get(0);
+<a class="jxr_linenumber" name="L514" href="#L514">514</a> 		assertEquals(1, ctAnonymousExecutable.getComments().size());
+<a class="jxr_linenumber" name="L515" href="#L515">515</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment static block"</span>), ctAnonymousExecutable.getComments().get(0));
+<a class="jxr_linenumber" name="L516" href="#L516">516</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment inside static"</span>), ctAnonymousExecutable.getBody().getStatement(0));
+<a class="jxr_linenumber" name="L517" href="#L517">517</a> 		assertEquals(<span class="jxr_string">"/* comment static block */"</span> + newLine
+<a class="jxr_linenumber" name="L518" href="#L518">518</a> 				+ <span class="jxr_string">"static {"</span> + newLine
+<a class="jxr_linenumber" name="L519" href="#L519">519</a> 				+ <span class="jxr_string">"    /* comment inside static */"</span> + newLine
+<a class="jxr_linenumber" name="L520" href="#L520">520</a> 				+ <span class="jxr_string">"}"</span>, ctAnonymousExecutable.toString());
+<a class="jxr_linenumber" name="L521" href="#L521">521</a> 
+<a class="jxr_linenumber" name="L522" href="#L522">522</a> 		CtConstructor constructor = type.getConstructor();
+<a class="jxr_linenumber" name="L523" href="#L523">523</a> 		assertEquals(1, constructor.getComments().size());
+<a class="jxr_linenumber" name="L524" href="#L524">524</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment constructor"</span>), constructor.getComments().get(0));
+<a class="jxr_linenumber" name="L525" href="#L525">525</a> 		<em class="jxr_comment">// index 0 is the implicit super call</em>
+<a class="jxr_linenumber" name="L526" href="#L526">526</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"Comment in constructor"</span>), constructor.getBody().getStatement(1));
+<a class="jxr_linenumber" name="L527" href="#L527">527</a> 		assertEquals(<span class="jxr_string">"/* comment constructor */"</span> + newLine
+<a class="jxr_linenumber" name="L528" href="#L528">528</a> 				+ <span class="jxr_string">"public BlockComment() {"</span> + newLine
+<a class="jxr_linenumber" name="L529" href="#L529">529</a> 				+ <span class="jxr_string">"    /* Comment in constructor */"</span> + newLine
+<a class="jxr_linenumber" name="L530" href="#L530">530</a> 				+ <span class="jxr_string">"}"</span>, constructor.toString());
+<a class="jxr_linenumber" name="L531" href="#L531">531</a> 
+<a class="jxr_linenumber" name="L532" href="#L532">532</a> 		CtMethod&lt;Object&gt; m = type.getMethod(<span class="jxr_string">"m"</span>);
+<a class="jxr_linenumber" name="L533" href="#L533">533</a> 		assertEquals(1, m.getComments().size());
+<a class="jxr_linenumber" name="L534" href="#L534">534</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment method"</span>), m.getComments().get(0));
+<a class="jxr_linenumber" name="L535" href="#L535">535</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment empty method block"</span>), m.getBody().getStatement(0));
+<a class="jxr_linenumber" name="L536" href="#L536">536</a> 		assertEquals(<span class="jxr_string">"/* comment method */"</span> + newLine
+<a class="jxr_linenumber" name="L537" href="#L537">537</a> 				+ <span class="jxr_string">"public void m() {"</span> + newLine
+<a class="jxr_linenumber" name="L538" href="#L538">538</a> 				+ <span class="jxr_string">"    /* comment empty method block */"</span> + newLine
+<a class="jxr_linenumber" name="L539" href="#L539">539</a> 				+ <span class="jxr_string">"}"</span>, m.toString());
+<a class="jxr_linenumber" name="L540" href="#L540">540</a> 
+<a class="jxr_linenumber" name="L541" href="#L541">541</a> 
+<a class="jxr_linenumber" name="L542" href="#L542">542</a> 		CtMethod&lt;Object&gt; m1 = type.getMethod(<span class="jxr_string">"m1"</span>);
+<a class="jxr_linenumber" name="L543" href="#L543">543</a> 
+<a class="jxr_linenumber" name="L544" href="#L544">544</a> 		CtSwitch ctSwitch = m1.getBody().getStatement(0);
+<a class="jxr_linenumber" name="L545" href="#L545">545</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment switch"</span>), ctSwitch.getComments().get(0));
+<a class="jxr_linenumber" name="L546" href="#L546">546</a> 		assertEquals(<span class="jxr_string">"/* comment switch */"</span> + newLine
+<a class="jxr_linenumber" name="L547" href="#L547">547</a> 				+ <span class="jxr_string">"switch (1) {"</span> + newLine
+<a class="jxr_linenumber" name="L548" href="#L548">548</a> 				+ <span class="jxr_string">"    /* before first case */"</span> + newLine
+<a class="jxr_linenumber" name="L549" href="#L549">549</a> 				+ <span class="jxr_string">"    case 0 :"</span> + newLine
+<a class="jxr_linenumber" name="L550" href="#L550">550</a> 				+ <span class="jxr_string">"        /* comment case 0: empty case */"</span> + newLine
+<a class="jxr_linenumber" name="L551" href="#L551">551</a> 				+ <span class="jxr_string">"    case 1 :"</span> + newLine
+<a class="jxr_linenumber" name="L552" href="#L552">552</a> 				+ <span class="jxr_string">"        /* comment case 1 */"</span> + newLine
+<a class="jxr_linenumber" name="L553" href="#L553">553</a> 				+ <span class="jxr_string">"        int i = 0;"</span> + newLine
+<a class="jxr_linenumber" name="L554" href="#L554">554</a> 				+ <span class="jxr_string">"    default :"</span> + newLine
+<a class="jxr_linenumber" name="L555" href="#L555">555</a> 				+ <span class="jxr_string">"        /* comment default */"</span> + newLine
+<a class="jxr_linenumber" name="L556" href="#L556">556</a> 				+ <span class="jxr_string">"}"</span>, ctSwitch.toString());
+<a class="jxr_linenumber" name="L557" href="#L557">557</a> 
+<a class="jxr_linenumber" name="L558" href="#L558">558</a> 		CtFor ctFor = m1.getBody().getStatement(1);
+<a class="jxr_linenumber" name="L559" href="#L559">559</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment for"</span>), ctFor.getComments().get(0));
+<a class="jxr_linenumber" name="L560" href="#L560">560</a> 		assertEquals(<span class="jxr_string">"/* comment for */"</span> + newLine
+<a class="jxr_linenumber" name="L561" href="#L561">561</a> 				+ <span class="jxr_string">"for (int i = 0; i &lt; 10; i++) {"</span> + newLine
+<a class="jxr_linenumber" name="L562" href="#L562">562</a> 				+ <span class="jxr_string">"    /* comment for block */"</span> + newLine
+<a class="jxr_linenumber" name="L563" href="#L563">563</a> 				+ <span class="jxr_string">"}"</span>, ctFor.toString());
+<a class="jxr_linenumber" name="L564" href="#L564">564</a> 
+<a class="jxr_linenumber" name="L565" href="#L565">565</a> 		CtIf ctIf = m1.getBody().getStatement(2);
+<a class="jxr_linenumber" name="L566" href="#L566">566</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment if"</span>), ctIf.getComments().get(0));
+<a class="jxr_linenumber" name="L567" href="#L567">567</a> 		assertEquals(<span class="jxr_string">"/* comment if */"</span> + newLine
+<a class="jxr_linenumber" name="L568" href="#L568">568</a> 				+ <span class="jxr_string">"if ((1 % 2) == 0) {"</span> + newLine
+<a class="jxr_linenumber" name="L569" href="#L569">569</a> 				+ <span class="jxr_string">"    /* comment unary operator */"</span> + newLine
+<a class="jxr_linenumber" name="L570" href="#L570">570</a> 				+ <span class="jxr_string">"    field++;"</span> + newLine
+<a class="jxr_linenumber" name="L571" href="#L571">571</a> 				+ <span class="jxr_string">"}"</span>, ctIf.toString());
+<a class="jxr_linenumber" name="L572" href="#L572">572</a> 
+<a class="jxr_linenumber" name="L573" href="#L573">573</a> 		CtConstructorCall ctConstructorCall = m1.getBody().getStatement(3);
+<a class="jxr_linenumber" name="L574" href="#L574">574</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment constructor call"</span>), ctConstructorCall.getComments().get(0));
+<a class="jxr_linenumber" name="L575" href="#L575">575</a> 		assertEquals(<span class="jxr_string">"/* comment constructor call */"</span> + newLine
+<a class="jxr_linenumber" name="L576" href="#L576">576</a> 				+ <span class="jxr_string">"new spoon.test.comment.testclasses.BlockComment()"</span>, ctConstructorCall.toString());
+<a class="jxr_linenumber" name="L577" href="#L577">577</a> 
+<a class="jxr_linenumber" name="L578" href="#L578">578</a> 		CtInvocation ctInvocation = m1.getBody().getStatement(4);
+<a class="jxr_linenumber" name="L579" href="#L579">579</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment invocation"</span>), ctInvocation.getComments().get(0));
+<a class="jxr_linenumber" name="L580" href="#L580">580</a> 		assertEquals(<span class="jxr_string">"/* comment invocation */"</span> + newLine
+<a class="jxr_linenumber" name="L581" href="#L581">581</a> 				+ <span class="jxr_string">"this.m()"</span>, ctInvocation.toString());
+<a class="jxr_linenumber" name="L582" href="#L582">582</a> 
+<a class="jxr_linenumber" name="L583" href="#L583">583</a> 		CtLocalVariable ctLocalVariable = m1.getBody().getStatement(5);
+<a class="jxr_linenumber" name="L584" href="#L584">584</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment local variable"</span>), ctLocalVariable.getComments().get(0));
+<a class="jxr_linenumber" name="L585" href="#L585">585</a> 		assertEquals(<span class="jxr_string">"/* comment local variable */"</span> + newLine
+<a class="jxr_linenumber" name="L586" href="#L586">586</a> 				+ <span class="jxr_string">"int i = 0"</span>, ctLocalVariable.toString());
+<a class="jxr_linenumber" name="L587" href="#L587">587</a> 
+<a class="jxr_linenumber" name="L588" href="#L588">588</a> 		CtLocalVariable ctLocalVariable2 = m1.getBody().getStatement(6);
+<a class="jxr_linenumber" name="L589" href="#L589">589</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment multi assignments"</span>), ctLocalVariable2.getComments().get(0));
+<a class="jxr_linenumber" name="L590" href="#L590">590</a> 		assertEquals(<span class="jxr_string">"/* comment multi assignments */"</span> + newLine
+<a class="jxr_linenumber" name="L591" href="#L591">591</a> 				+ <span class="jxr_string">"int j = 2"</span>, ctLocalVariable2.toString());
+<a class="jxr_linenumber" name="L592" href="#L592">592</a> 
+<a class="jxr_linenumber" name="L593" href="#L593">593</a> 		CtDo ctDo = m1.getBody().getStatement(7);
+<a class="jxr_linenumber" name="L594" href="#L594">594</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment dowhile"</span>), ctDo.getComments().get(0));
+<a class="jxr_linenumber" name="L595" href="#L595">595</a> 		assertEquals(<span class="jxr_string">"/* comment dowhile */"</span> + newLine
+<a class="jxr_linenumber" name="L596" href="#L596">596</a> 				+ <span class="jxr_string">"do {"</span> + newLine
+<a class="jxr_linenumber" name="L597" href="#L597">597</a> 				+ <span class="jxr_string">"    /* comment in do while */"</span> + newLine
+<a class="jxr_linenumber" name="L598" href="#L598">598</a> 				+ <span class="jxr_string">"    i++;"</span> + newLine
+<a class="jxr_linenumber" name="L599" href="#L599">599</a> 				+ <span class="jxr_string">"    /* comment end do while */"</span> + newLine
+<a class="jxr_linenumber" name="L600" href="#L600">600</a> 				+ <span class="jxr_string">"} while (i &lt; 10 )"</span>, ctDo.toString());
+<a class="jxr_linenumber" name="L601" href="#L601">601</a> 
+<a class="jxr_linenumber" name="L602" href="#L602">602</a> 		CtTry ctTry = m1.getBody().getStatement(8);
+<a class="jxr_linenumber" name="L603" href="#L603">603</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment try"</span>), ctTry.getComments().get(0));
+<a class="jxr_linenumber" name="L604" href="#L604">604</a> 		assertEquals(<span class="jxr_string">"/* comment try */"</span> + newLine
+<a class="jxr_linenumber" name="L605" href="#L605">605</a> 				+ <span class="jxr_string">"try {"</span> + newLine
+<a class="jxr_linenumber" name="L606" href="#L606">606</a> 				+ <span class="jxr_string">"    /* comment in try */"</span> + newLine
+<a class="jxr_linenumber" name="L607" href="#L607">607</a> 				+ <span class="jxr_string">"    i++;"</span> + newLine
+<a class="jxr_linenumber" name="L608" href="#L608">608</a> 				+ <span class="jxr_string">"} catch (java.lang.Exception e) {"</span> + newLine
+<a class="jxr_linenumber" name="L609" href="#L609">609</a> 				+ <span class="jxr_string">"    /* comment in catch */"</span> + newLine
+<a class="jxr_linenumber" name="L610" href="#L610">610</a> 				+ <span class="jxr_string">"}"</span>, ctTry.toString());
+<a class="jxr_linenumber" name="L611" href="#L611">611</a> 
+<a class="jxr_linenumber" name="L612" href="#L612">612</a> 		CtSynchronized ctSynchronized = m1.getBody().getStatement(9);
+<a class="jxr_linenumber" name="L613" href="#L613">613</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment synchronized"</span>), ctSynchronized.getComments().get(0));
+<a class="jxr_linenumber" name="L614" href="#L614">614</a> 		assertEquals(<span class="jxr_string">"/* comment synchronized */"</span> + newLine
+<a class="jxr_linenumber" name="L615" href="#L615">615</a> 				+ <span class="jxr_string">"synchronized(this) {"</span> + newLine
+<a class="jxr_linenumber" name="L616" href="#L616">616</a> 				+ <span class="jxr_string">"    /* comment in synchronized */"</span> + newLine
+<a class="jxr_linenumber" name="L617" href="#L617">617</a> 				+ <span class="jxr_string">"}"</span>, ctSynchronized.toString());
+<a class="jxr_linenumber" name="L618" href="#L618">618</a> 
+<a class="jxr_linenumber" name="L619" href="#L619">619</a> 		CtReturn ctReturn = m1.getBody().getStatement(10);
+<a class="jxr_linenumber" name="L620" href="#L620">620</a> 		assertEquals(createFakeBlockComment(f, <span class="jxr_string">"comment return"</span>), ctReturn.getComments().get(0));
+<a class="jxr_linenumber" name="L621" href="#L621">621</a> 		assertEquals(<span class="jxr_string">"/* comment return */"</span> + newLine
+<a class="jxr_linenumber" name="L622" href="#L622">622</a> 				+ <span class="jxr_string">"return"</span>, ctReturn.toString());
+<a class="jxr_linenumber" name="L623" href="#L623">623</a> 
+<a class="jxr_linenumber" name="L624" href="#L624">624</a> 
+<a class="jxr_linenumber" name="L625" href="#L625">625</a> 		CtMethod m2 = type.getMethodsByName(<span class="jxr_string">"m2"</span>).get(0);
+<a class="jxr_linenumber" name="L626" href="#L626">626</a> 		assertEquals(6, m2.getComments().size());
+<a class="jxr_linenumber" name="L627" href="#L627">627</a> 
+<a class="jxr_linenumber" name="L628" href="#L628">628</a> 		CtParameter ctParameter = (CtParameter) m2.getParameters().get(0);
+<a class="jxr_linenumber" name="L629" href="#L629">629</a> 		assertEquals(4, ctParameter.getComments().size());
+<a class="jxr_linenumber" name="L630" href="#L630">630</a> 
+<a class="jxr_linenumber" name="L631" href="#L631">631</a> 		assertEquals(<span class="jxr_string">"/* comment before type */"</span> + newLine
+<a class="jxr_linenumber" name="L632" href="#L632">632</a> 				+ <span class="jxr_string">"/* comment after parameter */"</span> + newLine
+<a class="jxr_linenumber" name="L633" href="#L633">633</a> 				+ <span class="jxr_string">"/* comment before throws */"</span> + newLine
+<a class="jxr_linenumber" name="L634" href="#L634">634</a> 				+ <span class="jxr_string">"/* comment before exception 1 */"</span> + newLine
+<a class="jxr_linenumber" name="L635" href="#L635">635</a> 				+ <span class="jxr_string">"/* comment before exception 2 */"</span> + newLine
+<a class="jxr_linenumber" name="L636" href="#L636">636</a> 				+ <span class="jxr_string">"/* comment before block */"</span> + newLine
+<a class="jxr_linenumber" name="L637" href="#L637">637</a> 				+ <span class="jxr_string">"public void m2(/* comment before name */"</span> + newLine
+<a class="jxr_linenumber" name="L638" href="#L638">638</a> 				+ <span class="jxr_string">"/* comment before parameters */"</span> + newLine
+<a class="jxr_linenumber" name="L639" href="#L639">639</a> 				+ <span class="jxr_string">"/* comment before type parameter */"</span> + newLine
+<a class="jxr_linenumber" name="L640" href="#L640">640</a> 				+ <span class="jxr_string">"/* comment before name parameter */"</span> + newLine
+<a class="jxr_linenumber" name="L641" href="#L641">641</a> 				+ <span class="jxr_string">"int i) throws java.lang.Error, java.lang.Exception {"</span> + newLine
+<a class="jxr_linenumber" name="L642" href="#L642">642</a> 				+ <span class="jxr_string">"}"</span>, m2.toString());
+<a class="jxr_linenumber" name="L643" href="#L643">643</a> 
+<a class="jxr_linenumber" name="L644" href="#L644">644</a> 		<em class="jxr_comment">// contract: one does not crash when setting a comment starting with '//' in a block comment</em>
+<a class="jxr_linenumber" name="L645" href="#L645">645</a> 		<em class="jxr_comment">// https://github.com/INRIA/spoon/issues/2887</em>
+<a class="jxr_linenumber" name="L646" href="#L646">646</a> 		CtComment ctComment = m2.getComments().get(0);
+<a class="jxr_linenumber" name="L647" href="#L647">647</a> 		ctComment.setContent(<span class="jxr_string">"// foo"</span>);
+<a class="jxr_linenumber" name="L648" href="#L648">648</a> 		assertEquals(CtComment.CommentType.BLOCK, ctComment.getCommentType());
+<a class="jxr_linenumber" name="L649" href="#L649">649</a> 		<em class="jxr_comment">// it's a limitation, you cannot start with ''</em>
+<a class="jxr_linenumber" name="L650" href="#L650">650</a> 		assertEquals(<span class="jxr_string">"/* foo */"</span>, ctComment.toString());
+<a class="jxr_linenumber" name="L651" href="#L651">651</a> 
+<a class="jxr_linenumber" name="L652" href="#L652">652</a> 		<em class="jxr_comment">// workaround #1: the comment can start with '  //'</em>
+<a class="jxr_linenumber" name="L653" href="#L653">653</a> 		ctComment.setContent(<span class="jxr_string">"  // foo"</span>);
+<a class="jxr_linenumber" name="L654" href="#L654">654</a> 		assertEquals(CtComment.CommentType.BLOCK, ctComment.getCommentType());
+<a class="jxr_linenumber" name="L655" href="#L655">655</a> 		<em class="jxr_comment">// it's a limitation, you cannot start with ''</em>
+<a class="jxr_linenumber" name="L656" href="#L656">656</a> 		assertEquals(<span class="jxr_string">"/* // foo */"</span>, ctComment.prettyprint());
+<a class="jxr_linenumber" name="L657" href="#L657">657</a> 
+<a class="jxr_linenumber" name="L658" href="#L658">658</a> 		<em class="jxr_comment">// workaround #2: one can cast and call '_setRawContent'</em>
+<a class="jxr_linenumber" name="L659" href="#L659">659</a> 		<em class="jxr_comment">// without setting the comment field through reflection</em>
+<a class="jxr_linenumber" name="L660" href="#L660">660</a> 		((CtCommentImpl) ctComment)._setRawContent(<span class="jxr_string">"// foo"</span>);
+<a class="jxr_linenumber" name="L661" href="#L661">661</a> 		assertEquals(CtComment.CommentType.BLOCK, ctComment.getCommentType());
+<a class="jxr_linenumber" name="L662" href="#L662">662</a> 		<em class="jxr_comment">// it's a limitation, you cannot start with ''</em>
+<a class="jxr_linenumber" name="L663" href="#L663">663</a> 		assertEquals(<span class="jxr_string">"/* // foo */"</span>, ctComment.prettyprint());
+<a class="jxr_linenumber" name="L664" href="#L664">664</a> 
+<a class="jxr_linenumber" name="L665" href="#L665">665</a> 	}
+<a class="jxr_linenumber" name="L666" href="#L666">666</a> 
+<a class="jxr_linenumber" name="L667" href="#L667">667</a> 	@Test
+<a class="jxr_linenumber" name="L668" href="#L668">668</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testInsertNewComment() {
+<a class="jxr_linenumber" name="L669" href="#L669">669</a> 		Factory f = getSpoonFactory();
+<a class="jxr_linenumber" name="L670" href="#L670">670</a> 		CtClass&lt;?&gt; type = (CtClass&lt;?&gt;) f.Type().get(InlineComment.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L671" href="#L671">671</a> 
+<a class="jxr_linenumber" name="L672" href="#L672">672</a> 		CtMethod method = f.Core().createMethod();
+<a class="jxr_linenumber" name="L673" href="#L673">673</a> 		method.setSimpleName(<span class="jxr_string">"newMethod"</span>);
+<a class="jxr_linenumber" name="L674" href="#L674">674</a> 		method.setBody(f.Core().createBlock());
+<a class="jxr_linenumber" name="L675" href="#L675">675</a> 		method.setType(f.Type().VOID_PRIMITIVE);
+<a class="jxr_linenumber" name="L676" href="#L676">676</a> 
+<a class="jxr_linenumber" name="L677" href="#L677">677</a> 		type.addMethod(method);
+<a class="jxr_linenumber" name="L678" href="#L678">678</a> 
+<a class="jxr_linenumber" name="L679" href="#L679">679</a> 		method.addComment(createFakeComment(f, <span class="jxr_string">"comment method"</span>));
+<a class="jxr_linenumber" name="L680" href="#L680">680</a> 		method.getBody().addStatement(createFakeComment(f, <span class="jxr_string">"comment empty block"</span>));
+<a class="jxr_linenumber" name="L681" href="#L681">681</a> 
+<a class="jxr_linenumber" name="L682" href="#L682">682</a> 		assertEquals(<span class="jxr_string">"// comment method"</span> + newLine
+<a class="jxr_linenumber" name="L683" href="#L683">683</a> 				+ <span class="jxr_string">"void newMethod() {"</span> + newLine
+<a class="jxr_linenumber" name="L684" href="#L684">684</a> 				+ <span class="jxr_string">"    // comment empty block"</span> + newLine
+<a class="jxr_linenumber" name="L685" href="#L685">685</a> 				+ <span class="jxr_string">"}"</span>, method.toString());
+<a class="jxr_linenumber" name="L686" href="#L686">686</a> 
+<a class="jxr_linenumber" name="L687" href="#L687">687</a> 		method.getBody().removeStatement(method.getBody().getStatement(0));
+<a class="jxr_linenumber" name="L688" href="#L688">688</a> 
+<a class="jxr_linenumber" name="L689" href="#L689">689</a> 		CtLocalVariable&lt;Integer&gt; i = f.Code().createLocalVariable(f.Type().INTEGER_PRIMITIVE, <span class="jxr_string">"i"</span>, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L690" href="#L690">690</a> 		i.addComment(createFakeComment(f, <span class="jxr_string">"comment local variable"</span>));
+<a class="jxr_linenumber" name="L691" href="#L691">691</a> 		method.getBody().addStatement(i);
+<a class="jxr_linenumber" name="L692" href="#L692">692</a> 
+<a class="jxr_linenumber" name="L693" href="#L693">693</a> 
+<a class="jxr_linenumber" name="L694" href="#L694">694</a> 		assertEquals(<span class="jxr_string">"// comment method"</span> + newLine
+<a class="jxr_linenumber" name="L695" href="#L695">695</a> 				+ <span class="jxr_string">"void newMethod() {"</span> + newLine
+<a class="jxr_linenumber" name="L696" href="#L696">696</a> 				+ <span class="jxr_string">"    // comment local variable"</span> + newLine
+<a class="jxr_linenumber" name="L697" href="#L697">697</a> 				+ <span class="jxr_string">"    int i;"</span> + newLine
+<a class="jxr_linenumber" name="L698" href="#L698">698</a> 				+ <span class="jxr_string">"}"</span>, method.toString());
+<a class="jxr_linenumber" name="L699" href="#L699">699</a> 	}
+<a class="jxr_linenumber" name="L700" href="#L700">700</a> 
+<a class="jxr_linenumber" name="L701" href="#L701">701</a> 	@Test
+<a class="jxr_linenumber" name="L702" href="#L702">702</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCoreFactory() {
+<a class="jxr_linenumber" name="L703" href="#L703">703</a> 		Factory spoonFactory = getSpoonFactory();
+<a class="jxr_linenumber" name="L704" href="#L704">704</a> 
+<a class="jxr_linenumber" name="L705" href="#L705">705</a> 		CtComment comment = spoonFactory.Core().createComment();
+<a class="jxr_linenumber" name="L706" href="#L706">706</a> 		assertEquals(<span class="jxr_string">"/*  */"</span>, comment.toString());
+<a class="jxr_linenumber" name="L707" href="#L707">707</a> 
+<a class="jxr_linenumber" name="L708" href="#L708">708</a> 		comment.setContent(<span class="jxr_string">"comment"</span>);
+<a class="jxr_linenumber" name="L709" href="#L709">709</a> 		assertEquals(<span class="jxr_string">"/* comment */"</span>, comment.toString());
+<a class="jxr_linenumber" name="L710" href="#L710">710</a> 
+<a class="jxr_linenumber" name="L711" href="#L711">711</a> 		comment.setCommentType(CtComment.CommentType.INLINE);
+<a class="jxr_linenumber" name="L712" href="#L712">712</a> 		assertEquals(CtComment.CommentType.INLINE, comment.getCommentType());
+<a class="jxr_linenumber" name="L713" href="#L713">713</a> 		assertEquals(<span class="jxr_string">"// comment"</span>, comment.toString());
+<a class="jxr_linenumber" name="L714" href="#L714">714</a> 
+<a class="jxr_linenumber" name="L715" href="#L715">715</a> 		comment.setCommentType(CtComment.CommentType.BLOCK);
+<a class="jxr_linenumber" name="L716" href="#L716">716</a> 		assertEquals(CtComment.CommentType.BLOCK, comment.getCommentType());
+<a class="jxr_linenumber" name="L717" href="#L717">717</a> 	}
+<a class="jxr_linenumber" name="L718" href="#L718">718</a> 
+<a class="jxr_linenumber" name="L719" href="#L719">719</a> 	@Test
+<a class="jxr_linenumber" name="L720" href="#L720">720</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCodeFactory() {
+<a class="jxr_linenumber" name="L721" href="#L721">721</a> 		Factory spoonFactory = getSpoonFactory();
+<a class="jxr_linenumber" name="L722" href="#L722">722</a> 
+<a class="jxr_linenumber" name="L723" href="#L723">723</a> 		CtComment comment = spoonFactory.Code().createComment(<span class="jxr_string">"comment"</span>, CtComment.CommentType.INLINE);
+<a class="jxr_linenumber" name="L724" href="#L724">724</a> 		assertEquals(<span class="jxr_string">"// comment"</span>, comment.toString());
+<a class="jxr_linenumber" name="L725" href="#L725">725</a> 		assertEquals(CtComment.CommentType.INLINE, comment.getCommentType());
+<a class="jxr_linenumber" name="L726" href="#L726">726</a> 
+<a class="jxr_linenumber" name="L727" href="#L727">727</a> 		comment = spoonFactory.Code().createInlineComment(<span class="jxr_string">"comment"</span>);
+<a class="jxr_linenumber" name="L728" href="#L728">728</a> 		assertEquals(<span class="jxr_string">"// comment"</span>, comment.toString());
+<a class="jxr_linenumber" name="L729" href="#L729">729</a> 		assertEquals(CtComment.CommentType.INLINE, comment.getCommentType());
+<a class="jxr_linenumber" name="L730" href="#L730">730</a> 	}
+<a class="jxr_linenumber" name="L731" href="#L731">731</a> 
+<a class="jxr_linenumber" name="L732" href="#L732">732</a> 	@Test
+<a class="jxr_linenumber" name="L733" href="#L733">733</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSnippedWithComments() {
+<a class="jxr_linenumber" name="L734" href="#L734">734</a> 
+<a class="jxr_linenumber" name="L735" href="#L735">735</a> 		Factory factory = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/reflect/factory/FactoryImpl.html">FactoryImpl</a>(<strong class="jxr_keyword">new</strong> <a href="../../../spoon/support/DefaultCoreFactory.html">DefaultCoreFactory</a>(),
+<a class="jxr_linenumber" name="L736" href="#L736">736</a> 				<strong class="jxr_keyword">new</strong> <a href="../../../spoon/support/StandardEnvironment.html">StandardEnvironment</a>());
+<a class="jxr_linenumber" name="L737" href="#L737">737</a> 		factory.getEnvironment().setNoClasspath(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L738" href="#L738">738</a> 		factory.getEnvironment().setCommentEnabled(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L739" href="#L739">739</a> 
+<a class="jxr_linenumber" name="L740" href="#L740">740</a> 
+<a class="jxr_linenumber" name="L741" href="#L741">741</a> 		String content = <span class="jxr_string">"//class comment\n"</span> + <span class="jxr_string">"class PR {\n"</span>
+<a class="jxr_linenumber" name="L742" href="#L742">742</a> 				+ <span class="jxr_string">"/**\n * method javadoc comment */\n"</span>
+<a class="jxr_linenumber" name="L743" href="#L743">743</a> 				+ <span class="jxr_string">"public java.io.File foo(String p) {\n"</span>
+<a class="jxr_linenumber" name="L744" href="#L744">744</a> 				+ <span class="jxr_string">"/* method body comment*/\n"</span>
+<a class="jxr_linenumber" name="L745" href="#L745">745</a> 				+ <span class="jxr_string">" return /*inline comment*/ null;"</span>
+<a class="jxr_linenumber" name="L746" href="#L746">746</a> 				+ <span class="jxr_string">"}"</span>
+<a class="jxr_linenumber" name="L747" href="#L747">747</a> 				+ <span class="jxr_string">"};\n"</span>
+<a class="jxr_linenumber" name="L748" href="#L748">748</a> 				+ <span class="jxr_string">"// after class comment"</span>;
+<a class="jxr_linenumber" name="L749" href="#L749">749</a> 
+<a class="jxr_linenumber" name="L750" href="#L750">750</a> 		JDTSnippetCompiler builder = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/support/compiler/jdt/JDTSnippetCompiler.html">JDTSnippetCompiler</a>(factory, content);
+<a class="jxr_linenumber" name="L751" href="#L751">751</a> 
+<a class="jxr_linenumber" name="L752" href="#L752">752</a> 		builder.build();
+<a class="jxr_linenumber" name="L753" href="#L753">753</a> 
+<a class="jxr_linenumber" name="L754" href="#L754">754</a> 		CtClass&lt;?&gt; clazz1 = (CtClass&lt;?&gt;) factory.Type().getAll().get(0);
+<a class="jxr_linenumber" name="L755" href="#L755">755</a> 		assertNotNull(clazz1);
+<a class="jxr_linenumber" name="L756" href="#L756">756</a> 		assertEquals(2, clazz1.getComments().size());
+<a class="jxr_linenumber" name="L757" href="#L757">757</a> 		assertEquals(<span class="jxr_string">"class comment"</span>, clazz1.getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L758" href="#L758">758</a> 		assertEquals(<span class="jxr_string">"after class comment"</span>, clazz1.getComments().get(1).getContent());
+<a class="jxr_linenumber" name="L759" href="#L759">759</a> 
+<a class="jxr_linenumber" name="L760" href="#L760">760</a> 		assertEquals(1, builder.getSnippetCompilationUnit().getDeclaredTypes().size());
+<a class="jxr_linenumber" name="L761" href="#L761">761</a> 		assertTrue(clazz1 == builder.getSnippetCompilationUnit().getDeclaredTypes().get(0));
+<a class="jxr_linenumber" name="L762" href="#L762">762</a> 
+<a class="jxr_linenumber" name="L763" href="#L763">763</a> 		CtMethod&lt;?&gt; methodString = (CtMethod&lt;?&gt;) clazz1.getMethods().toArray()[0];
+<a class="jxr_linenumber" name="L764" href="#L764">764</a> 		<em class="jxr_comment">// we don't call getSignature in order to encapsulate a little bit the changes</em>
+<a class="jxr_linenumber" name="L765" href="#L765">765</a> 		<em class="jxr_comment">// for the next time we will change the signature :-)</em>
+<a class="jxr_linenumber" name="L766" href="#L766">766</a> 		assertEquals(<span class="jxr_string">"foo"</span>, methodString.getSimpleName());
+<a class="jxr_linenumber" name="L767" href="#L767">767</a> 		assertEquals(1, methodString.getComments().size());
+<a class="jxr_linenumber" name="L768" href="#L768">768</a> 		assertEquals(<span class="jxr_string">"method javadoc comment"</span>, methodString.getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L769" href="#L769">769</a> 
+<a class="jxr_linenumber" name="L770" href="#L770">770</a> 		CtReturn&lt;?&gt; returnSt = methodString.getBody().getStatement(0);
+<a class="jxr_linenumber" name="L771" href="#L771">771</a> 
+<a class="jxr_linenumber" name="L772" href="#L772">772</a> 		assertEquals(2, returnSt.getComments().size());
+<a class="jxr_linenumber" name="L773" href="#L773">773</a> 		assertEquals(<span class="jxr_string">"method body comment"</span>, returnSt.getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L774" href="#L774">774</a> 		assertEquals(<span class="jxr_string">"inline comment"</span>, returnSt.getComments().get(1).getContent());
+<a class="jxr_linenumber" name="L775" href="#L775">775</a> 	}
+<a class="jxr_linenumber" name="L776" href="#L776">776</a> 
+<a class="jxr_linenumber" name="L777" href="#L777">777</a> 	@Test
+<a class="jxr_linenumber" name="L778" href="#L778">778</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testAddCommentsToSnippet() {
+<a class="jxr_linenumber" name="L779" href="#L779">779</a> 		Factory factory = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/reflect/factory/FactoryImpl.html">FactoryImpl</a>(<strong class="jxr_keyword">new</strong> <a href="../../../spoon/support/DefaultCoreFactory.html">DefaultCoreFactory</a>(),
+<a class="jxr_linenumber" name="L780" href="#L780">780</a> 				<strong class="jxr_keyword">new</strong> <a href="../../../spoon/support/StandardEnvironment.html">StandardEnvironment</a>());
+<a class="jxr_linenumber" name="L781" href="#L781">781</a> 		factory.getEnvironment().setNoClasspath(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L782" href="#L782">782</a> 		factory.getEnvironment().setCommentEnabled(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L783" href="#L783">783</a> 
+<a class="jxr_linenumber" name="L784" href="#L784">784</a> 		CtStatement statement = factory.Code().createCodeSnippetStatement(<span class="jxr_string">"System.out.println(\&quot;Caenorhabditis\&quot;)"</span>);
+<a class="jxr_linenumber" name="L785" href="#L785">785</a> 		CtComment comment = factory.createComment(<span class="jxr_string">"My comment on my statement"</span>, CtComment.CommentType.INLINE);
+<a class="jxr_linenumber" name="L786" href="#L786">786</a> 		statement.addComment(comment);
+<a class="jxr_linenumber" name="L787" href="#L787">787</a> 
+<a class="jxr_linenumber" name="L788" href="#L788">788</a> 		CtExpression expression = factory.Code().createCodeSnippetExpression(<span class="jxr_string">"\&quot;Caenorhabditis\&quot; + \&quot;Caenorhabditis\&quot;"</span>);
+<a class="jxr_linenumber" name="L789" href="#L789">789</a> 		CtComment commentExpression = factory.createComment(<span class="jxr_string">"My comment on my expression"</span>, CtComment.CommentType.INLINE);
+<a class="jxr_linenumber" name="L790" href="#L790">790</a> 		expression.addComment(commentExpression);
+<a class="jxr_linenumber" name="L791" href="#L791">791</a> 
+<a class="jxr_linenumber" name="L792" href="#L792">792</a> 		assertEquals(<span class="jxr_string">"// My comment on my statement"</span> + newLine + <span class="jxr_string">"System.out.println(\&quot;Caenorhabditis\&quot;)"</span>,
+<a class="jxr_linenumber" name="L793" href="#L793">793</a> 				statement.toString());
+<a class="jxr_linenumber" name="L794" href="#L794">794</a> 
+<a class="jxr_linenumber" name="L795" href="#L795">795</a> 		assertEquals(<span class="jxr_string">"// My comment on my expression"</span> + newLine + <span class="jxr_string">"\&quot;Caenorhabditis\&quot; + \&quot;Caenorhabditis\&quot;"</span>,
+<a class="jxr_linenumber" name="L796" href="#L796">796</a> 				expression.toString());
+<a class="jxr_linenumber" name="L797" href="#L797">797</a> 	}
+<a class="jxr_linenumber" name="L798" href="#L798">798</a> 
+<a class="jxr_linenumber" name="L799" href="#L799">799</a> 	@Test
+<a class="jxr_linenumber" name="L800" href="#L800">800</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testDocumentationContract() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L801" href="#L801">801</a> 		<em class="jxr_comment">// contract: all metamodel classes must be commented with an example.</em>
+<a class="jxr_linenumber" name="L802" href="#L802">802</a> 		
+<a class="jxr_linenumber" name="L803" href="#L803">803</a> 		<strong class="jxr_keyword">final</strong> <a href="../../../spoon/Launcher.html">Launcher</a> launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L804" href="#L804">804</a> 		launcher.getEnvironment().setNoClasspath(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L805" href="#L805">805</a> 		launcher.getEnvironment().setCommentEnabled(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L806" href="#L806">806</a> 		launcher.getEnvironment().setComplianceLevel(10);
+<a class="jxr_linenumber" name="L807" href="#L807">807</a> 		<em class="jxr_comment">// interfaces.</em>
+<a class="jxr_linenumber" name="L808" href="#L808">808</a> 		launcher.addInputResource(<span class="jxr_string">"./src/main/java/spoon/reflect/"</span>);
+<a class="jxr_linenumber" name="L809" href="#L809">809</a> 		launcher.addInputResource(<span class="jxr_string">"./src/main/java/spoon/support/reflect/"</span>);
+<a class="jxr_linenumber" name="L810" href="#L810">810</a> 		launcher.buildModel();
+<a class="jxr_linenumber" name="L811" href="#L811">811</a> 
+<a class="jxr_linenumber" name="L812" href="#L812">812</a> 		StringBuffer codeElementsDocumentationPage = <strong class="jxr_keyword">new</strong> StringBuffer();
+<a class="jxr_linenumber" name="L813" href="#L813">813</a> 		codeElementsDocumentationPage.append(IOUtils.toString(<strong class="jxr_keyword">new</strong> FileReader(<span class="jxr_string">"doc/code_elements_header.md"</span>)));
+<a class="jxr_linenumber" name="L814" href="#L814">814</a> 		codeElementsDocumentationPage.append(<span class="jxr_string">"\n\n"</span>);
+<a class="jxr_linenumber" name="L815" href="#L815">815</a> 		launcher.getModel().getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtInterface.<strong class="jxr_keyword">class</strong>)).stream().forEach(x -&gt; {
+<a class="jxr_linenumber" name="L816" href="#L816">816</a> 
+<a class="jxr_linenumber" name="L817" href="#L817">817</a> 			assertNotNull(x.getSimpleName() + <span class="jxr_string">" has no documentation"</span>, x.getDocComment());
+<a class="jxr_linenumber" name="L818" href="#L818">818</a> 			assertTrue(x.getSimpleName() + <span class="jxr_string">" has no documentation"</span>, !x.getDocComment().isEmpty());
+<a class="jxr_linenumber" name="L819" href="#L819">819</a> 
+<a class="jxr_linenumber" name="L820" href="#L820">820</a> 			<em class="jxr_comment">// we only consider instantiable interfaces</em>
+<a class="jxr_linenumber" name="L821" href="#L821">821</a> 			<strong class="jxr_keyword">if</strong> (launcher.getModel().getElements(<strong class="jxr_keyword">new</strong> AbstractFilter&lt;CtElement&gt;() {
+<a class="jxr_linenumber" name="L822" href="#L822">822</a> 				@Override
+<a class="jxr_linenumber" name="L823" href="#L823">823</a> 				<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> matches(<a href="../../../spoon/reflect/declaration/CtElement.html">CtElement</a> element) {
+<a class="jxr_linenumber" name="L824" href="#L824">824</a> 					<strong class="jxr_keyword">return</strong> (element instanceof CtNamedElement) &amp;&amp; ((CtNamedElement) element).getSimpleName().equals(x.getSimpleName() + <span class="jxr_string">"Impl"</span>) &amp;&amp; (element instanceof CtClass) &amp;&amp; !((CtClass) element).hasModifier(ModifierKind.ABSTRACT);
+<a class="jxr_linenumber" name="L825" href="#L825">825</a> 				}
+<a class="jxr_linenumber" name="L826" href="#L826">826</a> 			}).isEmpty()) {
+<a class="jxr_linenumber" name="L827" href="#L827">827</a> 				<strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L828" href="#L828">828</a> 			}
+<a class="jxr_linenumber" name="L829" href="#L829">829</a> 
+<a class="jxr_linenumber" name="L830" href="#L830">830</a> 			<em class="jxr_comment">// we don't consider references</em>
+<a class="jxr_linenumber" name="L831" href="#L831">831</a> 			<strong class="jxr_keyword">if</strong> (x.getSimpleName().endsWith(<span class="jxr_string">"Reference"</span>)) {
+<a class="jxr_linenumber" name="L832" href="#L832">832</a> 				<strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L833" href="#L833">833</a> 			}
+<a class="jxr_linenumber" name="L834" href="#L834">834</a> 
+<a class="jxr_linenumber" name="L835" href="#L835">835</a> 			<strong class="jxr_keyword">if</strong> (x.isSubtypeOf(launcher.getFactory().Type().get(CtStatement.<strong class="jxr_keyword">class</strong>).getReference())
+<a class="jxr_linenumber" name="L836" href="#L836">836</a> 					|| x.isSubtypeOf(launcher.getFactory().Type().get(CtExpression.<strong class="jxr_keyword">class</strong>).getReference())
+<a class="jxr_linenumber" name="L837" href="#L837">837</a> 					) {
+<a class="jxr_linenumber" name="L838" href="#L838">838</a> 
+<a class="jxr_linenumber" name="L839" href="#L839">839</a> 				<em class="jxr_comment">// no meaningful snippet</em>
+<a class="jxr_linenumber" name="L840" href="#L840">840</a> 				<strong class="jxr_keyword">if</strong> (<span class="jxr_string">"CtCodeSnippetStatement"</span>.equals(x.getSimpleName())) {
+<a class="jxr_linenumber" name="L841" href="#L841">841</a> 					<strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L842" href="#L842">842</a> 				}
+<a class="jxr_linenumber" name="L843" href="#L843">843</a> 
+<a class="jxr_linenumber" name="L844" href="#L844">844</a> 				<em class="jxr_comment">// no meaningful snippet</em>
+<a class="jxr_linenumber" name="L845" href="#L845">845</a> 				<strong class="jxr_keyword">if</strong> (<span class="jxr_string">"CtCodeSnippetExpression"</span>.equals(x.getSimpleName())) {
+<a class="jxr_linenumber" name="L846" href="#L846">846</a> 					<strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L847" href="#L847">847</a> 				}
+<a class="jxr_linenumber" name="L848" href="#L848">848</a> 
+<a class="jxr_linenumber" name="L849" href="#L849">849</a> 				<em class="jxr_comment">// no comment in snippet mode</em>
+<a class="jxr_linenumber" name="L850" href="#L850">850</a> 				<strong class="jxr_keyword">if</strong> (<span class="jxr_string">"CtComment"</span>.equals(x.getSimpleName())) {
+<a class="jxr_linenumber" name="L851" href="#L851">851</a> 					<strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L852" href="#L852">852</a> 				}
+<a class="jxr_linenumber" name="L853" href="#L853">853</a> 
+<a class="jxr_linenumber" name="L854" href="#L854">854</a> 				<em class="jxr_comment">// a statement in really rare cases</em>
+<a class="jxr_linenumber" name="L855" href="#L855">855</a> 				<strong class="jxr_keyword">if</strong> (<span class="jxr_string">"CtEnum"</span>.equals(x.getSimpleName())) {
+<a class="jxr_linenumber" name="L856" href="#L856">856</a> 					<strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L857" href="#L857">857</a> 				}
+<a class="jxr_linenumber" name="L858" href="#L858">858</a> 
+<a class="jxr_linenumber" name="L859" href="#L859">859</a> 				<em class="jxr_comment">// too hard to snippetize</em>
+<a class="jxr_linenumber" name="L860" href="#L860">860</a> 				<strong class="jxr_keyword">if</strong> (<span class="jxr_string">"CtAnnotationFieldAccess"</span>.equals(x.getSimpleName())) {
+<a class="jxr_linenumber" name="L861" href="#L861">861</a> 					<strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L862" href="#L862">862</a> 				}
+<a class="jxr_linenumber" name="L863" href="#L863">863</a> 
+<a class="jxr_linenumber" name="L864" href="#L864">864</a> 				codeElementsDocumentationPage.append(<span class="jxr_string">"### "</span> + x.getSimpleName() + <span class="jxr_string">"\n"</span>);
+<a class="jxr_linenumber" name="L865" href="#L865">865</a> 				codeElementsDocumentationPage.append(<span class="jxr_string">"[(javadoc)](http://spoon.gforge.inria.fr/mvnsites/spoon-core/apidocs/"</span> + x.getQualifiedName().replace('.', '/') + <span class="jxr_string">".html)\n\n"</span>);
+<a class="jxr_linenumber" name="L866" href="#L866">866</a> 				codeElementsDocumentationPage.append(<span class="jxr_string">"```java"</span> + <span class="jxr_string">"\n"</span>);
+<a class="jxr_linenumber" name="L867" href="#L867">867</a> 				Pattern p = Pattern.compile(<span class="jxr_string">"&lt;pre&gt;(.*?)&lt;/pre&gt;"</span>, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE | Pattern.UNIX_LINES);
+<a class="jxr_linenumber" name="L868" href="#L868">868</a> 				Matcher m = p.matcher(x.getDocComment());
+<a class="jxr_linenumber" name="L869" href="#L869">869</a> 				m.find();
+<a class="jxr_linenumber" name="L870" href="#L870">870</a> 				<strong class="jxr_keyword">do</strong> {
+<a class="jxr_linenumber" name="L871" href="#L871">871</a> 					String snippet = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L872" href="#L872">872</a> 					<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L873" href="#L873">873</a> 						snippet = m.group(1);
+<a class="jxr_linenumber" name="L874" href="#L874">874</a> 					} <strong class="jxr_keyword">catch</strong> (IllegalStateException e) {
+<a class="jxr_linenumber" name="L875" href="#L875">875</a> 						fail(x + <span class="jxr_string">" does not have code snippet"</span>);
+<a class="jxr_linenumber" name="L876" href="#L876">876</a> 					}
+<a class="jxr_linenumber" name="L877" href="#L877">877</a> 					snippet = StringEscapeUtils.unescapeHtml4(snippet);
+<a class="jxr_linenumber" name="L878" href="#L878">878</a> 
+<a class="jxr_linenumber" name="L879" href="#L879">879</a> 					<em class="jxr_comment">// it must compile</em>
+<a class="jxr_linenumber" name="L880" href="#L880">880</a> 					CtElement el = launcher.getFactory().Code().createCodeSnippetStatement(snippet).compile();
+<a class="jxr_linenumber" name="L881" href="#L881">881</a> 
+<a class="jxr_linenumber" name="L882" href="#L882">882</a> 					<em class="jxr_comment">// the snippet contains this element</em>
+<a class="jxr_linenumber" name="L883" href="#L883">883</a> 					assertTrue(snippet + <span class="jxr_string">" does not contain a "</span> + x.getSimpleName(), !el.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(x.getActualClass())).isEmpty());
+<a class="jxr_linenumber" name="L884" href="#L884">884</a> 
+<a class="jxr_linenumber" name="L885" href="#L885">885</a> 					codeElementsDocumentationPage.append(snippet + <span class="jxr_string">"\n"</span>);
+<a class="jxr_linenumber" name="L886" href="#L886">886</a> 
+<a class="jxr_linenumber" name="L887" href="#L887">887</a> 				} <strong class="jxr_keyword">while</strong> (m.find());
+<a class="jxr_linenumber" name="L888" href="#L888">888</a> 				codeElementsDocumentationPage.append(<span class="jxr_string">"```"</span> + <span class="jxr_string">"\n"</span>);
+<a class="jxr_linenumber" name="L889" href="#L889">889</a> 			}
+<a class="jxr_linenumber" name="L890" href="#L890">890</a> 
+<a class="jxr_linenumber" name="L891" href="#L891">891</a> 		}
+<a class="jxr_linenumber" name="L892" href="#L892">892</a> 		);
+<a class="jxr_linenumber" name="L893" href="#L893">893</a> 
+<a class="jxr_linenumber" name="L894" href="#L894">894</a> 		<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L895" href="#L895">895</a> 			assertEquals(<span class="jxr_string">"doc outdated, please commit doc/code_elements.md"</span>, IOUtils.toString(<strong class="jxr_keyword">new</strong> FileReader(<span class="jxr_string">"doc/code_elements.md"</span>)), codeElementsDocumentationPage.toString());
+<a class="jxr_linenumber" name="L896" href="#L896">896</a> 		} <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="L897" href="#L897">897</a> 			IOUtils.write(codeElementsDocumentationPage.toString(), <strong class="jxr_keyword">new</strong> FileOutputStream(<span class="jxr_string">"doc/code_elements.md"</span>));
+<a class="jxr_linenumber" name="L898" href="#L898">898</a> 		}
+<a class="jxr_linenumber" name="L899" href="#L899">899</a> 	}
+<a class="jxr_linenumber" name="L900" href="#L900">900</a> 
+<a class="jxr_linenumber" name="L901" href="#L901">901</a> 	@Test
+<a class="jxr_linenumber" name="L902" href="#L902">902</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCommentsInComment1And2() {
+<a class="jxr_linenumber" name="L903" href="#L903">903</a> 		Factory f = getSpoonFactory();
+<a class="jxr_linenumber" name="L904" href="#L904">904</a> 		CtClass&lt;?&gt; type = (CtClass&lt;?&gt;) f.Type().get(Comment1.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L905" href="#L905">905</a> 		List&lt;CtComment&gt; comments = type.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtComment.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L906" href="#L906">906</a> 		assertEquals(4, comments.size());
+<a class="jxr_linenumber" name="L907" href="#L907">907</a> 
+<a class="jxr_linenumber" name="L908" href="#L908">908</a> 		type = (CtClass&lt;?&gt;) f.Type().get(Comment2.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L909" href="#L909">909</a> 		comments = type.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtComment.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L910" href="#L910">910</a> 		assertEquals(2, comments.size());
+<a class="jxr_linenumber" name="L911" href="#L911">911</a> 
+<a class="jxr_linenumber" name="L912" href="#L912">912</a> 		CtComment commentD = comments.get(1);
+<a class="jxr_linenumber" name="L913" href="#L913">913</a> 		assertEquals(<span class="jxr_string">"D"</span>, commentD.getContent());
+<a class="jxr_linenumber" name="L914" href="#L914">914</a> 	}
+<a class="jxr_linenumber" name="L915" href="#L915">915</a> 
+<a class="jxr_linenumber" name="L916" href="#L916">916</a> 	@Test
+<a class="jxr_linenumber" name="L917" href="#L917">917</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCommentsInResourcesWithWindowsEOL() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L918" href="#L918">918</a> 		<em class="jxr_comment">//contract: the WindowsEOL.java contains MS Windows \r\n as EOL</em>
+<a class="jxr_linenumber" name="L919" href="#L919">919</a> 		<strong class="jxr_keyword">try</strong> (InputStream is = <strong class="jxr_keyword">new</strong> FileInputStream(<strong class="jxr_keyword">new</strong> File(<span class="jxr_string">"./src/test/java/spoon/test/comment/testclasses/WindowsEOL.java"</span>))) {
+<a class="jxr_linenumber" name="L920" href="#L920">920</a> 			<strong class="jxr_keyword">int</strong> b;
+<a class="jxr_linenumber" name="L921" href="#L921">921</a> 			<strong class="jxr_keyword">boolean</strong> lastWasCR = false;
+<a class="jxr_linenumber" name="L922" href="#L922">922</a> 			<strong class="jxr_keyword">while</strong> ((b = is.read()) != -1) {
+<a class="jxr_linenumber" name="L923" href="#L923">923</a> 				<strong class="jxr_keyword">if</strong> (lastWasCR) {
+<a class="jxr_linenumber" name="L924" href="#L924">924</a> 					<em class="jxr_comment">//next must be LF</em>
+<a class="jxr_linenumber" name="L925" href="#L925">925</a> 					assertEquals('\n', b);
+<a class="jxr_linenumber" name="L926" href="#L926">926</a> 					lastWasCR = false;
+<a class="jxr_linenumber" name="L927" href="#L927">927</a> 				}
+<a class="jxr_linenumber" name="L928" href="#L928">928</a> 				<strong class="jxr_keyword">if</strong> (b == '\r') {
+<a class="jxr_linenumber" name="L929" href="#L929">929</a> 					lastWasCR = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L930" href="#L930">930</a> 				}
+<a class="jxr_linenumber" name="L931" href="#L931">931</a> 			}
+<a class="jxr_linenumber" name="L932" href="#L932">932</a> 		}
+<a class="jxr_linenumber" name="L933" href="#L933">933</a> 		<strong class="jxr_keyword">final</strong> <a href="../../../spoon/Launcher.html">Launcher</a> launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L934" href="#L934">934</a> 		launcher.run(<strong class="jxr_keyword">new</strong> String[]{
+<a class="jxr_linenumber" name="L935" href="#L935">935</a> 				<span class="jxr_string">"-i"</span>, <span class="jxr_string">"./src/test/java/spoon/test/comment/testclasses/WindowsEOL.java"</span>,
+<a class="jxr_linenumber" name="L936" href="#L936">936</a> 				<span class="jxr_string">"-o"</span>, <span class="jxr_string">"./target/spooned/"</span>,
+<a class="jxr_linenumber" name="L937" href="#L937">937</a> 				<span class="jxr_string">"-c"</span>
+<a class="jxr_linenumber" name="L938" href="#L938">938</a> 		});
+<a class="jxr_linenumber" name="L939" href="#L939">939</a> 		Factory f = launcher.getFactory();
+<a class="jxr_linenumber" name="L940" href="#L940">940</a> 		CtClass&lt;?&gt; type = (CtClass&lt;?&gt;) f.Type().get(WindowsEOL.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L941" href="#L941">941</a> 		CtJavaDoc classJavaDoc = (CtJavaDoc) type.getComments().get(0);
+<a class="jxr_linenumber" name="L942" href="#L942">942</a> 		<em class="jxr_comment">//contract: test that java doc is printed correctly</em>
+<a class="jxr_linenumber" name="L943" href="#L943">943</a> 		String str = classJavaDoc.toString();
+<a class="jxr_linenumber" name="L944" href="#L944">944</a> 		StringTokenizer st = <strong class="jxr_keyword">new</strong> StringTokenizer(str, System.getProperty(<span class="jxr_string">"line.separator"</span>));
+<a class="jxr_linenumber" name="L945" href="#L945">945</a> 		<strong class="jxr_keyword">boolean</strong> first = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L946" href="#L946">946</a> 		<strong class="jxr_keyword">while</strong> (st.hasMoreTokens()) {
+<a class="jxr_linenumber" name="L947" href="#L947">947</a> 			String line = st.nextToken();
+<a class="jxr_linenumber" name="L948" href="#L948">948</a> 			<strong class="jxr_keyword">if</strong> (first) {
+<a class="jxr_linenumber" name="L949" href="#L949">949</a> 				<em class="jxr_comment">//first</em>
+<a class="jxr_linenumber" name="L950" href="#L950">950</a> 				first = false;
+<a class="jxr_linenumber" name="L951" href="#L951">951</a> 				assertEquals(3, line.length());
+<a class="jxr_linenumber" name="L952" href="#L952">952</a> 				assertEquals(<span class="jxr_string">"/**"</span>, line);
+<a class="jxr_linenumber" name="L953" href="#L953">953</a> 			} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L954" href="#L954">954</a> 				<strong class="jxr_keyword">if</strong> (st.hasMoreTokens()) {
+<a class="jxr_linenumber" name="L955" href="#L955">955</a> 					<em class="jxr_comment">//in the middle</em>
+<a class="jxr_linenumber" name="L956" href="#L956">956</a> 					assertTrue(line.length() &gt;= 2);
+<a class="jxr_linenumber" name="L957" href="#L957">957</a> 					assertEquals(<span class="jxr_string">" *"</span>, line.substring(0, 2));
+<a class="jxr_linenumber" name="L958" href="#L958">958</a> 				} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L959" href="#L959">959</a> 					<em class="jxr_comment">//last</em>
+<a class="jxr_linenumber" name="L960" href="#L960">960</a> 					assertTrue(line.length() == 3);
+<a class="jxr_linenumber" name="L961" href="#L961">961</a> 					assertEquals(<span class="jxr_string">" */"</span>, line.substring(0, 3));
+<a class="jxr_linenumber" name="L962" href="#L962">962</a> 				}
+<a class="jxr_linenumber" name="L963" href="#L963">963</a> 			}
+<a class="jxr_linenumber" name="L964" href="#L964">964</a> 		}
+<a class="jxr_linenumber" name="L965" href="#L965">965</a> 		<em class="jxr_comment">//This test passes on MS Windows too - why spoon uses `\n` on MS Windows too?</em>
+<a class="jxr_linenumber" name="L966" href="#L966">966</a> 		assertEquals(<span class="jxr_string">"This file contains MS Windows EOL.\n"</span>
+<a class="jxr_linenumber" name="L967" href="#L967">967</a> 				+ <span class="jxr_string">"It is here to test whether comments are printed well\n"</span>
+<a class="jxr_linenumber" name="L968" href="#L968">968</a> 				+ <span class="jxr_string">"in this case"</span>, classJavaDoc.getContent());
+<a class="jxr_linenumber" name="L969" href="#L969">969</a> 	}
+<a class="jxr_linenumber" name="L970" href="#L970">970</a> 
+<a class="jxr_linenumber" name="L971" href="#L971">971</a> 	@Test
+<a class="jxr_linenumber" name="L972" href="#L972">972</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testWildComments() {
+<a class="jxr_linenumber" name="L973" href="#L973">973</a> 		<em class="jxr_comment">//contract: tests that value of comment is correct even for wild combinations of characters. See WildComments class for details</em>
+<a class="jxr_linenumber" name="L974" href="#L974">974</a> 		Factory f = getSpoonFactory();
+<a class="jxr_linenumber" name="L975" href="#L975">975</a> 		CtClass&lt;?&gt; type = (CtClass&lt;?&gt;) f.Type().get(WildComments.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L976" href="#L976">976</a> 		List&lt;CtLiteral&lt;String&gt;&gt; literals = (List) ((CtNewArray&lt;?&gt;) type.getField(<span class="jxr_string">"comments"</span>).getDefaultExpression()).getElements();
+<a class="jxr_linenumber" name="L977" href="#L977">977</a> 		assertTrue(literals.size() &gt; 10);
+<a class="jxr_linenumber" name="L978" href="#L978">978</a> 		<em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="L979" href="#L979">979</a> <em class="jxr_comment">		 * each string literal has a comment and string value, which defines expected value of its comment</em>
+<a class="jxr_linenumber" name="L980" href="#L980">980</a> <em class="jxr_comment">		 */</em>
+<a class="jxr_linenumber" name="L981" href="#L981">981</a> 		<strong class="jxr_keyword">for</strong> (CtLiteral&lt;String&gt; literal : literals) {
+<a class="jxr_linenumber" name="L982" href="#L982">982</a> 			assertEquals(1, literal.getComments().size());
+<a class="jxr_linenumber" name="L983" href="#L983">983</a> 			CtComment comment = literal.getComments().get(0);
+<a class="jxr_linenumber" name="L984" href="#L984">984</a> 			String expected = literal.getValue();
+<a class="jxr_linenumber" name="L985" href="#L985">985</a> 			assertEquals(literal.getPosition().toString(), expected, comment.getContent());
+<a class="jxr_linenumber" name="L986" href="#L986">986</a> 		}
+<a class="jxr_linenumber" name="L987" href="#L987">987</a> 	}
+<a class="jxr_linenumber" name="L988" href="#L988">988</a> 
+<a class="jxr_linenumber" name="L989" href="#L989">989</a> 	@Test
+<a class="jxr_linenumber" name="L990" href="#L990">990</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testEnumValueComment() {
+<a class="jxr_linenumber" name="L991" href="#L991">991</a> 		<em class="jxr_comment">// contract: enum value comments are taken into account</em>
+<a class="jxr_linenumber" name="L992" href="#L992">992</a> 
+<a class="jxr_linenumber" name="L993" href="#L993">993</a> 		Launcher launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L994" href="#L994">994</a> 		launcher.addInputResource(<span class="jxr_string">"./src/test/java/spoon/test/comment/testclasses/EnumClass.java"</span>);
+<a class="jxr_linenumber" name="L995" href="#L995">995</a> 		launcher.getEnvironment().setCommentEnabled(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L996" href="#L996">996</a> 		CtModel model = launcher.buildModel();
+<a class="jxr_linenumber" name="L997" href="#L997">997</a> 
+<a class="jxr_linenumber" name="L998" href="#L998">998</a> 		CtEnum&lt;?&gt; ctEnum = model.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtEnum.<strong class="jxr_keyword">class</strong>)).get(0);
+<a class="jxr_linenumber" name="L999" href="#L999">999</a> 		List&lt;CtEnumValue&lt;?&gt;&gt; enumValues = ctEnum.getEnumValues();
+<a class="jxr_linenumber" name="L1000" href="#L1000">1000</a> 
+<a class="jxr_linenumber" name="L1001" href="#L1001">1001</a> 		assertEquals(4, enumValues.size());
+<a class="jxr_linenumber" name="L1002" href="#L1002">1002</a> 
+<a class="jxr_linenumber" name="L1003" href="#L1003">1003</a> 		CtEnumValue firstEnumValue = enumValues.get(0);
+<a class="jxr_linenumber" name="L1004" href="#L1004">1004</a> 		assertEquals(<span class="jxr_string">"FAIL"</span>, firstEnumValue.getSimpleName());
+<a class="jxr_linenumber" name="L1005" href="#L1005">1005</a> 
+<a class="jxr_linenumber" name="L1006" href="#L1006">1006</a> 		List&lt;CtComment&gt; comments = firstEnumValue.getComments();
+<a class="jxr_linenumber" name="L1007" href="#L1007">1007</a> 		assertEquals(1, comments.size());
+<a class="jxr_linenumber" name="L1008" href="#L1008">1008</a> 		assertTrue(comments.get(0) instanceof CtJavaDoc);
+<a class="jxr_linenumber" name="L1009" href="#L1009">1009</a> 		assertEquals(<span class="jxr_string">"Throw {@link SpoonException} if a conflict happens, it is the default in most cases. But there are some standard Pattern builder algorithms (mainly these which deals with legacy Templates), which are using the other modes."</span>, comments.get(0).getContent());
+<a class="jxr_linenumber" name="L1010" href="#L1010">1010</a> 
+<a class="jxr_linenumber" name="L1011" href="#L1011">1011</a> 		CtEnumValue&lt;?&gt; thirdEnumValue = enumValues.get(2);
+<a class="jxr_linenumber" name="L1012" href="#L1012">1012</a> 		assertEquals(<span class="jxr_string">"KEEP_OLD_NODE"</span>, thirdEnumValue.getSimpleName());
+<a class="jxr_linenumber" name="L1013" href="#L1013">1013</a> 
+<a class="jxr_linenumber" name="L1014" href="#L1014">1014</a> 		comments = thirdEnumValue.getComments();
+<a class="jxr_linenumber" name="L1015" href="#L1015">1015</a> 		assertEquals(1, comments.size());
+<a class="jxr_linenumber" name="L1016" href="#L1016">1016</a> 		assertTrue(comments.get(0) instanceof CtJavaDoc);
+<a class="jxr_linenumber" name="L1017" href="#L1017">1017</a> 		assertEquals(<span class="jxr_string">"Keep old {@link RootNode} and ignore requests to add new {@link RootNode}"</span>, comments.get(0).getContent());
+<a class="jxr_linenumber" name="L1018" href="#L1018">1018</a> 	}
+<a class="jxr_linenumber" name="L1019" href="#L1019">1019</a> 
+<a class="jxr_linenumber" name="L1020" href="#L1020">1020</a> 
+<a class="jxr_linenumber" name="L1021" href="#L1021">1021</a> 	@Test
+<a class="jxr_linenumber" name="L1022" href="#L1022">1022</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testBug2209() {
+<a class="jxr_linenumber" name="L1023" href="#L1023">1023</a> 		<strong class="jxr_keyword">final</strong> <a href="../../../spoon/Launcher.html">Launcher</a> launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L1024" href="#L1024">1024</a> 		launcher.run(<strong class="jxr_keyword">new</strong> String[]{
+<a class="jxr_linenumber" name="L1025" href="#L1025">1025</a> 				<span class="jxr_string">"-i"</span>, <span class="jxr_string">"src/test/resources/ConfigPlugin.java"</span>
+<a class="jxr_linenumber" name="L1026" href="#L1026">1026</a> 		});
+<a class="jxr_linenumber" name="L1027" href="#L1027">1027</a> 		<em class="jxr_comment">// the comment should be associated to the expression in the annotation</em>
+<a class="jxr_linenumber" name="L1028" href="#L1028">1028</a> 		assertEquals(<span class="jxr_string">"// prevent users from disabling"</span>, launcher.getFactory().Type().get(<span class="jxr_string">"net.runelite.client.plugins.config.ConfigPlugin"</span>).getAnnotations().get(0).filterChildren(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtComment.<strong class="jxr_keyword">class</strong>)).list().get(0).toString());
+<a class="jxr_linenumber" name="L1029" href="#L1029">1029</a> 
+<a class="jxr_linenumber" name="L1030" href="#L1030">1030</a> 	}
+<a class="jxr_linenumber" name="L1031" href="#L1031">1031</a> 
+<a class="jxr_linenumber" name="L1032" href="#L1032">1032</a> 
+<a class="jxr_linenumber" name="L1033" href="#L1033">1033</a> 	@Test
+<a class="jxr_linenumber" name="L1034" href="#L1034">1034</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testInlineCommentIfBlock() {
+<a class="jxr_linenumber" name="L1035" href="#L1035">1035</a> 		<em class="jxr_comment">// contract: when creating an inline comment from a string with line separators, it throws an exception to create block comment</em>
+<a class="jxr_linenumber" name="L1036" href="#L1036">1036</a> 		Launcher launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L1037" href="#L1037">1037</a> 		launcher.addInputResource(<span class="jxr_string">"./src/test/java/spoon/test/comment/testclasses/WithIfBlock.java"</span>);
+<a class="jxr_linenumber" name="L1038" href="#L1038">1038</a> 		launcher.getEnvironment().setCommentEnabled(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L1039" href="#L1039">1039</a> 
+<a class="jxr_linenumber" name="L1040" href="#L1040">1040</a> 		CtModel model = launcher.buildModel();
+<a class="jxr_linenumber" name="L1041" href="#L1041">1041</a> 
+<a class="jxr_linenumber" name="L1042" href="#L1042">1042</a> 		List&lt;CtIf&gt; ctIfs = model.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtIf.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L1043" href="#L1043">1043</a> 
+<a class="jxr_linenumber" name="L1044" href="#L1044">1044</a> 		assertEquals(1, ctIfs.size());
+<a class="jxr_linenumber" name="L1045" href="#L1045">1045</a> 		CtIf ctIf = ctIfs.get(0);
+<a class="jxr_linenumber" name="L1046" href="#L1046">1046</a> 		<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L1047" href="#L1047">1047</a> 			CtComment ctComment = launcher.getFactory().createInlineComment(ctIf.toString());
+<a class="jxr_linenumber" name="L1048" href="#L1048">1048</a> 			fail(<span class="jxr_string">"Exception should have been thrown"</span>);
+<a class="jxr_linenumber" name="L1049" href="#L1049">1049</a> 		} <strong class="jxr_keyword">catch</strong> (SpoonException e) {
+<a class="jxr_linenumber" name="L1050" href="#L1050">1050</a> 			assertTrue(e.getMessage().contains(<span class="jxr_string">"consider using a block comment"</span>));
+<a class="jxr_linenumber" name="L1051" href="#L1051">1051</a> 		}
+<a class="jxr_linenumber" name="L1052" href="#L1052">1052</a> 	}
+<a class="jxr_linenumber" name="L1053" href="#L1053">1053</a> 
+<a class="jxr_linenumber" name="L1054" href="#L1054">1054</a> 	@Test
+<a class="jxr_linenumber" name="L1055" href="#L1055">1055</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testStatementComments() {
+<a class="jxr_linenumber" name="L1056" href="#L1056">1056</a> 		<em class="jxr_comment">// contract: the statements have their comment even if they are nested in another block</em>
+<a class="jxr_linenumber" name="L1057" href="#L1057">1057</a> 		Launcher launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L1058" href="#L1058">1058</a> 		launcher.addInputResource(<span class="jxr_string">"./src/test/java/spoon/test/comment/testclasses/CommentsOnStatements.java"</span>);
+<a class="jxr_linenumber" name="L1059" href="#L1059">1059</a> 		launcher.getEnvironment().setCommentEnabled(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L1060" href="#L1060">1060</a> 
+<a class="jxr_linenumber" name="L1061" href="#L1061">1061</a> 		CtModel model = launcher.buildModel();
+<a class="jxr_linenumber" name="L1062" href="#L1062">1062</a> 
+<a class="jxr_linenumber" name="L1063" href="#L1063">1063</a> 		List&lt;CtStatement&gt; statements = launcher.getFactory().Type().get(CommentsOnStatements.<strong class="jxr_keyword">class</strong>).getMethodsByName(<span class="jxr_string">"m1"</span>).get(0).getBody().getStatements();
+<a class="jxr_linenumber" name="L1064" href="#L1064">1064</a> 		assertEquals(2, statements.size());
+<a class="jxr_linenumber" name="L1065" href="#L1065">1065</a> 		CtIf ifStatement = (CtIf) statements.get(0);
+<a class="jxr_linenumber" name="L1066" href="#L1066">1066</a> 		assertEquals(Arrays.asList(<span class="jxr_string">"// c1"</span>), getCommentStrings(ifStatement));
+<a class="jxr_linenumber" name="L1067" href="#L1067">1067</a> 		assertEquals(Arrays.asList(<span class="jxr_string">"// c2 belongs to toto"</span>), getCommentStrings(((CtBlock) ifStatement.getThenStatement()).getStatement(0)));
+<a class="jxr_linenumber" name="L1068" href="#L1068">1068</a> 		CtIf <strong class="jxr_keyword">if</strong>2Statement = (CtIf) ((CtBlock) ifStatement.getElseStatement()).getStatement(0);
+<a class="jxr_linenumber" name="L1069" href="#L1069">1069</a> 		assertEquals(<span class="jxr_string">"// c3 belongs to getClass"</span> + newLine
+<a class="jxr_linenumber" name="L1070" href="#L1070">1070</a> 				+ <span class="jxr_string">"this.getClass()"</span>, ((CtBlock) <strong class="jxr_keyword">if</strong>2Statement.getThenStatement()).getStatement(0).toString());
+<a class="jxr_linenumber" name="L1071" href="#L1071">1071</a> 		assertEquals(Arrays.asList(<span class="jxr_string">"// c3 belongs to getClass"</span>), getCommentStrings(((CtBlock) <strong class="jxr_keyword">if</strong>2Statement.getThenStatement()).getStatement(0)));
+<a class="jxr_linenumber" name="L1072" href="#L1072">1072</a> 
+<a class="jxr_linenumber" name="L1073" href="#L1073">1073</a> 		assertEquals(Arrays.asList(<span class="jxr_string">"// c4 comment of return"</span>), getCommentStrings(statements.get(1)));
+<a class="jxr_linenumber" name="L1074" href="#L1074">1074</a> 	}
+<a class="jxr_linenumber" name="L1075" href="#L1075">1075</a> 
+<a class="jxr_linenumber" name="L1076" href="#L1076">1076</a> 	<strong class="jxr_keyword">private</strong> List&lt;String&gt; getCommentStrings(<a href="../../../spoon/reflect/declaration/CtElement.html">CtElement</a> ele) {
+<a class="jxr_linenumber" name="L1077" href="#L1077">1077</a> 		<strong class="jxr_keyword">return</strong> ele.getComments().stream().map(Object::toString).collect(Collectors.toList());
+<a class="jxr_linenumber" name="L1078" href="#L1078">1078</a> 	}
+<a class="jxr_linenumber" name="L1079" href="#L1079">1079</a> 
+<a class="jxr_linenumber" name="L1080" href="#L1080">1080</a> 	@Test
+<a class="jxr_linenumber" name="L1081" href="#L1081">1081</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCommentAssociationAndPrettyPrint() {
+<a class="jxr_linenumber" name="L1082" href="#L1082">1082</a> 		<em class="jxr_comment">//contract: all comments, which are before an element are assigned to that element</em>
+<a class="jxr_linenumber" name="L1083" href="#L1083">1083</a> 		Launcher launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L1084" href="#L1084">1084</a> 		launcher.addInputResource(<span class="jxr_string">"./src/test/java/spoon/test/comment/testclasses/TestClassWithComments.java"</span>);
+<a class="jxr_linenumber" name="L1085" href="#L1085">1085</a> 		launcher.getEnvironment().setCommentEnabled(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L1086" href="#L1086">1086</a> 
+<a class="jxr_linenumber" name="L1087" href="#L1087">1087</a> 		CtModel model = launcher.buildModel();
+<a class="jxr_linenumber" name="L1088" href="#L1088">1088</a> 
+<a class="jxr_linenumber" name="L1089" href="#L1089">1089</a> 		Factory factory = launcher.getFactory();
+<a class="jxr_linenumber" name="L1090" href="#L1090">1090</a> 		CtType&lt;?&gt; cls = factory.Type().get(TestClassWithComments.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L1091" href="#L1091">1091</a> 		
+<a class="jxr_linenumber" name="L1092" href="#L1092">1092</a> 		assertEquals(1, cls.getComments().size());
+<a class="jxr_linenumber" name="L1093" href="#L1093">1093</a> 		CtType&lt;?&gt; nestedIface = cls.getNestedType(<span class="jxr_string">"testInterface"</span>);
+<a class="jxr_linenumber" name="L1094" href="#L1094">1094</a> 		assertEquals(4, nestedIface.getComments().size());
+<a class="jxr_linenumber" name="L1095" href="#L1095">1095</a> 		CtMethod&lt;?&gt; method = nestedIface.getMethodsByName(<span class="jxr_string">"mytest"</span>).get(0);
+<a class="jxr_linenumber" name="L1096" href="#L1096">1096</a> 		assertEquals(1, method.getComments().size());
+<a class="jxr_linenumber" name="L1097" href="#L1097">1097</a> 	}
+<a class="jxr_linenumber" name="L1098" href="#L1098">1098</a> 
+<a class="jxr_linenumber" name="L1099" href="#L1099">1099</a> 	@Test
+<a class="jxr_linenumber" name="L1100" href="#L1100">1100</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCommentGetRawContent() {
+<a class="jxr_linenumber" name="L1101" href="#L1101">1101</a> 		Launcher launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L1102" href="#L1102">1102</a> 		launcher.addInputResource(<span class="jxr_string">"./src/test/resources/comment/JavaDocComment.java"</span>);
+<a class="jxr_linenumber" name="L1103" href="#L1103">1103</a> 		launcher.getEnvironment().setCommentEnabled(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L1104" href="#L1104">1104</a> 		launcher.run();
+<a class="jxr_linenumber" name="L1105" href="#L1105">1105</a> 
+<a class="jxr_linenumber" name="L1106" href="#L1106">1106</a> 		CtClass&lt;?&gt; type = (CtClass&lt;?&gt;) launcher.getFactory().Type().get(<span class="jxr_string">"spoon.test.comment.testclasses.JavaDocComment"</span>);
+<a class="jxr_linenumber" name="L1107" href="#L1107">1107</a> 		<em class="jxr_comment">//contract: getContent always returns cleaned comment content with \n as EOL</em>
+<a class="jxr_linenumber" name="L1108" href="#L1108">1108</a> 		assertEquals(<span class="jxr_string">"JavaDoc test class.\n"</span> + 
+<a class="jxr_linenumber" name="L1109" href="#L1109">1109</a> 				<span class="jxr_string">"\n"</span> + 
+<a class="jxr_linenumber" name="L1110" href="#L1110">1110</a> 				<span class="jxr_string">"Long description"</span>, type.getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1111" href="#L1111">1111</a> 		<em class="jxr_comment">// contract: return the full original comment with prefix and suffix, incl. the original EOL (\r as EOL here)</em>
+<a class="jxr_linenumber" name="L1112" href="#L1112">1112</a> 		assertEquals(<span class="jxr_string">"/**\r"</span> + 
+<a class="jxr_linenumber" name="L1113" href="#L1113">1113</a> 				<span class="jxr_string">" * JavaDoc test class.\r"</span> + 
+<a class="jxr_linenumber" name="L1114" href="#L1114">1114</a> 				<span class="jxr_string">" *\r"</span> + 
+<a class="jxr_linenumber" name="L1115" href="#L1115">1115</a> 				<span class="jxr_string">" * Long description\r"</span> + 
+<a class="jxr_linenumber" name="L1116" href="#L1116">1116</a> 				<span class="jxr_string">" *\r"</span> + 
+<a class="jxr_linenumber" name="L1117" href="#L1117">1117</a> 				<span class="jxr_string">" * @deprecated\r"</span> + 
+<a class="jxr_linenumber" name="L1118" href="#L1118">1118</a> 				<span class="jxr_string">" * @since 1.3\r"</span> + 
+<a class="jxr_linenumber" name="L1119" href="#L1119">1119</a> 				<span class="jxr_string">" * @author Thomas Durieux\r"</span> + 
+<a class="jxr_linenumber" name="L1120" href="#L1120">1120</a> 				<span class="jxr_string">" * @version 1.0\r"</span> + 
+<a class="jxr_linenumber" name="L1121" href="#L1121">1121</a> 				<span class="jxr_string">" */"</span>, type.getComments().get(0).getRawContent());
+<a class="jxr_linenumber" name="L1122" href="#L1122">1122</a> 	}
+<a class="jxr_linenumber" name="L1123" href="#L1123">1123</a> 	@Test
+<a class="jxr_linenumber" name="L1124" href="#L1124">1124</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testEmptyStatementComments() {
+<a class="jxr_linenumber" name="L1125" href="#L1125">1125</a> 		<em class="jxr_comment">//contract: model building should not produce NPE, comments should exist</em>
+<a class="jxr_linenumber" name="L1126" href="#L1126">1126</a> 		Launcher launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L1127" href="#L1127">1127</a> 		launcher.addInputResource(<span class="jxr_string">"./src/test/java/spoon/test/comment/testclasses/EmptyStatementComments.java"</span>);
+<a class="jxr_linenumber" name="L1128" href="#L1128">1128</a> 		launcher.getEnvironment().setCommentEnabled(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L1129" href="#L1129">1129</a> 
+<a class="jxr_linenumber" name="L1130" href="#L1130">1130</a> 		CtModel model = launcher.buildModel();
+<a class="jxr_linenumber" name="L1131" href="#L1131">1131</a> 		List&lt;CtIf&gt; conditions = model.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtIf.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L1132" href="#L1132">1132</a> 		assertEquals(<span class="jxr_string">"comment"</span>, conditions.get(0).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1133" href="#L1133">1133</a> 		assertEquals(<span class="jxr_string">"comment"</span>, conditions.get(1).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1134" href="#L1134">1134</a> 	}
+<a class="jxr_linenumber" name="L1135" href="#L1135">1135</a> 
+<a class="jxr_linenumber" name="L1136" href="#L1136">1136</a> 	@Test
+<a class="jxr_linenumber" name="L1137" href="#L1137">1137</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testAnnotationTypeComment() {
+<a class="jxr_linenumber" name="L1138" href="#L1138">1138</a> 		<em class="jxr_comment">//contract: comments in annotations should be properly added to the AST</em>
+<a class="jxr_linenumber" name="L1139" href="#L1139">1139</a> 		Launcher launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L1140" href="#L1140">1140</a> 		launcher.addInputResource(<span class="jxr_string">"./src/test/java/spoon/test/comment/testclasses/AnnotationTypeComments.java"</span>);
+<a class="jxr_linenumber" name="L1141" href="#L1141">1141</a> 		launcher.getEnvironment().setCommentEnabled(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L1142" href="#L1142">1142</a> 		CtModel model = launcher.buildModel();
+<a class="jxr_linenumber" name="L1143" href="#L1143">1143</a> 
+<a class="jxr_linenumber" name="L1144" href="#L1144">1144</a> 		List&lt;CtAnnotationType&gt; annotations = model.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtAnnotationType.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L1145" href="#L1145">1145</a> 		assertEquals(<span class="jxr_string">"comment1"</span>, annotations.get(0).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1146" href="#L1146">1146</a> 		assertTrue(annotations.get(1).getComments().isEmpty());
+<a class="jxr_linenumber" name="L1147" href="#L1147">1147</a> 
+<a class="jxr_linenumber" name="L1148" href="#L1148">1148</a> 		Object[] annotationMethods = annotations.get(1).getAnnotationMethods().toArray();
+<a class="jxr_linenumber" name="L1149" href="#L1149">1149</a> 		assertEquals(<span class="jxr_string">"comment1"</span>, ((CtAnnotationMethod) annotationMethods[0]).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1150" href="#L1150">1150</a> 		assertEquals(<span class="jxr_string">"comment2"</span>, ((CtAnnotationMethod) annotationMethods[0]).getComments().get(1).getContent());
+<a class="jxr_linenumber" name="L1151" href="#L1151">1151</a> 		assertEquals(<span class="jxr_string">"comment3"</span>, ((CtAnnotationMethod) annotationMethods[1]).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1152" href="#L1152">1152</a> 		assertEquals(<span class="jxr_string">"comment4"</span>, ((CtAnnotationMethod) annotationMethods[3]).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1153" href="#L1153">1153</a> 	}
+<a class="jxr_linenumber" name="L1154" href="#L1154">1154</a> 
+<a class="jxr_linenumber" name="L1155" href="#L1155">1155</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testLambdaComments() {
+<a class="jxr_linenumber" name="L1156" href="#L1156">1156</a> 		<em class="jxr_comment">//contract: comments in lambdas should be properly added to the AST</em>
+<a class="jxr_linenumber" name="L1157" href="#L1157">1157</a> 		Launcher launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L1158" href="#L1158">1158</a> 		launcher.addInputResource(<span class="jxr_string">"./src/test/java/spoon/test/comment/testclasses/LambdaComments.java"</span>);
+<a class="jxr_linenumber" name="L1159" href="#L1159">1159</a> 		launcher.getEnvironment().setCommentEnabled(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L1160" href="#L1160">1160</a> 		CtModel model = launcher.buildModel();
+<a class="jxr_linenumber" name="L1161" href="#L1161">1161</a> 
+<a class="jxr_linenumber" name="L1162" href="#L1162">1162</a> 		List&lt;CtLambda&gt; lambdas = model.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtLambda.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L1163" href="#L1163">1163</a> 		assertEquals(<span class="jxr_string">"comment"</span>, lambdas.get(0).getExpression().getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1164" href="#L1164">1164</a> 		assertEquals(<span class="jxr_string">"comment"</span>, lambdas.get(1).getExpression().getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1165" href="#L1165">1165</a> 		assertEquals(<span class="jxr_string">"comment"</span>, lambdas.get(2).getExpression().getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1166" href="#L1166">1166</a> 		assertEquals(<span class="jxr_string">"comment"</span>, lambdas.get(3).getParent().getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1167" href="#L1167">1167</a> 		assertEquals(<span class="jxr_string">""</span>, lambdas.get(4).getExpression().getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1168" href="#L1168">1168</a> 
+<a class="jxr_linenumber" name="L1169" href="#L1169">1169</a> 		assertEquals(<span class="jxr_string">"comment"</span>, lambdas.get(5).getBody().getStatement(0).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1170" href="#L1170">1170</a> 		assertEquals(<span class="jxr_string">"comment"</span>, lambdas.get(6).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1171" href="#L1171">1171</a> 		assertEquals(<span class="jxr_string">"comment"</span>, lambdas.get(7).getBody().getStatement(0).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1172" href="#L1172">1172</a> 
+<a class="jxr_linenumber" name="L1173" href="#L1173">1173</a> 		assertTrue(lambdas.get(8).getParent().getComments().isEmpty());
+<a class="jxr_linenumber" name="L1174" href="#L1174">1174</a> 		assertTrue(lambdas.get(8).getComments().isEmpty());
+<a class="jxr_linenumber" name="L1175" href="#L1175">1175</a> 		assertTrue(lambdas.get(8).getExpression().getComments().isEmpty());
+<a class="jxr_linenumber" name="L1176" href="#L1176">1176</a> 		assertEquals(1, ((CtParameter) lambdas.get(8).getParameters().get(0)).getComments().size());
+<a class="jxr_linenumber" name="L1177" href="#L1177">1177</a> 		assertEquals(1, ((CtParameter) lambdas.get(8).getParameters().get(1)).getComments().size());
+<a class="jxr_linenumber" name="L1178" href="#L1178">1178</a> 		assertEquals(<span class="jxr_string">"param1"</span>, ((CtParameter) lambdas.get(8).getParameters().get(0)).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1179" href="#L1179">1179</a> 		assertEquals(<span class="jxr_string">"param2"</span>, ((CtParameter) lambdas.get(8).getParameters().get(1)).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1180" href="#L1180">1180</a> 
+<a class="jxr_linenumber" name="L1181" href="#L1181">1181</a> 		assertEquals(<span class="jxr_string">"param1"</span>, ((CtParameter) lambdas.get(9).getParameters().get(0)).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1182" href="#L1182">1182</a> 		assertEquals(<span class="jxr_string">"param2"</span>, ((CtParameter) lambdas.get(9).getParameters().get(1)).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1183" href="#L1183">1183</a> 
+<a class="jxr_linenumber" name="L1184" href="#L1184">1184</a> 		assertEquals(<span class="jxr_string">"param1"</span>, ((CtParameter) lambdas.get(10).getParameters().get(0)).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1185" href="#L1185">1185</a> 		assertEquals(<span class="jxr_string">"param2"</span>, ((CtParameter) lambdas.get(10).getParameters().get(1)).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1186" href="#L1186">1186</a> 
+<a class="jxr_linenumber" name="L1187" href="#L1187">1187</a> 		assertTrue(((CtParameter) lambdas.get(11).getParameters().get(0)).getComments().isEmpty());
+<a class="jxr_linenumber" name="L1188" href="#L1188">1188</a> 		assertEquals(<span class="jxr_string">"param2"</span>, ((CtParameter) lambdas.get(11).getParameters().get(1)).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1189" href="#L1189">1189</a> 
+<a class="jxr_linenumber" name="L1190" href="#L1190">1190</a> 		assertEquals(<span class="jxr_string">"param1"</span>, ((CtParameter) lambdas.get(12).getParameters().get(0)).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1191" href="#L1191">1191</a> 		assertEquals(<span class="jxr_string">"param1"</span>, ((CtParameter) lambdas.get(12).getParameters().get(0)).getComments().get(1).getContent());
+<a class="jxr_linenumber" name="L1192" href="#L1192">1192</a> 		assertEquals(<span class="jxr_string">"param2"</span>, ((CtParameter) lambdas.get(12).getParameters().get(1)).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1193" href="#L1193">1193</a> 		assertEquals(<span class="jxr_string">"param2"</span>, ((CtParameter) lambdas.get(12).getParameters().get(1)).getComments().get(1).getContent());
+<a class="jxr_linenumber" name="L1194" href="#L1194">1194</a> 	}
+<a class="jxr_linenumber" name="L1195" href="#L1195">1195</a> 
+<a class="jxr_linenumber" name="L1196" href="#L1196">1196</a> 	@Test
+<a class="jxr_linenumber" name="L1197" href="#L1197">1197</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCatchComments() {
+<a class="jxr_linenumber" name="L1198" href="#L1198">1198</a> 		<em class="jxr_comment">//contract: comments in catch should be properly added to the AST</em>
+<a class="jxr_linenumber" name="L1199" href="#L1199">1199</a> 		Launcher launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L1200" href="#L1200">1200</a> 		launcher.addInputResource(<span class="jxr_string">"./src/test/java/spoon/test/comment/testclasses/CatchComments.java"</span>);
+<a class="jxr_linenumber" name="L1201" href="#L1201">1201</a> 		launcher.getEnvironment().setCommentEnabled(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L1202" href="#L1202">1202</a> 		CtModel model = launcher.buildModel();
+<a class="jxr_linenumber" name="L1203" href="#L1203">1203</a> 
+<a class="jxr_linenumber" name="L1204" href="#L1204">1204</a> 		List&lt;CtCatch&gt; catches = model.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;&gt;(CtCatch.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L1205" href="#L1205">1205</a> 		assertEquals(1, catches.get(0).getComments().size());
+<a class="jxr_linenumber" name="L1206" href="#L1206">1206</a> 		assertEquals(<span class="jxr_string">"first comment"</span>, catches.get(0).getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1207" href="#L1207">1207</a> 		assertEquals(1, catches.get(0).getBody().getComments().size());
+<a class="jxr_linenumber" name="L1208" href="#L1208">1208</a> 		assertEquals(<span class="jxr_string">"second comment"</span>, catches.get(0).getBody().getComments().get(0).getContent());
+<a class="jxr_linenumber" name="L1209" href="#L1209">1209</a> 	}
+<a class="jxr_linenumber" name="L1210" href="#L1210">1210</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

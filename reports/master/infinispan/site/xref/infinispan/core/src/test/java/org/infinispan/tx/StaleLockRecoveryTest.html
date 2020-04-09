@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>StaleLockRecoveryTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../apidocs/org/infinispan/tx/StaleLockRecoveryTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> org.infinispan.tx;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.infinispan.Cache;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.infinispan.configuration.cache.CacheMode;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.infinispan.configuration.cache.ConfigurationBuilder;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.infinispan.manager.EmbeddedCacheManager;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.infinispan.remoting.RemoteException;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.infinispan.test.MultipleCacheManagersTest;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.infinispan.test.TestingUtil;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.infinispan.transaction.LockingMode;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> org.infinispan.util.concurrent.TimeoutException;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> javax.transaction.NotSupportedException;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> javax.transaction.SystemException;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> javax.transaction.TransactionManager;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment"> * Tests what happens when a member acquires locks and then dies.</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment"> * @author Manik Surtani</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment"> * @since 4.0</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  @Test(groups = <span class="jxr_string">"functional"</span>, testName = <span class="jxr_string">"tx.StaleLockRecoveryTest"</span>)
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/infinispan/tx/StaleLockRecoveryTest.html">StaleLockRecoveryTest</a> <strong class="jxr_keyword">extends</strong> <a href="../../../org/infinispan/test/MultipleCacheManagersTest.html">MultipleCacheManagersTest</a> {
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>     <strong class="jxr_keyword">private</strong> Cache&lt;String, String&gt; c1, c2;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>     @Override
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> createCacheManagers() <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>        <a href="../../../org/infinispan/configuration/cache/ConfigurationBuilder.html">ConfigurationBuilder</a> c = getDefaultClusteredCacheConfig(CacheMode.REPL_SYNC, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>        c.transaction().lockingMode(LockingMode.PESSIMISTIC)
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>              .locking().lockAcquisitionTimeout(500);
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>        List&lt;Cache&lt;String, String&gt;&gt; caches = createClusteredCaches(2, <span class="jxr_string">"tx"</span>, c);
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>        c1 = caches.get(0);
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>        c2 = caches.get(1);
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>     }
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testStaleLock() <strong class="jxr_keyword">throws</strong> SystemException, NotSupportedException {
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>        c1.put(<span class="jxr_string">"k"</span>, <span class="jxr_string">"v"</span>);
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>        assert c1.get(<span class="jxr_string">"k"</span>).equals(<span class="jxr_string">"v"</span>);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>        assert c2.get(<span class="jxr_string">"k"</span>).equals(<span class="jxr_string">"v"</span>);
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>        TransactionManager tm = TestingUtil.getTransactionManager(c1);
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>        tm.begin();
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>        c1.getAdvancedCache().lock(<span class="jxr_string">"k"</span>);
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>        tm.suspend();
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>        <em class="jxr_comment">// test that both c1 and c2 have locked k</em>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>        assertLocked(c1, <span class="jxr_string">"k"</span>);
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>        assertLocked(c2, <span class="jxr_string">"k"</span>);
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>        cacheManagers.get(0).stop();
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>        TestingUtil.blockUntilViewReceived(c2, 1);
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>        <a href="../../../org/infinispan/manager/EmbeddedCacheManager.html">EmbeddedCacheManager</a> cacheManager = c2.getCacheManager();
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>        assert cacheManager.getMembers().size() == 1;
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>        <em class="jxr_comment">// may take a while from when the view change is seen through to when the lock is cleared</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>        TestingUtil.sleepThread(1000);
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>        assertNotLocked(c2, <span class="jxr_string">"k"</span>);
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>     }
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> assertLocked(Cache&lt;String, String&gt; c, String key) <strong class="jxr_keyword">throws</strong> SystemException, NotSupportedException {
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>        TransactionManager tm = TestingUtil.getTransactionManager(c);
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>        tm.begin();
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>        <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>           c.put(key, <span class="jxr_string">"dummy"</span>); <em class="jxr_comment">// should time out</em>
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>           assert false : <span class="jxr_string">"Should have been locked!"</span>;
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>        } <strong class="jxr_keyword">catch</strong> (TimeoutException e) {
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>           <em class="jxr_comment">// ignoring timeout exception</em>
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>        } <strong class="jxr_keyword">catch</strong> (RemoteException e) {
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>           assert e.getCause() instanceof TimeoutException;
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>           <em class="jxr_comment">// ignoring timeout exception</em>
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>        } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>           tm.rollback();
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>        }
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>     }
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> assertNotLocked(Cache&lt;String, String&gt; c, String key) <strong class="jxr_keyword">throws</strong> SystemException, NotSupportedException {
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>        TransactionManager tm = TestingUtil.getTransactionManager(c);
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>        tm.begin();
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>        <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>           c.put(key, <span class="jxr_string">"dummy"</span>); <em class="jxr_comment">// should time out</em>
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>        } <strong class="jxr_keyword">catch</strong> (TimeoutException e) {
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>           assert false : <span class="jxr_string">"Should not have been locked!"</span>;
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>        } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>           tm.rollback();
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>        }
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>     }
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

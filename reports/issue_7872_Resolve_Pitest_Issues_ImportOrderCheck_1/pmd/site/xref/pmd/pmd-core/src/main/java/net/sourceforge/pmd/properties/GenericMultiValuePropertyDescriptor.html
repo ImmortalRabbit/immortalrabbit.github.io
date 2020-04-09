@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>GenericMultiValuePropertyDescriptor xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../../apidocs/net/sourceforge/pmd/properties/GenericMultiValuePropertyDescriptor.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * BSD-style license; for more info see <a href="http://pmd.sourceforge.net/license.htm" target="alexandria_uri">http://pmd.sourceforge.net/license.htm</a>l</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">package</strong> net.sourceforge.pmd.properties;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> java.util.ArrayList;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> java.util.Collection;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> java.util.Set;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> net.sourceforge.pmd.properties.constraints.PropertyConstraint;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> * If we implement schema changes to properties, delimiter logic will probably be scrapped,</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> * and hence the divide between multi-value and single-value property descriptors. We can then</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment"> * use a single class for all property descriptors.</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment"> * @author Clément Fournier</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment"> * @since 6.10.0</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> GenericMultiValuePropertyDescriptor&lt;V, C <strong class="jxr_keyword">extends</strong> Collection&lt;V&gt;&gt; <strong class="jxr_keyword">extends</strong> AbstractMultiValueProperty&lt;V&gt; {
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> Set&lt;PropertyConstraint&lt;? <strong class="jxr_keyword">super</strong> C&gt;&gt; listValidators;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> ValueParser&lt;V&gt; parser;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> Class&lt;V&gt; type;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>      <a href="../../../../net/sourceforge/pmd/properties/GenericMultiValuePropertyDescriptor.html">GenericMultiValuePropertyDescriptor</a>(String name, String description, <strong class="jxr_keyword">float</strong> uiOrder,
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>                                          Collection&lt;V&gt; defaultValue,
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>                                          Set&lt;PropertyConstraint&lt;? <strong class="jxr_keyword">super</strong> C&gt;&gt; listValidators,
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>                                          ValueParser&lt;V&gt; parser,
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>                                          <strong class="jxr_keyword">char</strong> delim,
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>                                          Class&lt;V&gt; type) {
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>          <em class="jxr_comment">// this cast is safe until 7.0.0</em>
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>          <strong class="jxr_keyword">super</strong>(name, description, (List&lt;V&gt;) defaultValue, uiOrder, delim, false);
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>          <strong class="jxr_keyword">this</strong>.listValidators = listValidators;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>          <strong class="jxr_keyword">this</strong>.parser = parser;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>          <strong class="jxr_keyword">this</strong>.type = type;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>          String dftValueError = errorFor(<strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;(defaultValue));
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>          <strong class="jxr_keyword">if</strong> (dftValueError != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(dftValueError);
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>          }
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>      }
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>      @SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>      @Override
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>      <strong class="jxr_keyword">public</strong> String errorFor(List&lt;V&gt; values) {
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>          <strong class="jxr_keyword">for</strong> (PropertyConstraint&lt;? <strong class="jxr_keyword">super</strong> C&gt; lv : listValidators) {
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>              <em class="jxr_comment">// Note: the unchecked cast is safe because pre-7.0.0,</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>              <em class="jxr_comment">// we only allow building property descriptors for lists.</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>              <em class="jxr_comment">// C is thus always List&lt;V&gt;, and the cast doesn't fail</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>              <em class="jxr_comment">// Post-7.0.0, the multi-value property classes will be removed</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>              <em class="jxr_comment">// and C will be the actual type parameter of the returned property</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>              <em class="jxr_comment">// descriptor</em>
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>              String error = lv.validate((C) values);
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>              <strong class="jxr_keyword">if</strong> (error != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>                  <strong class="jxr_keyword">return</strong> error;
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>              }
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>          }
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>      }
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      @Override
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>      <strong class="jxr_keyword">protected</strong> V createFrom(String toParse) {
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>          <strong class="jxr_keyword">return</strong> parser.valueOf(toParse);
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      }
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>      @Override
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>      <strong class="jxr_keyword">public</strong> Class&lt;V&gt; type() {
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>          <strong class="jxr_keyword">return</strong> type;
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>      }
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

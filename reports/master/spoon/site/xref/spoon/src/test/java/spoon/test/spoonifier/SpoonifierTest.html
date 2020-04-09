@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>SpoonifierTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../apidocs/spoon/test/spoonifier/SpoonifierTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (C) 2006-2019 INRIA and contributors</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> * Spoon is available either under the terms of the MIT License (see LICENSE-MIT.txt) of the Cecill-C License (see LICENSE-CECILL-C.txt). You as the user are entitled to choose the terms under which to adopt Spoon.</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">package</strong> spoon.test.spoonifier;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.junit.Ignore;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.junit.Test;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> spoon.Launcher;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> spoon.SpoonModelBuilder;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> spoon.experimental.SpoonifyVisitor;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.CtModel;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtClass;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtElement;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.declaration.CtType;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.factory.Factory;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> spoon.reflect.visitor.filter.TypeFilter;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> java.io.File;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> java.lang.reflect.InvocationTargetException;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> java.lang.reflect.Method;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> java.net.MalformedURLException;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> java.net.URL;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> java.net.URLClassLoader;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> java.nio.file.Files;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> java.nio.file.Paths;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> java.util.Iterator;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> java.util.stream.Collectors;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertEquals;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../spoon/test/spoonifier/SpoonifierTest.html">SpoonifierTest</a> {
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment">	 * This test is too long for CI, but it checks that SpoonifierVisitor does produce equivalent Type for all</em>
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment">	 * files used for testing purposes.</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  	@Ignore
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  	@Test
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testOnAllTestClasses() <strong class="jxr_keyword">throws</strong> IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  		<em class="jxr_comment">//Get all testclasses files</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  		List&lt;String&gt; testCases = Files.walk(Paths.get(<span class="jxr_string">"src/test/java/spoon/test"</span>))
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  				.filter(Files::isRegularFile)
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  				.filter(f -&gt; f.toString().endsWith(<span class="jxr_string">".java"</span>))
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  				.filter(f -&gt; !f.toString().endsWith(<span class="jxr_string">"package-info.java"</span>))
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  				.filter(f -&gt; f.getParent().toString().endsWith(<span class="jxr_string">"testclasses"</span>))
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  				.map(f -&gt; f.toString())
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  				.collect(Collectors.toList());
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  		<em class="jxr_comment">// The code of method get(Factory) is exceeding the 65535 bytes limit</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  		<em class="jxr_comment">// Generated code is too long.</em>
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  		testCases.remove(<span class="jxr_string">"src/test/java/spoon/test/refactoring/testclasses/CtRenameLocalVariableRefactoringTestSubject.java"</span>);
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  		testCases.remove(<span class="jxr_string">"src/test/java/spoon/test/query_function/testclasses/VariableReferencesModelTest.java"</span>);
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  		<em class="jxr_comment">//Carpet debugging, but this case of comment is not completely handled in spoon currently anyway...</em>
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  		testCases.remove(<span class="jxr_string">"src/test/java/spoon/test/prettyprinter/testclasses/ToBeChanged.java"</span>);
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  		testCases.remove(<span class="jxr_string">"src/test/java/spoon/test/position/testclasses/PositionParameterTypeWithReference.java"</span>);
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  		testCases.remove(<span class="jxr_string">"src/test/java/spoon/test/position/testclasses/Expressions.java"</span>);
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  		<em class="jxr_comment">//order problem in map container...</em>
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  		testCases.remove(<span class="jxr_string">"src/test/java/spoon/test/annotation/testclasses/Main.java"</span>);
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  		<strong class="jxr_keyword">int</strong> i = 0;
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  		<strong class="jxr_keyword">for</strong> (String path: testCases) {
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  			System.out.println(<span class="jxr_string">"("</span> + i + <span class="jxr_string">" / "</span> + testCases.size() + <span class="jxr_string">") Test on "</span> + path);
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  			testSpoonifierWith(path, i++);
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  		}
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  	}
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  	@Test
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSpoonifier() <strong class="jxr_keyword">throws</strong> ClassNotFoundException, MalformedURLException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  		<strong class="jxr_keyword">int</strong> i = 0;
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  		<em class="jxr_comment">//testSpoonifierWith("src/test/java/spoon/test/annotation/testclasses/Main.java", i++);</em>
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  		testSpoonifierWith(<span class="jxr_string">"src/test/java/spoon/test/labels/testclasses/ManyLabels.java"</span>, i++);
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  		testSpoonifierWith(<span class="jxr_string">"src/test/java/spoon/test/api/testclasses/Bar.java"</span>, i++);
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>  		testSpoonifierWith(<span class="jxr_string">"src/test/java/spoon/test/refactoring/parameter/testclasses/TestHierarchy.java"</span>, i++);
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  		testSpoonifierWith(<span class="jxr_string">"src/test/java/spoon/test/arrays/testclasses/VaragParam.java"</span>, i++);
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  		testSpoonifierWith(<span class="jxr_string">"src/test/java/spoon/test/arrays/testclasses/NewArrayWithComment.java"</span>, i++);
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  		testSpoonifierWith(<span class="jxr_string">"src/test/java/spoon/test/model/testclasses/AnonymousExecutableClass.java"</span>, i++);
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  		testSpoonifierWith(<span class="jxr_string">"src/test/java/spoon/test/fieldaccesses/testclasses/Panini.java"</span>, i++);
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  		testSpoonifierWith(<span class="jxr_string">"src/test/java/spoon/test/prettyprinter/testclasses/A.java"</span>, i++);
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  		testSpoonifierWith(<span class="jxr_string">"src/test/java/spoon/test/prettyprinter/testclasses/AClass.java"</span>, i++);
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  		testSpoonifierWith(<span class="jxr_string">"src/test/java/spoon/test/spoonifier/testclasses/ArrayRealVector.java"</span>, i++);
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>  		testSpoonifierWith(<span class="jxr_string">"src/test/java/spoon/test/prettyprinter/testclasses/FooCasper.java"</span>, i++);
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  		testSpoonifierWith(<span class="jxr_string">"src/test/java/spoon/test/prettyprinter/testclasses/Rule.java"</span>, i++);
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  	}
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>  
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  <em class="jxr_javadoccomment">	 * This test is too long for CI, but it checks that SpoonifierVisitor does produce equivalent CtElement for all</em>
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  <em class="jxr_javadoccomment">	 * CtElement in Rule</em>
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  	@Ignore
+<a class="jxr_linenumber" name="L100" href="#L100">100</a> 	@Test
+<a class="jxr_linenumber" name="L101" href="#L101">101</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSpoonifierElement() <strong class="jxr_keyword">throws</strong> ClassNotFoundException, MalformedURLException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> 		<strong class="jxr_keyword">int</strong> i = 0;
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> 
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> 		<em class="jxr_comment">//Build the model of the given class</em>
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> 		Launcher launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 		launcher.addInputResource(<span class="jxr_string">"src/test/java/spoon/test/prettyprinter/testclasses/Rule.java"</span>);
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 		CtModel model = launcher.buildModel();
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> 		List&lt;CtType&gt; l = model.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;CtType&gt;(CtType.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> 		<strong class="jxr_keyword">if</strong> (l.isEmpty()) <strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> 		CtType targetType = l.get(0);
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 		Iterator&lt;CtElement&gt; iterator =  targetType.descendantIterator();
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 		<strong class="jxr_keyword">while</strong> (iterator.hasNext()) {
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> 			testSpoonifierWith(iterator.next(),i++);
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 		}
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 
+<a class="jxr_linenumber" name="L116" href="#L116">116</a> 
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> 	}
+<a class="jxr_linenumber" name="L118" href="#L118">118</a> 
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> <em class="jxr_javadoccomment">	 * @param pathToClass path to the class that will be Spoonified</em>
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> <em class="jxr_javadoccomment">	 * @param i an integer to avoid duplicated classes</em>
+<a class="jxr_linenumber" name="L122" href="#L122">122</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> <em class="jxr_javadoccomment">	 * This method verifies that SpoonifyVisitor can generate code that replicates a class</em>
+<a class="jxr_linenumber" name="L124" href="#L124">124</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L125" href="#L125">125</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSpoonifierWith(String pathToClass, <strong class="jxr_keyword">int</strong> i) <strong class="jxr_keyword">throws</strong> ClassNotFoundException, MalformedURLException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 
+<a class="jxr_linenumber" name="L127" href="#L127">127</a> 		<em class="jxr_comment">//Build the model of the given class</em>
+<a class="jxr_linenumber" name="L128" href="#L128">128</a> 		Launcher launcher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L129" href="#L129">129</a> 		launcher.addInputResource(pathToClass);
+<a class="jxr_linenumber" name="L130" href="#L130">130</a> 		CtModel model = launcher.buildModel();
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> 		List&lt;CtType&gt; l = model.getElements(<strong class="jxr_keyword">new</strong> TypeFilter&lt;CtType&gt;(CtType.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L132" href="#L132">132</a> 		<strong class="jxr_keyword">if</strong> (l.isEmpty()) <strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> 		CtType targetType = l.get(0);
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> 		testSpoonifierWith(targetType, i);
+<a class="jxr_linenumber" name="L135" href="#L135">135</a> 	}
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> 
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> <em class="jxr_javadoccomment">	 * @param targetElement that will be Spoonified</em>
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> <em class="jxr_javadoccomment">	 * @param i an integer to avoid duplicated classes</em>
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> <em class="jxr_javadoccomment">	 * This method verifies that SpoonifyVisitor can generate code that replicates a class</em>
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSpoonifierWith(<a href="../../../spoon/reflect/declaration/CtElement.html">CtElement</a> targetElement, <strong class="jxr_keyword">int</strong> i)
+<a class="jxr_linenumber" name="L144" href="#L144">144</a> 			<strong class="jxr_keyword">throws</strong> MalformedURLException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> 		<em class="jxr_comment">//Spoonify</em>
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> 		String wrapper = generateSpoonifiyWrapper(targetElement, i);
+<a class="jxr_linenumber" name="L148" href="#L148">148</a> 
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> 		<em class="jxr_comment">//Output launcher containing a class wrapping the generated code</em>
+<a class="jxr_linenumber" name="L150" href="#L150">150</a> 		Launcher oLauncher = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/Launcher.html">Launcher</a>();
+<a class="jxr_linenumber" name="L151" href="#L151">151</a> 		File outputBinDir = <strong class="jxr_keyword">new</strong> File(<span class="jxr_string">"./spooned-classes/"</span>);
+<a class="jxr_linenumber" name="L152" href="#L152">152</a> 		oLauncher.setBinaryOutputDirectory(outputBinDir);
+<a class="jxr_linenumber" name="L153" href="#L153">153</a> 
+<a class="jxr_linenumber" name="L154" href="#L154">154</a> 		CtClass wrapperClass = oLauncher.parseClass(wrapper);
+<a class="jxr_linenumber" name="L155" href="#L155">155</a> 		CtModel oModel = oLauncher.buildModel();
+<a class="jxr_linenumber" name="L156" href="#L156">156</a> 		oLauncher.getEnvironment().disableConsistencyChecks();
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> 		oModel.getRootPackage().addType(wrapperClass);
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 		oLauncher.getModelBuilder().compile(SpoonModelBuilder.InputType.CTTYPES);
+<a class="jxr_linenumber" name="L159" href="#L159">159</a> 
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> 		<em class="jxr_comment">//Invoke the code generated</em>
+<a class="jxr_linenumber" name="L161" href="#L161">161</a> 		URLClassLoader urlClassLoader = <strong class="jxr_keyword">new</strong> URLClassLoader(<strong class="jxr_keyword">new</strong> URL[]{outputBinDir.toURI().toURL()});
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> 		Class rtWrapper = urlClassLoader.loadClass(<span class="jxr_string">"SpoonifierWrapper"</span> + i);
+<a class="jxr_linenumber" name="L163" href="#L163">163</a> 		Method get = rtWrapper.getMethod(<span class="jxr_string">"get"</span>, Factory.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L164" href="#L164">164</a> 		CtElement generatedElement = (CtElement) get.invoke(<strong class="jxr_keyword">null</strong>, targetElement.getFactory());
+<a class="jxr_linenumber" name="L165" href="#L165">165</a> 
+<a class="jxr_linenumber" name="L166" href="#L166">166</a> 		<em class="jxr_comment">//contract: The element created by the code generated by SpoonifyVisitor is equivalent to the visited element</em>
+<a class="jxr_linenumber" name="L167" href="#L167">167</a> 		assertEquals(targetElement, generatedElement);
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> 	}
+<a class="jxr_linenumber" name="L169" href="#L169">169</a> 
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> 	<em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> <em class="jxr_comment">	 * Generates a class with a single static method:</em>
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> <em class="jxr_comment">	 * public static CtElement get(Factory factory);</em>
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> <em class="jxr_comment">	 * This method calls the code generated by SpoonifyVisitor to</em>
+<a class="jxr_linenumber" name="L174" href="#L174">174</a> <em class="jxr_comment">	 * recreate a CtElement equaled to the one visited.</em>
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> <em class="jxr_comment">	 */</em>
+<a class="jxr_linenumber" name="L176" href="#L176">176</a> 	<strong class="jxr_keyword">public</strong> String generateSpoonifiyWrapper(<a href="../../../spoon/reflect/declaration/CtElement.html">CtElement</a> element, <strong class="jxr_keyword">int</strong> i) {
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> 		String elementClass = element.getClass().getSimpleName();
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> 		<strong class="jxr_keyword">if</strong> (elementClass.endsWith(<span class="jxr_string">"Impl"</span>)) {
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> 			elementClass = elementClass.replace(<span class="jxr_string">"Impl"</span>,<span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> 		}
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> 		String variableName = elementClass.substring(0, 1).toLowerCase() + elementClass.substring(1) + <span class="jxr_string">"0"</span>;
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> 
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> 		SpoonifyVisitor spoonifier = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/experimental/SpoonifyVisitor.html">SpoonifyVisitor</a>();
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> 		element.accept(spoonifier);
+<a class="jxr_linenumber" name="L185" href="#L185">185</a> 		StringBuffer buf = <strong class="jxr_keyword">new</strong> StringBuffer();
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> 		buf.append(<span class="jxr_string">"import java.util.*;\n"</span>);
+<a class="jxr_linenumber" name="L187" href="#L187">187</a> 		buf.append(<span class="jxr_string">"import spoon.reflect.code.*;\n"</span>);
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> 		buf.append(<span class="jxr_string">"import spoon.reflect.declaration.*;\n"</span>);
+<a class="jxr_linenumber" name="L189" href="#L189">189</a> 		buf.append(<span class="jxr_string">"import spoon.reflect.factory.Factory;\n"</span>);
+<a class="jxr_linenumber" name="L190" href="#L190">190</a> 		buf.append(<span class="jxr_string">"import spoon.reflect.path.CtRole;\n"</span>);
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> 		buf.append(<span class="jxr_string">"import spoon.reflect.reference.*;\n"</span>);
+<a class="jxr_linenumber" name="L192" href="#L192">192</a> 		buf.append(<span class="jxr_string">"public class SpoonifierWrapper"</span> + i + <span class="jxr_string">"{\n"</span>);
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> 		buf.append(<span class="jxr_string">"\tpublic static CtElement get(Factory factory) {\n"</span>);
+<a class="jxr_linenumber" name="L194" href="#L194">194</a> 		buf.append(spoonifier.getResult());
+<a class="jxr_linenumber" name="L195" href="#L195">195</a> 		buf.append(<span class="jxr_string">"\treturn "</span> + variableName + <span class="jxr_string">";\n"</span>);
+<a class="jxr_linenumber" name="L196" href="#L196">196</a> 		buf.append(<span class="jxr_string">"\t}\n"</span>);
+<a class="jxr_linenumber" name="L197" href="#L197">197</a> 		buf.append(<span class="jxr_string">"}\n"</span>);
+<a class="jxr_linenumber" name="L198" href="#L198">198</a> 
+<a class="jxr_linenumber" name="L199" href="#L199">199</a> 		<strong class="jxr_keyword">return</strong> buf.toString();
+<a class="jxr_linenumber" name="L200" href="#L200">200</a> 	}
+<a class="jxr_linenumber" name="L201" href="#L201">201</a> 
+<a class="jxr_linenumber" name="L202" href="#L202">202</a> 	@Test
+<a class="jxr_linenumber" name="L203" href="#L203">203</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testGeneratedSpoonifyCode() {
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> 
+<a class="jxr_linenumber" name="L205" href="#L205">205</a> 		CtClass aClass = Launcher.parseClass(<span class="jxr_string">"public class A {int i = 1+1; static Object m(String toto) { return toto;}}"</span>);
+<a class="jxr_linenumber" name="L206" href="#L206">206</a> 		SpoonifyVisitor v = <strong class="jxr_keyword">new</strong> <a href="../../../spoon/experimental/SpoonifyVisitor.html">SpoonifyVisitor</a>();
+<a class="jxr_linenumber" name="L207" href="#L207">207</a> 		aClass.accept(v);
+<a class="jxr_linenumber" name="L208" href="#L208">208</a> 
+<a class="jxr_linenumber" name="L209" href="#L209">209</a> 		String expected = <span class="jxr_string">"\tCtClass ctClass0 = factory.createClass();\n"</span> +
+<a class="jxr_linenumber" name="L210" href="#L210">210</a> 				<span class="jxr_string">"\tctClass0.setSimpleName(\&quot;A\&quot;);\n"</span> +
+<a class="jxr_linenumber" name="L211" href="#L211">211</a> 				<span class="jxr_string">"\tSet&lt;ModifierKind&gt; ctClass0Modifiers = new HashSet&lt;&gt;();\n"</span> +
+<a class="jxr_linenumber" name="L212" href="#L212">212</a> 				<span class="jxr_string">"\tctClass0Modifiers.add(ModifierKind.PUBLIC);\n"</span> +
+<a class="jxr_linenumber" name="L213" href="#L213">213</a> 				<span class="jxr_string">"\tctClass0.setModifiers(ctClass0Modifiers);\n"</span> +
+<a class="jxr_linenumber" name="L214" href="#L214">214</a> 				<span class="jxr_string">"\t\tCtConstructor ctConstructor0 = factory.createConstructor();\n"</span> +
+<a class="jxr_linenumber" name="L215" href="#L215">215</a> 				<span class="jxr_string">"\t\tctConstructor0.setImplicit(true);\n"</span> +
+<a class="jxr_linenumber" name="L216" href="#L216">216</a> 				<span class="jxr_string">"\t\tctConstructor0.setSimpleName(\&quot;&lt;init&gt;\&quot;);\n"</span> +
+<a class="jxr_linenumber" name="L217" href="#L217">217</a> 				<span class="jxr_string">"\t\tSet&lt;ModifierKind&gt; ctConstructor0Modifiers = new HashSet&lt;&gt;();\n"</span> +
+<a class="jxr_linenumber" name="L218" href="#L218">218</a> 				<span class="jxr_string">"\t\tctConstructor0Modifiers.add(ModifierKind.PUBLIC);\n"</span> +
+<a class="jxr_linenumber" name="L219" href="#L219">219</a> 				<span class="jxr_string">"\t\tctConstructor0.setModifiers(ctConstructor0Modifiers);\n"</span> +
+<a class="jxr_linenumber" name="L220" href="#L220">220</a> 				<span class="jxr_string">"\t\tList ctClass0TypeMembers = new ArrayList();\n"</span> +
+<a class="jxr_linenumber" name="L221" href="#L221">221</a> 				<span class="jxr_string">"\t\tctClass0TypeMembers.add(ctConstructor0);\n"</span> +
+<a class="jxr_linenumber" name="L222" href="#L222">222</a> 				<span class="jxr_string">"\t\t\tCtBlock ctBlock0 = factory.createBlock();\n"</span> +
+<a class="jxr_linenumber" name="L223" href="#L223">223</a> 				<span class="jxr_string">"\t\t\tctConstructor0.setValueByRole(CtRole.BODY, ctBlock0);\n"</span> +
+<a class="jxr_linenumber" name="L224" href="#L224">224</a> 				<span class="jxr_string">"\t\t\t\tCtInvocation ctInvocation0 = factory.createInvocation();\n"</span> +
+<a class="jxr_linenumber" name="L225" href="#L225">225</a> 				<span class="jxr_string">"\t\t\t\tctInvocation0.setImplicit(true);\n"</span> +
+<a class="jxr_linenumber" name="L226" href="#L226">226</a> 				<span class="jxr_string">"\t\t\t\tList ctBlock0Statements = new ArrayList();\n"</span> +
+<a class="jxr_linenumber" name="L227" href="#L227">227</a> 				<span class="jxr_string">"\t\t\t\tctBlock0Statements.add(ctInvocation0);\n"</span> +
+<a class="jxr_linenumber" name="L228" href="#L228">228</a> 				<span class="jxr_string">"\t\t\t\t\tCtExecutableReference ctExecutableReference0 = factory.createExecutableReference();\n"</span> +
+<a class="jxr_linenumber" name="L229" href="#L229">229</a> 				<span class="jxr_string">"\t\t\t\t\tctExecutableReference0.setSimpleName(\&quot;&lt;init&gt;\&quot;);\n"</span> +
+<a class="jxr_linenumber" name="L230" href="#L230">230</a> 				<span class="jxr_string">"\t\t\t\t\tctInvocation0.setValueByRole(CtRole.EXECUTABLE_REF, ctExecutableReference0);\n"</span> +
+<a class="jxr_linenumber" name="L231" href="#L231">231</a> 				<span class="jxr_string">"\t\t\t\t\t\tctExecutableReference0.setValueByRole(CtRole.DECLARING_TYPE, factory.Type().createReference(\&quot;java.lang.Object\&quot;));\n"</span> +
+<a class="jxr_linenumber" name="L232" href="#L232">232</a> 				<span class="jxr_string">"\t\t\t\t\t\tctExecutableReference0.setValueByRole(CtRole.TYPE, factory.Type().createReference(\&quot;java.lang.Object\&quot;));\n"</span> +
+<a class="jxr_linenumber" name="L233" href="#L233">233</a> 				<span class="jxr_string">"\t\t\tctBlock0.setValueByRole(CtRole.STATEMENT, ctBlock0Statements);\n"</span> +
+<a class="jxr_linenumber" name="L234" href="#L234">234</a> 				<span class="jxr_string">"\t\tCtField ctField0 = factory.createField();\n"</span> +
+<a class="jxr_linenumber" name="L235" href="#L235">235</a> 				<span class="jxr_string">"\t\tctField0.setSimpleName(\&quot;i\&quot;);\n"</span> +
+<a class="jxr_linenumber" name="L236" href="#L236">236</a> 				<span class="jxr_string">"\t\tctClass0TypeMembers.add(ctField0);\n"</span> +
+<a class="jxr_linenumber" name="L237" href="#L237">237</a> 				<span class="jxr_string">"\t\t\tctField0.setValueByRole(CtRole.TYPE, factory.Type().INTEGER_PRIMITIVE);\n"</span> +
+<a class="jxr_linenumber" name="L238" href="#L238">238</a> 				<span class="jxr_string">"\t\t\tCtBinaryOperator ctBinaryOperator0 = factory.createBinaryOperator();\n"</span> +
+<a class="jxr_linenumber" name="L239" href="#L239">239</a> 				<span class="jxr_string">"\t\t\tctBinaryOperator0.setKind(BinaryOperatorKind.PLUS);\n"</span> +
+<a class="jxr_linenumber" name="L240" href="#L240">240</a> 				<span class="jxr_string">"\t\t\tctField0.setValueByRole(CtRole.DEFAULT_EXPRESSION, ctBinaryOperator0);\n"</span> +
+<a class="jxr_linenumber" name="L241" href="#L241">241</a> 				<span class="jxr_string">"\t\t\t\tctBinaryOperator0.setValueByRole(CtRole.TYPE, factory.Type().INTEGER_PRIMITIVE);\n"</span> +
+<a class="jxr_linenumber" name="L242" href="#L242">242</a> 				<span class="jxr_string">"\t\t\t\tCtLiteral ctLiteral0 = factory.createLiteral();\n"</span> +
+<a class="jxr_linenumber" name="L243" href="#L243">243</a> 				<span class="jxr_string">"\t\t\t\tctLiteral0.setValue((int) 1);\n"</span> +
+<a class="jxr_linenumber" name="L244" href="#L244">244</a> 				<span class="jxr_string">"\t\t\t\tctLiteral0.setBase(LiteralBase.DECIMAL);\n"</span> +
+<a class="jxr_linenumber" name="L245" href="#L245">245</a> 				<span class="jxr_string">"\t\t\t\tctBinaryOperator0.setValueByRole(CtRole.LEFT_OPERAND, ctLiteral0);\n"</span> +
+<a class="jxr_linenumber" name="L246" href="#L246">246</a> 				<span class="jxr_string">"\t\t\t\t\tctLiteral0.setValueByRole(CtRole.TYPE, factory.Type().INTEGER_PRIMITIVE);\n"</span> +
+<a class="jxr_linenumber" name="L247" href="#L247">247</a> 				<span class="jxr_string">"\t\t\t\tCtLiteral ctLiteral1 = factory.createLiteral();\n"</span> +
+<a class="jxr_linenumber" name="L248" href="#L248">248</a> 				<span class="jxr_string">"\t\t\t\tctLiteral1.setValue((int) 1);\n"</span> +
+<a class="jxr_linenumber" name="L249" href="#L249">249</a> 				<span class="jxr_string">"\t\t\t\tctLiteral1.setBase(LiteralBase.DECIMAL);\n"</span> +
+<a class="jxr_linenumber" name="L250" href="#L250">250</a> 				<span class="jxr_string">"\t\t\t\tctBinaryOperator0.setValueByRole(CtRole.RIGHT_OPERAND, ctLiteral1);\n"</span> +
+<a class="jxr_linenumber" name="L251" href="#L251">251</a> 				<span class="jxr_string">"\t\t\t\t\tctLiteral1.setValueByRole(CtRole.TYPE, factory.Type().INTEGER_PRIMITIVE);\n"</span> +
+<a class="jxr_linenumber" name="L252" href="#L252">252</a> 				<span class="jxr_string">"\t\tCtMethod ctMethod0 = factory.createMethod();\n"</span> +
+<a class="jxr_linenumber" name="L253" href="#L253">253</a> 				<span class="jxr_string">"\t\tctMethod0.setSimpleName(\&quot;m\&quot;);\n"</span> +
+<a class="jxr_linenumber" name="L254" href="#L254">254</a> 				<span class="jxr_string">"\t\tSet&lt;ModifierKind&gt; ctMethod0Modifiers = new HashSet&lt;&gt;();\n"</span> +
+<a class="jxr_linenumber" name="L255" href="#L255">255</a> 				<span class="jxr_string">"\t\tctMethod0Modifiers.add(ModifierKind.STATIC);\n"</span> +
+<a class="jxr_linenumber" name="L256" href="#L256">256</a> 				<span class="jxr_string">"\t\tctMethod0.setModifiers(ctMethod0Modifiers);\n"</span> +
+<a class="jxr_linenumber" name="L257" href="#L257">257</a> 				<span class="jxr_string">"\t\tctClass0TypeMembers.add(ctMethod0);\n"</span> +
+<a class="jxr_linenumber" name="L258" href="#L258">258</a> 				<span class="jxr_string">"\t\t\tctMethod0.setValueByRole(CtRole.TYPE, factory.Type().createSimplyQualifiedReference(\&quot;java.lang.Object\&quot;));\n"</span> +
+<a class="jxr_linenumber" name="L259" href="#L259">259</a> 				<span class="jxr_string">"\t\t\tCtParameter ctParameter0 = factory.createParameter();\n"</span> +
+<a class="jxr_linenumber" name="L260" href="#L260">260</a> 				<span class="jxr_string">"\t\t\tctParameter0.setSimpleName(\&quot;toto\&quot;);\n"</span> +
+<a class="jxr_linenumber" name="L261" href="#L261">261</a> 				<span class="jxr_string">"\t\t\tList ctMethod0Parameters = new ArrayList();\n"</span> +
+<a class="jxr_linenumber" name="L262" href="#L262">262</a> 				<span class="jxr_string">"\t\t\tctMethod0Parameters.add(ctParameter0);\n"</span> +
+<a class="jxr_linenumber" name="L263" href="#L263">263</a> 				<span class="jxr_string">"\t\t\t\tctParameter0.setValueByRole(CtRole.TYPE, factory.Type().createSimplyQualifiedReference(\&quot;java.lang.String\&quot;));\n"</span> +
+<a class="jxr_linenumber" name="L264" href="#L264">264</a> 				<span class="jxr_string">"\t\t\tCtBlock ctBlock1 = factory.createBlock();\n"</span> +
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> 				<span class="jxr_string">"\t\t\tctMethod0.setValueByRole(CtRole.BODY, ctBlock1);\n"</span> +
+<a class="jxr_linenumber" name="L266" href="#L266">266</a> 				<span class="jxr_string">"\t\t\t\tCtReturn ctReturn0 = factory.createReturn();\n"</span> +
+<a class="jxr_linenumber" name="L267" href="#L267">267</a> 				<span class="jxr_string">"\t\t\t\tList ctBlock1Statements = new ArrayList();\n"</span> +
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> 				<span class="jxr_string">"\t\t\t\tctBlock1Statements.add(ctReturn0);\n"</span> +
+<a class="jxr_linenumber" name="L269" href="#L269">269</a> 				<span class="jxr_string">"\t\t\t\t\tCtVariableRead ctVariableRead0 = factory.createVariableRead();\n"</span> +
+<a class="jxr_linenumber" name="L270" href="#L270">270</a> 				<span class="jxr_string">"\t\t\t\t\tctReturn0.setValueByRole(CtRole.EXPRESSION, ctVariableRead0);\n"</span> +
+<a class="jxr_linenumber" name="L271" href="#L271">271</a> 				<span class="jxr_string">"\t\t\t\t\t\tCtParameterReference ctParameterReference0 = factory.createParameterReference();\n"</span> +
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> 				<span class="jxr_string">"\t\t\t\t\t\tctParameterReference0.setSimpleName(\&quot;toto\&quot;);\n"</span> +
+<a class="jxr_linenumber" name="L273" href="#L273">273</a> 				<span class="jxr_string">"\t\t\t\t\t\tctVariableRead0.setValueByRole(CtRole.VARIABLE, ctParameterReference0);\n"</span> +
+<a class="jxr_linenumber" name="L274" href="#L274">274</a> 				<span class="jxr_string">"\t\t\t\t\t\t\tctParameterReference0.setValueByRole(CtRole.TYPE, factory.Type().createReference(\&quot;java.lang.String\&quot;));\n"</span> +
+<a class="jxr_linenumber" name="L275" href="#L275">275</a> 				<span class="jxr_string">"\t\t\tctBlock1.setValueByRole(CtRole.STATEMENT, ctBlock1Statements);\n"</span> +
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> 				<span class="jxr_string">"\t\tctMethod0.setValueByRole(CtRole.PARAMETER, ctMethod0Parameters);\n"</span> +
+<a class="jxr_linenumber" name="L277" href="#L277">277</a> 				<span class="jxr_string">"\tctClass0.setValueByRole(CtRole.TYPE_MEMBER, ctClass0TypeMembers);\n"</span>;
+<a class="jxr_linenumber" name="L278" href="#L278">278</a> 
+<a class="jxr_linenumber" name="L279" href="#L279">279</a> 		<em class="jxr_comment">//non regression</em>
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> 		assertEquals(expected, v.getResult());
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> 	}
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> 
+<a class="jxr_linenumber" name="L283" href="#L283">283</a> 
+<a class="jxr_linenumber" name="L284" href="#L284">284</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

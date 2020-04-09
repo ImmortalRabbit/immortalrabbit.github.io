@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Log xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../../apidocs/org/infinispan/stats/logging/Log.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> org.infinispan.stats.logging;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.infinispan.stats.container.ExtendedStatistic;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.infinispan.stats.percentiles.PercentileStatistic;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.jboss.logging.annotations.Cause;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.jboss.logging.annotations.LogMessage;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.jboss.logging.annotations.Message;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.jboss.logging.annotations.MessageLogger;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.jboss.logging.Logger.Level.INFO;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.jboss.logging.Logger.Level.WARN;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> * The JBoss Logging interface which defined the logging methods for the extended statistics module. The id range for</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> * this is 25001-26000</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> * @author Pedro Ruivo</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment"> * @since 6.0</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  @MessageLogger(projectCode = <span class="jxr_string">"ISPN"</span>)
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> <a href="../../../../org/infinispan/stats/logging/Log.html">Log</a> <strong class="jxr_keyword">extends</strong> org.infinispan.util.logging.Log {
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>     @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>     @Message(id = 25001, value = <span class="jxr_string">"Extended Statistic [%s] not found while tried to add a percentile sample."</span>)
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>     <strong class="jxr_keyword">void</strong> extendedStatisticNotFoundForPercentile(<a href="../../../../org/infinispan/stats/container/ExtendedStatistic.html">ExtendedStatistic</a> statistic, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>     @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>     @Message(id = 25002, value = <span class="jxr_string">"Trying to mark the transaction [%s] as write transaction but no transaction is associated."</span>)
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>     <strong class="jxr_keyword">void</strong> markUnexistingTransactionAsWriteTransaction(String transaction);
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>     @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>     @Message(id = 25003, value = <span class="jxr_string">"Trying to prepare transaction [%s] but no transaction is associated."</span>)
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>     <strong class="jxr_keyword">void</strong> prepareOnUnexistingTransaction(String transaction);
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>     @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>     @Message(id = 25004, value = <span class="jxr_string">"Trying to set the transaction [%s] outcome to %s but no transaction is associated."</span>)
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>     <strong class="jxr_keyword">void</strong> outcomeOnUnexistingTransaction(String transaction, String outcome);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>     @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>     @Message(id = 25005, value = <span class="jxr_string">"Unable calculate local execution time without contention."</span>)
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>     <strong class="jxr_keyword">void</strong> unableToCalculateLocalExecutionTimeWithoutContention(@Cause Throwable throwable);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>     @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>     @Message(id = 25006, value = <span class="jxr_string">"Unable to copy value from %s to %s."</span>)
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>     <strong class="jxr_keyword">void</strong> unableToCopyValue(<a href="../../../../org/infinispan/stats/container/ExtendedStatistic.html">ExtendedStatistic</a> from, <a href="../../../../org/infinispan/stats/container/ExtendedStatistic.html">ExtendedStatistic</a> to, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>     @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>     @Message(id = 25007, value = <span class="jxr_string">"Unable to get extended statistic %s."</span>)
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>     <strong class="jxr_keyword">void</strong> unableToGetStatistic(<a href="../../../../org/infinispan/stats/container/ExtendedStatistic.html">ExtendedStatistic</a> statistic, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>     @LogMessage(level = WARN)
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>     @Message(id = 25008, value = <span class="jxr_string">"Unable to get %s-th percentile for %s."</span>)
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>     <strong class="jxr_keyword">void</strong> unableToGetPercentile(<strong class="jxr_keyword">int</strong> percentile, <a href="../../../../org/infinispan/stats/percentiles/PercentileStatistic.html">PercentileStatistic</a> statistic, @Cause Throwable cause);
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>     @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>     @Message(id = 25009, value = <span class="jxr_string">"Replacing original components."</span>)
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>     <strong class="jxr_keyword">void</strong> replaceComponents();
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>     @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>     @Message(id = 25010, value = <span class="jxr_string">"Replacing %s. old=[%s] new=[%s]."</span>)
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>     <strong class="jxr_keyword">void</strong> replaceComponent(String componentName, Object oldComponent, Object newComponent);
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>     @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>     @Message(id = 25011, value = <span class="jxr_string">"Starting ExtendedStatisticInterceptor."</span>)
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>     <strong class="jxr_keyword">void</strong> startExtendedStatisticInterceptor();
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>     @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>     @Message(id = 25012, value = <span class="jxr_string">"Starting CacheUsageInterceptor."</span>)
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>     <strong class="jxr_keyword">void</strong> startStreamSummaryInterceptor();
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>     @LogMessage(level = INFO)
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>     @Message(id = 25013, value = <span class="jxr_string">"Stopping CacheUsageInterceptor."</span>)
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>     <strong class="jxr_keyword">void</strong> stopStreamSummaryInterceptor();
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

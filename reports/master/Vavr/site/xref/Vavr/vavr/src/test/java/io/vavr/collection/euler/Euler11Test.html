@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Euler11Test xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../../apidocs/io/vavr/collection/euler/Euler11Test.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*                        __    __  __  __    __  ___</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> *                       \  \  /  /    \  \  /  /  __/</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> *                        \  \/  /  /\  \  \/  /  /</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> *                         \____/__/  \__\____/__/.ɪᴏ</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * ᶜᵒᵖʸʳᶦᵍʰᵗ ᵇʸ ᵛᵃᵛʳ ⁻ ˡᶦᶜᵉⁿˢᵉᵈ ᵘⁿᵈᵉʳ ᵗʰᵉ ᵃᵖᵃᶜʰᵉ ˡᶦᶜᵉⁿˢᵉ ᵛᵉʳˢᶦᵒⁿ ᵗʷᵒ ᵈᵒᵗ ᶻᵉʳᵒ</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> */</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">package</strong> io.vavr.collection.euler;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> io.vavr.Tuple;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> io.vavr.collection.Iterator;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> io.vavr.collection.Seq;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> io.vavr.collection.Stream;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> io.vavr.collection.List;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> org.junit.Test;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.assertj.core.api.Assertions.assertThat;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../io/vavr/collection/euler/Euler11Test.html">Euler11Test</a> {
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">static</strong> List&lt;Seq&lt;Integer&gt;&gt; MATRIX = Iterator.ofAll(
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>              8, 2, 22, 97, 38, 15, 0, 40, 0, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8,
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>              49, 49, 99, 40, 17, 81, 18, 57, 60, 87, 17, 40, 98, 43, 69, 48, 4, 56, 62, 0,
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>              81, 49, 31, 73, 55, 79, 14, 29, 93, 71, 40, 67, 53, 88, 30, 3, 49, 13, 36, 65,
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>              52, 70, 95, 23, 4, 60, 11, 42, 69, 24, 68, 56, 1, 32, 56, 71, 37, 2, 36, 91,
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>              22, 31, 16, 71, 51, 67, 63, 89, 41, 92, 36, 54, 22, 40, 40, 28, 66, 33, 13, 80,
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>              24, 47, 32, 60, 99, 3, 45, 2, 44, 75, 33, 53, 78, 36, 84, 20, 35, 17, 12, 50,
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>              32, 98, 81, 28, 64, 23, 67, 10, 26, 38, 40, 67, 59, 54, 70, 66, 18, 38, 64, 70,
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>              67, 26, 20, 68, 2, 62, 12, 20, 95, 63, 94, 39, 63, 8, 40, 91, 66, 49, 94, 21,
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>              24, 55, 58, 5, 66, 73, 99, 26, 97, 17, 78, 78, 96, 83, 14, 88, 34, 89, 63, 72,
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>              21, 36, 23, 9, 75, 0, 76, 44, 20, 45, 35, 14, 0, 61, 33, 97, 34, 31, 33, 95,
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>              78, 17, 53, 28, 22, 75, 31, 67, 15, 94, 3, 80, 4, 62, 16, 14, 9, 53, 56, 92,
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>              16, 39, 5, 42, 96, 35, 31, 47, 55, 58, 88, 24, 0, 17, 54, 24, 36, 29, 85, 57,
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>              86, 56, 0, 48, 35, 71, 89, 7, 5, 44, 44, 37, 44, 60, 21, 58, 51, 54, 17, 58,
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>              19, 80, 81, 68, 5, 94, 47, 69, 28, 73, 92, 13, 86, 52, 17, 77, 4, 89, 55, 40,
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>              4, 52, 8, 83, 97, 35, 99, 16, 7, 97, 57, 32, 16, 26, 26, 79, 33, 27, 98, 66,
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>              88, 36, 68, 87, 57, 62, 20, 72, 3, 46, 33, 67, 46, 55, 12, 32, 63, 93, 53, 69,
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>              4, 42, 16, 73, 38, 25, 39, 11, 24, 94, 72, 18, 8, 46, 29, 32, 40, 62, 76, 36,
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>              20, 69, 36, 41, 72, 30, 23, 88, 34, 62, 99, 69, 82, 67, 59, 85, 74, 4, 36, 16,
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>              20, 73, 35, 29, 78, 31, 90, 1, 74, 31, 49, 71, 48, 86, 81, 16, 23, 57, 5, 54,
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>              1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>              ).grouped(20).toList();
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment">     * &lt;strong&gt;Problem 11: Largest product in a grid&lt;/strong&gt;</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment">     * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment">     * In the 20x20 grid, four numbers along a diagonal line have been marked in strong.</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment">     * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment">     * 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00</em>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65</em>
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91</em>
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;22 31 16 71 51 67 63 89 41 92 36 54 22 40 40 28 66 33 13 80</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;24 47 32 60 99 03 45 02 44 75 33 53 78 36 84 20 35 17 12 50</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;32 98 81 28 64 23 67 10 &lt;strong&gt;26&lt;/strong&gt; 38 40 67 59 54 70 66 18 38 64 70</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;67 26 20 68 02 62 12 20 95 &lt;strong&gt;63&lt;/strong&gt; 94 39 63 08 40 91 66 49 94 21</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;24 55 58 05 66 73 99 26 97 17 &lt;strong&gt;78&lt;/strong&gt; 78 96 83 14 88 34 89 63 72</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;21 36 23 09 75 00 76 44 20 45 35 &lt;strong&gt;14&lt;/strong&gt; 00 61 33 97 34 31 33 95</em>
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;78 17 53 28 22 75 31 67 15 94 03 80 04 62 16 14 09 53 56 92</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;16 39 05 42 96 35 31 47 55 58 88 24 00 17 54 24 36 29 85 57</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;86 56 00 48 35 71 89 07 05 44 44 37 44 60 21 58 51 54 17 58</em>
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;19 80 81 68 05 94 47 69 28 73 92 13 86 52 17 77 04 89 55 40</em>
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;04 52 08 83 97 35 99 16 07 97 57 32 16 26 26 79 33 27 98 66</em>
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;88 36 68 87 57 62 20 72 03 46 33 67 46 55 12 32 63 93 53 69</em>
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;04 42 16 73 38 25 39 11 24 94 72 18 08 46 29 32 40 62 76 36</em>
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16</em>
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54</em>
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment">     * &lt;br&gt;01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment">     * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment">     * The product of these numbers is 26 * 63 * 78 * 14 = 1788696.</em>
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_javadoccomment">     * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  <em class="jxr_javadoccomment">     * What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20x20 grid?</em>
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  <em class="jxr_javadoccomment">     * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  <em class="jxr_javadoccomment">     * See also &lt;a href="https://projecteuler.net/problem=11"&gt;projecteuler.net problem 11&lt;/a&gt;.</em>
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>      @Test
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> shouldSolveProblem11() {
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>          assertThat(maxProduct()).isEqualTo(70_600_674);
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>      }
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">int</strong> maxProduct() {
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>          <strong class="jxr_keyword">return</strong> List.of(Tuple.of(0, 1), Tuple.of(1, 1), Tuple.of(1, 0), Tuple.of(1, -1))
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>                  .map(d -&gt; maxProduct(d._1, d._2)).max().get();
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>      }
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">int</strong> maxProduct(<strong class="jxr_keyword">int</strong> dr, <strong class="jxr_keyword">int</strong> dc) {
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>          <strong class="jxr_keyword">return</strong> range(dr).crossProduct(range(dc)).map(rc -&gt; product(rc._1, rc._2, dr, dc)).max().get();
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>      }
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> List&lt;Integer&gt; range(<strong class="jxr_keyword">int</strong> d) {
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>          <strong class="jxr_keyword">return</strong> List.range(0, 20).filter(i -&gt; i + 3 * d &gt;= 0 &amp;&amp; i + 3 * d &lt; 20);
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>      }
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">int</strong> product(<strong class="jxr_keyword">int</strong> row, <strong class="jxr_keyword">int</strong> col, <strong class="jxr_keyword">int</strong> dr, <strong class="jxr_keyword">int</strong> dc) {
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>          <strong class="jxr_keyword">return</strong> Stream.range(0, 4).map(i -&gt; MATRIX.get(row + i * dr).get(col + i * dc)).reduce((i1, i2) -&gt; i1 * i2);
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>      }
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

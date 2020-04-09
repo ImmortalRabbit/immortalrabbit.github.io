@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.32-SNAPSHOT">
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/test-resources/World.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/test-resources/Hello.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleSeverityUtilsTest.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;java.lang.reflect.Constructor&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;java.lang.reflect.Constructor&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Wrong order for &apos;org.junit.Assert&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstylePluginTest.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Test&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleConstantsTest.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;java.lang.reflect.Constructor&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;java.lang.reflect.Constructor&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Test&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/internal/XmlUtil.java">
+<error line="28" column="1" severity="warning" message="Extra separation in import group before &apos;javax.xml.parsers.DocumentBuilder&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="28" column="1" severity="warning" message="Wrong order for &apos;javax.xml.parsers.DocumentBuilder&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="32" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="32" column="1" severity="warning" message="Wrong order for &apos;org.junit.Assert&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/internal/CheckUtil.java">
+<error line="31" column="1" severity="warning" message="Extra separation in import group before &apos;com.google.common.collect.ImmutableSet&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="31" column="1" severity="warning" message="Wrong order for &apos;com.google.common.collect.ImmutableSet&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/internal/ChecksTest.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;java.beans.PropertyDescriptor&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;java.beans.PropertyDescriptor&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="38" column="1" severity="warning" message="Extra separation in import group before &apos;javax.xml.parsers.ParserConfigurationException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="38" column="1" severity="warning" message="Wrong order for &apos;javax.xml.parsers.ParserConfigurationException&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="40" column="1" severity="warning" message="Extra separation in import group before &apos;org.apache.commons.beanutils.PropertyUtils&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="40" column="1" severity="warning" message="Wrong order for &apos;org.apache.commons.beanutils.PropertyUtils&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="49" column="1" severity="warning" message="Extra separation in import group before &apos;com.puppycrawl.tools.checkstyle.Checker&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="49" column="1" severity="warning" message="Wrong order for &apos;com.puppycrawl.tools.checkstyle.Checker&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleConfigurationTest.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.File&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;java.io.File&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="30" column="1" severity="warning" message="Extra separation in import group before &apos;org.apache.commons.io.FileUtils&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="30" column="1" severity="warning" message="Wrong order for &apos;org.apache.commons.io.FileUtils&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="47" column="1" severity="warning" message="Extra separation in import group before &apos;com.puppycrawl.tools.checkstyle.api.Configuration&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="47" column="1" severity="warning" message="Wrong order for &apos;com.puppycrawl.tools.checkstyle.api.Configuration&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleProfileExporterTest.java">
+<error line="30" column="1" severity="warning" message="Extra separation in import group before &apos;javax.annotation.CheckForNull&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="30" column="1" severity="warning" message="Wrong order for &apos;javax.annotation.CheckForNull&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="33" column="1" severity="warning" message="Extra separation in import group before &apos;org.apache.commons.lang.StringUtils&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="33" column="1" severity="warning" message="Wrong order for &apos;org.apache.commons.lang.StringUtils&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleAuditListenerTest.java">
+<error line="32" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.File&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="32" column="1" severity="warning" message="Wrong order for &apos;java.io.File&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="34" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Before&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="34" column="1" severity="warning" message="Wrong order for &apos;org.junit.Before&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="51" column="1" severity="warning" message="Extra separation in import group before &apos;com.puppycrawl.tools.checkstyle.TreeWalker&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="51" column="1" severity="warning" message="Wrong order for &apos;com.puppycrawl.tools.checkstyle.TreeWalker&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleSensorTest.java">
+<error line="27" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Test&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="27" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleRulesDefinitionTest.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;java.util.List&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;java.util.List&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Rule&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Wrong order for &apos;org.junit.Rule&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="31" column="1" severity="warning" message="Extra separation in import group before &apos;com.google.common.collect.ImmutableList&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="31" column="1" severity="warning" message="Wrong order for &apos;com.google.common.collect.ImmutableList&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleTestUtils.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.IOException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;java.io.IOException&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Extra separation in import group before &apos;org.apache.commons.lang.CharUtils&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Wrong order for &apos;org.apache.commons.lang.CharUtils&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="31" column="1" severity="warning" message="Extra separation in import group before &apos;com.google.common.base.Charsets&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="31" column="1" severity="warning" message="Wrong order for &apos;com.google.common.base.Charsets&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleVersionTest.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Rule&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;org.junit.Rule&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleExecutorTest.java">
+<error line="30" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Closeable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="30" column="1" severity="warning" message="Wrong order for &apos;java.io.Closeable&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="39" column="1" severity="warning" message="Extra separation in import group before &apos;org.apache.commons.io.FileUtils&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="39" column="1" severity="warning" message="Wrong order for &apos;org.apache.commons.io.FileUtils&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="51" column="1" severity="warning" message="Extra separation in import group before &apos;com.puppycrawl.tools.checkstyle.api.AuditEvent&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="51" column="1" severity="warning" message="Wrong order for &apos;com.puppycrawl.tools.checkstyle.api.AuditEvent&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/test/java/org/sonar/plugins/checkstyle/CheckstyleProfileImporterTest.java">
+<error line="29" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.Reader&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="29" column="1" severity="warning" message="Wrong order for &apos;java.io.Reader&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="32" column="1" severity="warning" message="Extra separation in import group before &apos;org.apache.commons.lang.StringUtils&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="32" column="1" severity="warning" message="Wrong order for &apos;org.apache.commons.lang.StringUtils&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/it/resources/integration-test-project/src/test/java/com/acme/AppTest.java">
+<error line="5" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Assert.assertNotNull&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/it/resources/integration-test-project/src/main/java/com/acme/App.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/it/java/org/checkstyle/plugins/sonar/RunPluginTest.java">
+<error line="25" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.File&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="25" column="1" severity="warning" message="Wrong order for &apos;java.io.File&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="35" column="1" severity="warning" message="Extra separation in import group before &apos;org.apache.commons.io.FileUtils&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="35" column="1" severity="warning" message="Wrong order for &apos;org.apache.commons.io.FileUtils&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="47" column="1" severity="warning" message="Extra separation in import group before &apos;com.google.gson.Gson&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="47" column="1" severity="warning" message="Wrong order for &apos;com.google.gson.Gson&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/it/java/org/checkstyle/plugins/sonar/CheckJarTest.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;java.io.IOException&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;java.io.IOException&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="33" column="1" severity="warning" message="Extra separation in import group before &apos;org.junit.Test&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="33" column="1" severity="warning" message="Wrong order for &apos;org.junit.Test&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleExecutor.java">
+<error line="33" column="1" severity="warning" message="Extra separation in import group before &apos;org.apache.commons.io.FileUtils&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="33" column="1" severity="warning" message="Wrong order for &apos;org.apache.commons.io.FileUtils&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="41" column="1" severity="warning" message="Extra separation in import group before &apos;com.google.common.annotations.VisibleForTesting&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="41" column="1" severity="warning" message="Wrong order for &apos;com.google.common.annotations.VisibleForTesting&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleSeverityUtils.java">
+<error line="26" column="1" severity="warning" message="Extra separation in import group before &apos;com.puppycrawl.tools.checkstyle.api.SeverityLevel&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Wrong order for &apos;com.puppycrawl.tools.checkstyle.api.SeverityLevel&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleConstants.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleConfiguration.java">
+<error line="33" column="1" severity="warning" message="Extra separation in import group before &apos;org.slf4j.Logger&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="33" column="1" severity="warning" message="Wrong order for &apos;org.slf4j.Logger&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="42" column="1" severity="warning" message="Extra separation in import group before &apos;com.google.common.annotations.VisibleForTesting&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="42" column="1" severity="warning" message="Wrong order for &apos;com.google.common.annotations.VisibleForTesting&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleAuditListener.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;org.apache.commons.lang.StringUtils&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;org.apache.commons.lang.StringUtils&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="38" column="1" severity="warning" message="Extra separation in import group before &apos;com.google.common.annotations.VisibleForTesting&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="38" column="1" severity="warning" message="Wrong order for &apos;com.google.common.annotations.VisibleForTesting&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleRulesDefinition.java">
+<error line="27" column="1" severity="warning" message="Extra separation in import group before &apos;org.sonar.api.ExtensionPoint&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="27" column="1" severity="warning" message="Wrong order for &apos;org.sonar.api.ExtensionPoint&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="34" column="1" severity="warning" message="Extra separation in import group before &apos;com.google.common.annotations.VisibleForTesting&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="34" column="1" severity="warning" message="Wrong order for &apos;com.google.common.annotations.VisibleForTesting&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleProfileImporter.java">
+<error line="28" column="1" severity="warning" message="Extra separation in import group before &apos;javax.xml.stream.XMLInputFactory&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="28" column="1" severity="warning" message="Wrong order for &apos;javax.xml.stream.XMLInputFactory&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="31" column="1" severity="warning" message="Extra separation in import group before &apos;org.apache.commons.lang.StringUtils&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="31" column="1" severity="warning" message="Wrong order for &apos;org.apache.commons.lang.StringUtils&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="46" column="1" severity="warning" message="Extra separation in import group before &apos;com.google.common.annotations.VisibleForTesting&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="46" column="1" severity="warning" message="Wrong order for &apos;com.google.common.annotations.VisibleForTesting&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/rule/ActiveRuleWrapperScannerImpl.java">
+<error line="24" column="1" severity="warning" message="Extra separation in import group before &apos;org.sonar.api.batch.rule.ActiveRule&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="24" column="1" severity="warning" message="Wrong order for &apos;org.sonar.api.batch.rule.ActiveRule&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/rule/ActiveRuleWrapperServerImpl.java">
+<error line="26" column="1" severity="warning" message="Extra separation in import group before &apos;org.apache.commons.lang.StringUtils&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="26" column="1" severity="warning" message="Wrong order for &apos;org.apache.commons.lang.StringUtils&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/rule/ActiveRuleWrapper.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleProfileExporter.java">
+<error line="31" column="1" severity="warning" message="Extra separation in import group before &apos;javax.annotation.Nullable&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="31" column="1" severity="warning" message="Wrong order for &apos;javax.annotation.Nullable&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="33" column="1" severity="warning" message="Extra separation in import group before &apos;org.apache.commons.lang.StringEscapeUtils&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="33" column="1" severity="warning" message="Wrong order for &apos;org.apache.commons.lang.StringEscapeUtils&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="46" column="1" severity="warning" message="Extra separation in import group before &apos;com.google.common.annotations.VisibleForTesting&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="46" column="1" severity="warning" message="Wrong order for &apos;com.google.common.annotations.VisibleForTesting&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleVersion.java">
+<error line="25" column="1" severity="warning" message="Extra separation in import group before &apos;org.apache.commons.io.IOUtils&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="25" column="1" severity="warning" message="Wrong order for &apos;org.apache.commons.io.IOUtils&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstylePlugin.java">
+<error line="25" column="1" severity="warning" message="Extra separation in import group before &apos;org.sonar.api.CoreProperties&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="25" column="1" severity="warning" message="Wrong order for &apos;org.sonar.api.CoreProperties&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleSensor.java">
+</file>
+<file name="/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/repositories/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/package-info.java">
+</file>
+</checkstyle>

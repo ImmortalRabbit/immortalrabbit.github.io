@@ -1,0 +1,842 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>HolmesFeatherstoneAttractionModel xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../apidocs/org/orekit/forces/gravity/HolmesFeatherstoneAttractionModel.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/* Copyright 2002-2016 CS Systèmes d'Information</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Licensed to CS Systèmes d'Information (CS) under one or more</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> * contributor license agreements.  See the NOTICE file distributed with</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * this work for additional information regarding copyright ownership.</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * CS licenses this file to You under the Apache License, Version 2.0</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * (the "License"); you may not use this file except in compliance with</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> * the License.  You may obtain a copy of the License at</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> *   <a href="http://www.apache.org/licenses/LICENSE-2." target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.</a>0</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_comment"> * See the License for the specific language governing permissions and</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_comment"> * limitations under the License.</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_comment"> */</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">package</strong> org.orekit.forces.gravity;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.io.Serializable;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.hipparchus.analysis.differentiation.DerivativeStructure;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.hipparchus.geometry.euclidean.threed.FieldRotation;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.hipparchus.geometry.euclidean.threed.FieldVector3D;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.hipparchus.geometry.euclidean.threed.SphericalCoordinates;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> org.hipparchus.geometry.euclidean.threed.Vector3D;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.hipparchus.linear.Array2DRowRealMatrix;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> org.hipparchus.linear.RealMatrix;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> org.hipparchus.util.FastMath;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> org.orekit.errors.OrekitException;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> org.orekit.errors.OrekitInternalError;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> org.orekit.forces.AbstractForceModel;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> org.orekit.forces.gravity.potential.NormalizedSphericalHarmonicsProvider;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> org.orekit.forces.gravity.potential.NormalizedSphericalHarmonicsProvider.NormalizedSphericalHarmonics;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> org.orekit.forces.gravity.potential.TideSystem;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> org.orekit.forces.gravity.potential.TideSystemProvider;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> org.orekit.frames.Frame;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> org.orekit.frames.Transform;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> org.orekit.propagation.SpacecraftState;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">import</strong> org.orekit.propagation.events.EventDetector;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <strong class="jxr_keyword">import</strong> org.orekit.propagation.numerical.TimeDerivativesEquations;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">import</strong> org.orekit.time.AbsoluteDate;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">import</strong> org.orekit.utils.ParameterDriver;
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <strong class="jxr_keyword">import</strong> org.orekit.utils.ParameterObserver;
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment">/** This class represents the gravitational field of a celestial body.</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * The algorithm implemented in this class has been designed by S. A. Holmes</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> * and W. E. Featherstone from Department of Spatial Sciences, Curtin University</em>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment"> * of Technology, Perth, Australia. It is described in their 2002 paper: &lt;a</em>
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> * href="<a href="http://cct.gfy.ku.dk/publ_others/ccta1870.pdf" target="alexandria_uri">http://cct.gfy.ku.dk/publ_others/ccta1870.pdf</a>"&gt;A unified approach to</em>
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment"> * the Clenshaw summation and the recursive computation of very high degree and</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment"> * order normalised associated Legendre functions&lt;/a&gt; (Journal of Geodesy (2002)</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment"> * 76: 279–299).</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment"> * &lt;/p&gt;</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment"> * This model directly uses normalized coefficients and stable recursion algorithms</em>
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment"> * so it is more suited to high degree gravity fields than the classical {@link</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_javadoccomment"> * CunninghamAttractionModel Cunningham} or {@link DrozinerAttractionModel Droziner}</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  <em class="jxr_javadoccomment"> * models which use un-normalized coefficients.</em>
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_javadoccomment"> * &lt;/p&gt;</em>
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_javadoccomment"> * Among the different algorithms presented in Holmes and Featherstone paper, this</em>
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment"> * class implements the &lt;em&gt;modified forward row method&lt;/em&gt;. All recursion coefficients</em>
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment"> * are precomputed and stored for greater performance. This caching was suggested in the</em>
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment"> * paper but not used due to the large memory requirements. Since 2002, even low end</em>
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment"> * computers and mobile devices do have sufficient memory so this caching has become</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment"> * feasible nowadays.</em>
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_javadoccomment"> * @author Luc Maisonobe</em>
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  <em class="jxr_javadoccomment"> * @since 6.0</em>
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/orekit/forces/gravity/HolmesFeatherstoneAttractionModel.html">HolmesFeatherstoneAttractionModel</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../org/orekit/forces/AbstractForceModel.html">AbstractForceModel</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../org/orekit/forces/gravity/potential/TideSystemProvider.html">TideSystemProvider</a> {
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>      <em class="jxr_javadoccomment">/** Exponent scaling to avoid floating point overflow.</em>
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  <em class="jxr_javadoccomment">     * &lt;p&gt;The paper uses 10^280, we prefer a power of two to preserve accuracy thanks to</em>
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  <em class="jxr_javadoccomment">     * {@link FastMath#scalb(double, int)}, so we use 2^930 which has the same order of magnitude.</em>
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> SCALING = 930;
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>      <em class="jxr_javadoccomment">/** Central attraction scaling factor.</em>
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  <em class="jxr_javadoccomment">     * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  <em class="jxr_javadoccomment">     * We use a power of 2 to avoid numeric noise introduction</em>
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  <em class="jxr_javadoccomment">     * in the multiplications/divisions sequences.</em>
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  <em class="jxr_javadoccomment">     * &lt;/p&gt;</em>
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> MU_SCALE = FastMath.scalb(1.0, 32);
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>      <em class="jxr_javadoccomment">/** Drivers for force model parameters. */</em>
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/utils/ParameterDriver.html">ParameterDriver</a>[] parametersDrivers;
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>      <em class="jxr_javadoccomment">/** Provider for the spherical harmonics. */</em>
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/forces/gravity/potential/NormalizedSphericalHarmonicsProvider.html">NormalizedSphericalHarmonicsProvider</a> provider;
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      <em class="jxr_javadoccomment">/** Central attraction coefficient. */</em>
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">double</strong> mu;
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>      <em class="jxr_javadoccomment">/** Rotating body. */</em>
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/frames/Frame.html">Frame</a> bodyFrame;
+<a class="jxr_linenumber" name="L101" href="#L101">101</a> 
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>     <em class="jxr_javadoccomment">/** Recursion coefficients g&lt;sub&gt;n,m&lt;/sub&gt;/√j. */</em>
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] gnmOj;
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> 
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>     <em class="jxr_javadoccomment">/** Recursion coefficients h&lt;sub&gt;n,m&lt;/sub&gt;/√j. */</em>
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] hnmOj;
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>     <em class="jxr_javadoccomment">/** Recursion coefficients e&lt;sub&gt;n,m&lt;/sub&gt;. */</em>
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] enm;
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> 
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>     <em class="jxr_javadoccomment">/** Scaled sectorial Pbar&lt;sub&gt;m,m&lt;/sub&gt;/u&lt;sup&gt;m&lt;/sup&gt; &amp;times; 2&lt;sup&gt;-SCALING&lt;/sup&gt;. */</em>
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] sectorial;
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> 
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>     <em class="jxr_javadoccomment">/** Creates a new instance.</em>
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> <em class="jxr_javadoccomment">     * @param centralBodyFrame rotating body frame</em>
+<a class="jxr_linenumber" name="L116" href="#L116">116</a> <em class="jxr_javadoccomment">     * @param provider provider for spherical harmonics</em>
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> <em class="jxr_javadoccomment">     * @since 6.0</em>
+<a class="jxr_linenumber" name="L118" href="#L118">118</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../org/orekit/forces/gravity/HolmesFeatherstoneAttractionModel.html">HolmesFeatherstoneAttractionModel</a>(<strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/frames/Frame.html">Frame</a> centralBodyFrame,
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>                                              <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/forces/gravity/potential/NormalizedSphericalHarmonicsProvider.html">NormalizedSphericalHarmonicsProvider</a> provider) {
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> 
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>         <strong class="jxr_keyword">this</strong>.parametersDrivers = <strong class="jxr_keyword">new</strong> <a href="../../../../org/orekit/utils/ParameterDriver.html">ParameterDriver</a>[1];
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>             parametersDrivers[0] = <strong class="jxr_keyword">new</strong> <a href="../../../../org/orekit/utils/ParameterDriver.html">ParameterDriver</a>(NewtonianAttraction.CENTRAL_ATTRACTION_COEFFICIENT,
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>                                                        provider.getMu(), MU_SCALE, 0.0, Double.POSITIVE_INFINITY);
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>             parametersDrivers[0].addObserver(<strong class="jxr_keyword">new</strong> <a href="../../../../org/orekit/utils/ParameterObserver.html">ParameterObserver</a>() {
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>                 <em class="jxr_javadoccomment">/** {@inheritDoc} */</em>
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>                 @Override
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>                 <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> valueChanged(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> previousValue, <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/utils/ParameterDriver.html">ParameterDriver</a> driver) {
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>                     HolmesFeatherstoneAttractionModel.<strong class="jxr_keyword">this</strong>.mu = driver.getValue();
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>                 }
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>             });
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>         } <strong class="jxr_keyword">catch</strong> (OrekitException oe) {
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>             <em class="jxr_comment">// this should never occur as valueChanged above never throws an exception</em>
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/orekit/errors/OrekitInternalError.html">OrekitInternalError</a>(oe);
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>         };
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>         <strong class="jxr_keyword">this</strong>.provider  = provider;
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>         <strong class="jxr_keyword">this</strong>.mu        = provider.getMu();
+<a class="jxr_linenumber" name="L140" href="#L140">140</a>         <strong class="jxr_keyword">this</strong>.bodyFrame = centralBodyFrame;
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> 
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>         <em class="jxr_comment">// the pre-computed arrays hold coefficients from triangular arrays in a single</em>
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>         <em class="jxr_comment">// storing neither diagonal elements (n = m) nor the non-diagonal element n=1, m=0</em>
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> degree = provider.getMaxDegree();
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> size = FastMath.max(0, degree * (degree + 1) / 2 - 1);
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>         gnmOj = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[size];
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>         hnmOj = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[size];
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>         enm   = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[size];
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> 
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>         <em class="jxr_comment">// pre-compute the recursion coefficients corresponding to equations 19 and 22</em>
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>         <em class="jxr_comment">// from Holmes and Featherstone paper</em>
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>         <em class="jxr_comment">// for cache efficiency, elements are stored in the same order they will be used</em>
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>         <em class="jxr_comment">// later on, i.e. from rightmost column to leftmost column</em>
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>         <strong class="jxr_keyword">int</strong> index = 0;
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> m = degree; m &gt;= 0; --m) {
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>             <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> j = (m == 0) ? 2 : 1;
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> n = FastMath.max(2, m + 1); n &lt;= degree; ++n) {
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>                 <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> f = (n - m) * (n + m + 1);
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>                 gnmOj[index] = 2 * (m + 1) / FastMath.sqrt(j * f);
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>                 hnmOj[index] = FastMath.sqrt((n + m + 2) * (n - m - 1) / (j * f));
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>                 enm[index]   = FastMath.sqrt(f / j);
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>                 ++index;
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>             }
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>         }
+<a class="jxr_linenumber" name="L165" href="#L165">165</a> 
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>         <em class="jxr_comment">// scaled sectorial terms corresponding to equation 28 in Holmes and Featherstone paper</em>
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>         sectorial    = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[degree + 1];
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>         sectorial[0] = FastMath.scalb(1.0, -SCALING);
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>         sectorial[1] = FastMath.sqrt(3) * sectorial[0];
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> m = 2; m &lt; sectorial.length; ++m) {
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>             sectorial[m] = FastMath.sqrt((2 * m + 1) / (2.0 * m)) * sectorial[m - 1];
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>         }
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> 
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>     }
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> 
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>     <em class="jxr_javadoccomment">/** {@inheritDoc} */</em>
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../org/orekit/forces/gravity/potential/TideSystem.html">TideSystem</a> getTideSystem() {
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>         <strong class="jxr_keyword">return</strong> provider.getTideSystem();
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>     }
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> 
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>     <em class="jxr_javadoccomment">/** Compute the value of the gravity field.</em>
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> <em class="jxr_javadoccomment">     * @param date current date</em>
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> <em class="jxr_javadoccomment">     * @param position position at which gravity field is desired in body frame</em>
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> <em class="jxr_javadoccomment">     * @return value of the gravity field (central and non-central parts summed together)</em>
+<a class="jxr_linenumber" name="L185" href="#L185">185</a> <em class="jxr_javadoccomment">     * @exception OrekitException if position cannot be converted to central body frame</em>
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">double</strong> value(<strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> date, <strong class="jxr_keyword">final</strong> Vector3D position)
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>         <strong class="jxr_keyword">throws</strong> <a href="../../../../org/orekit/errors/OrekitException.html">OrekitException</a> {
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>         <strong class="jxr_keyword">return</strong> mu / position.getNorm() + nonCentralPart(date, position);
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>     }
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> 
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>     <em class="jxr_javadoccomment">/** Compute the non-central part of the gravity field.</em>
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> <em class="jxr_javadoccomment">     * @param date current date</em>
+<a class="jxr_linenumber" name="L194" href="#L194">194</a> <em class="jxr_javadoccomment">     * @param position position at which gravity field is desired in body frame</em>
+<a class="jxr_linenumber" name="L195" href="#L195">195</a> <em class="jxr_javadoccomment">     * @return value of the non-central part of the gravity field</em>
+<a class="jxr_linenumber" name="L196" href="#L196">196</a> <em class="jxr_javadoccomment">     * @exception OrekitException if position cannot be converted to central body frame</em>
+<a class="jxr_linenumber" name="L197" href="#L197">197</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">double</strong> nonCentralPart(<strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> date, <strong class="jxr_keyword">final</strong> Vector3D position)
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>         <strong class="jxr_keyword">throws</strong> <a href="../../../../org/orekit/errors/OrekitException.html">OrekitException</a> {
+<a class="jxr_linenumber" name="L200" href="#L200">200</a> 
+<a class="jxr_linenumber" name="L201" href="#L201">201</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> degree = provider.getMaxDegree();
+<a class="jxr_linenumber" name="L202" href="#L202">202</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> order  = provider.getMaxOrder();
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/forces/gravity/potential/NormalizedSphericalHarmonicsProvider.html">NormalizedSphericalHarmonics</a> harmonics = provider.onDate(date);
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> 
+<a class="jxr_linenumber" name="L205" href="#L205">205</a>         <em class="jxr_comment">// allocate the columns for recursion</em>
+<a class="jxr_linenumber" name="L206" href="#L206">206</a>         <strong class="jxr_keyword">double</strong>[] pnm0Plus2 = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[degree + 1];
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>         <strong class="jxr_keyword">double</strong>[] pnm0Plus1 = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[degree + 1];
+<a class="jxr_linenumber" name="L208" href="#L208">208</a>         <strong class="jxr_keyword">double</strong>[] pnm0      = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[degree + 1];
+<a class="jxr_linenumber" name="L209" href="#L209">209</a> 
+<a class="jxr_linenumber" name="L210" href="#L210">210</a>         <em class="jxr_comment">// compute polar coordinates</em>
+<a class="jxr_linenumber" name="L211" href="#L211">211</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> x   = position.getX();
+<a class="jxr_linenumber" name="L212" href="#L212">212</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> y   = position.getY();
+<a class="jxr_linenumber" name="L213" href="#L213">213</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> z   = position.getZ();
+<a class="jxr_linenumber" name="L214" href="#L214">214</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> x2  = x * x;
+<a class="jxr_linenumber" name="L215" href="#L215">215</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> y2  = y * y;
+<a class="jxr_linenumber" name="L216" href="#L216">216</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> z2  = z * z;
+<a class="jxr_linenumber" name="L217" href="#L217">217</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> r2  = x2 + y2 + z2;
+<a class="jxr_linenumber" name="L218" href="#L218">218</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> r   = FastMath.sqrt (r2);
+<a class="jxr_linenumber" name="L219" href="#L219">219</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> rho = FastMath.sqrt(x2 + y2);
+<a class="jxr_linenumber" name="L220" href="#L220">220</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> t   = z / r;   <em class="jxr_comment">// cos(theta), where theta is the polar angle</em>
+<a class="jxr_linenumber" name="L221" href="#L221">221</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> u   = rho / r; <em class="jxr_comment">// sin(theta), where theta is the polar angle</em>
+<a class="jxr_linenumber" name="L222" href="#L222">222</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> tOu = z / rho;
+<a class="jxr_linenumber" name="L223" href="#L223">223</a> 
+<a class="jxr_linenumber" name="L224" href="#L224">224</a>         <em class="jxr_comment">// compute distance powers</em>
+<a class="jxr_linenumber" name="L225" href="#L225">225</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] aOrN = createDistancePowersArray(provider.getAe() / r);
+<a class="jxr_linenumber" name="L226" href="#L226">226</a> 
+<a class="jxr_linenumber" name="L227" href="#L227">227</a>         <em class="jxr_comment">// compute longitude cosines/sines</em>
+<a class="jxr_linenumber" name="L228" href="#L228">228</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[][] cosSinLambda = createCosSinArrays(position.getX() / rho, position.getY() / rho);
+<a class="jxr_linenumber" name="L229" href="#L229">229</a> 
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>         <em class="jxr_comment">// outer summation over order</em>
+<a class="jxr_linenumber" name="L231" href="#L231">231</a>         <strong class="jxr_keyword">int</strong>    index = 0;
+<a class="jxr_linenumber" name="L232" href="#L232">232</a>         <strong class="jxr_keyword">double</strong> value = 0;
+<a class="jxr_linenumber" name="L233" href="#L233">233</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> m = degree; m &gt;= 0; --m) {
+<a class="jxr_linenumber" name="L234" href="#L234">234</a> 
+<a class="jxr_linenumber" name="L235" href="#L235">235</a>             <em class="jxr_comment">// compute tesseral terms without derivatives</em>
+<a class="jxr_linenumber" name="L236" href="#L236">236</a>             index = computeTesseral(m, degree, index, t, u, tOu,
+<a class="jxr_linenumber" name="L237" href="#L237">237</a>                                     pnm0Plus2, pnm0Plus1, <strong class="jxr_keyword">null</strong>, pnm0, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L238" href="#L238">238</a> 
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>             <strong class="jxr_keyword">if</strong> (m &lt;= order) {
+<a class="jxr_linenumber" name="L240" href="#L240">240</a>                 <em class="jxr_comment">// compute contribution of current order to field (equation 5 of the paper)</em>
+<a class="jxr_linenumber" name="L241" href="#L241">241</a> 
+<a class="jxr_linenumber" name="L242" href="#L242">242</a>                 <em class="jxr_comment">// inner summation over degree, for fixed order</em>
+<a class="jxr_linenumber" name="L243" href="#L243">243</a>                 <strong class="jxr_keyword">double</strong> sumDegreeS        = 0;
+<a class="jxr_linenumber" name="L244" href="#L244">244</a>                 <strong class="jxr_keyword">double</strong> sumDegreeC        = 0;
+<a class="jxr_linenumber" name="L245" href="#L245">245</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> n = FastMath.max(2, m); n &lt;= degree; ++n) {
+<a class="jxr_linenumber" name="L246" href="#L246">246</a>                     sumDegreeS += pnm0[n] * aOrN[n] * harmonics.getNormalizedSnm(n, m);
+<a class="jxr_linenumber" name="L247" href="#L247">247</a>                     sumDegreeC += pnm0[n] * aOrN[n] * harmonics.getNormalizedCnm(n, m);
+<a class="jxr_linenumber" name="L248" href="#L248">248</a>                 }
+<a class="jxr_linenumber" name="L249" href="#L249">249</a> 
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>                 <em class="jxr_comment">// contribution to outer summation over order</em>
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>                 value = value * u + cosSinLambda[1][m] * sumDegreeS + cosSinLambda[0][m] * sumDegreeC;
+<a class="jxr_linenumber" name="L252" href="#L252">252</a> 
+<a class="jxr_linenumber" name="L253" href="#L253">253</a>             }
+<a class="jxr_linenumber" name="L254" href="#L254">254</a> 
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>             <em class="jxr_comment">// rotate the recursion arrays</em>
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>             <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] tmp = pnm0Plus2;
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>             pnm0Plus2 = pnm0Plus1;
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>             pnm0Plus1 = pnm0;
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>             pnm0      = tmp;
+<a class="jxr_linenumber" name="L260" href="#L260">260</a> 
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>         }
+<a class="jxr_linenumber" name="L262" href="#L262">262</a> 
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>         <em class="jxr_comment">// scale back</em>
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>         value = FastMath.scalb(value, SCALING);
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> 
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>         <em class="jxr_comment">// apply the global mu/r factor</em>
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>         <strong class="jxr_keyword">return</strong> mu * value / r;
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> 
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>     }
+<a class="jxr_linenumber" name="L270" href="#L270">270</a> 
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>     <em class="jxr_javadoccomment">/** Compute the gradient of the non-central part of the gravity field.</em>
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> <em class="jxr_javadoccomment">     * @param date current date</em>
+<a class="jxr_linenumber" name="L273" href="#L273">273</a> <em class="jxr_javadoccomment">     * @param position position at which gravity field is desired in body frame</em>
+<a class="jxr_linenumber" name="L274" href="#L274">274</a> <em class="jxr_javadoccomment">     * @return gradient of the non-central part of the gravity field</em>
+<a class="jxr_linenumber" name="L275" href="#L275">275</a> <em class="jxr_javadoccomment">     * @exception OrekitException if position cannot be converted to central body frame</em>
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">double</strong>[] gradient(<strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> date, <strong class="jxr_keyword">final</strong> Vector3D position)
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>         <strong class="jxr_keyword">throws</strong> <a href="../../../../org/orekit/errors/OrekitException.html">OrekitException</a> {
+<a class="jxr_linenumber" name="L279" href="#L279">279</a> 
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> degree = provider.getMaxDegree();
+<a class="jxr_linenumber" name="L281" href="#L281">281</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> order  = provider.getMaxOrder();
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/forces/gravity/potential/NormalizedSphericalHarmonicsProvider.html">NormalizedSphericalHarmonics</a> harmonics = provider.onDate(date);
+<a class="jxr_linenumber" name="L283" href="#L283">283</a> 
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>         <em class="jxr_comment">// allocate the columns for recursion</em>
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>         <strong class="jxr_keyword">double</strong>[] pnm0Plus2  = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[degree + 1];
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>         <strong class="jxr_keyword">double</strong>[] pnm0Plus1  = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[degree + 1];
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>         <strong class="jxr_keyword">double</strong>[] pnm0       = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[degree + 1];
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] pnm1 = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[degree + 1];
+<a class="jxr_linenumber" name="L289" href="#L289">289</a> 
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>         <em class="jxr_comment">// compute polar coordinates</em>
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> x    = position.getX();
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> y    = position.getY();
+<a class="jxr_linenumber" name="L293" href="#L293">293</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> z    = position.getZ();
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> x2   = x * x;
+<a class="jxr_linenumber" name="L295" href="#L295">295</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> y2   = y * y;
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> z2   = z * z;
+<a class="jxr_linenumber" name="L297" href="#L297">297</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> r2   = x2 + y2 + z2;
+<a class="jxr_linenumber" name="L298" href="#L298">298</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> r    = FastMath.sqrt (r2);
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> rho2 = x2 + y2;
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> rho  = FastMath.sqrt(rho2);
+<a class="jxr_linenumber" name="L301" href="#L301">301</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> t    = z / r;   <em class="jxr_comment">// cos(theta), where theta is the polar angle</em>
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> u    = rho / r; <em class="jxr_comment">// sin(theta), where theta is the polar angle</em>
+<a class="jxr_linenumber" name="L303" href="#L303">303</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> tOu  = z / rho;
+<a class="jxr_linenumber" name="L304" href="#L304">304</a> 
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>         <em class="jxr_comment">// compute distance powers</em>
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] aOrN = createDistancePowersArray(provider.getAe() / r);
+<a class="jxr_linenumber" name="L307" href="#L307">307</a> 
+<a class="jxr_linenumber" name="L308" href="#L308">308</a>         <em class="jxr_comment">// compute longitude cosines/sines</em>
+<a class="jxr_linenumber" name="L309" href="#L309">309</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[][] cosSinLambda = createCosSinArrays(position.getX() / rho, position.getY() / rho);
+<a class="jxr_linenumber" name="L310" href="#L310">310</a> 
+<a class="jxr_linenumber" name="L311" href="#L311">311</a>         <em class="jxr_comment">// outer summation over order</em>
+<a class="jxr_linenumber" name="L312" href="#L312">312</a>         <strong class="jxr_keyword">int</strong>    index = 0;
+<a class="jxr_linenumber" name="L313" href="#L313">313</a>         <strong class="jxr_keyword">double</strong> value = 0;
+<a class="jxr_linenumber" name="L314" href="#L314">314</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] gradient = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[3];
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> m = degree; m &gt;= 0; --m) {
+<a class="jxr_linenumber" name="L316" href="#L316">316</a> 
+<a class="jxr_linenumber" name="L317" href="#L317">317</a>             <em class="jxr_comment">// compute tesseral terms with derivatives</em>
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>             index = computeTesseral(m, degree, index, t, u, tOu,
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>                                     pnm0Plus2, pnm0Plus1, <strong class="jxr_keyword">null</strong>, pnm0, pnm1, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L320" href="#L320">320</a> 
+<a class="jxr_linenumber" name="L321" href="#L321">321</a>             <strong class="jxr_keyword">if</strong> (m &lt;= order) {
+<a class="jxr_linenumber" name="L322" href="#L322">322</a>                 <em class="jxr_comment">// compute contribution of current order to field (equation 5 of the paper)</em>
+<a class="jxr_linenumber" name="L323" href="#L323">323</a> 
+<a class="jxr_linenumber" name="L324" href="#L324">324</a>                 <em class="jxr_comment">// inner summation over degree, for fixed order</em>
+<a class="jxr_linenumber" name="L325" href="#L325">325</a>                 <strong class="jxr_keyword">double</strong> sumDegreeS        = 0;
+<a class="jxr_linenumber" name="L326" href="#L326">326</a>                 <strong class="jxr_keyword">double</strong> sumDegreeC        = 0;
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>                 <strong class="jxr_keyword">double</strong> dSumDegreeSdR     = 0;
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>                 <strong class="jxr_keyword">double</strong> dSumDegreeCdR     = 0;
+<a class="jxr_linenumber" name="L329" href="#L329">329</a>                 <strong class="jxr_keyword">double</strong> dSumDegreeSdTheta = 0;
+<a class="jxr_linenumber" name="L330" href="#L330">330</a>                 <strong class="jxr_keyword">double</strong> dSumDegreeCdTheta = 0;
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> n = FastMath.max(2, m); n &lt;= degree; ++n) {
+<a class="jxr_linenumber" name="L332" href="#L332">332</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> qSnm  = aOrN[n] * harmonics.getNormalizedSnm(n, m);
+<a class="jxr_linenumber" name="L333" href="#L333">333</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> qCnm  = aOrN[n] * harmonics.getNormalizedCnm(n, m);
+<a class="jxr_linenumber" name="L334" href="#L334">334</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> nOr   = n / r;
+<a class="jxr_linenumber" name="L335" href="#L335">335</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> s0    = pnm0[n] * qSnm;
+<a class="jxr_linenumber" name="L336" href="#L336">336</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> c0    = pnm0[n] * qCnm;
+<a class="jxr_linenumber" name="L337" href="#L337">337</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> s1    = pnm1[n] * qSnm;
+<a class="jxr_linenumber" name="L338" href="#L338">338</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> c1    = pnm1[n] * qCnm;
+<a class="jxr_linenumber" name="L339" href="#L339">339</a>                     sumDegreeS        += s0;
+<a class="jxr_linenumber" name="L340" href="#L340">340</a>                     sumDegreeC        += c0;
+<a class="jxr_linenumber" name="L341" href="#L341">341</a>                     dSumDegreeSdR     -= nOr * s0;
+<a class="jxr_linenumber" name="L342" href="#L342">342</a>                     dSumDegreeCdR     -= nOr * c0;
+<a class="jxr_linenumber" name="L343" href="#L343">343</a>                     dSumDegreeSdTheta += s1;
+<a class="jxr_linenumber" name="L344" href="#L344">344</a>                     dSumDegreeCdTheta += c1;
+<a class="jxr_linenumber" name="L345" href="#L345">345</a>                 }
+<a class="jxr_linenumber" name="L346" href="#L346">346</a> 
+<a class="jxr_linenumber" name="L347" href="#L347">347</a>                 <em class="jxr_comment">// contribution to outer summation over order</em>
+<a class="jxr_linenumber" name="L348" href="#L348">348</a>                 <em class="jxr_comment">// beware that we need to order gradient using the mathematical conventions</em>
+<a class="jxr_linenumber" name="L349" href="#L349">349</a>                 <em class="jxr_comment">// compliant with the SphericalCoordinates class, so our lambda is its theta</em>
+<a class="jxr_linenumber" name="L350" href="#L350">350</a>                 <em class="jxr_comment">// (and hence at index 1) and our theta is its phi (and hence at index 2)</em>
+<a class="jxr_linenumber" name="L351" href="#L351">351</a>                 <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> sML = cosSinLambda[1][m];
+<a class="jxr_linenumber" name="L352" href="#L352">352</a>                 <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> cML = cosSinLambda[0][m];
+<a class="jxr_linenumber" name="L353" href="#L353">353</a>                 value            = value       * u + sML * sumDegreeS        + cML * sumDegreeC;
+<a class="jxr_linenumber" name="L354" href="#L354">354</a>                 gradient[0]      = gradient[0] * u + sML * dSumDegreeSdR     + cML * dSumDegreeCdR;
+<a class="jxr_linenumber" name="L355" href="#L355">355</a>                 gradient[1]      = gradient[1] * u + m * (cML * sumDegreeS - sML * sumDegreeC);
+<a class="jxr_linenumber" name="L356" href="#L356">356</a>                 gradient[2]      = gradient[2] * u + sML * dSumDegreeSdTheta + cML * dSumDegreeCdTheta;
+<a class="jxr_linenumber" name="L357" href="#L357">357</a> 
+<a class="jxr_linenumber" name="L358" href="#L358">358</a>             }
+<a class="jxr_linenumber" name="L359" href="#L359">359</a> 
+<a class="jxr_linenumber" name="L360" href="#L360">360</a>             <em class="jxr_comment">// rotate the recursion arrays</em>
+<a class="jxr_linenumber" name="L361" href="#L361">361</a>             <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] tmp = pnm0Plus2;
+<a class="jxr_linenumber" name="L362" href="#L362">362</a>             pnm0Plus2 = pnm0Plus1;
+<a class="jxr_linenumber" name="L363" href="#L363">363</a>             pnm0Plus1 = pnm0;
+<a class="jxr_linenumber" name="L364" href="#L364">364</a>             pnm0      = tmp;
+<a class="jxr_linenumber" name="L365" href="#L365">365</a> 
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>         }
+<a class="jxr_linenumber" name="L367" href="#L367">367</a> 
+<a class="jxr_linenumber" name="L368" href="#L368">368</a>         <em class="jxr_comment">// scale back</em>
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>         value       = FastMath.scalb(value,       SCALING);
+<a class="jxr_linenumber" name="L370" href="#L370">370</a>         gradient[0] = FastMath.scalb(gradient[0], SCALING);
+<a class="jxr_linenumber" name="L371" href="#L371">371</a>         gradient[1] = FastMath.scalb(gradient[1], SCALING);
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>         gradient[2] = FastMath.scalb(gradient[2], SCALING);
+<a class="jxr_linenumber" name="L373" href="#L373">373</a> 
+<a class="jxr_linenumber" name="L374" href="#L374">374</a>         <em class="jxr_comment">// apply the global mu/r factor</em>
+<a class="jxr_linenumber" name="L375" href="#L375">375</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> muOr = mu / r;
+<a class="jxr_linenumber" name="L376" href="#L376">376</a>         value            *= muOr;
+<a class="jxr_linenumber" name="L377" href="#L377">377</a>         gradient[0]       = muOr * gradient[0] - value / r;
+<a class="jxr_linenumber" name="L378" href="#L378">378</a>         gradient[1]      *= muOr;
+<a class="jxr_linenumber" name="L379" href="#L379">379</a>         gradient[2]      *= muOr;
+<a class="jxr_linenumber" name="L380" href="#L380">380</a> 
+<a class="jxr_linenumber" name="L381" href="#L381">381</a>         <em class="jxr_comment">// convert gradient from spherical to Cartesian</em>
+<a class="jxr_linenumber" name="L382" href="#L382">382</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> SphericalCoordinates(position).toCartesianGradient(gradient);
+<a class="jxr_linenumber" name="L383" href="#L383">383</a> 
+<a class="jxr_linenumber" name="L384" href="#L384">384</a>     }
+<a class="jxr_linenumber" name="L385" href="#L385">385</a> 
+<a class="jxr_linenumber" name="L386" href="#L386">386</a>     <em class="jxr_javadoccomment">/** Compute both the gradient and the hessian of the non-central part of the gravity field.</em>
+<a class="jxr_linenumber" name="L387" href="#L387">387</a> <em class="jxr_javadoccomment">     * @param date current date</em>
+<a class="jxr_linenumber" name="L388" href="#L388">388</a> <em class="jxr_javadoccomment">     * @param position position at which gravity field is desired in body frame</em>
+<a class="jxr_linenumber" name="L389" href="#L389">389</a> <em class="jxr_javadoccomment">     * @return gradient and hessian of the non-central part of the gravity field</em>
+<a class="jxr_linenumber" name="L390" href="#L390">390</a> <em class="jxr_javadoccomment">     * @exception OrekitException if position cannot be converted to central body frame</em>
+<a class="jxr_linenumber" name="L391" href="#L391">391</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L392" href="#L392">392</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../org/orekit/forces/gravity/HolmesFeatherstoneAttractionModel.html">GradientHessian</a> gradientHessian(<strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> date, <strong class="jxr_keyword">final</strong> Vector3D position)
+<a class="jxr_linenumber" name="L393" href="#L393">393</a>         <strong class="jxr_keyword">throws</strong> <a href="../../../../org/orekit/errors/OrekitException.html">OrekitException</a> {
+<a class="jxr_linenumber" name="L394" href="#L394">394</a> 
+<a class="jxr_linenumber" name="L395" href="#L395">395</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> degree = provider.getMaxDegree();
+<a class="jxr_linenumber" name="L396" href="#L396">396</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> order  = provider.getMaxOrder();
+<a class="jxr_linenumber" name="L397" href="#L397">397</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/forces/gravity/potential/NormalizedSphericalHarmonicsProvider.html">NormalizedSphericalHarmonics</a> harmonics = provider.onDate(date);
+<a class="jxr_linenumber" name="L398" href="#L398">398</a> 
+<a class="jxr_linenumber" name="L399" href="#L399">399</a>         <em class="jxr_comment">// allocate the columns for recursion</em>
+<a class="jxr_linenumber" name="L400" href="#L400">400</a>         <strong class="jxr_keyword">double</strong>[] pnm0Plus2  = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[degree + 1];
+<a class="jxr_linenumber" name="L401" href="#L401">401</a>         <strong class="jxr_keyword">double</strong>[] pnm0Plus1  = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[degree + 1];
+<a class="jxr_linenumber" name="L402" href="#L402">402</a>         <strong class="jxr_keyword">double</strong>[] pnm0       = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[degree + 1];
+<a class="jxr_linenumber" name="L403" href="#L403">403</a>         <strong class="jxr_keyword">double</strong>[] pnm1Plus1  = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[degree + 1];
+<a class="jxr_linenumber" name="L404" href="#L404">404</a>         <strong class="jxr_keyword">double</strong>[] pnm1       = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[degree + 1];
+<a class="jxr_linenumber" name="L405" href="#L405">405</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] pnm2 = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[degree + 1];
+<a class="jxr_linenumber" name="L406" href="#L406">406</a> 
+<a class="jxr_linenumber" name="L407" href="#L407">407</a>         <em class="jxr_comment">// compute polar coordinates</em>
+<a class="jxr_linenumber" name="L408" href="#L408">408</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> x    = position.getX();
+<a class="jxr_linenumber" name="L409" href="#L409">409</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> y    = position.getY();
+<a class="jxr_linenumber" name="L410" href="#L410">410</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> z    = position.getZ();
+<a class="jxr_linenumber" name="L411" href="#L411">411</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> x2   = x * x;
+<a class="jxr_linenumber" name="L412" href="#L412">412</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> y2   = y * y;
+<a class="jxr_linenumber" name="L413" href="#L413">413</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> z2   = z * z;
+<a class="jxr_linenumber" name="L414" href="#L414">414</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> r2   = x2 + y2 + z2;
+<a class="jxr_linenumber" name="L415" href="#L415">415</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> r    = FastMath.sqrt (r2);
+<a class="jxr_linenumber" name="L416" href="#L416">416</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> rho2 = x2 + y2;
+<a class="jxr_linenumber" name="L417" href="#L417">417</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> rho  = FastMath.sqrt(rho2);
+<a class="jxr_linenumber" name="L418" href="#L418">418</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> t    = z / r;   <em class="jxr_comment">// cos(theta), where theta is the polar angle</em>
+<a class="jxr_linenumber" name="L419" href="#L419">419</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> u    = rho / r; <em class="jxr_comment">// sin(theta), where theta is the polar angle</em>
+<a class="jxr_linenumber" name="L420" href="#L420">420</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> tOu  = z / rho;
+<a class="jxr_linenumber" name="L421" href="#L421">421</a> 
+<a class="jxr_linenumber" name="L422" href="#L422">422</a>         <em class="jxr_comment">// compute distance powers</em>
+<a class="jxr_linenumber" name="L423" href="#L423">423</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] aOrN = createDistancePowersArray(provider.getAe() / r);
+<a class="jxr_linenumber" name="L424" href="#L424">424</a> 
+<a class="jxr_linenumber" name="L425" href="#L425">425</a>         <em class="jxr_comment">// compute longitude cosines/sines</em>
+<a class="jxr_linenumber" name="L426" href="#L426">426</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[][] cosSinLambda = createCosSinArrays(position.getX() / rho, position.getY() / rho);
+<a class="jxr_linenumber" name="L427" href="#L427">427</a> 
+<a class="jxr_linenumber" name="L428" href="#L428">428</a>         <em class="jxr_comment">// outer summation over order</em>
+<a class="jxr_linenumber" name="L429" href="#L429">429</a>         <strong class="jxr_keyword">int</strong>    index = 0;
+<a class="jxr_linenumber" name="L430" href="#L430">430</a>         <strong class="jxr_keyword">double</strong> value = 0;
+<a class="jxr_linenumber" name="L431" href="#L431">431</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[]   gradient = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[3];
+<a class="jxr_linenumber" name="L432" href="#L432">432</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[][] hessian  = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[3][3];
+<a class="jxr_linenumber" name="L433" href="#L433">433</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> m = degree; m &gt;= 0; --m) {
+<a class="jxr_linenumber" name="L434" href="#L434">434</a> 
+<a class="jxr_linenumber" name="L435" href="#L435">435</a>             <em class="jxr_comment">// compute tesseral terms</em>
+<a class="jxr_linenumber" name="L436" href="#L436">436</a>             index = computeTesseral(m, degree, index, t, u, tOu,
+<a class="jxr_linenumber" name="L437" href="#L437">437</a>                                     pnm0Plus2, pnm0Plus1, pnm1Plus1, pnm0, pnm1, pnm2);
+<a class="jxr_linenumber" name="L438" href="#L438">438</a> 
+<a class="jxr_linenumber" name="L439" href="#L439">439</a>             <strong class="jxr_keyword">if</strong> (m &lt;= order) {
+<a class="jxr_linenumber" name="L440" href="#L440">440</a>                 <em class="jxr_comment">// compute contribution of current order to field (equation 5 of the paper)</em>
+<a class="jxr_linenumber" name="L441" href="#L441">441</a> 
+<a class="jxr_linenumber" name="L442" href="#L442">442</a>                 <em class="jxr_comment">// inner summation over degree, for fixed order</em>
+<a class="jxr_linenumber" name="L443" href="#L443">443</a>                 <strong class="jxr_keyword">double</strong> sumDegreeS               = 0;
+<a class="jxr_linenumber" name="L444" href="#L444">444</a>                 <strong class="jxr_keyword">double</strong> sumDegreeC               = 0;
+<a class="jxr_linenumber" name="L445" href="#L445">445</a>                 <strong class="jxr_keyword">double</strong> dSumDegreeSdR            = 0;
+<a class="jxr_linenumber" name="L446" href="#L446">446</a>                 <strong class="jxr_keyword">double</strong> dSumDegreeCdR            = 0;
+<a class="jxr_linenumber" name="L447" href="#L447">447</a>                 <strong class="jxr_keyword">double</strong> dSumDegreeSdTheta        = 0;
+<a class="jxr_linenumber" name="L448" href="#L448">448</a>                 <strong class="jxr_keyword">double</strong> dSumDegreeCdTheta        = 0;
+<a class="jxr_linenumber" name="L449" href="#L449">449</a>                 <strong class="jxr_keyword">double</strong> d2SumDegreeSdRdR         = 0;
+<a class="jxr_linenumber" name="L450" href="#L450">450</a>                 <strong class="jxr_keyword">double</strong> d2SumDegreeSdRdTheta     = 0;
+<a class="jxr_linenumber" name="L451" href="#L451">451</a>                 <strong class="jxr_keyword">double</strong> d2SumDegreeSdThetadTheta = 0;
+<a class="jxr_linenumber" name="L452" href="#L452">452</a>                 <strong class="jxr_keyword">double</strong> d2SumDegreeCdRdR         = 0;
+<a class="jxr_linenumber" name="L453" href="#L453">453</a>                 <strong class="jxr_keyword">double</strong> d2SumDegreeCdRdTheta     = 0;
+<a class="jxr_linenumber" name="L454" href="#L454">454</a>                 <strong class="jxr_keyword">double</strong> d2SumDegreeCdThetadTheta = 0;
+<a class="jxr_linenumber" name="L455" href="#L455">455</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> n = FastMath.max(2, m); n &lt;= degree; ++n) {
+<a class="jxr_linenumber" name="L456" href="#L456">456</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> qSnm         = aOrN[n] * harmonics.getNormalizedSnm(n, m);
+<a class="jxr_linenumber" name="L457" href="#L457">457</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> qCnm         = aOrN[n] * harmonics.getNormalizedCnm(n, m);
+<a class="jxr_linenumber" name="L458" href="#L458">458</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> nOr          = n / r;
+<a class="jxr_linenumber" name="L459" href="#L459">459</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> nnP1Or2      = nOr * (n + 1) / r;
+<a class="jxr_linenumber" name="L460" href="#L460">460</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> s0           = pnm0[n] * qSnm;
+<a class="jxr_linenumber" name="L461" href="#L461">461</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> c0           = pnm0[n] * qCnm;
+<a class="jxr_linenumber" name="L462" href="#L462">462</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> s1           = pnm1[n] * qSnm;
+<a class="jxr_linenumber" name="L463" href="#L463">463</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> c1           = pnm1[n] * qCnm;
+<a class="jxr_linenumber" name="L464" href="#L464">464</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> s2           = pnm2[n] * qSnm;
+<a class="jxr_linenumber" name="L465" href="#L465">465</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> c2           = pnm2[n] * qCnm;
+<a class="jxr_linenumber" name="L466" href="#L466">466</a>                     sumDegreeS               += s0;
+<a class="jxr_linenumber" name="L467" href="#L467">467</a>                     sumDegreeC               += c0;
+<a class="jxr_linenumber" name="L468" href="#L468">468</a>                     dSumDegreeSdR            -= nOr * s0;
+<a class="jxr_linenumber" name="L469" href="#L469">469</a>                     dSumDegreeCdR            -= nOr * c0;
+<a class="jxr_linenumber" name="L470" href="#L470">470</a>                     dSumDegreeSdTheta        += s1;
+<a class="jxr_linenumber" name="L471" href="#L471">471</a>                     dSumDegreeCdTheta        += c1;
+<a class="jxr_linenumber" name="L472" href="#L472">472</a>                     d2SumDegreeSdRdR         += nnP1Or2 * s0;
+<a class="jxr_linenumber" name="L473" href="#L473">473</a>                     d2SumDegreeSdRdTheta     -= nOr * s1;
+<a class="jxr_linenumber" name="L474" href="#L474">474</a>                     d2SumDegreeSdThetadTheta += s2;
+<a class="jxr_linenumber" name="L475" href="#L475">475</a>                     d2SumDegreeCdRdR         += nnP1Or2 * c0;
+<a class="jxr_linenumber" name="L476" href="#L476">476</a>                     d2SumDegreeCdRdTheta     -= nOr * c1;
+<a class="jxr_linenumber" name="L477" href="#L477">477</a>                     d2SumDegreeCdThetadTheta += c2;
+<a class="jxr_linenumber" name="L478" href="#L478">478</a>                 }
+<a class="jxr_linenumber" name="L479" href="#L479">479</a> 
+<a class="jxr_linenumber" name="L480" href="#L480">480</a>                 <em class="jxr_comment">// contribution to outer summation over order</em>
+<a class="jxr_linenumber" name="L481" href="#L481">481</a>                 <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> sML = cosSinLambda[1][m];
+<a class="jxr_linenumber" name="L482" href="#L482">482</a>                 <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> cML = cosSinLambda[0][m];
+<a class="jxr_linenumber" name="L483" href="#L483">483</a>                 value            = value         * u + sML * sumDegreeS + cML * sumDegreeC;
+<a class="jxr_linenumber" name="L484" href="#L484">484</a>                 gradient[0]      = gradient[0]   * u + sML * dSumDegreeSdR + cML * dSumDegreeCdR;
+<a class="jxr_linenumber" name="L485" href="#L485">485</a>                 gradient[1]      = gradient[1]   * u + m * (cML * sumDegreeS - sML * sumDegreeC);
+<a class="jxr_linenumber" name="L486" href="#L486">486</a>                 gradient[2]      = gradient[2]   * u + sML * dSumDegreeSdTheta + cML * dSumDegreeCdTheta;
+<a class="jxr_linenumber" name="L487" href="#L487">487</a>                 hessian[0][0]    = hessian[0][0] * u + sML * d2SumDegreeSdRdR + cML * d2SumDegreeCdRdR;
+<a class="jxr_linenumber" name="L488" href="#L488">488</a>                 hessian[1][0]    = hessian[1][0] * u + m * (cML * dSumDegreeSdR - sML * dSumDegreeCdR);
+<a class="jxr_linenumber" name="L489" href="#L489">489</a>                 hessian[2][0]    = hessian[2][0] * u + sML * d2SumDegreeSdRdTheta + cML * d2SumDegreeCdRdTheta;
+<a class="jxr_linenumber" name="L490" href="#L490">490</a>                 hessian[1][1]    = hessian[1][1] * u - m * m * (sML * sumDegreeS + cML * sumDegreeC);
+<a class="jxr_linenumber" name="L491" href="#L491">491</a>                 hessian[2][1]    = hessian[2][1] * u + m * (cML * dSumDegreeSdTheta - sML * dSumDegreeCdTheta);
+<a class="jxr_linenumber" name="L492" href="#L492">492</a>                 hessian[2][2]    = hessian[2][2] * u + sML * d2SumDegreeSdThetadTheta + cML * d2SumDegreeCdThetadTheta;
+<a class="jxr_linenumber" name="L493" href="#L493">493</a> 
+<a class="jxr_linenumber" name="L494" href="#L494">494</a>             }
+<a class="jxr_linenumber" name="L495" href="#L495">495</a> 
+<a class="jxr_linenumber" name="L496" href="#L496">496</a>             <em class="jxr_comment">// rotate the recursion arrays</em>
+<a class="jxr_linenumber" name="L497" href="#L497">497</a>             <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] tmp0 = pnm0Plus2;
+<a class="jxr_linenumber" name="L498" href="#L498">498</a>             pnm0Plus2 = pnm0Plus1;
+<a class="jxr_linenumber" name="L499" href="#L499">499</a>             pnm0Plus1 = pnm0;
+<a class="jxr_linenumber" name="L500" href="#L500">500</a>             pnm0      = tmp0;
+<a class="jxr_linenumber" name="L501" href="#L501">501</a>             <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] tmp1 = pnm1Plus1;
+<a class="jxr_linenumber" name="L502" href="#L502">502</a>             pnm1Plus1 = pnm1;
+<a class="jxr_linenumber" name="L503" href="#L503">503</a>             pnm1      = tmp1;
+<a class="jxr_linenumber" name="L504" href="#L504">504</a> 
+<a class="jxr_linenumber" name="L505" href="#L505">505</a>         }
+<a class="jxr_linenumber" name="L506" href="#L506">506</a> 
+<a class="jxr_linenumber" name="L507" href="#L507">507</a>         <em class="jxr_comment">// scale back</em>
+<a class="jxr_linenumber" name="L508" href="#L508">508</a>         value = FastMath.scalb(value, SCALING);
+<a class="jxr_linenumber" name="L509" href="#L509">509</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; 3; ++i) {
+<a class="jxr_linenumber" name="L510" href="#L510">510</a>             gradient[i] = FastMath.scalb(gradient[i], SCALING);
+<a class="jxr_linenumber" name="L511" href="#L511">511</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> j = 0; j &lt;= i; ++j) {
+<a class="jxr_linenumber" name="L512" href="#L512">512</a>                 hessian[i][j] = FastMath.scalb(hessian[i][j], SCALING);
+<a class="jxr_linenumber" name="L513" href="#L513">513</a>             }
+<a class="jxr_linenumber" name="L514" href="#L514">514</a>         }
+<a class="jxr_linenumber" name="L515" href="#L515">515</a> 
+<a class="jxr_linenumber" name="L516" href="#L516">516</a> 
+<a class="jxr_linenumber" name="L517" href="#L517">517</a>         <em class="jxr_comment">// apply the global mu/r factor</em>
+<a class="jxr_linenumber" name="L518" href="#L518">518</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> muOr = mu / r;
+<a class="jxr_linenumber" name="L519" href="#L519">519</a>         value         *= muOr;
+<a class="jxr_linenumber" name="L520" href="#L520">520</a>         gradient[0]    = muOr * gradient[0] - value / r;
+<a class="jxr_linenumber" name="L521" href="#L521">521</a>         gradient[1]   *= muOr;
+<a class="jxr_linenumber" name="L522" href="#L522">522</a>         gradient[2]   *= muOr;
+<a class="jxr_linenumber" name="L523" href="#L523">523</a>         hessian[0][0]  = muOr * hessian[0][0] - 2 * gradient[0] / r;
+<a class="jxr_linenumber" name="L524" href="#L524">524</a>         hessian[1][0]  = muOr * hessian[1][0] -     gradient[1] / r;
+<a class="jxr_linenumber" name="L525" href="#L525">525</a>         hessian[2][0]  = muOr * hessian[2][0] -     gradient[2] / r;
+<a class="jxr_linenumber" name="L526" href="#L526">526</a>         hessian[1][1] *= muOr;
+<a class="jxr_linenumber" name="L527" href="#L527">527</a>         hessian[2][1] *= muOr;
+<a class="jxr_linenumber" name="L528" href="#L528">528</a>         hessian[2][2] *= muOr;
+<a class="jxr_linenumber" name="L529" href="#L529">529</a> 
+<a class="jxr_linenumber" name="L530" href="#L530">530</a>         <em class="jxr_comment">// convert gradient and Hessian from spherical to Cartesian</em>
+<a class="jxr_linenumber" name="L531" href="#L531">531</a>         <strong class="jxr_keyword">final</strong> SphericalCoordinates sc = <strong class="jxr_keyword">new</strong> SphericalCoordinates(position);
+<a class="jxr_linenumber" name="L532" href="#L532">532</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/orekit/forces/gravity/HolmesFeatherstoneAttractionModel.html">GradientHessian</a>(sc.toCartesianGradient(gradient),
+<a class="jxr_linenumber" name="L533" href="#L533">533</a>                                    sc.toCartesianHessian(hessian, gradient));
+<a class="jxr_linenumber" name="L534" href="#L534">534</a> 
+<a class="jxr_linenumber" name="L535" href="#L535">535</a> 
+<a class="jxr_linenumber" name="L536" href="#L536">536</a>     }
+<a class="jxr_linenumber" name="L537" href="#L537">537</a> 
+<a class="jxr_linenumber" name="L538" href="#L538">538</a>     <em class="jxr_javadoccomment">/** Container for gradient and Hessian. */</em>
+<a class="jxr_linenumber" name="L539" href="#L539">539</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/orekit/forces/gravity/HolmesFeatherstoneAttractionModel.html">GradientHessian</a> <strong class="jxr_keyword">implements</strong> Serializable {
+<a class="jxr_linenumber" name="L540" href="#L540">540</a> 
+<a class="jxr_linenumber" name="L541" href="#L541">541</a>         <em class="jxr_javadoccomment">/** Serializable UID. */</em>
+<a class="jxr_linenumber" name="L542" href="#L542">542</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> serialVersionUID = 20130219L;
+<a class="jxr_linenumber" name="L543" href="#L543">543</a> 
+<a class="jxr_linenumber" name="L544" href="#L544">544</a>         <em class="jxr_javadoccomment">/** Gradient. */</em>
+<a class="jxr_linenumber" name="L545" href="#L545">545</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] gradient;
+<a class="jxr_linenumber" name="L546" href="#L546">546</a> 
+<a class="jxr_linenumber" name="L547" href="#L547">547</a>         <em class="jxr_javadoccomment">/** Hessian. */</em>
+<a class="jxr_linenumber" name="L548" href="#L548">548</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[][] hessian;
+<a class="jxr_linenumber" name="L549" href="#L549">549</a> 
+<a class="jxr_linenumber" name="L550" href="#L550">550</a>         <em class="jxr_javadoccomment">/** Simple constructor.</em>
+<a class="jxr_linenumber" name="L551" href="#L551">551</a> <em class="jxr_javadoccomment">         * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L552" href="#L552">552</a> <em class="jxr_javadoccomment">         * A reference to the arrays is stored, they are &lt;strong&gt;not&lt;/strong&gt; cloned.</em>
+<a class="jxr_linenumber" name="L553" href="#L553">553</a> <em class="jxr_javadoccomment">         * &lt;/p&gt;</em>
+<a class="jxr_linenumber" name="L554" href="#L554">554</a> <em class="jxr_javadoccomment">         * @param gradient gradient</em>
+<a class="jxr_linenumber" name="L555" href="#L555">555</a> <em class="jxr_javadoccomment">         * @param hessian hessian</em>
+<a class="jxr_linenumber" name="L556" href="#L556">556</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L557" href="#L557">557</a>         <strong class="jxr_keyword">public</strong> <a href="../../../../org/orekit/forces/gravity/HolmesFeatherstoneAttractionModel.html">GradientHessian</a>(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] gradient, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[][] hessian) {
+<a class="jxr_linenumber" name="L558" href="#L558">558</a>             <strong class="jxr_keyword">this</strong>.gradient = gradient;
+<a class="jxr_linenumber" name="L559" href="#L559">559</a>             <strong class="jxr_keyword">this</strong>.hessian  = hessian;
+<a class="jxr_linenumber" name="L560" href="#L560">560</a>         }
+<a class="jxr_linenumber" name="L561" href="#L561">561</a> 
+<a class="jxr_linenumber" name="L562" href="#L562">562</a>         <em class="jxr_javadoccomment">/** Get a reference to the gradient.</em>
+<a class="jxr_linenumber" name="L563" href="#L563">563</a> <em class="jxr_javadoccomment">         * @return gradient (a reference to the internal array is returned)</em>
+<a class="jxr_linenumber" name="L564" href="#L564">564</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L565" href="#L565">565</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">double</strong>[] getGradient() {
+<a class="jxr_linenumber" name="L566" href="#L566">566</a>             <strong class="jxr_keyword">return</strong> gradient;
+<a class="jxr_linenumber" name="L567" href="#L567">567</a>         }
+<a class="jxr_linenumber" name="L568" href="#L568">568</a> 
+<a class="jxr_linenumber" name="L569" href="#L569">569</a>         <em class="jxr_javadoccomment">/** Get a reference to the Hessian.</em>
+<a class="jxr_linenumber" name="L570" href="#L570">570</a> <em class="jxr_javadoccomment">         * @return Hessian (a reference to the internal array is returned)</em>
+<a class="jxr_linenumber" name="L571" href="#L571">571</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L572" href="#L572">572</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">double</strong>[][] getHessian() {
+<a class="jxr_linenumber" name="L573" href="#L573">573</a>             <strong class="jxr_keyword">return</strong> hessian;
+<a class="jxr_linenumber" name="L574" href="#L574">574</a>         }
+<a class="jxr_linenumber" name="L575" href="#L575">575</a> 
+<a class="jxr_linenumber" name="L576" href="#L576">576</a>     }
+<a class="jxr_linenumber" name="L577" href="#L577">577</a> 
+<a class="jxr_linenumber" name="L578" href="#L578">578</a>     <em class="jxr_javadoccomment">/** Compute a/r powers array.</em>
+<a class="jxr_linenumber" name="L579" href="#L579">579</a> <em class="jxr_javadoccomment">     * @param aOr a/r</em>
+<a class="jxr_linenumber" name="L580" href="#L580">580</a> <em class="jxr_javadoccomment">     * @return array containing (a/r)&lt;sup&gt;n&lt;/sup&gt;</em>
+<a class="jxr_linenumber" name="L581" href="#L581">581</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L582" href="#L582">582</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">double</strong>[] createDistancePowersArray(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> aOr) {
+<a class="jxr_linenumber" name="L583" href="#L583">583</a> 
+<a class="jxr_linenumber" name="L584" href="#L584">584</a>         <em class="jxr_comment">// initialize array</em>
+<a class="jxr_linenumber" name="L585" href="#L585">585</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] aOrN = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[provider.getMaxDegree() + 1];
+<a class="jxr_linenumber" name="L586" href="#L586">586</a>         aOrN[0] = 1;
+<a class="jxr_linenumber" name="L587" href="#L587">587</a>         aOrN[1] = aOr;
+<a class="jxr_linenumber" name="L588" href="#L588">588</a> 
+<a class="jxr_linenumber" name="L589" href="#L589">589</a>         <em class="jxr_comment">// fill up array</em>
+<a class="jxr_linenumber" name="L590" href="#L590">590</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> n = 2; n &lt; aOrN.length; ++n) {
+<a class="jxr_linenumber" name="L591" href="#L591">591</a>             <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> p = n / 2;
+<a class="jxr_linenumber" name="L592" href="#L592">592</a>             <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> q = n - p;
+<a class="jxr_linenumber" name="L593" href="#L593">593</a>             aOrN[n] = aOrN[p] * aOrN[q];
+<a class="jxr_linenumber" name="L594" href="#L594">594</a>         }
+<a class="jxr_linenumber" name="L595" href="#L595">595</a> 
+<a class="jxr_linenumber" name="L596" href="#L596">596</a>         <strong class="jxr_keyword">return</strong> aOrN;
+<a class="jxr_linenumber" name="L597" href="#L597">597</a> 
+<a class="jxr_linenumber" name="L598" href="#L598">598</a>     }
+<a class="jxr_linenumber" name="L599" href="#L599">599</a> 
+<a class="jxr_linenumber" name="L600" href="#L600">600</a>     <em class="jxr_javadoccomment">/** Compute longitude cosines and sines.</em>
+<a class="jxr_linenumber" name="L601" href="#L601">601</a> <em class="jxr_javadoccomment">     * @param cosLambda cos(λ)</em>
+<a class="jxr_linenumber" name="L602" href="#L602">602</a> <em class="jxr_javadoccomment">     * @param sinLambda sin(λ)</em>
+<a class="jxr_linenumber" name="L603" href="#L603">603</a> <em class="jxr_javadoccomment">     * @return array containing cos(m &amp;times; λ) in row 0</em>
+<a class="jxr_linenumber" name="L604" href="#L604">604</a> <em class="jxr_javadoccomment">     * and sin(m &amp;times; λ) in row 1</em>
+<a class="jxr_linenumber" name="L605" href="#L605">605</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L606" href="#L606">606</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">double</strong>[][] createCosSinArrays(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> cosLambda, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> sinLambda) {
+<a class="jxr_linenumber" name="L607" href="#L607">607</a> 
+<a class="jxr_linenumber" name="L608" href="#L608">608</a>         <em class="jxr_comment">// initialize arrays</em>
+<a class="jxr_linenumber" name="L609" href="#L609">609</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[][] cosSin = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[2][provider.getMaxOrder() + 1];
+<a class="jxr_linenumber" name="L610" href="#L610">610</a>         cosSin[0][0] = 1;
+<a class="jxr_linenumber" name="L611" href="#L611">611</a>         cosSin[1][0] = 0;
+<a class="jxr_linenumber" name="L612" href="#L612">612</a>         <strong class="jxr_keyword">if</strong> (provider.getMaxOrder() &gt; 0) {
+<a class="jxr_linenumber" name="L613" href="#L613">613</a>             cosSin[0][1] = cosLambda;
+<a class="jxr_linenumber" name="L614" href="#L614">614</a>             cosSin[1][1] = sinLambda;
+<a class="jxr_linenumber" name="L615" href="#L615">615</a> 
+<a class="jxr_linenumber" name="L616" href="#L616">616</a>             <em class="jxr_comment">// fill up array</em>
+<a class="jxr_linenumber" name="L617" href="#L617">617</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> m = 2; m &lt; cosSin[0].length; ++m) {
+<a class="jxr_linenumber" name="L618" href="#L618">618</a> 
+<a class="jxr_linenumber" name="L619" href="#L619">619</a>                 <em class="jxr_comment">// m * lambda is split as p * lambda + q * lambda, trying to avoid</em>
+<a class="jxr_linenumber" name="L620" href="#L620">620</a>                 <em class="jxr_comment">// p or q being much larger than the other. This reduces the number of</em>
+<a class="jxr_linenumber" name="L621" href="#L621">621</a>                 <em class="jxr_comment">// intermediate results reused to compute each value, and hence should limit</em>
+<a class="jxr_linenumber" name="L622" href="#L622">622</a>                 <em class="jxr_comment">// as much as possible roundoff error accumulation</em>
+<a class="jxr_linenumber" name="L623" href="#L623">623</a>                 <em class="jxr_comment">// (this does not change the number of floating point operations)</em>
+<a class="jxr_linenumber" name="L624" href="#L624">624</a>                 <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> p = m / 2;
+<a class="jxr_linenumber" name="L625" href="#L625">625</a>                 <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> q = m - p;
+<a class="jxr_linenumber" name="L626" href="#L626">626</a> 
+<a class="jxr_linenumber" name="L627" href="#L627">627</a>                 cosSin[0][m] = cosSin[0][p] * cosSin[0][q] - cosSin[1][p] * cosSin[1][q];
+<a class="jxr_linenumber" name="L628" href="#L628">628</a>                 cosSin[1][m] = cosSin[1][p] * cosSin[0][q] + cosSin[0][p] * cosSin[1][q];
+<a class="jxr_linenumber" name="L629" href="#L629">629</a> 
+<a class="jxr_linenumber" name="L630" href="#L630">630</a>             }
+<a class="jxr_linenumber" name="L631" href="#L631">631</a>         }
+<a class="jxr_linenumber" name="L632" href="#L632">632</a> 
+<a class="jxr_linenumber" name="L633" href="#L633">633</a>         <strong class="jxr_keyword">return</strong> cosSin;
+<a class="jxr_linenumber" name="L634" href="#L634">634</a> 
+<a class="jxr_linenumber" name="L635" href="#L635">635</a>     }
+<a class="jxr_linenumber" name="L636" href="#L636">636</a> 
+<a class="jxr_linenumber" name="L637" href="#L637">637</a>     <em class="jxr_javadoccomment">/** Compute one order of tesseral terms.</em>
+<a class="jxr_linenumber" name="L638" href="#L638">638</a> <em class="jxr_javadoccomment">     * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L639" href="#L639">639</a> <em class="jxr_javadoccomment">     * This corresponds to equations 27 and 30 of the paper.</em>
+<a class="jxr_linenumber" name="L640" href="#L640">640</a> <em class="jxr_javadoccomment">     * &lt;/p&gt;</em>
+<a class="jxr_linenumber" name="L641" href="#L641">641</a> <em class="jxr_javadoccomment">     * @param m current order</em>
+<a class="jxr_linenumber" name="L642" href="#L642">642</a> <em class="jxr_javadoccomment">     * @param degree max degree</em>
+<a class="jxr_linenumber" name="L643" href="#L643">643</a> <em class="jxr_javadoccomment">     * @param index index in the flattened array</em>
+<a class="jxr_linenumber" name="L644" href="#L644">644</a> <em class="jxr_javadoccomment">     * @param t cos(θ), where θ is the polar angle</em>
+<a class="jxr_linenumber" name="L645" href="#L645">645</a> <em class="jxr_javadoccomment">     * @param u sin(θ), where θ is the polar angle</em>
+<a class="jxr_linenumber" name="L646" href="#L646">646</a> <em class="jxr_javadoccomment">     * @param tOu t/u</em>
+<a class="jxr_linenumber" name="L647" href="#L647">647</a> <em class="jxr_javadoccomment">     * @param pnm0Plus2 array containing scaled P&lt;sub&gt;n,m+2&lt;/sub&gt;/u&lt;sup&gt;m+2&lt;/sup&gt;</em>
+<a class="jxr_linenumber" name="L648" href="#L648">648</a> <em class="jxr_javadoccomment">     * @param pnm0Plus1 array containing scaled P&lt;sub&gt;n,m+1&lt;/sub&gt;/u&lt;sup&gt;m+1&lt;/sup&gt;</em>
+<a class="jxr_linenumber" name="L649" href="#L649">649</a> <em class="jxr_javadoccomment">     * @param pnm1Plus1 array containing scaled dP&lt;sub&gt;n,m+1&lt;/sub&gt;/u&lt;sup&gt;m+1&lt;/sup&gt;</em>
+<a class="jxr_linenumber" name="L650" href="#L650">650</a> <em class="jxr_javadoccomment">     * (may be null if second derivatives are not needed)</em>
+<a class="jxr_linenumber" name="L651" href="#L651">651</a> <em class="jxr_javadoccomment">     * @param pnm0 array to fill with scaled P&lt;sub&gt;n,m&lt;/sub&gt;/u&lt;sup&gt;m&lt;/sup&gt;</em>
+<a class="jxr_linenumber" name="L652" href="#L652">652</a> <em class="jxr_javadoccomment">     * @param pnm1 array to fill with scaled dP&lt;sub&gt;n,m&lt;/sub&gt;/u&lt;sup&gt;m&lt;/sup&gt;</em>
+<a class="jxr_linenumber" name="L653" href="#L653">653</a> <em class="jxr_javadoccomment">     * (may be null if first derivatives are not needed)</em>
+<a class="jxr_linenumber" name="L654" href="#L654">654</a> <em class="jxr_javadoccomment">     * @param pnm2 array to fill with scaled d²P&lt;sub&gt;n,m&lt;/sub&gt;/u&lt;sup&gt;m&lt;/sup&gt;</em>
+<a class="jxr_linenumber" name="L655" href="#L655">655</a> <em class="jxr_javadoccomment">     * (may be null if second derivatives are not needed)</em>
+<a class="jxr_linenumber" name="L656" href="#L656">656</a> <em class="jxr_javadoccomment">     * @return new value for index</em>
+<a class="jxr_linenumber" name="L657" href="#L657">657</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L658" href="#L658">658</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> computeTesseral(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> m, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> degree, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> index,
+<a class="jxr_linenumber" name="L659" href="#L659">659</a>                                 <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> t, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> u, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> tOu,
+<a class="jxr_linenumber" name="L660" href="#L660">660</a>                                 <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] pnm0Plus2, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] pnm0Plus1, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] pnm1Plus1,
+<a class="jxr_linenumber" name="L661" href="#L661">661</a>                                 <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] pnm0, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] pnm1, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] pnm2) {
+<a class="jxr_linenumber" name="L662" href="#L662">662</a> 
+<a class="jxr_linenumber" name="L663" href="#L663">663</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> u2 = u * u;
+<a class="jxr_linenumber" name="L664" href="#L664">664</a> 
+<a class="jxr_linenumber" name="L665" href="#L665">665</a>         <em class="jxr_comment">// initialize recursion from sectorial terms</em>
+<a class="jxr_linenumber" name="L666" href="#L666">666</a>         <strong class="jxr_keyword">int</strong> n = FastMath.max(2, m);
+<a class="jxr_linenumber" name="L667" href="#L667">667</a>         <strong class="jxr_keyword">if</strong> (n == m) {
+<a class="jxr_linenumber" name="L668" href="#L668">668</a>             pnm0[n] = sectorial[n];
+<a class="jxr_linenumber" name="L669" href="#L669">669</a>             ++n;
+<a class="jxr_linenumber" name="L670" href="#L670">670</a>         }
+<a class="jxr_linenumber" name="L671" href="#L671">671</a> 
+<a class="jxr_linenumber" name="L672" href="#L672">672</a>         <em class="jxr_comment">// compute tesseral values</em>
+<a class="jxr_linenumber" name="L673" href="#L673">673</a>         <strong class="jxr_keyword">int</strong> localIndex = index;
+<a class="jxr_linenumber" name="L674" href="#L674">674</a>         <strong class="jxr_keyword">while</strong> (n &lt;= degree) {
+<a class="jxr_linenumber" name="L675" href="#L675">675</a> 
+<a class="jxr_linenumber" name="L676" href="#L676">676</a>             <em class="jxr_comment">// value (equation 27 of the paper)</em>
+<a class="jxr_linenumber" name="L677" href="#L677">677</a>             pnm0[n] = gnmOj[localIndex] * t * pnm0Plus1[n] - hnmOj[localIndex] * u2 * pnm0Plus2[n];
+<a class="jxr_linenumber" name="L678" href="#L678">678</a> 
+<a class="jxr_linenumber" name="L679" href="#L679">679</a>             ++localIndex;
+<a class="jxr_linenumber" name="L680" href="#L680">680</a>             ++n;
+<a class="jxr_linenumber" name="L681" href="#L681">681</a> 
+<a class="jxr_linenumber" name="L682" href="#L682">682</a>         }
+<a class="jxr_linenumber" name="L683" href="#L683">683</a> 
+<a class="jxr_linenumber" name="L684" href="#L684">684</a>         <strong class="jxr_keyword">if</strong> (pnm1 != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L685" href="#L685">685</a> 
+<a class="jxr_linenumber" name="L686" href="#L686">686</a>             <em class="jxr_comment">// initialize recursion from sectorial terms</em>
+<a class="jxr_linenumber" name="L687" href="#L687">687</a>             n = FastMath.max(2, m);
+<a class="jxr_linenumber" name="L688" href="#L688">688</a>             <strong class="jxr_keyword">if</strong> (n == m) {
+<a class="jxr_linenumber" name="L689" href="#L689">689</a>                 pnm1[n] = m * tOu * pnm0[n];
+<a class="jxr_linenumber" name="L690" href="#L690">690</a>                 ++n;
+<a class="jxr_linenumber" name="L691" href="#L691">691</a>             }
+<a class="jxr_linenumber" name="L692" href="#L692">692</a> 
+<a class="jxr_linenumber" name="L693" href="#L693">693</a>             <em class="jxr_comment">// compute tesseral values and derivatives with respect to polar angle</em>
+<a class="jxr_linenumber" name="L694" href="#L694">694</a>             localIndex = index;
+<a class="jxr_linenumber" name="L695" href="#L695">695</a>             <strong class="jxr_keyword">while</strong> (n &lt;= degree) {
+<a class="jxr_linenumber" name="L696" href="#L696">696</a> 
+<a class="jxr_linenumber" name="L697" href="#L697">697</a>                 <em class="jxr_comment">// first derivative (equation 30 of the paper)</em>
+<a class="jxr_linenumber" name="L698" href="#L698">698</a>                 pnm1[n] = m * tOu * pnm0[n] - enm[localIndex] * u * pnm0Plus1[n];
+<a class="jxr_linenumber" name="L699" href="#L699">699</a> 
+<a class="jxr_linenumber" name="L700" href="#L700">700</a>                 ++localIndex;
+<a class="jxr_linenumber" name="L701" href="#L701">701</a>                 ++n;
+<a class="jxr_linenumber" name="L702" href="#L702">702</a> 
+<a class="jxr_linenumber" name="L703" href="#L703">703</a>             }
+<a class="jxr_linenumber" name="L704" href="#L704">704</a> 
+<a class="jxr_linenumber" name="L705" href="#L705">705</a>             <strong class="jxr_keyword">if</strong> (pnm2 != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L706" href="#L706">706</a> 
+<a class="jxr_linenumber" name="L707" href="#L707">707</a>                 <em class="jxr_comment">// initialize recursion from sectorial terms</em>
+<a class="jxr_linenumber" name="L708" href="#L708">708</a>                 n = FastMath.max(2, m);
+<a class="jxr_linenumber" name="L709" href="#L709">709</a>                 <strong class="jxr_keyword">if</strong> (n == m) {
+<a class="jxr_linenumber" name="L710" href="#L710">710</a>                     pnm2[n] = m * (tOu * pnm1[n] - pnm0[n] / u2);
+<a class="jxr_linenumber" name="L711" href="#L711">711</a>                     ++n;
+<a class="jxr_linenumber" name="L712" href="#L712">712</a>                 }
+<a class="jxr_linenumber" name="L713" href="#L713">713</a> 
+<a class="jxr_linenumber" name="L714" href="#L714">714</a>                 <em class="jxr_comment">// compute tesseral values and derivatives with respect to polar angle</em>
+<a class="jxr_linenumber" name="L715" href="#L715">715</a>                 localIndex = index;
+<a class="jxr_linenumber" name="L716" href="#L716">716</a>                 <strong class="jxr_keyword">while</strong> (n &lt;= degree) {
+<a class="jxr_linenumber" name="L717" href="#L717">717</a> 
+<a class="jxr_linenumber" name="L718" href="#L718">718</a>                     <em class="jxr_comment">// second derivative (differential of equation 30 with respect to theta)</em>
+<a class="jxr_linenumber" name="L719" href="#L719">719</a>                     pnm2[n] = m * (tOu * pnm1[n] - pnm0[n] / u2) - enm[localIndex] * u * pnm1Plus1[n];
+<a class="jxr_linenumber" name="L720" href="#L720">720</a> 
+<a class="jxr_linenumber" name="L721" href="#L721">721</a>                     ++localIndex;
+<a class="jxr_linenumber" name="L722" href="#L722">722</a>                     ++n;
+<a class="jxr_linenumber" name="L723" href="#L723">723</a> 
+<a class="jxr_linenumber" name="L724" href="#L724">724</a>                 }
+<a class="jxr_linenumber" name="L725" href="#L725">725</a> 
+<a class="jxr_linenumber" name="L726" href="#L726">726</a>             }
+<a class="jxr_linenumber" name="L727" href="#L727">727</a> 
+<a class="jxr_linenumber" name="L728" href="#L728">728</a>         }
+<a class="jxr_linenumber" name="L729" href="#L729">729</a> 
+<a class="jxr_linenumber" name="L730" href="#L730">730</a>         <strong class="jxr_keyword">return</strong> localIndex;
+<a class="jxr_linenumber" name="L731" href="#L731">731</a> 
+<a class="jxr_linenumber" name="L732" href="#L732">732</a>     }
+<a class="jxr_linenumber" name="L733" href="#L733">733</a> 
+<a class="jxr_linenumber" name="L734" href="#L734">734</a>     <em class="jxr_javadoccomment">/** {@inheritDoc} */</em>
+<a class="jxr_linenumber" name="L735" href="#L735">735</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addContribution(<strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/propagation/SpacecraftState.html">SpacecraftState</a> s, <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/propagation/numerical/TimeDerivativesEquations.html">TimeDerivativesEquations</a> adder)
+<a class="jxr_linenumber" name="L736" href="#L736">736</a>         <strong class="jxr_keyword">throws</strong> <a href="../../../../org/orekit/errors/OrekitException.html">OrekitException</a> {
+<a class="jxr_linenumber" name="L737" href="#L737">737</a> 
+<a class="jxr_linenumber" name="L738" href="#L738">738</a>         <em class="jxr_comment">// get the position in body frame</em>
+<a class="jxr_linenumber" name="L739" href="#L739">739</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> date       = s.getDate();
+<a class="jxr_linenumber" name="L740" href="#L740">740</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/frames/Transform.html">Transform</a> fromBodyFrame = bodyFrame.getTransformTo(s.getFrame(), date);
+<a class="jxr_linenumber" name="L741" href="#L741">741</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/frames/Transform.html">Transform</a> toBodyFrame   = fromBodyFrame.getInverse();
+<a class="jxr_linenumber" name="L742" href="#L742">742</a>         <strong class="jxr_keyword">final</strong> Vector3D position       = toBodyFrame.transformPosition(s.getPVCoordinates().getPosition());
+<a class="jxr_linenumber" name="L743" href="#L743">743</a> 
+<a class="jxr_linenumber" name="L744" href="#L744">744</a>         <em class="jxr_comment">// gradient of the non-central part of the gravity field</em>
+<a class="jxr_linenumber" name="L745" href="#L745">745</a>         <strong class="jxr_keyword">final</strong> Vector3D gInertial = fromBodyFrame.transformVector(<strong class="jxr_keyword">new</strong> Vector3D(gradient(date, position)));
+<a class="jxr_linenumber" name="L746" href="#L746">746</a> 
+<a class="jxr_linenumber" name="L747" href="#L747">747</a>         adder.addXYZAcceleration(gInertial.getX(), gInertial.getY(), gInertial.getZ());
+<a class="jxr_linenumber" name="L748" href="#L748">748</a> 
+<a class="jxr_linenumber" name="L749" href="#L749">749</a>     }
+<a class="jxr_linenumber" name="L750" href="#L750">750</a> 
+<a class="jxr_linenumber" name="L751" href="#L751">751</a>     <em class="jxr_javadoccomment">/** {@inheritDoc} */</em>
+<a class="jxr_linenumber" name="L752" href="#L752">752</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../org/orekit/propagation/events/EventDetector.html">EventDetector</a>[] getEventsDetectors() {
+<a class="jxr_linenumber" name="L753" href="#L753">753</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/orekit/propagation/events/EventDetector.html">EventDetector</a>[0];
+<a class="jxr_linenumber" name="L754" href="#L754">754</a>     }
+<a class="jxr_linenumber" name="L755" href="#L755">755</a> 
+<a class="jxr_linenumber" name="L756" href="#L756">756</a>     <em class="jxr_javadoccomment">/** {@inheritDoc} */</em>
+<a class="jxr_linenumber" name="L757" href="#L757">757</a>     <strong class="jxr_keyword">public</strong> FieldVector3D&lt;DerivativeStructure&gt; accelerationDerivatives(<strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> date, <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/frames/Frame.html">Frame</a> frame,
+<a class="jxr_linenumber" name="L758" href="#L758">758</a>                                                                       <strong class="jxr_keyword">final</strong> FieldVector3D&lt;DerivativeStructure&gt; position, <strong class="jxr_keyword">final</strong> FieldVector3D&lt;DerivativeStructure&gt; velocity,
+<a class="jxr_linenumber" name="L759" href="#L759">759</a>                                                                       <strong class="jxr_keyword">final</strong> FieldRotation&lt;DerivativeStructure&gt; rotation, <strong class="jxr_keyword">final</strong> DerivativeStructure mass)
+<a class="jxr_linenumber" name="L760" href="#L760">760</a>         <strong class="jxr_keyword">throws</strong> <a href="../../../../org/orekit/errors/OrekitException.html">OrekitException</a> {
+<a class="jxr_linenumber" name="L761" href="#L761">761</a> 
+<a class="jxr_linenumber" name="L762" href="#L762">762</a>         <em class="jxr_comment">// get the position in body frame</em>
+<a class="jxr_linenumber" name="L763" href="#L763">763</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/frames/Transform.html">Transform</a> fromBodyFrame = bodyFrame.getTransformTo(frame, date);
+<a class="jxr_linenumber" name="L764" href="#L764">764</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/frames/Transform.html">Transform</a> toBodyFrame   = fromBodyFrame.getInverse();
+<a class="jxr_linenumber" name="L765" href="#L765">765</a>         <strong class="jxr_keyword">final</strong> Vector3D positionBody   = toBodyFrame.transformPosition(position.toVector3D());
+<a class="jxr_linenumber" name="L766" href="#L766">766</a> 
+<a class="jxr_linenumber" name="L767" href="#L767">767</a>         <em class="jxr_comment">// compute gradient and Hessian</em>
+<a class="jxr_linenumber" name="L768" href="#L768">768</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/forces/gravity/HolmesFeatherstoneAttractionModel.html">GradientHessian</a> gh   = gradientHessian(date, positionBody);
+<a class="jxr_linenumber" name="L769" href="#L769">769</a> 
+<a class="jxr_linenumber" name="L770" href="#L770">770</a>         <em class="jxr_comment">// gradient of the non-central part of the gravity field</em>
+<a class="jxr_linenumber" name="L771" href="#L771">771</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] gInertial = fromBodyFrame.transformVector(<strong class="jxr_keyword">new</strong> Vector3D(gh.getGradient())).toArray();
+<a class="jxr_linenumber" name="L772" href="#L772">772</a> 
+<a class="jxr_linenumber" name="L773" href="#L773">773</a>         <em class="jxr_comment">// Hessian of the non-central part of the gravity field</em>
+<a class="jxr_linenumber" name="L774" href="#L774">774</a>         <strong class="jxr_keyword">final</strong> RealMatrix hBody     = <strong class="jxr_keyword">new</strong> Array2DRowRealMatrix(gh.getHessian(), false);
+<a class="jxr_linenumber" name="L775" href="#L775">775</a>         <strong class="jxr_keyword">final</strong> RealMatrix rot       = <strong class="jxr_keyword">new</strong> Array2DRowRealMatrix(toBodyFrame.getRotation().getMatrix());
+<a class="jxr_linenumber" name="L776" href="#L776">776</a>         <strong class="jxr_keyword">final</strong> RealMatrix hInertial = rot.transpose().multiply(hBody).multiply(rot);
+<a class="jxr_linenumber" name="L777" href="#L777">777</a> 
+<a class="jxr_linenumber" name="L778" href="#L778">778</a>         <em class="jxr_comment">// distribute all partial derivatives in a compact acceleration vector</em>
+<a class="jxr_linenumber" name="L779" href="#L779">779</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> parameters       = mass.getFreeParameters();
+<a class="jxr_linenumber" name="L780" href="#L780">780</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> order            = mass.getOrder();
+<a class="jxr_linenumber" name="L781" href="#L781">781</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong>[] derivatives = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">double</strong>[1 + parameters];
+<a class="jxr_linenumber" name="L782" href="#L782">782</a>         <strong class="jxr_keyword">final</strong> DerivativeStructure[] accDer = <strong class="jxr_keyword">new</strong> DerivativeStructure[3];
+<a class="jxr_linenumber" name="L783" href="#L783">783</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; 3; ++i) {
+<a class="jxr_linenumber" name="L784" href="#L784">784</a> 
+<a class="jxr_linenumber" name="L785" href="#L785">785</a>             <em class="jxr_comment">// first element is value of acceleration (i.e. gradient of field)</em>
+<a class="jxr_linenumber" name="L786" href="#L786">786</a>             derivatives[0] = gInertial[i];
+<a class="jxr_linenumber" name="L787" href="#L787">787</a> 
+<a class="jxr_linenumber" name="L788" href="#L788">788</a>             <em class="jxr_comment">// next three elements are one row of the Jacobian of acceleration (i.e. Hessian of field)</em>
+<a class="jxr_linenumber" name="L789" href="#L789">789</a>             derivatives[1] = hInertial.getEntry(i, 0);
+<a class="jxr_linenumber" name="L790" href="#L790">790</a>             derivatives[2] = hInertial.getEntry(i, 1);
+<a class="jxr_linenumber" name="L791" href="#L791">791</a>             derivatives[3] = hInertial.getEntry(i, 2);
+<a class="jxr_linenumber" name="L792" href="#L792">792</a> 
+<a class="jxr_linenumber" name="L793" href="#L793">793</a>             <em class="jxr_comment">// next elements (three or four depending on mass being used or not) are left as 0</em>
+<a class="jxr_linenumber" name="L794" href="#L794">794</a> 
+<a class="jxr_linenumber" name="L795" href="#L795">795</a>             accDer[i] = <strong class="jxr_keyword">new</strong> DerivativeStructure(parameters, order, derivatives);
+<a class="jxr_linenumber" name="L796" href="#L796">796</a> 
+<a class="jxr_linenumber" name="L797" href="#L797">797</a>         }
+<a class="jxr_linenumber" name="L798" href="#L798">798</a> 
+<a class="jxr_linenumber" name="L799" href="#L799">799</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> FieldVector3D&lt;DerivativeStructure&gt;(accDer);
+<a class="jxr_linenumber" name="L800" href="#L800">800</a> 
+<a class="jxr_linenumber" name="L801" href="#L801">801</a>     }
+<a class="jxr_linenumber" name="L802" href="#L802">802</a> 
+<a class="jxr_linenumber" name="L803" href="#L803">803</a>     <em class="jxr_javadoccomment">/** {@inheritDoc} */</em>
+<a class="jxr_linenumber" name="L804" href="#L804">804</a>     <strong class="jxr_keyword">public</strong> FieldVector3D&lt;DerivativeStructure&gt; accelerationDerivatives(<strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/propagation/SpacecraftState.html">SpacecraftState</a> s, <strong class="jxr_keyword">final</strong> String paramName)
+<a class="jxr_linenumber" name="L805" href="#L805">805</a>         <strong class="jxr_keyword">throws</strong> OrekitException, IllegalArgumentException {
+<a class="jxr_linenumber" name="L806" href="#L806">806</a> 
+<a class="jxr_linenumber" name="L807" href="#L807">807</a>         complainIfNotSupported(paramName);
+<a class="jxr_linenumber" name="L808" href="#L808">808</a> 
+<a class="jxr_linenumber" name="L809" href="#L809">809</a>         <em class="jxr_comment">// get the position in body frame</em>
+<a class="jxr_linenumber" name="L810" href="#L810">810</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/time/AbsoluteDate.html">AbsoluteDate</a> date       = s.getDate();
+<a class="jxr_linenumber" name="L811" href="#L811">811</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/frames/Transform.html">Transform</a> fromBodyFrame = bodyFrame.getTransformTo(s.getFrame(), date);
+<a class="jxr_linenumber" name="L812" href="#L812">812</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../org/orekit/frames/Transform.html">Transform</a> toBodyFrame   = fromBodyFrame.getInverse();
+<a class="jxr_linenumber" name="L813" href="#L813">813</a>         <strong class="jxr_keyword">final</strong> Vector3D position       = toBodyFrame.transformPosition(s.getPVCoordinates().getPosition());
+<a class="jxr_linenumber" name="L814" href="#L814">814</a> 
+<a class="jxr_linenumber" name="L815" href="#L815">815</a>         <em class="jxr_comment">// gradient of the non-central part of the gravity field</em>
+<a class="jxr_linenumber" name="L816" href="#L816">816</a>         <strong class="jxr_keyword">final</strong> Vector3D gInertial = fromBodyFrame.transformVector(<strong class="jxr_keyword">new</strong> Vector3D(gradient(date, position)));
+<a class="jxr_linenumber" name="L817" href="#L817">817</a> 
+<a class="jxr_linenumber" name="L818" href="#L818">818</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> FieldVector3D&lt;DerivativeStructure&gt;(<strong class="jxr_keyword">new</strong> DerivativeStructure(1, 1, gInertial.getX(), gInertial.getX() / mu),
+<a class="jxr_linenumber" name="L819" href="#L819">819</a>                                                       <strong class="jxr_keyword">new</strong> DerivativeStructure(1, 1, gInertial.getY(), gInertial.getY() / mu),
+<a class="jxr_linenumber" name="L820" href="#L820">820</a>                                                       <strong class="jxr_keyword">new</strong> DerivativeStructure(1, 1, gInertial.getZ(), gInertial.getZ() / mu));
+<a class="jxr_linenumber" name="L821" href="#L821">821</a> 
+<a class="jxr_linenumber" name="L822" href="#L822">822</a>     }
+<a class="jxr_linenumber" name="L823" href="#L823">823</a> 
+<a class="jxr_linenumber" name="L824" href="#L824">824</a>     <em class="jxr_javadoccomment">/** {@inheritDoc} */</em>
+<a class="jxr_linenumber" name="L825" href="#L825">825</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../org/orekit/utils/ParameterDriver.html">ParameterDriver</a>[] getParametersDrivers() {
+<a class="jxr_linenumber" name="L826" href="#L826">826</a>         <strong class="jxr_keyword">return</strong> parametersDrivers.clone();
+<a class="jxr_linenumber" name="L827" href="#L827">827</a>     }
+<a class="jxr_linenumber" name="L828" href="#L828">828</a> 
+<a class="jxr_linenumber" name="L829" href="#L829">829</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>
