@@ -1,0 +1,59 @@
+body{
+    margin: 0;
+}
+.header{
+    position: relative;
+    width: 400px;
+    height: 250px;
+    font-size: 18px;
+    background: url("../img/rabbit.png");
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-size: auto;
+    background-position-y: bottom;}
+
+.header h2{
+    text-align: center;
+    margin: 0;
+}
+
+.header p{
+    margin: 20px;
+}
+
+.start{
+    position: relative;
+    width: 100px;
+    height: 50px;
+    background: yellow;
+    border-radius: 30%;
+    margin: 0 0 10px 20px;
+}
+
+.grid{
+    position: relative;
+    width: 400px;
+    height: 400px;
+}
+.hole{
+    position: relative;
+    width: 76px;
+    height: 76px;
+    float: left;
+    border: 2px solid black;
+    background: url("../img/carrot.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.rabbit{
+    position: relative;
+    width: 60px;
+    height: 60px;
+    left: 10px;
+    top: 10px;
+    background: url("../img/rabbit.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: none;
+}

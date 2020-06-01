@@ -46,7 +46,7 @@ Snake.prototype = {
       context.fillRect(this.cells[i].x, this.cells[i].y, 15, 15);
       if(this.cells[i].x === apple.x && this.cells[i].y === apple.y){
         this.maxCells++;
-        apple.reset();
+        apple = new Apple();
       }
       if(this.eatsHimself(i)){
         this.reset();
@@ -147,8 +147,6 @@ document.addEventListener('keydown', function(e) {
     case 40:
       snakeA.down();
       break;
-  }
-  switch(e.which) {
     case 65:
       snakeB.left();
       break;
