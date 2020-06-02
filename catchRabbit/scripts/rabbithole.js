@@ -2,42 +2,39 @@ class CatchRabbitGame {
     constructor(selectedHtmlElement) {
         this.selectedHtmlElement = selectedHtmlElement || document.body
         this.score = 0;
-        this.highestScore = 0;
+        this.record = 0;
         this.renderGame();
         this.currentActiveHole = this.getRandonInt();
     }
 
     renderGame(){
-        this.selectedHtmlElement.innerHTML = '';
-        let header = this.renderHeader();
-        let game = this.renderGrid();
-        this.selectedHtmlElement.appendChild(header);
-        this.selectedHtmlElement.appendChild(game);
+        this.addChildrenToParent(this.selectedHtmlElement, this.renderHeader(), this.renderGrid());
     }
 
     renderHeader(){
         let header = this.customElementConstructor('div', 'header');
-        header = this.customElementConstructor('h2', null, header, 'Game CatchRabbit');
-        header = this.customElementConstructor('p', 'score', header, 'score: ' + this.score, 'score');
-        header = this.customElementConstructor('p', 'highest', header, 'highest score ' + this.highestScore, 'highest');
-        header = this.customElementConstructor('button', 'start', header, 'start game', 'start', "game.startGame()")
-        header = this.customElementConstructor('p', 'timer', header, '00:30', 'timer');
+        let title = this.customElementConstructor('h2', null, 'Game CatchRabbit');
+        let score = this.customElementConstructor('p', 'score', 'score: ' + this.score, 'score');
+        let record = this.customElementConstructor('p', 'record', 'record: ' + this.record, 'record');
+        let button = this.customElementConstructor('button', 'start', 'start game', 'start', "game.startGame()")
+        let timer = this.customElementConstructor('p', 'timer', '00:30', 'timer');
+        this.addChildrenToParent(header, title, score, record, button, timer);
         return header;
     }
 
     renderGrid(){
-        let game = this.customElementConstructor('div', 'grid');
+        let grid = this.customElementConstructor('div', 'grid');
         for(let i = 1; i<26; i++){
-                let rabbit = this.renderRabbit(i);
-                game.appendChild(rabbit);
+            this.addChildrenToParent(grid, this.renderRabbitWithHole(i));
         }
-        return game;
+        return grid;
     }
 
-    renderRabbit(id){
+    renderRabbitWithHole(id){
         let hole = this.customElementConstructor('div', 'hole');
-        let rabbit = this.customElementConstructor('div', 'rabbit', hole, null, id, "game.caughtRabbit()");
-        return rabbit;
+        let rabbit = this.customElementConstructor('div', 'rabbit', null, id, "game.caughtRabbit()");
+        this.addChildrenToParent(hole, rabbit);
+        return hole;
     }
 
     changeHole(){
@@ -57,25 +54,25 @@ class CatchRabbitGame {
     caughtRabbit(){
         this.hideRabbit();
         this.score++;
-        this.updateScore();
+        this.updateScore('score', this.score);
     }
 
-    updateScore(){
-        this.customElementModifier('score', 'score: ' + this.score);
+    updateScore(scoreID, score){
+        this.customElementModifier(scoreID, scoreID + ': ' + score);
     }
 
-    updateHighScore(){
-        if(this.highestScore<this.score){
-            this.highestScore = this.score;
+    updateRecord(){
+        if(this.record<this.score){
+            this.record = this.score;
+            this.updateScore('record', this.record);
         }
-        this.customElementModifier('highest', 'highest score: ' + this.highestScore);
     }
 
     startGame(){
         this.customElementModifier('start', 'game is started', null, null, true);
         var rabbitSpawn = window.setInterval(function(){
             game.changeHole();
-        }, 1500);
+        }, 1000);
         var seconds = 30;
         var timer = window.setInterval(function() {
             seconds--;
@@ -91,12 +88,14 @@ class CatchRabbitGame {
     stopGame(){
         this.hideRabbit();
         this.customElementModifier('start', 'start game', null, null, false);
-        this.updateHighScore();
+        this.updateRecord();
         this.score = 0;
-        this.updateScore();
+        this.updateScore('score', this.score);
     }
 
-    customElementConstructor(elementName, className=null, parent=null, text=null, idName=null, clickFunction=null){
+    customElementConstructor(elementName, className=null, text=null, idName=null, clickFunction=null){
+        if(!elementName)
+            return
         let element = document.createElement(elementName);
         if(className)
             element.className = className;
@@ -106,23 +105,25 @@ class CatchRabbitGame {
             element.innerText = text;
         if(clickFunction)
             element.setAttribute('onClick', clickFunction)
-        if(parent){
-            parent.appendChild(element);
-            return parent;
-        }
         return element;
     }
 
-    customElementModifier(elementId, text=null, display=null, disabled=null){
+    customElementModifier(elementId=null, text=null, display=null, disabled=null){
+        if(!elementId)
+            return
         let element = document.getElementById(elementId);
-        if(text){
+        if(text)
             element.innerText = text;
-        }
-        if(display){
+        if(display)
             element.style.display = display;
-        }
-        if(disabled!=null){
+        if(disabled!=null)
             element.disabled = disabled;
+    }
+
+    addChildrenToParent(){
+        let parent = arguments[0];
+        for(let i = 1; i<arguments.length; i++){
+            parent.appendChild(arguments[i]);
         }
     }
 
