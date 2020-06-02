@@ -69,7 +69,7 @@ class CatchRabbitGame {
     }
 
     startGame(){
-        this.customElementModifier('start', 'game is started', null, null, true);
+        this.customElementModifier('startss', 'game is started', null, null, true);
         var rabbitSpawn = window.setInterval(function(){
             game.changeHole();
         }, 1000);
@@ -94,8 +94,6 @@ class CatchRabbitGame {
     }
 
     customElementConstructor(elementName, className=null, text=null, idName=null, clickFunction=null){
-        if(!elementName)
-            return
         let element = document.createElement(elementName);
         if(className)
             element.className = className;
@@ -108,10 +106,10 @@ class CatchRabbitGame {
         return element;
     }
 
-    customElementModifier(elementId=null, text=null, display=null, disabled=null){
-        if(!elementId)
-            return
+    customElementModifier(elementId, text=null, display=null, disabled=null){
         let element = document.getElementById(elementId);
+        if(!element)
+            return
         if(text)
             element.innerText = text;
         if(display)
