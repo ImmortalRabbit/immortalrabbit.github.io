@@ -69,7 +69,7 @@ class CatchRabbitGame {
     }
 
     startGame(){
-        this.customElementModifier('startss', 'game is started', null, null, true);
+        this.customElementModifier('start', 'game is started', null, null, true);
         var rabbitSpawn = window.setInterval(function(){
             game.changeHole();
         }, 1000);
