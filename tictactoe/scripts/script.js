@@ -1,221 +1,260 @@
 const minPossibleCellId = 1;
 const maxPossibleCellId = 9;
+const markX = 'X';
+const markO = 'O';
 
-class player {
-    constructor(){
+class Player {
+    constructor() {
+        // marks are X and O    
         this.mark = "";
         this.score = 0;
         this.moves = [];
         // Win combinations
         this.winMoves = [[1, 5, 9], [3, 5, 7],
-                         [1, 2, 3], [4, 5, 6], [7, 8, 9],
-                         [1, 4, 7], [2, 5, 8], [3, 6, 9]
-                        ];
+            [1, 2, 3], [4, 5, 6], [7, 8, 9],
+            [1, 4, 7], [2, 5, 8], [3, 6, 9]
+        ];
     }
 
-    setMark(mark){
+    setMark(mark) {
         this.mark = mark;
     }
 
-    getMark(){
+    getMark() {
         return this.mark;
     }
 
-    incrementScore(){
+    incrementScore() {
         this.score++;
     }
 
-    getScore(){
+    getScore() {
         return this.score;
     }
 
-    addMove(move){
+    addMove(move) {
         this.moves.push(move);
     }
 
-    resetMoves(){
+    resetMoves() {
         this.moves = [];
     }
 
-    getMoves(){
-        return this.moves;
-    }
-
     // Checks if player has at least one combination of moves to win game
-    isWinner(){
-        return this.winMoves.some(winMove => winMove.every(move => this.moves.includes(move)));
+    isWinner() {
+        return this.winMoves
+            .some(winMove => winMove
+                .every(move => this.moves
+                    .includes(move)));
     }
 }
 
-class computer extends player{
-    constructor(){
+class Computer extends Player {
+    constructor() {
         super();
     }
 
     //Computer randomizes his move
-    generateMove(filledCells){
+    generateMove(filledCells) {
         const SUM_OF_POSSIBLE_CELL_IDS = 45;
-        if(filledCells.length === 8){
+        if (filledCells.length === 8) {
             // Calculation to find last empty cell id
-            // Formula: sum of all cells ids minus current filled cells ids
-            return SUM_OF_POSSIBLE_CELL_IDS - filledCells.reduce((a, b) => a + b, 0);
+            // last empty cell id equals to sum of all cells ids minus
+            // sum of current filled cells ids
+            return SUM_OF_POSSIBLE_CELL_IDS
+                - filledCells.reduce((a, b) => a + b, 0);
         }
-        var generatedCellId = getRandomInt(maxPossibleCellId, minPossibleCellId);
-        // if Computer randomized cell that already filled it will randomize again 
-        return filledCells.includes(generatedCellId) ? this.generateMove(filledCells) : generatedCellId;
+        const generatedCellId =
+            getRandomInt(maxPossibleCellId, minPossibleCellId);
+        // if Computer randomized cell that already filled it will
+        // randomize again
+        return filledCells.includes(generatedCellId) ?
+            this.generateMove(filledCells) : generatedCellId;
     }
 }
 
-class element{
-    constructor(tag = null, className = null){
+class Element {
+    constructor(tag = null, className = null) {
         this.element = tag ? document.createElement(tag) : document.body;
-        if(className)
+        if (className)
             this.element.className = className;
     }
 
-    setText(text){
+    setText(text) {
         this.element.innerText = text;
         return this;
     }
 
-    setOnClickFunction(functionName){
+    setOnClickFunction(functionName) {
         this.element.setAttribute('onClick', functionName);
         return this;
     }
 
-    disable(){
+    makeUnclickable() {
         this.element.style.pointerEvents = "none";
     }
 
-    getElement(){
+    getElement() {
         return this.element;
     }
 
-    addChildren(){
-        for(let i = 0; i < arguments.length; i++)
-            this.element.appendChild(arguments[i].getElement());
+    //Receives an array of children to append
+    addChildren(children) {
+        for (const child of children)
+            this.element.appendChild(child.getElement());
         return this;
     }
 
-    clear(){
+    clear() {
         this.element.innerHTML = "";
     }
 }
 
-class htmlview{
-    constructor(){
-        this.mainPageBody = new element();
-        this.scoreTable = new element('p', 'score').setText('score: 0 : 0');
+class HtmlView {
+    constructor() {
+        this.mainPageBody = new Element();
+        this.scoreTable = new Element('p', 'score')
+            .setText('score: 0 : 0');
     }
 
-    renderGame(){
+    renderGame() {
         this.cells = [];
-        this.generateCells();
+        this.generateHTMLCells();
+        const header = new Element('div', 'header')
+            .addChildren([new Element('h2', 'title')
+                .setText('Game Ticktacktoe'), this.scoreTable]);
+        const grid = new Element('div', 'grid')
+            .addChildren(this.cells);
         this.mainPageBody.clear();
-        this.mainPageBody.addChildren(new element('div', 'header').addChildren(new element('h2', 'title').setText('Game Tictactoe'), this.scoreTable),
-                                  new element('div', 'grid').addChildren(...this.cells));
+        this.mainPageBody.addChildren([header, grid]);
     }
 
-    generateCells(){
-        for(let i = minPossibleCellId; i<=maxPossibleCellId; i++){
-            this.cells.push(new element('div', 'cell').setOnClickFunction('game.move(' + i + ')'));
+    generateHTMLCells() {
+        for (let i = minPossibleCellId; i <= maxPossibleCellId; i++) {
+            this.cells.push(new Element('div', 'cell')
+                .setOnClickFunction('game.move(' + i + ')'));
         }
     }
 
-    setScoreTable(playerScore, computerScore){
-        this.scoreTable.setText('score: ' + playerScore + ' : ' + computerScore);
+    setScoreTable(playerScore, computerScore) {
+        this.scoreTable
+            .setText('score: ' + playerScore + ' : ' + computerScore);
     }
 
-    setMarkOnCell(mark, cell){
-        this.cells[cell-1].setText(mark).disable();
+    setMarkOnCell(mark, cell) {
+        this.cells[cell - 1].setText(mark).makeUnclickable();
     }
 }
 
-class tictactoe{
-    constructor(){
-        this.computer = new computer();
-        this.player = new player();
-        this.whoseTurn = 'X';
-        this.htmlview = new htmlview();
+class Ticktacktoe {
+    constructor(player, computer, htmlView) {
+        this.computer = computer;
+        this.player = player;
+        this.whoseTurn = markX;
+        this.htmlView = htmlView;
         this.startGame();
     }
 
-    startGame(){
+    startGame() {
         this.moves = [];
         this.randomFirstWhoStarts();
-        this.htmlview.renderGame();
-        this.computerAction();
+        this.htmlView.renderGame();
+        this.computerMovesIfComputerTurn();
     }
 
-    randomFirstWhoStarts(){
-        if(getRandomInt(100, 0) > 50){
-            this.player.setMark('X');
-            this.computer.setMark('O');
-        }else{
-            this.computer.setMark('X');
-            this.player.setMark('O');
-        }
+    randomFirstWhoStarts() {
+        const [playerMark, computerMark] = this.randomizeMarks();
+        this.player.setMark(playerMark);
+        this.computer.setMark(computerMark);
     }
 
-    computerAction(){
-        if(this.isCurrentPlayerComputer()){
-            this.move(this.computer.generateMove(this.moves));
-        }
+    randomizeMarks() {
+        // ~50% chance that player will start first as X
+        return getRandomInt(100, 0) > 50
+            ? [markX, markO] : [markO, markX]
     }
 
-    isCurrentPlayerComputer(){
+    computerMovesIfComputerTurn() {
+        if (this.isCurrentPlayerComputer()) this.computerMove();
+    }
+
+    computerMove() {
+        this.move(this.computer.generateMove(this.moves));
+    }
+
+    isCurrentPlayerComputer() {
         return this.whoseTurn === this.computer.getMark();
     }
 
-    move(move){
+    move(move) {
         this.addMove(move);
         this.markCell(move);
         this.nextMoveScenario();
     }
 
-    addMove(move){
+    addMove(move) {
         this.moves.push(move);
-        this.isCurrentPlayerComputer() ? this.computer.addMove(move) : this.player.addMove(move);
-    }
-   
-    markCell(move){
-        this.htmlview.setMarkOnCell(this.whoseTurn, move);
+        this.addMoveToCurrentPlayer(move);
     }
 
-    nextMoveScenario(){
-        if(this.isWin()){
-            this.winnerScoreUpdate();
-            this.restartGame();
-        }else if(this.isTie()){
-            this.restartGame();
-        }else{
-            this.switchTurn();
-            this.computerAction();
-        }
+    addMoveToCurrentPlayer(move){
+        this.isCurrentPlayerComputer()
+            ? this.computer.addMove(move) : this.player.addMove(move);
     }
 
-    isWin(){
+    markCell(move) {
+        this.htmlView.setMarkOnCell(this.whoseTurn, move);
+    }
+
+    nextMoveScenario() {
+        this.isEndGame()
+            ? this.endGameScenario() : this.continueGameScenario();
+    }
+
+    isEndGame() {
+        return this.isWin() || this.isTie();
+    }
+
+    endGameScenario() {
+        if (this.isWin()) this.winnerScoreUpdate();
+        this.restartGame();
+    }
+
+    continueGameScenario() {
+        this.switchTurn();
+        this.computerMovesIfComputerTurn();
+    }
+
+    isWin() {
         return this.player.isWinner() || this.computer.isWinner();
     }
 
-    winnerScoreUpdate(){
-        this.isCurrentPlayerComputer() ? this.computer.incrementScore() : this.player.incrementScore();
-        this.htmlview.setScoreTable(this.player.getScore(), this.computer.getScore());
+    winnerScoreUpdate() {
+        this.incrementWinnerScore();
+        this.htmlView
+            .setScoreTable(
+                this.player.getScore(), this.computer.getScore());
     }
 
-    restartGame(){
-        this.whoseTurn = 'X';
+    incrementWinnerScore(){
+        this.isCurrentPlayerComputer()
+            ? this.computer.incrementScore()
+            : this.player.incrementScore();
+    }
+
+    restartGame() {
+        this.whoseTurn = markX;
         this.computer.resetMoves();
         this.player.resetMoves();
         this.startGame();
     }
 
-    isTie(){
+    isTie() {
         return this.moves.length === 9;
     }
 
-    switchTurn(){
-        this.whoseTurn = this.whoseTurn === 'X' ? 'O' : 'X';
+    switchTurn() {
+        this.whoseTurn = this.whoseTurn === markX ? markO : markX;
     }
 }
 
@@ -224,4 +263,7 @@ function getRandomInt(max, min) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-const game = new tictactoe();
+const player = new Player();
+const computer = new Computer();
+const htmlView = new HtmlView();
+const game = new Ticktacktoe(player, computer, htmlView);
