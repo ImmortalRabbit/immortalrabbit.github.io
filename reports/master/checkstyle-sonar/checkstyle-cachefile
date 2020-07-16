@@ -1,9 +1,0 @@
-#Thu Apr 09 05:17:59 ALMT 2020
-configuration*?=9A2BD64A2504D7D76C12E07126A0236D2AB147A6
-/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/src/main/java/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleConstants.java=1586387860735
-/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/src/main/java/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/CheckstyleSensor.java=1586387860742
-/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/src/main/java/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/package-info.java=1586387860747
-/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/src/main/java/checkstyle-sonar/src/it/resources/integration-test-project/src/main/java/com/acme/App.java=1586387860725
-/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/src/main/java/checkstyle-sonar/src/main/java/org/sonar/plugins/checkstyle/rule/ActiveRuleWrapper.java=1586387860748
-/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/src/main/java/checkstyle-sonar/test-resources/Hello.java=1586387861113
-/Users/demezhanmarikov/Documents/contribution/checkstyle-tester/src/main/java/checkstyle-sonar/test-resources/World.java=1586387861114
