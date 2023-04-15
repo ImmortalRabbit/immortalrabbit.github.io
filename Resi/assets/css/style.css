@@ -12,6 +12,7 @@
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
+  font-weight: 600;
 }
 
 a {
@@ -72,23 +73,23 @@ h6 {
 #header {
   transition: all 0.5s;
   z-index: 997;
-  padding: 20px 0;
+  padding: 40px 0;
   background: #fff;
 }
 
 #header.header-scrolled,
 #header.header-inner-pages {
-  padding: 12px 0;
+  padding: 20px 0;
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
 }
 
 #header .logo {
-  font-size: 32px;
+  font-size: 48px;
   margin: 0;
   padding: 0;
   line-height: 1;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-weight: 900;
+  letter-spacing: 4px;
   font-family: "Poppins", sans-serif;
 }
 
@@ -134,7 +135,8 @@ h6 {
   align-items: center;
   justify-content: space-between;
   padding: 10px 0 10px 30px;
-  font-size: 15px;
+  font-size: 24px;
+  font-weight: bold;
   color: #434175;
   white-space: nowrap;
   transition: 0.3s;
@@ -250,7 +252,7 @@ h6 {
   color: #fff;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1100px) {
   .mobile-nav-toggle {
     display: block;
   }
@@ -258,6 +260,29 @@ h6 {
   .navbar ul {
     display: none;
   }
+
+  #header .logo {
+    font-size: 36px;
+  }
+
+  .faq .faq-list .question {
+    font-size: 16px!important;
+  }
+
+  .faq .faq-list {
+    width: 100%;
+    left: 0;
+    position: relative;
+  }
+  
+  .faq .faq-list li {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+  
+  .faq .faq-list i {
+    font-size: 16px;
+  }  
 }
 
 .navbar-mobile {
@@ -289,6 +314,7 @@ h6 {
   background-color: #fff;
   overflow-y: auto;
   transition: 0.3s;
+  max-height: 250px;
 }
 
 .navbar-mobile a,
@@ -413,6 +439,9 @@ h6 {
   color: #fff;
   border: 2px solid #5a5af3;
   margin-right: 10px;
+  font-size: 32px; 
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 .btn-get-started:hover {
@@ -463,7 +492,7 @@ h6 {
   top: 0;
   bottom: 0;
   background-color: #000;
-  opacity: 0.4;
+  opacity: 0.7;
   height: 100vh;
 }
 
@@ -474,13 +503,18 @@ h6 {
   top: 0;
   bottom: 0;
   background-color: #000;
-  opacity: 0.4;
+  opacity: 0.7;
   height: 50vh;
 }
 
 .welcome-section {
   position: relative;
   z-index: 3;
+}
+
+.welcome-section h1 {
+  font-weight: bold;
+  padding-bottom: 2vh;
 }
 
 .story-photo {
@@ -520,6 +554,17 @@ h6 {
   .hero .hero-img img {
     width: 70%;
   }
+
+  .btn-get-started,
+  .btn-get-quote {
+    padding-left: 18px;
+    padding-right: 18px;
+    font-size: 14px;
+  }
+
+  .section-title h2 {
+    font-size: 24px!important;
+  }
 }
 
 @media (max-width: 575px) {
@@ -532,15 +577,19 @@ h6 {
     font-size: 14px;
   }
 
-  .hero .hero-img img {
+  .hero-img img {
     width: 80%;
   }
 
-  .hero .btn-get-started,
-  .hero .btn-get-quote {
+  .btn-get-started,
+  .btn-get-quote {
     padding-left: 18px;
     padding-right: 18px;
     font-size: 14px;
+  }
+
+  .section-title h2 {
+    font-size: 24px!important;
   }
 }
 
@@ -870,6 +919,10 @@ section {
   margin-bottom: 30px;
 }
 
+.portfolio-item {
+  margin-top: 30px;
+}
+
 .portfolio #portfolio-flters {
   padding: 0;
   margin: 0 auto 15px auto;
@@ -899,6 +952,10 @@ section {
 
 .portfolio #portfolio-flters li:last-child {
   margin-right: 0;
+}
+
+.portfolio-wrap {
+  padding: 20px;
 }
 
 .portfolio .portfolio-wrap {
@@ -1098,7 +1155,7 @@ section {
 .team .member .member-img {
   position: relative;
   overflow: hidden;
-  /* max-height: 35vh; */
+  max-height: 350px;
 }
 
 .team .member .social {
@@ -1137,13 +1194,13 @@ section {
 .team .member .member-info h4 {
   font-weight: 700;
   margin-bottom: 5px;
-  font-size: 18px;
+  font-size: 24px;
   color: #434175;
 }
 
 .team .member .member-info span {
   display: block;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 400;
   color: #aaaaaa;
 }
@@ -1279,26 +1336,26 @@ section {
 /*--------------------------------------------------------------
 # Frequently Asked Questions
 --------------------------------------------------------------*/
-.faq {
-  padding: 60px 0;
-}
 
 .faq .faq-list {
   padding: 0;
   list-style: none;
+  max-width: 80%;
+  left: 10%;
+  position: relative;
 }
 
 .faq .faq-list li {
   border-bottom: 1px solid #f2f2fe;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
 }
 
 .faq .faq-list .question {
   display: block;
   position: relative;
   font-family: #5a5af3;
-  font-size: 18px;
+  font-size: 24px;
   line-height: 24px;
   font-weight: 400;
   padding-left: 25px;
@@ -1308,7 +1365,7 @@ section {
 }
 
 .faq .faq-list i {
-  font-size: 16px;
+  font-size: 18px;
   position: absolute;
   left: 0;
   top: -2px;
@@ -1688,5 +1745,5 @@ section {
 }
 
 .reviews {
-  padding-top: 100px;
+  padding-top: 200px;
 }
