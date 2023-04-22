@@ -14,6 +14,10 @@ body {
   color: #444444;
 }
 
+.f-background {
+  background-color: #fff;
+}
+
 a {
   text-decoration: none;
   color: #5a5af3;
@@ -499,43 +503,38 @@ h6 {
 }
 
 .smaller-background-people {
-  position: absolute;
-  z-index: 1;
+  position: fixed;
+  z-index: -2;
   width: 100%;
-  height: 50vh;
+  height: 100%;
   top: 0;
   bottom: 0;
   background-image: url("../img/backgroundpeople.jpeg");
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: repeat-y;
   padding: 0;
 }
 
 .background-people-shadow {
-  position: absolute;
+  position: fixed;
   width: 100%;
   z-index: 2;
   top: 0;
   bottom: 0;
   background-color: #000;
-  opacity: 0.7;
+  opacity: 0.8;
   height: 100vh;
 }
 
 .smaller-background-people-shadow {
-  position: absolute;
+  position: fixed;
   width: 100%;
-  z-index: 2;
+  z-index: -1;
   top: 0;
   bottom: 0;
   background-color: #000;
-  opacity: 0.7;
-  height: 50vh;
-}
-
-.welcome-section {
-  position: relative;
-  z-index: 3;
+  opacity: 0.8;
+  height: 100vh;
 }
 
 .welcome-section h1 {
@@ -562,6 +561,14 @@ h6 {
 
   .hero .hero-img img {
     width: 50%;
+  }
+
+  .courselogo {
+    min-height: 20vh;
+  }
+
+  .launchpad {
+    font-size: 12px;
   }
 }
 
@@ -1280,7 +1287,6 @@ section {
 .pricing ul {
   padding: 0;
   list-style: none;
-  color: #999;
   text-align: left;
   line-height: 20px;
 }
@@ -1772,4 +1778,17 @@ section {
 
 .reviews {
   padding-top: 200px;
+}
+
+.course-intro {
+  text-align: left;
+}
+
+.launchpad {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.launchpad-f {
+  color: #fff;
 }
