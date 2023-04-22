@@ -1812,3 +1812,7 @@ section {
   color: #5a5af3;
   font-size: 14px!important;
 }
+
+.line-height ul li {
+  line-height: 2;
+}
