@@ -516,7 +516,7 @@ h6 {
 }
 
 .background-people-shadow {
-  position: fixed;
+  position: absolute;
   width: 100%;
   z-index: 2;
   top: 0;
@@ -535,6 +535,11 @@ h6 {
   background-color: #000;
   opacity: 0.8;
   height: 100vh;
+}
+
+.welcome-section {
+  z-index: 3;
+  padding-top: 20px;
 }
 
 .welcome-section h1 {
@@ -1791,4 +1796,19 @@ section {
 
 .launchpad-f {
   color: #fff;
+}
+
+.green-icon li i{
+  color: green!important;
+}
+
+.red-icon li i {
+  color: red!important;
+}
+
+.answer i {
+  position: relative!important;
+  top: 0px!important;
+  color: #5a5af3;
+  font-size: 14px!important;
 }
