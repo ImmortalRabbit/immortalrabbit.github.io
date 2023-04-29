@@ -76,18 +76,17 @@ h6 {
 #header {
   transition: all 0.5s;
   z-index: 997;
-  padding: 40px 0;
+  padding: 20px 0;
   background: #fff;
 }
 
 #header.header-scrolled,
 #header.header-inner-pages {
-  padding: 20px 0;
+  padding: 10px 0;
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
 }
 
 #header .logo {
-  font-size: 48px;
   margin: 0;
   padding: 0;
   line-height: 1;
@@ -138,7 +137,6 @@ h6 {
   align-items: center;
   justify-content: space-between;
   padding: 10px 0 10px 30px;
-  font-size: 24px;
   font-weight: bold;
   color: #434175;
   white-space: nowrap;
@@ -378,7 +376,6 @@ h6 {
 .hero {
   width: 100%;
   height: 100vh;
-  background: white;
   border-bottom: 2px solid white;
 }
 
@@ -442,7 +439,6 @@ h6 {
   color: #fff;
   border: 2px solid #5a5af3;
   margin-right: 10px;
-  font-size: 24px; 
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -469,7 +465,7 @@ h6 {
   height: 100vh;
   top: 0;
   bottom: 0;
-  background-image: url("../img/backgroundpeople.jpeg");
+  background-image: url("../img/backgroundpeople.JPG");
   background-size: cover;
   background-repeat: no-repeat;
   padding: 0;
@@ -478,21 +474,23 @@ h6 {
 .background-course-logo {
   position: absolute;
   z-index: 1;
-  width: 100%;
-  height: 100vh;
-  top: 0;
+  width: 50%;
+  height: 15vh;
+  top: 40vh;
   bottom: 0;
-  background-image: url("../img/bigprofitablecreators.jpg");
-  background-size: cover;
+  background-image: url(../img/transparenticon.png);
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   padding: 0;
+  left: 25%;
 }
 
 .courselogo {
   position: relative;
-  width: 100%;
+  width: 70%;
   height: 100%;
+  left: 15%;
   top: 0;
   bottom: 0;
   background-image: url("../img/profitablecreators.png");
@@ -509,7 +507,7 @@ h6 {
   height: 100%;
   top: 0;
   bottom: 0;
-  background-image: url("../img/backgroundpeople.jpeg");
+  background-image: url("../img/backgroundpeople.JPG");
   background-size: cover;
   background-repeat: repeat-y;
   padding: 0;
@@ -539,7 +537,7 @@ h6 {
 
 .welcome-section {
   z-index: 3;
-  padding-top: 20px;
+  padding-top: 10vh;
 }
 
 .welcome-section h1 {
@@ -548,7 +546,7 @@ h6 {
 }
 
 .story-photo {
-  background-image: url("../img/backgroundpeople.jpeg");
+  background-image: url("../img/backgroundpeople.JPG");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -599,10 +597,6 @@ h6 {
     padding-right: 18px;
     font-size: 14px;
   }
-
-  .section-title h2 {
-    font-size: 24px!important;
-  }
 }
 
 @media (max-width: 575px) {
@@ -625,10 +619,6 @@ h6 {
     padding-right: 18px;
     font-size: 14px;
   }
-
-  .section-title h2 {
-    font-size: 24px!important;
-  }
 }
 
 /*--------------------------------------------------------------
@@ -648,7 +638,6 @@ section {
 }
 
 .section-title h2 {
-  font-size: 32px;
   font-weight: bold;
   text-transform: uppercase;
   margin-bottom: 20px;
@@ -668,6 +657,15 @@ section {
   left: calc(50% - 25px);
 }
 
+.launchpad-f .section-title h2 {
+  color: #fff;
+}
+
+.launchpad-f  .section-title h2::after {
+  background: #fff!important;
+}
+
+
 .section-title p {
   margin-bottom: 0;
 }
@@ -675,13 +673,13 @@ section {
 /*--------------------------------------------------------------
 # About
 --------------------------------------------------------------*/
-.about .content h2 {
+/* .about .content h2 {
   font-weight: 700;
   font-size: 44px;
   line-height: 50px;
   margin-bottom: 20px;
   color: #434175;
-}
+} */
 
 .about .content h3 {
   font-weight: 500;
@@ -1193,7 +1191,7 @@ section {
 .team .member .member-img {
   position: relative;
   overflow: hidden;
-  height: 350px;
+  height: 250px;
 }
 
 .team .member .social {
@@ -1392,7 +1390,7 @@ section {
   display: block;
   position: relative;
   font-family: #5a5af3;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 24px;
   font-weight: 400;
   padding-left: 25px;
@@ -1795,7 +1793,7 @@ section {
 }
 
 .launchpad-f {
-  color: #fff;
+  color: #fff!important;
 }
 
 .green-icon li i{
@@ -1813,6 +1811,13 @@ section {
   font-size: 14px!important;
 }
 
-.line-height ul li {
-  line-height: 2;
+.spacios-text {
+  line-height: 2rem;
+  text-align: justify;
+}
+
+.future-title {
+  font-style: italic;
+  font-weight: 600;
+  color: #5a5af3;
 }
