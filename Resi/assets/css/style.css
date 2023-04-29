@@ -1826,3 +1826,27 @@ section {
   padding: 0 !important;
   margin: 0 !important;
 }
+
+.google-logo {
+  background: url("../img/google-logo.png");
+}
+
+.medium-logo {
+  background: url("../img/medium.png");
+}
+
+.ucl-logo {
+  background: url("../img/ucl.png");
+}
+
+.conventry-logo {
+  background: url("../img/coventrytelegraph.png");
+}
+
+.founderlogo {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 5vh;
+  width: 100%;
+}
